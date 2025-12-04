@@ -1,5 +1,5 @@
 -- v2 MariaDB sae
-
+CREATE DATABASE suivi_colis_sae
 -- Table Departement
 CREATE TABLE departement (
     id_departement INT AUTO_INCREMENT PRIMARY KEY,

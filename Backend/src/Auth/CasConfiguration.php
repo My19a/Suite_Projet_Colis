@@ -7,18 +7,24 @@ class CasConfiguration
     private string $host;
     private string $context;
     private int $port;
-    private ?string $caCertPath;
+    private string $caCertPath;
+    private string $serviceBaseUrl;
+    private bool $changeSessionId;
 
     public function __construct(
         string $host,
         string $context = '/cas/',
         int $port = 443,
-        ?string $caCertPath = null
+        string $caCertPath,
+        string $serviceBaseUrl,
+        bool $changeSessionId = true
     ) {
         $this->host = $host;
         $this->context = $context;
         $this->port = $port;
         $this->caCertPath = $caCertPath;
+        $this->serviceBaseUrl = $serviceBaseUrl;
+        $this->changeSessionId = $changeSessionId;
     }
 
     public function getHost(): string
@@ -39,6 +45,16 @@ class CasConfiguration
     public function getCaCertPath(): ?string
     {
         return $this->caCertPath;
+    }
+
+    public function getServiceBaseUrl(): ?string
+    {
+        return $this->serviceBaseUrl;
+    }
+
+    public function shouldChangeSessionId(): bool
+    {
+        return $this->changeSessionId;
     }
 
 }

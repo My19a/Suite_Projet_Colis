@@ -2,6 +2,8 @@
 
 namespace SAE\Auth;
 
+use Error;
+
 final class CasAuthenticator
 {
     private CasConfiguration $configuration;
@@ -36,7 +38,7 @@ final class CasAuthenticator
     private function ensurePhpCasAvailable(): void
     {
         if (!class_exists('\\phpCAS')) {
-            throw new CasAuthenticationException(
+            throw new Error(
                 'phpCAS library is not available. Install apereo/phpcas and load the autoloader before using the authenticator.'
             );
         }
@@ -51,16 +53,19 @@ final class CasAuthenticator
         $host = $this->configuration->getHost();
         $port = $this->configuration->getPort();
         $context = $this->configuration->getContext();
+        $serviceBaseUrl = $this->configuration->getServiceBaseUrl();
+        $changeSessionId = $this->configuration->shouldChangeSessionId();
 
-        \phpCAS::client(CAS_VERSION_2_0, $host, $port, $context);
-
+        \phpCAS::client(CAS_VERSION_2_0, $host, $port, $context, $serviceBaseUrl, $changeSessionId);
+/*
         $caCertPath = $this->configuration->getCaCertPath();
         if ($caCertPath !== null) {
             \phpCAS::setCasServerCACert($caCertPath);
         } else {
             \phpCAS::setNoCasServerValidation();
         }
-
+*/
+        \phpCas::setNoCasServerValidation(); // attention là je force sans le certificat pem
         \phpCAS::setLang(PHPCAS_LANG_FRENCH);
 
         $this->phpCasBootstrapped = true;

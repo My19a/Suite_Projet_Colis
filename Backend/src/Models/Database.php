@@ -7,7 +7,7 @@ class Model
     // utilisation de try/catch car ca permet de mieux comprendre l'erreur sans pour autant avoir à relancer le script
     private function __construct()
     {
-         include "Utils/credentials.php";
+         include "/Backend/src/Utils/credentials.php";
 
         try {
             $this->bd = new PDO($dsn, $user, $password, [

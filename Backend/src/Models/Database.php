@@ -7,7 +7,8 @@ class Model
     // utilisation de try/catch car ca permet de mieux comprendre l'erreur sans pour autant avoir à relancer le script
     private function __construct()
     {
-        include __DIR__ . "/../../Utils/credentials.php";
+        require_once __DIR__ . "/../../Utils/credentials.php";
+
 
 
         try {

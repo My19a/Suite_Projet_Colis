@@ -19,7 +19,7 @@ switch($route) {
         $controller->transferer();
         break;
         
-    // ... tes autres routes existantes
+    
     
     default:
         echo "Page d'accueil - en construction";

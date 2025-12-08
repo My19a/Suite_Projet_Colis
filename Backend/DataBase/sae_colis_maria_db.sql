@@ -1,5 +1,6 @@
 -- v2 MariaDB sae
 CREATE DATABASE suivi_colis_sae
+USE suivi_colis_sae;
 -- Table Departement
 CREATE TABLE departement (
     id_departement INT AUTO_INCREMENT PRIMARY KEY,
@@ -110,3 +111,8 @@ CREATE INDEX idx_bc_numero ON bon_commande (numero_commande);
 CREATE INDEX idx_colis_suivi ON colis (numero_suivi);
 
 
+INSERT INTO statut_colis (libelle) VALUES 
+('recu_universite'),
+('transfere_iut'),
+('en_attente'),
+('livre');

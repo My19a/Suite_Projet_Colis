@@ -1,8 +1,8 @@
 <?php
 // Au début du fichier
 session_start();
-require_once 'src/Models/Database.php';
-require_once 'src/Controllers/ServicePostalController.php';
+require_once 'Backend/src/Models/Database.php';
+require_once 'Backend/src/Controllers/ServicePostalController.php';
 
 // Récupère la route
 $route = $_GET['route'] ?? 'home';

@@ -13,7 +13,7 @@
     <!-- BARRE LATERALE -->
     <aside class="barre-laterale">
         <div class="entete-barre">
-            <img src="/COLIS_SAE/assets/img/sorbonne.png" alt="Logo" class="logo">
+            <img src="/COLIS_SAE/assets/img/logo-iutv.png" alt="Logo" class="logo">
             <h2>Postal UNIV</h2>
             <p>Service Universitaire</p>
         </div>

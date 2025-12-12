@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colis IUTV SAÉ S3.01</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        nav {
+            background-color: #333;
+            padding: 1rem 2rem;
+            position: relative;
+            z-index: 1001;
+            width: 100%;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 100%;
+            margin: 0;
+            position: relative;
+            width: 100%;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .logo-img {
+            height: 40px;
+            width: auto;
+        }
+
+        /* Bouton menu positionné à gauche */
+        .menu {
+            position: absolute;
+            left: 2rem;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            z-index: 1002;
+        }
+
+        .menu span {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Animation du menu en X */
+        .menu.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .menu.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        /* Bouton menu toujours visible */
+        .menu{
+            display: flex;
+        }
+
+        /* Menu de navigation - caché par défaut */
+        .nav-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #333;
+            list-style: none;
+            flex-direction: column;
+            gap: 0;
+            width: 250px;
+            height: 100vh;
+            transform: translateX(-100%);
+            transition: transform 0.4s ease-in-out;
+            box-shadow: 2px 0 6px rgba(0, 0, 0, 0.3);
+            padding-top: 60px;
+            z-index: 1000;
+        }
+
+        /* Menu visible quand on clique */
+        .nav-menu.active {
+            transform: translateX(0);
+        }
+
+        .nav-menu li {
+            border-top: 1px solid #555;
+            white-space: nowrap;
+        }
+
+        .nav-menu li a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 1rem 1.5rem;
+            transition: background-color 0.3s;
+        }
+
+        .nav-menu li a:hover {
+            background-color: #555;
+        }
+
+        /* Contenu de la page */
+        .content {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .content {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .content h1, .content p {
+            margin: 1rem auto;
+            max-width: 800px;
+        }
+
+        /* Bouton de connexion à droite */
+        .btn-connexion {
+            position: absolute;
+            right: 2rem;
+            color: white;
+            background-color: #007bff;
+            padding: 0.6rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .btn-connexion:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <img src="logo.png" alt="Logo" class="logo-img">
+                Mon Site
+            </div>
+
+            <!-- Bouton de connexion à droite -->
+            <a href="#connexion" class="btn-connexion">Connexion</a>
+            
+            <!-- Bouton menu (3 tirets) -->
+            <button class="menu" id="menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <!-- Menu de navigation -->
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#accueil">Accueil</a></li>
+                <li><a href="#Qui">Qui sommes-nous ?</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="content">
+        <h1>Bienvenue</h1>
+        <p>Le site Colis IUTV SAÉ S3.01 est un site de suivi de colis</p>
+    </div>
+
+    <div>
+        <P>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        </P>
+        <p>Yo</p>
+    </div>
+
+    <script>
+        // Récupérer les éléments HTML
+        const menu = document.getElementById('menu');
+        const navMenu = document.getElementById('navMenu');
+
+        // Ajouter un écouteur d'événement sur le clic du bouton menu
+        menu.addEventListener('click', function() {
+            // Alterner (toggle) la classe 'active' sur le bouton et le menu
+            menu.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Fermer le menu automatiquement quand on clique sur un lien
+        const navLinks = document.querySelectorAll('.nav-menu a');
+        navLinks.forEach(function(link) {
+            link.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -29,7 +29,7 @@ class UserRepository
     {
         $db = self::getDb();
         $stmt = $db->prepare("
-            SELECT u.id_utilisateur, u.uid_cas, u.nom_complet, u.email, r.libelle as role, u.departement_id
+            SELECT u.id_utilisateur, u.uid_cas, u.fullName, u.email, r.libelle as role, u.departement_id
             FROM utilisateur u
             INNER JOIN role r ON u.role_id = r.id_role
             WHERE u.uid_cas = :uid
@@ -45,7 +45,7 @@ class UserRepository
         return new User(
             (int) $data['id_utilisateur'],
             $data['uid_cas'],
-            $data['nom_complet'],
+            $data['fullName'],
             $data['email'],
             strtolower($data['role']), // Normaliser en minuscules
             $data['departement_id'] ? (int) $data['departement_id'] : null
@@ -75,14 +75,16 @@ class UserRepository
 
         $fullName = $casAttributes['displayName'] ?? $casAttributes['cn'] ?? $uid;
         $email = $casAttributes['mail'] ?? "{$uid}@univ-paris13.fr";
+        $accessToken = $casAttributes['access_token'] ?? 'dev_token_' . time();
 
         $stmt = $db->prepare("
-            INSERT INTO utilisateur (uid_cas, nom_complet, email, role_id, date_creation)
-            VALUES (:uid, :nom, :email, :role_id, NOW())
+            INSERT INTO utilisateur (uid_cas, access_token_api_cas, fullName, email, role_id)
+            VALUES (:uid, :access_token, :nom, :email, :role_id)
         ");
 
         $stmt->execute([
             'uid' => $uid,
+            'access_token' => $accessToken,
             'nom' => $fullName,
             'email' => $email,
             'role_id' => $roleId,
@@ -114,9 +116,9 @@ class UserRepository
         $fields = [];
         $params = ['id' => $userId];
 
-        if (isset($data['nom_complet'])) {
-            $fields[] = 'nom_complet = :nom';
-            $params['nom'] = $data['nom_complet'];
+        if (isset($data['fullName'])) {
+            $fields[] = 'fullName = :nom';
+            $params['nom'] = $data['fullName'];
         }
 
         if (isset($data['email'])) {

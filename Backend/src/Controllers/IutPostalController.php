@@ -1,13 +1,16 @@
 <?php
 
-require_once __DIR__ . "/../models/IutPostalModels.php";
+namespace SAE\Controllers;
+
+use SAE\Auth\User;
+use SAE\Models\IutPostalModels;
 
 class IutPostalController {
 
     private $model;
     private $currentUser;
 
-    public function __construct(\SAE\Auth\User $user) {
+    public function __construct(User $user) {
         $this->model = new IutPostalModels();
         $this->currentUser = $user;
     }

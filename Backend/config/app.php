@@ -14,7 +14,7 @@ return [
     'database' => [
         'host' => getenv('DB_HOST') ?: '127.0.0.1',
         'port' => getenv('DB_PORT') ?: '3306',
-        'name' => getenv('DB_NAME') ?: 'suivi_colis_sae',
+        'name' => getenv('DB_NAME') ?: 'sae_colis',
         'user' => getenv('DB_USER') ?: 'root',
         'password' => getenv('DB_PASSWORD') ?: '',
     ],

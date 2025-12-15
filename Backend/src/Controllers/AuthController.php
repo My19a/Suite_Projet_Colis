@@ -1,5 +1,7 @@
 <?php
 
+namespace SAE\Controllers;
+
 use SAE\Auth\{User, AuthMiddleware};
 
 class AuthController

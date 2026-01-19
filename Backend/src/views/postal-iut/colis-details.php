@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Détails du colis</title>
-    <link rel="stylesheet" href="/Public/css/style-dashboard.css">
-    <link rel="stylesheet" href="/Public/css/style-colis-details.css">
+    <link rel="stylesheet" href="/COLIS_SAE/assets/css/style-dashboard.css">
+    <link rel="stylesheet" href="/COLIS_SAE/assets/css/style-colis-details.css">
 </head>
 
 <body class="tableau-bord">
@@ -12,7 +12,7 @@
 
     <main class="contenu">
         <h1>📦 Détails du colis #<?= $colis["id_colis"] ?></h1>
-        <a href="/postal/colis/recus" class="btn-retour"> ⬅️ Retourner</a>
+        <a href="/COLIS_SAE/public/postal_iut/colis-recus.php" class="btn-retour"> ⬅️ Retourner</a>
 
 
         <div class="carte details">
@@ -38,10 +38,10 @@
         <h2>⚙️ Actions</h2>
 
         <div class="actions">
-            <a class="btn-action" href="/postal/colis/livrer/<?= $colis["id_colis"] ?>">✔ Marquer comme livré</a>
-            <a class="btn-action" href="/postal/colis/retirer/<?= $colis["id_colis"] ?>">📤 Marquer comme retiré</a>
-            <a class="btn-danger" href="/postal/colis/marquer-non-identifie/<?= $colis["id_colis"] ?>">🚫 Marquer comme non identifié</a>
-            <a class="btn-action" href="/postal/colis/modifier/<?= $colis["id_colis"] ?>">✏️ Modifier le colis</a>
+            <a class="btn-action" href="livrer.php?id=<?= $colis["id_colis"] ?>">✔ Marquer comme livré</a>
+            <a class="btn-action" href="retirer.php?id=<?= $colis["id_colis"] ?>">📤 Marquer comme retiré</a>
+            <a class="btn-danger" href="non-identifie.php?id=<?= $colis["id_colis"] ?>">🚫 Marquer comme non identifié</a>
+            <a class="btn-action" href="modifier-colis.php?id=<?= $colis["id_colis"] ?>">✏️ Modifier le colis</a>
 
         </div>
 

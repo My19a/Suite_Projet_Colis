@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Modifier le colis #<?= htmlspecialchars($colis['id_colis']) ?></title>
-    <link rel="stylesheet" href="/Public/css/style-dashboard.css?v=1">
-    <link rel="stylesheet" href="/Public/css/style-modifier-colis.css?v=1">
+    <link rel="stylesheet" href="/COLIS_SAE/assets/css/style-dashboard.css?v=1">
+    <link rel="stylesheet" href="/COLIS_SAE/assets/css/style-modifier-colis.css?v=1">
 </head>
 <body class="tableau-bord">
 
 <main class="contenu">
     <h1>✏ Modifier le colis #<?= htmlspecialchars($colis['id_colis']) ?></h1>
 
-    <form method="post" action="/postal/colis/update" class="form-modifier">
+    <form method="post" action="/COLIS_SAE/public/postal_iut/update-colis.php" class="form-modifier">
         <input type="hidden" name="id_colis" value="<?= htmlspecialchars($colis['id_colis']) ?>">
 
         <label>Numéro suivi :</label>

@@ -58,7 +58,7 @@
                     <?php else: ?>
                         <?php foreach ($utilisateurs as $u): ?>
                         <tr>
-                            <form method="post" action="/admin/update-utilisateur.php">
+                            <form method="post" action="/admin/update-utilisateur">
                                 <td><strong><?= htmlspecialchars($u["fullName"]) ?></strong></td>
                                 <td><?= htmlspecialchars($u["email"]) ?></td>
                                 <td><?= htmlspecialchars($u["uid_cas"]) ?></td>

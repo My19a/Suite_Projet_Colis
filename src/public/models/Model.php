@@ -12,10 +12,13 @@ class Model
 
         // Connexion BD
         try {
-            $this->bd = new PDO($dsn, $user, $password, [
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4"
-            ]);
+            $options = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION];
+            if (defined('Pdo\Mysql::ATTR_INIT_COMMAND')) {
+                $options[\Pdo\Mysql::ATTR_INIT_COMMAND] = "SET NAMES utf8mb4";
+            } else {
+                $options[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES utf8mb4";
+            }
+            $this->bd = new PDO($dsn, $user, $password, $options);
         } catch (PDOException $e) {
             die("❌ Erreur BD : " . $e->getMessage());
         }

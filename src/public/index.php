@@ -10,7 +10,7 @@ $dotenv->safeLoad();
 $config = require __DIR__ . '/../config/app.php';
 
 if ($config['env'] === 'development') {
-    error_reporting(E_ALL);
+    error_reporting(E_ALL & ~E_DEPRECATED);
     ini_set('display_errors', '1');
 } else {
     error_reporting(0);

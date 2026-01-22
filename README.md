@@ -1,68 +1,85 @@
-![Modélisation](./Documentation/Schema-relation.png)
+# SAE Gestion des Colis
 
-# 1) You need install PHP 8.3
+Application de gestion des colis pour l'IUT.
 
-(Windows installation PHP 8.3) -> https://www.php.net/downloads.php?usage=web&os=windows&osvariant=linux-ubuntu&version=default)
+![Schema relationnel](./Documentation/Schema-relation.png)
 
-Video for install PHP CLI Windows -> https://www.youtube.com/watch?v=n04w2SzGr_U
+## Prerequis
 
-- To lance the project backend (PS : You need PHP CLI 8.3 minimum)
-- Need Composer (Packages PHP manager)
-- CAS utilise XM parser les réponses XML du serveur CAS
-- Pilote Mysql for PHP
+- PHP 8.3 minimum
+- Composer
+- Docker (optionnel, pour la base de donnees)
 
-For windows is very diffcult, or use WSL ubuntu for linux if Windows crash :/
+## Installation
 
-Use this command for Linux (distribution Ubuntu)
+### 1. Installer PHP et les extensions
+
+**Linux (Ubuntu/Debian)**
 ```
 make install-linux
 ```
 
-Use this command for MacOS
+**MacOS**
 ```
 make install-macos
 ```
 
-# 2) Setup Database with Docker or another
+**Windows**
 
-If you want use Docker to build and run image for speed (mariadb and phpMyadmin)
+Telecharger PHP 8.3 : https://www.php.net/downloads.php
+
+Video for install PHP CLI Windows -> https://www.youtube.com/watch?v=n04w2SzGr_U
+
+Ou utiliser WSL avec Ubuntu si Windows ne marche pas.
+
+### 2. Configurer la base de donnees
+
+Avec Docker :
 ```
 cd Database && docker compose -f docker-bd.yaml up -d
 ```
 
-# 3) Setup .env secrets, cp .env.example and adapte for your environnement (password ect) in src/.env
+### 3. Configurer l'environnement
 
+Copier le fichier d'exemple .env.example et adapter les secrets à vous :
 ```
 make env
 ```
 
-# 4) Install dependances composer (lib generator PDF, Auth CAS, ECT)
+Modifier `src/.env` selon votre configuration (mot de passe BDD, etc).
 
-- For install dependances composer
+### 4. Installer les dependances Composer
+
 ```
 make i
 ```
 
-# 5) For run server, let's gooo
+### 5. Lancer le serveur
 
-- For run server PHP
 ```
 make r
 ```
 
-## Problèmes ? Commandes utilitaires
+Le serveur demarre sur http://localhost:8000
 
-(if the composer.json not found make this in Folder /src)
-```
-composer init --name="sae/backend" --require="apereo/phpcas:^1.6" --no-interaction
-```
+## Commandes utiles
 
-Entrer dans le conteneur maria db:
+| Commande | Description |
+|----------|-------------|
+| `make install-linux` | Installe PHP et extensions (Ubuntu) |
+| `make install-macos` | Installe PHP et extensions (MacOS) |
+| `make env` | Copie le fichier .env.example |
+| `make i` | Installe les dependances Composer |
+| `make r` | Lance le serveur PHP |
 
+## Acces base de donnees Docker
+
+Entrer dans le conteneur :
 ```
 docker exec -it sae_db sh
 ```
 
+Se connecter a MariaDB :
 ```
 mysql -u root -proot_password
 ```

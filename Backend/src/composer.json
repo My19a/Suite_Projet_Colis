@@ -1,6 +1,0 @@
-{
-    "name": "sae/backend",
-    "require": {
-        "apereo/phpcas": "^1.6"
-    }
-}

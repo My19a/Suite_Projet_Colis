@@ -1,6 +1,0 @@
-RewriteEngine On
-
-# Rediriger tout vers index.php sauf les fichiers statiques
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php [QSA,L]

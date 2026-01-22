@@ -1,0 +1,10 @@
+name: SAE Colis
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  always-true:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Always succeed because we love PHP and Colis
+        run: exit 0

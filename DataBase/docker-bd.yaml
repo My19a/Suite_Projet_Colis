@@ -1,0 +1,23 @@
+services:
+
+  sae_db:
+    image: mysql:8.0
+    container_name: sae_db
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_password
+      - MYSQL_DATABASE=sae
+      - MYSQL_USER=sae
+      - MYSQL_PASSWORD=sae_password
+    volumes:
+      - sae_db_data:/var/lib/mysql
+    networks:
+      - sae
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
+
+volumes:
+  sae_db_data:
+
+networks:
+  sae:
+    driver: bridge

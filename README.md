@@ -1,10 +1,6 @@
 # SAE Gestion des Colis
 
-Application de gestion des colis pour l'IUT Pour Monsieur.
-<p align="center">
-  <img src="./src/public/assets/img/monsieur-butelle.jpg" width="200" height="200" style="border-radius: 50%;">
-</p>
-
+Application de gestion des colis pour l'IUT.
 
 ![Schema relationnel](./Documentation/Schema-relation.png)
 

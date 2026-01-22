@@ -9,6 +9,12 @@ class DepartementModels {
         $this->db = Model::getModel()->bd;
     }
 
+    public function getDepartementNom($departement_id): ?string {
+        $req = $this->db->prepare("SELECT nom FROM departement WHERE id_departement = ?");
+        $req->execute([$departement_id]);
+        return $req->fetchColumn() ?: null;
+    }
+
     /* ===== STATS ===== */
 
     public function countColisTotal($departement_id) {

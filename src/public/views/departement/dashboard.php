@@ -12,8 +12,8 @@
 <aside class="barre-laterale">
     <div class="entete-barre">
         <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Departement</h2>
-        <p>Gestion des colis</p>
+        <h2><?= htmlspecialchars($userInfo['departement'] ?? 'Departement') ?></h2>
+        <p><?= htmlspecialchars($userInfo['nom'] ?? 'Utilisateur') ?></p>
     </div>
 
     <nav class="menu">

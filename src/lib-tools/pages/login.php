@@ -94,7 +94,7 @@ if (isset($_GET['auth']) && $_GET['auth'] === 'cas') {
             overflow: hidden;
         }
 
-        /* Subtle gradient background */
+        /* Background image with gradient overlay */
         body::before {
             content: '';
             position: fixed;
@@ -102,9 +102,20 @@ if (isset($_GET['auth']) && $_GET['auth'] === 'cas') {
             left: 0;
             right: 0;
             bottom: 0;
-            background:
-                radial-gradient(ellipse at top left, rgba(37, 99, 235, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at bottom right, rgba(37, 99, 235, 0.05) 0%, transparent 50%);
+            background-image: url('/assets/img/campus-iut.jpg');
+            background-size: cover;
+            background-position: center;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.85) 0%, rgba(147, 197, 253, 0.75) 50%, rgba(219, 234, 254, 0.9) 100%);
             pointer-events: none;
         }
 
@@ -259,7 +270,7 @@ if (isset($_GET['auth']) && $_GET['auth'] === 'cas') {
             font-size: 11px;
             letter-spacing: 2px;
             text-transform: uppercase;
-            color: var(--text-secondary);
+            color: black;
             margin-top: 8px;
         }
 
@@ -299,7 +310,6 @@ if (isset($_GET['auth']) && $_GET['auth'] === 'cas') {
                 </div>
             </div>
             <h1>SAE Suivi Colis</h1>
-            <p class="subtitle">Gestion des colis universitaires</p>
         </div>
 
         <div class="card">

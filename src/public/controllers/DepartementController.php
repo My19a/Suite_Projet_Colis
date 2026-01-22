@@ -17,8 +17,18 @@ class DepartementController {
         return $_SESSION['user']->getDepartementId() ?? 1;
     }
 
+    private function getUserInfo(): array {
+        $user = $_SESSION['user'];
+        $departement = $this->model->getDepartementNom($this->getDepartementId());
+        return [
+            'nom' => $user->getFullName(),
+            'departement' => $departement
+        ];
+    }
+
     public function dashboard() {
         $departement_id = $this->getDepartementId();
+        $userInfo = $this->getUserInfo();
 
         $stats = [
             "colis_total"   => $this->model->countColisTotal($departement_id),

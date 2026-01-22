@@ -112,9 +112,17 @@ try {
             content: '';
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background:
-                radial-gradient(ellipse at top left, rgba(37, 99, 235, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at bottom right, rgba(37, 99, 235, 0.05) 0%, transparent 50%);
+            background-image: url('/assets/img/campus-iut.jpg');
+            background-size: cover;
+            background-position: center;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.85) 0%, rgba(147, 197, 253, 0.75) 50%, rgba(219, 234, 254, 0.9) 100%);
             pointer-events: none;
         }
 
@@ -453,7 +461,7 @@ try {
         .footer {
             text-align: center;
             margin-top: 24px;
-            color: var(--text-muted);
+            color: black;
             font-size: 12px;
         }
     </style>
@@ -467,7 +475,6 @@ try {
                 </div>
             </div>
             <h1>SAE Suivi Colis</h1>
-            <p>Mode développement</p>
         </div>
 
         <div class="card">

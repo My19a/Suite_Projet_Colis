@@ -193,6 +193,7 @@ $router->post('/admin/update-departement', 'AdminController', 'updateDepartement
 $router->get('/admin/devis', 'AdminController', 'devis');
 $router->get('/admin/commandes', 'AdminController', 'commandes');
 $router->get('/admin/colis', 'AdminController', 'colis');
+$router->post('/admin/test-mail', 'AdminController', 'testMail');
 
 
 try {

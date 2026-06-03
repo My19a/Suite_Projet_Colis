@@ -1,8 +1,4 @@
 -- =====================================================================
--- Migration : Systeme de tickets et d'assistance
--- Auteur     : Rayan KEBBICHE
--- Cible      : base sae_colis (MariaDB / MySQL 8)
---
 -- Permet a n'importe quel utilisateur de signaler un probleme,
 -- d'echanger des messages dessus, et a l'administrateur de suivre
 -- le statut (ouvert / en_cours / resolu).

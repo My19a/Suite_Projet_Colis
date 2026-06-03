@@ -27,7 +27,7 @@
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -43,7 +43,7 @@
     <div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Budget du departement</h1>
-            <p class="page-subtitle">Situation budgetaire actuelle</p>
+            <p class="page-subtitle">Situation budgétaire actuelle</p>
         </div>
     </div>
 
@@ -51,13 +51,13 @@
         <div class="stat-card stat-blue">
             <span class="stat-label">Budget total</span>
             <div class="stat-value"><?= number_format($budget["budget_total"], 2, ',', ' ') ?></div>
-            <div class="stat-description">EUR alloue</div>
+            <div class="stat-description">EUR alloué</div>
         </div>
 
         <div class="stat-card stat-warning">
-            <span class="stat-label">Budget utilise</span>
+            <span class="stat-label">Budget utilisé</span>
             <div class="stat-value"><?= number_format($budget["budget_utilise"], 2, ',', ' ') ?></div>
-            <div class="stat-description">EUR depense</div>
+            <div class="stat-description">EUR dépensé</div>
         </div>
 
         <div class="stat-card stat-success">

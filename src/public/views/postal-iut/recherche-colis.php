@@ -18,15 +18,15 @@
 
     <nav class="menu">
         <a href="/postal/dashboard">Tableau de bord</a>
-        <a href="/postal/confirmation">Confirmation reception</a>
-        <a href="/postal/colis/recus">Colis recus</a>
+        <a href="/postal/confirmation">Confirmation réception</a>
+        <a href="/postal/colis/recus">Colis reçus</a>
         <a href="/postal/colis/remis">Colis remis</a>
         <a class="actif" href="/postal/colis/recherche">Recherche colis</a>
-        <a href="/postal/colis/non-identifies">Non identifies</a>
+        <a href="/postal/colis/non-identifies">Non identifiés</a>
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -35,7 +35,7 @@
     <div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Recherche de colis</h1>
-            <p class="page-subtitle">Trouvez un colis par numero de suivi, BC, departement ou ID</p>
+            <p class="page-subtitle">Trouvez un colis par numéro de suivi, BC, departement ou ID</p>
         </div>
     </div>
 
@@ -43,7 +43,7 @@
         <form method="get" style="display: flex; gap: 12px; flex-wrap: wrap;">
             <div class="search-container" style="flex: 1; min-width: 300px; margin-bottom: 0;">
                 <span class="search-icon-text">&#128269;</span>
-                <input type="text" name="q" class="search-input" placeholder="N° suivi, BC, departement, ID colis..." value="<?= htmlspecialchars($_GET["q"] ?? "") ?>">
+                <input type="text" name="q" class="search-input" placeholder="placeholder="N° suivi, BC, departement, ID colis..."" value="<?= htmlspecialchars($_GET["q"] ?? "") ?>">
             </div>
             <button type="submit" class="btn btn-primary">Rechercher</button>
         </form>
@@ -61,14 +61,14 @@
                         <th>N° suivi</th>
                         <th>Bon de commande</th>
                         <th>Departement</th>
-                        <th>Date reception</th>
+                        <th>Date réception</th>
                         <th>Statut</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php if (empty($resultats)): ?>
                         <tr>
-                            <td colspan="6" class="empty-state">Aucun resultat</td>
+                            <td colspan="6" class="empty-state">Aucun résultat</td>
                         </tr>
                     <?php else: ?>
                         <?php foreach ($resultats as $c): ?>

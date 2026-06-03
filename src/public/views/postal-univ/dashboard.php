@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Service Postal Universite</title>
+    <title>Service Postal Université</title>
     <link rel="stylesheet" href="/assets/css/theme.css">
 </head>
 
@@ -12,20 +12,20 @@
 <aside class="barre-laterale">
     <div class="entete-barre">
         <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Postal Universite</h2>
+        <h2>Postal Université</h2>
         <p>Gestion des colis</p>
     </div>
 
     <nav class="menu">
         <a class="actif" href="/postal-univ/dashboard">Tableau de bord</a>
-        <a href="/postal-univ/reception">Reception colis</a>
+        <a href="/postal-univ/reception">Réception colis</a>
         <a href="/postal-univ/colis">Liste colis</a>
-        <a href="/postal-univ/non-identifies">Non identifies</a>
+        <a href="/postal-univ/non-identifies">Non identifiés</a>
         <a href="/postal-univ/historique">Historique</a>
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -41,7 +41,7 @@
 
     <div class="stats-grid">
         <div class="stat-card stat-blue">
-            <span class="stat-label">Colis recus</span>
+            <span class="stat-label">Colis reçus</span>
             <div class="stat-value"><?= $stats["recus"] ?></div>
             <div class="stat-description">Total</div>
         </div>
@@ -53,21 +53,21 @@
         </div>
 
         <div class="stat-card stat-success">
-            <span class="stat-label">Transferes</span>
+            <span class="stat-label">Transférés</span>
             <div class="stat-value"><?= $stats["transferes"] ?></div>
             <div class="stat-description">Vers l'IUT</div>
         </div>
 
         <div class="stat-card stat-danger">
-            <span class="stat-label">Non identifies</span>
+            <span class="stat-label">Non identifiés</span>
             <div class="stat-value"><?= $stats["non_identifies"] ?></div>
-            <div class="stat-description">A traiter</div>
+            <div class="stat-description">À traiter</div>
         </div>
     </div>
 
     <div class="section">
         <div class="section-header">
-            <h2 class="section-title">Derniers colis recus</h2>
+            <h2 class="section-title">Derniers colis reçus</h2>
             <a href="/postal-univ/colis" class="btn-link">Voir tout</a>
         </div>
 
@@ -77,13 +77,13 @@
                     <tr>
                         <th>ID</th>
                         <th>N° suivi</th>
-                        <th>Date reception</th>
+                        <th>Date réception</th>
                         <th>Statut</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php if (empty($colis_recents)): ?>
-                        <tr><td colspan="4" class="empty-state">Aucun colis recu</td></tr>
+                        <tr><td colspan="4" class="empty-state">Aucun colis reçu</td></tr>
                     <?php else: ?>
                         <?php foreach ($colis_recents as $c): ?>
                         <tr>

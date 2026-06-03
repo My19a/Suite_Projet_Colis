@@ -18,15 +18,15 @@
 
     <nav class="menu">
         <a href="/postal/dashboard">Tableau de bord</a>
-        <a class="actif" href="/postal/confirmation">Confirmation reception</a>
-        <a href="/postal/colis/recus">Colis recus</a>
+        <a class="actif" href="/postal/confirmation">Confirmation réception</a>
+        <a href="/postal/colis/recus">Colis reçus</a>
         <a href="/postal/colis/remis">Colis remis</a>
         <a href="/postal/colis/recherche">Recherche colis</a>
-        <a href="/postal/colis/non-identifies">Non identifies</a>
+        <a href="/postal/colis/non-identifies">Non identifiés</a>
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -35,7 +35,7 @@
     <div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Confirmation des colis</h1>
-            <p class="page-subtitle">Colis transferes par le service postal universitaire et en attente de confirmation a l'IUT</p>
+            <p class="page-subtitle">Colis transférés par le service postal universitaire et en attente de confirmation a l'IUT</p>
         </div>
     </div>
 
@@ -66,7 +66,7 @@
                             <td><?= htmlspecialchars($c["departement"] ?: "—") ?></td>
                             <td><?= $c["date_reception"] ?></td>
                             <td>
-                                <a class="btn btn-sm btn-primary" href="/postal/confirmer?id=<?= $c["id_colis"] ?>">Confirmer reception</a>
+                                <a class="btn btn-sm btn-primary" href="/postal/confirmer?id=<?= $c["id_colis"] ?>">Confirmer réception</a>
                             </td>
                         </tr>
                         <?php endforeach; ?>

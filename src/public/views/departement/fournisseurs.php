@@ -27,7 +27,7 @@
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -43,22 +43,22 @@
     <div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Fournisseurs Autorises</h1>
-            <p class="page-subtitle">Liste des fournisseurs valides par l'administration pour passer commande</p>
+            <p class="page-subtitle">Liste des fournisseurs validés par l'administration pour passer commande</p>
         </div>
     </div>
 
     <div class="alert alert-info">
         <span class="alert-icon-text">&#9432;</span>
         <div class="alert-content">
-            <strong>Fournisseurs valides uniquement</strong><br>
-            Vous ne pouvez passer commande qu'aupres des fournisseurs listes ci-dessous. Ces partenaires ont ete valides par l'administration de l'IUT.
+            <strong>Fournisseurs validés uniquement</strong><br>
+            Vous ne pouvez passer commande qu'auprès des fournisseurs listés ci-dessous. Ces partenaires ont ete validés par l'administration de l'IUT.
         </div>
     </div>
 
     <div class="section">
         <div class="section-header">
             <h2 class="section-title">Liste des Fournisseurs (<?= isset($fournisseurs) ? count($fournisseurs) : 0 ?>)</h2>
-            <span class="section-subtitle">Fournisseurs autorises pour vos commandes</span>
+            <span class="section-subtitle">Fournisseurs autorisés pour vos commandes</span>
         </div>
 
         <div class="fournisseurs-grid">
@@ -97,7 +97,7 @@
                         <th>Nom du fournisseur</th>
                         <th>Contact</th>
                         <th>Email</th>
-                        <th>Telephone</th>
+                        <th>Téléphone</th>
                         <th>Statut</th>
                     </tr>
                 </thead>

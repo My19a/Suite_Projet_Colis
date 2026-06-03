@@ -13,7 +13,7 @@
     <div class="entete-barre">
         <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
         <h2>Administrateur</h2>
-        <p>Gestion du systeme</p>
+        <p>Gestion du système</p>
     </div>
 
     <nav class="menu">
@@ -26,7 +26,7 @@
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -35,7 +35,7 @@
     <div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Tous les devis</h1>
-            <p class="page-subtitle">Vue globale de l'ensemble des devis du systeme</p>
+            <p class="page-subtitle">Vue globale de l'ensemble des devis du système</p>
         </div>
     </div>
 
@@ -53,7 +53,7 @@
     <div class="section">
         <div class="search-card">
             <form method="get" class="search-form">
-                <input type="text" name="q" class="form-input" placeholder="Rechercher un devis (objet, departement, fournisseur, statut)" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
+                <input type="text" name="q" class="form-input" placeholder="placeholder="Rechercher un devis (objet, departement, fournisseur, statut)"" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
                 <button type="submit" class="btn btn-primary">Rechercher</button>
             </form>
         </div>

@@ -27,7 +27,7 @@
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -51,14 +51,14 @@
                 <div class="form-section">
                     <div class="form-group">
                         <label for="objet" class="form-label required">Objet de la demande</label>
-                        <input type="text" id="objet" name="objet" class="form-input" placeholder="Ex: Achat de materiel informatique pour le laboratoire" required>
-                        <small class="form-help">Decrivez brievement l'objet de votre demande d'achat</small>
+                        <input type="text" id="objet" name="objet" class="form-input" placeholder="placeholder="Ex: Achat de matériel informatique pour le laboratoire"" required>
+                        <small class="form-help">Decrivez brièvement l'objet de votre demande d'achat</small>
                     </div>
 
                     <div class="form-group">
                         <label for="fournisseur_id" class="form-label required">Fournisseur</label>
                         <select id="fournisseur_id" name="fournisseur_id" class="form-select" required>
-                            <option value="">Selectionnez un fournisseur</option>
+                            <option value="">Sélectionnez un fournisseur</option>
                             <?php foreach ($fournisseurs as $fournisseur): ?>
                                 <option value="<?= $fournisseur['id_fournisseur']; ?>">
                                     <?= htmlspecialchars($fournisseur['nom']); ?>
@@ -72,7 +72,7 @@
 
                     <div class="form-group">
                         <label for="montant_estime" class="form-label required">Montant estime (EUR)</label>
-                        <input type="number" id="montant_estime" name="montant_estime" class="form-input" placeholder="0.00" step="0.01" min="0" required>
+                        <input type="number" id="montant_estime" name="montant_estime" class="form-input" placeholder="placeholder="0.00"" step="0.01" min="0" required>
                         <small class="form-help">Montant estime de la commande en euros</small>
                     </div>
                 </div>
@@ -92,15 +92,15 @@
                     </li>
                     <li class="process-item">
                         <span class="process-number">2</span>
-                        <span class="process-text">Le service financier verifie le budget</span>
+                        <span class="process-text">Le service financier vérifié le budget</span>
                     </li>
                     <li class="process-item">
                         <span class="process-number">3</span>
-                        <span class="process-text">Si valide, un bon de commande est cree</span>
+                        <span class="process-text">Si validé, un bon de commande est créé</span>
                     </li>
                     <li class="process-item">
                         <span class="process-number">4</span>
-                        <span class="process-text">Le directeur signe le bon de commande</span>
+                        <span class="process-text">Le directeur signé le bon de commande</span>
                     </li>
                     <li class="process-item">
                         <span class="process-number">5</span>

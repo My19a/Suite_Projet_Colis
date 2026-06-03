@@ -13,7 +13,7 @@
     <div class="entete-barre">
         <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
         <h2>Administrateur</h2>
-        <p>Gestion du systeme</p>
+        <p>Gestion du système</p>
     </div>
 
     <nav class="menu">
@@ -26,7 +26,7 @@
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -46,11 +46,11 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label class="form-label">Nom du departement</label>
-                        <input type="text" name="nom" class="form-input" placeholder="Ex: Informatique" required>
+                        <input type="text" name="nom" class="form-input" placeholder="placeholder="Ex: Informatique"" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Budget total (EUR)</label>
-                        <input type="number" name="budget_total" class="form-input" placeholder="Ex: 50000" step="0.01" required>
+                        <input type="number" name="budget_total" class="form-input" placeholder="placeholder="Ex: 50000"" step="0.01" required>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Ajouter</button>
@@ -65,7 +65,7 @@
                     <tr>
                         <th>Nom</th>
                         <th>Budget total</th>
-                        <th>Budget utilise</th>
+                        <th>Budget utilisé</th>
                         <th>Budget restant</th>
                         <th>Actions</th>
                     </tr>

@@ -18,15 +18,15 @@
 
     <nav class="menu">
         <a href="/postal/dashboard">Tableau de bord</a>
-        <a href="/postal/colis/recus">Colis recus</a>
+        <a href="/postal/colis/recus">Colis reçus</a>
         <a href="/postal/colis/remis">Colis remis</a>
         <a href="/postal/colis/recherche">Recherche colis</a>
-        <a href="/postal/colis/non-identifies">Colis non identifies</a>
+        <a href="/postal/colis/non-identifies">Colis non identifiés</a>
         <a href="/postal/historique">Historique global</a>
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -50,7 +50,7 @@
             <input type="hidden" name="id_colis" value="<?= htmlspecialchars($colis['id_colis']) ?>">
 
             <div class="form-group">
-                <label class="form-label">Numero suivi</label>
+                <label class="form-label">Numéro suivi</label>
                 <input type="text" name="numero_suivi" class="form-input" value="<?= htmlspecialchars($colis['numero_suivi'] ?? '') ?>">
             </div>
 

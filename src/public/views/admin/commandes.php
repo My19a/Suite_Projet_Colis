@@ -13,7 +13,7 @@
     <div class="entete-barre">
         <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
         <h2>Administrateur</h2>
-        <p>Gestion du systeme</p>
+        <p>Gestion du système</p>
     </div>
 
     <nav class="menu">
@@ -27,7 +27,7 @@
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -53,7 +53,7 @@
 
     <div class="section">
         <form method="get" class="search-form">
-            <input type="text" name="q" class="form-input" placeholder="Rechercher par numero..." value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
+            <input type="text" name="q" class="form-input" placeholder="placeholder="Rechercher par numéro..."" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
             <button type="submit" class="btn btn-primary">Rechercher</button>
         </form>
     </div>

@@ -18,12 +18,12 @@
 
     <nav class="menu">
         <a class="actif" href="/directeur/dashboard">Tableau de bord</a>
-        <a href="/directeur/devis">Devis a signer</a>
+        <a href="/directeur/devis">Devis à signer</a>
         <a href="/directeur/bons-commande">Bons de commande</a>
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -32,19 +32,19 @@
     <div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Tableau de bord</h1>
-            <p class="page-subtitle">Validation et suivi des decisions financieres</p>
+            <p class="page-subtitle">Validation et suivi des décisions financières</p>
         </div>
     </div>
 
     <div class="stats-grid">
         <div class="stat-card stat-warning">
-            <span class="stat-label">Devis a signer</span>
+            <span class="stat-label">Devis à signer</span>
             <div class="stat-value"><?= $stats["devis_attente"] ?></div>
             <div class="stat-description">En attente</div>
         </div>
 
         <div class="stat-card stat-success">
-            <span class="stat-label">BC signes</span>
+            <span class="stat-label">BC signés</span>
             <div class="stat-value"><?= $stats["bc_signes"] ?></div>
             <div class="stat-description">Bons de commande</div>
         </div>
@@ -52,7 +52,7 @@
 
     <div class="section">
         <div class="section-header">
-            <h2 class="section-title">Devis valides par le service financier</h2>
+            <h2 class="section-title">Devis validés par le service financier</h2>
             <a href="/directeur/devis" class="btn-link">Voir tout</a>
         </div>
 
@@ -69,7 +69,7 @@
                 </thead>
                 <tbody>
                     <?php if (empty($devis)): ?>
-                        <tr><td colspan="5" class="empty-state">Aucun devis a signer</td></tr>
+                        <tr><td colspan="5" class="empty-state">Aucun devis à signer</td></tr>
                     <?php else: ?>
                         <?php foreach ($devis as $d): ?>
                         <tr>

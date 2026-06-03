@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste des colis – Postal Universite</title>
+    <title>Liste des colis – Postal Université</title>
     <link rel="stylesheet" href="/assets/css/theme.css">
 </head>
 
@@ -12,20 +12,20 @@
 <aside class="barre-laterale">
     <div class="entete-barre">
         <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Postal Universite</h2>
+        <h2>Postal Université</h2>
         <p>Gestion des colis</p>
     </div>
 
     <nav class="menu">
         <a href="/postal-univ/dashboard">Tableau de bord</a>
-        <a href="/postal-univ/reception">Reception colis</a>
+        <a href="/postal-univ/reception">Réception colis</a>
         <a class="actif" href="/postal-univ/colis">Liste colis</a>
-        <a href="/postal-univ/non-identifies">Non identifies</a>
+        <a href="/postal-univ/non-identifies">Non identifiés</a>
         <a href="/postal-univ/historique">Historique</a>
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -33,8 +33,8 @@
 
     <div class="page-header">
         <div class="page-header-info">
-            <h1 class="page-title">Liste des colis recus</h1>
-            <p class="page-subtitle">Tous les colis receptionnes par l'universite</p>
+            <h1 class="page-title">Liste des colis reçus</h1>
+            <p class="page-subtitle">Tous les colis réceptionnés par l'université</p>
         </div>
     </div>
 
@@ -48,7 +48,7 @@
                         <th>N° bon de commande</th>
                         <th>Campus / IUT</th>
                         <th>Statut</th>
-                        <th>Date reception</th>
+                        <th>Date réception</th>
                         <th>Action</th>
                     </tr>
                 </thead>

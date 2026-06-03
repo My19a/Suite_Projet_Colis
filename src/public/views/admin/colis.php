@@ -13,7 +13,7 @@
     <div class="entete-barre">
         <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
         <h2>Administrateur</h2>
-        <p>Gestion du systeme</p>
+        <p>Gestion du système</p>
     </div>
 
     <nav class="menu">
@@ -26,7 +26,7 @@
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -35,7 +35,7 @@
     <div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Tous les colis</h1>
-            <p class="page-subtitle">Vision globale et tracabilite complete des colis</p>
+            <p class="page-subtitle">Vision globale et traçabilité complète des colis</p>
         </div>
     </div>
 
@@ -53,7 +53,7 @@
     <div class="section">
         <div class="search-card">
             <form method="get" class="search-form">
-                <input type="text" name="q" class="form-input" placeholder="Recherche : n° suivi, BC, departement, statut" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
+                <input type="text" name="q" class="form-input" placeholder="placeholder="Recherche : n° suivi, BC, departement, statut"" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
                 <button type="submit" class="btn btn-primary">Rechercher</button>
             </form>
         </div>
@@ -69,7 +69,7 @@
                         <th>Bon de commande</th>
                         <th>Departement</th>
                         <th>Statut</th>
-                        <th>Date reception</th>
+                        <th>Date réception</th>
                         <th>Date retrait</th>
                     </tr>
                 </thead>

@@ -35,7 +35,7 @@
     <div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Recherche de colis</h1>
-            <p class="page-subtitle">Trouvez un colis par numéro de suivi, BC, departement ou ID</p>
+            <p class="page-subtitle">Trouvez un colis par numéro de suivi, BC, département ou ID</p>
         </div>
     </div>
 
@@ -43,7 +43,7 @@
         <form method="get" style="display: flex; gap: 12px; flex-wrap: wrap;">
             <div class="search-container" style="flex: 1; min-width: 300px; margin-bottom: 0;">
                 <span class="search-icon-text">&#128269;</span>
-                <input type="text" name="q" class="search-input" placeholder="placeholder="N° suivi, BC, departement, ID colis..."" value="<?= htmlspecialchars($_GET["q"] ?? "") ?>">
+                <input type="text" name="q" class="search-input" placeholder="placeholder="placeholder=""N° suivi, BC, departement, ID colis..."" value="<?= htmlspecialchars($_GET["q"] ?? "") ?>">
             </div>
             <button type="submit" class="btn btn-primary">Rechercher</button>
         </form>
@@ -60,7 +60,7 @@
                         <th>ID</th>
                         <th>N° suivi</th>
                         <th>Bon de commande</th>
-                        <th>Departement</th>
+                        <th>Département</th>
                         <th>Date réception</th>
                         <th>Statut</th>
                     </tr>

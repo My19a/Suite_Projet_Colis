@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mes devis – Departement</title>
+    <title>Mes devis – Département</title>
     <link rel="stylesheet" href="/assets/css/theme.css">
 </head>
 
@@ -12,7 +12,7 @@
 <aside class="barre-laterale">
     <div class="entete-barre">
         <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Departement</h2>
+        <h2>Département</h2>
         <p>Gestion des colis</p>
     </div>
 
@@ -50,7 +50,7 @@
 
     <div class="search-container">
         <span class="search-icon-text">&#128269;</span>
-        <input type="text" class="search-input" placeholder="placeholder="Rechercher par objet, fournisseur ou statut..."" id="searchDevis" onkeyup="filterDevis()">
+        <input type="text" class="search-input" placeholder="placeholder="placeholder=""Rechercher par objet, fournisseur ou statut..."" id="searchDevis" onkeyup="filterDevis()">
     </div>
 
     <?php

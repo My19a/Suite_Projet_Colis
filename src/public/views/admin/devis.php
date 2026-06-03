@@ -19,7 +19,7 @@
     <nav class="menu">
         <a href="/admin/dashboard">Tableau de bord</a>
         <a href="/admin/utilisateurs">Utilisateurs</a>
-        <a href="/admin/departements">Departements</a>
+        <a href="/admin/departements">Départements</a>
         <a href="/admin/fournisseurs">Fournisseurs</a>
         <a class="actif" href="/admin/devis">Tous les devis</a>
         <a href="/admin/colis">Tous les colis</a>
@@ -53,7 +53,7 @@
     <div class="section">
         <div class="search-card">
             <form method="get" class="search-form">
-                <input type="text" name="q" class="form-input" placeholder="placeholder="Rechercher un devis (objet, departement, fournisseur, statut)"" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
+                <input type="text" name="q" class="form-input" placeholder="placeholder="placeholder=""Rechercher un devis (objet, departement, fournisseur, statut)"" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
                 <button type="submit" class="btn btn-primary">Rechercher</button>
             </form>
         </div>
@@ -66,7 +66,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Objet</th>
-                        <th>Departement</th>
+                        <th>Département</th>
                         <th>Fournisseur</th>
                         <th>Montant</th>
                         <th>Statut</th>

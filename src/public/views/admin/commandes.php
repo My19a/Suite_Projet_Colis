@@ -19,7 +19,7 @@
     <nav class="menu">
         <a href="/admin/dashboard">Tableau de bord</a>
         <a href="/admin/utilisateurs">Utilisateurs</a>
-        <a href="/admin/departements">Departements</a>
+        <a href="/admin/departements">Départements</a>
         <a href="/admin/fournisseurs">Fournisseurs</a>
         <a href="/admin/devis">Tous les devis</a>
         <a class="actif" href="/admin/commandes">Bons de commande</a>
@@ -53,7 +53,7 @@
 
     <div class="section">
         <form method="get" class="search-form">
-            <input type="text" name="q" class="form-input" placeholder="placeholder="Rechercher par numéro..."" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
+            <input type="text" name="q" class="form-input" placeholder="placeholder="placeholder=""Rechercher par numéro..."" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
             <button type="submit" class="btn btn-primary">Rechercher</button>
         </form>
     </div>
@@ -64,7 +64,7 @@
                 <thead>
                     <tr>
                         <th>N° Commande</th>
-                        <th>Departement</th>
+                        <th>Département</th>
                         <th>Fournisseur</th>
                         <th>Montant</th>
                         <th>Statut</th>

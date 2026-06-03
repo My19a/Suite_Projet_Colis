@@ -32,7 +32,7 @@
 
     <div class="page-header">
         <div class="page-header-info">
-            <h1 class="page-title">Budgets des departements</h1>
+            <h1 class="page-title">Budgets des départements</h1>
             <p class="page-subtitle">Suivi budgétaire global</p>
         </div>
     </div>
@@ -42,7 +42,7 @@
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th>Departement</th>
+                        <th>Département</th>
                         <th>Budget total</th>
                         <th>Budget utilisé</th>
                         <th>Budget restant</th>

@@ -19,7 +19,7 @@
     <nav class="menu">
         <a href="/admin/dashboard">Tableau de bord</a>
         <a class="actif" href="/admin/utilisateurs">Utilisateurs</a>
-        <a href="/admin/departements">Departements</a>
+        <a href="/admin/departements">Départements</a>
         <a href="/admin/fournisseurs">Fournisseurs</a>
         <a href="/admin/devis">Tous les devis</a>
         <a href="/admin/colis">Tous les colis</a>
@@ -35,7 +35,7 @@
     <div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Gestion des utilisateurs</h1>
-            <p class="page-subtitle">Modifier les roles et departements des utilisateurs</p>
+            <p class="page-subtitle">Modifier les roles et départements des utilisateurs</p>
         </div>
     </div>
 
@@ -48,7 +48,7 @@
                         <th>Email</th>
                         <th>UID CAS</th>
                         <th>Role</th>
-                        <th>Departement</th>
+                        <th>Département</th>
                         <th>Action</th>
                     </tr>
                 </thead>

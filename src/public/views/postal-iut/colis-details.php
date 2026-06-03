@@ -55,7 +55,7 @@
             <div class="stat-value" style="font-size: 18px;"><?= htmlspecialchars($colis["numero_commande"] ?: "—") ?></div>
         </div>
         <div class="stat-card">
-            <span class="stat-label">Departement</span>
+            <span class="stat-label">Département</span>
             <div class="stat-value" style="font-size: 18px;"><?= htmlspecialchars($colis["departement"] ?: "Non identifie") ?></div>
         </div>
         <div class="stat-card">

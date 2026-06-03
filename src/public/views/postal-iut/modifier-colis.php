@@ -67,7 +67,7 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label">Departement</label>
+                <label class="form-label">Département</label>
                 <select name="destinataire_id" class="form-select">
                     <option value="">— Aucun —</option>
                     <?php foreach ($departements as $d): ?>

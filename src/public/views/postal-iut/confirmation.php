@@ -47,7 +47,7 @@
                         <th>ID</th>
                         <th>N° suivi</th>
                         <th>Bon de commande</th>
-                        <th>Departement</th>
+                        <th>Département</th>
                         <th>Date transfert</th>
                         <th>Action</th>
                     </tr>

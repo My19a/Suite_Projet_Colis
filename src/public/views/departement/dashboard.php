@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard – Departement</title>
+    <title>Dashboard – Département</title>
     <link rel="stylesheet" href="/assets/css/theme.css">
 </head>
 
@@ -66,7 +66,7 @@
     <?php if (isset($budget)): ?>
     <div class="section">
         <div class="section-header">
-            <h2 class="section-title">Budget du departement</h2>
+            <h2 class="section-title">Budget du département</h2>
             <span class="section-subtitle">Situation budgétaire</span>
         </div>
 

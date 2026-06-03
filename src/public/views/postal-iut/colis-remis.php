@@ -46,7 +46,7 @@
                     <tr>
                         <th>ID</th>
                         <th>N° suivi</th>
-                        <th>Departement</th>
+                        <th>Département</th>
                         <th>Date réception</th>
                         <th>Date retrait</th>
                     </tr>

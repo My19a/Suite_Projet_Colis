@@ -33,7 +33,7 @@
     <div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Devis à vérifier</h1>
-            <p class="page-subtitle">Devis soumis par les departements</p>
+            <p class="page-subtitle">Devis soumis par les départements</p>
         </div>
     </div>
 
@@ -44,7 +44,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Objet</th>
-                        <th>Departement</th>
+                        <th>Département</th>
                         <th>Montant</th>
                         <th>Date</th>
                         <th>Actions</th>

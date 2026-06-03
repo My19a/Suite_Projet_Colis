@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creer un devis – Departement</title>
+    <title>Creer un devis – Département</title>
     <link rel="stylesheet" href="/assets/css/theme.css">
 </head>
 
@@ -12,7 +12,7 @@
 <aside class="barre-laterale">
     <div class="entete-barre">
         <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Departement</h2>
+        <h2>Département</h2>
         <p>Gestion des colis</p>
     </div>
 
@@ -51,7 +51,7 @@
                 <div class="form-section">
                     <div class="form-group">
                         <label for="objet" class="form-label required">Objet de la demande</label>
-                        <input type="text" id="objet" name="objet" class="form-input" placeholder="placeholder="Ex: Achat de matériel informatique pour le laboratoire"" required>
+                        <input type="text" id="objet" name="objet" class="form-input" placeholder="placeholder="placeholder=""Ex: Achat de matériel informatique pour le laboratoire"" required>
                         <small class="form-help">Decrivez brièvement l'objet de votre demande d'achat</small>
                     </div>
 
@@ -72,7 +72,7 @@
 
                     <div class="form-group">
                         <label for="montant_estime" class="form-label required">Montant estime (EUR)</label>
-                        <input type="number" id="montant_estime" name="montant_estime" class="form-input" placeholder="placeholder="0.00"" step="0.01" min="0" required>
+                        <input type="number" id="montant_estime" name="montant_estime" class="form-input" placeholder="placeholder="placeholder=""0.00"" step="0.01" min="0" required>
                         <small class="form-help">Montant estime de la commande en euros</small>
                     </div>
                 </div>

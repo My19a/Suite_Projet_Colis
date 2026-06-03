@@ -11,6 +11,12 @@ import re
 
 # Liste nettoyée au maximum (aucun mot risqué pour la BD ou les fichiers)
 CORRECTIONS = {
+
+    "departement": "département", 
+    "Departement": "Département",
+    "departements": "départements", 
+    "Departements": "Départements",
+
     "systeme": "système", "Systeme": "Système",
     "tracabilite": "traçabilité", "Tracabilite": "Traçabilité",
     "budgetaire": "budgétaire", "Budgetaire": "Budgétaire",

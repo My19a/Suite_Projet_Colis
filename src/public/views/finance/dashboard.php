@@ -53,7 +53,7 @@
 
     <div class="section">
         <div class="section-header">
-            <h2 class="section-title">Budgets des departements</h2>
+            <h2 class="section-title">Budgets des départements</h2>
             <a href="/finance/budgets" class="btn-link">Voir tout</a>
         </div>
 
@@ -61,7 +61,7 @@
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th>Departement</th>
+                        <th>Département</th>
                         <th>Budget total</th>
                         <th>Budget utilisé</th>
                         <th>Restant</th>
@@ -97,7 +97,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Objet</th>
-                        <th>Departement</th>
+                        <th>Département</th>
                         <th>Montant</th>
                         <th>Actions</th>
                     </tr>

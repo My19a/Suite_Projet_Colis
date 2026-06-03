@@ -57,17 +57,17 @@
             <form method="POST" enctype="multipart/form-data" id="colisForm">
                 <div class="form-group">
                     <label class="form-label required">Numéro du bon de commande (BC)</label>
-                    <input type="text" name="numero_bc" class="form-input" placeholder="placeholder="Ex: BC2024-001"" required>
+                    <input type="text" name="numero_bc" class="form-input" placeholder="placeholder="placeholder=""Ex: BC2024-001"" required>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Numéro de suivi</label>
-                    <input type="text" name="numero_suivi" class="form-input" placeholder="placeholder="Ex: FR123456789"">
+                    <input type="text" name="numero_suivi" class="form-input" placeholder="placeholder="placeholder=""Ex: FR123456789"">
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Commentaire</label>
-                    <textarea name="commentaire" class="form-input" rows="3" placeholder="placeholder="Notes additionnelles...""></textarea>
+                    <textarea name="commentaire" class="form-input" rows="3" placeholder="placeholder="placeholder=""Notes additionnelles...""></textarea>
                 </div>
 
                 <input type="hidden" id="photo_etiquette" name="photo_etiquette">

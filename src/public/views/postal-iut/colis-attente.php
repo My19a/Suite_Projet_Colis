@@ -46,7 +46,7 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Departement</th>
+                        <th>Département</th>
                         <th>N° commande</th>
                         <th>N° suivi</th>
                         <th>Date réception</th>

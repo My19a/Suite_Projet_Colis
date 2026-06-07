@@ -57,12 +57,12 @@
             <form method="POST" enctype="multipart/form-data" id="colisForm">
                 <div class="form-group">
                     <label class="form-label required">Numero du bon de commande (BC)</label>
-                    <input type="text" name="numero_bc" class="form-input" placeholder="Ex: BC2024-001" required>
+                    <input type="text" id="numero_bc" name="numero_bc" class="form-input" placeholder="Ex: BC2024-001" required>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Numero de suivi</label>
-                    <input type="text" name="numero_suivi" class="form-input" placeholder="Ex: FR123456789">
+                    <input type="text" id="numero_suivi" name="numero_suivi" class="form-input" placeholder="Ex: FR123456789">
                 </div>
 
                 <div class="form-group">
@@ -71,6 +71,8 @@
                 </div>
 
                 <input type="hidden" id="photo_etiquette" name="photo_etiquette">
+                <input type="hidden" id="ocr_texte_brut" name="ocr_texte_brut">
+                <input type="hidden" id="ocr_confiance" name="ocr_confiance">
 
                 <div class="form-actions" style="border-top: none; padding-top: 0;">
                     <button type="submit" class="btn btn-primary">Ajouter le colis</button>
@@ -103,6 +105,11 @@
             <div style="padding: 16px; background: var(--blue-bg); border-radius: var(--radius); border: 1px solid var(--blue-border);">
                 <label class="form-label" style="color: var(--blue-dark);">Ou importer une photo</label>
                 <input type="file" id="fileUpload" accept="image/*" capture="environment" class="form-input" style="background: white;">
+                <div id="ocr-loader" style="display:none; margin-top:10px;">
+                Analyse OCR en cours...
+                </div>
+
+                <div id="ocr-message" style="margin-top:10px;"></div>
             </div>
 
             <div class="alert alert-warning" style="margin-top: 16px; margin-bottom: 0;">
@@ -114,6 +121,9 @@
     </div>
 
 </main>
+
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script src="/assets/js/ocr-etiquette.js"></script>
 
 <script>
     const video = document.getElementById('video');
@@ -149,6 +159,32 @@
         canvas.getContext('2d').drawImage(video, 0, 0);
         const imageData = canvas.toDataURL('image/jpeg', 0.7);
         photoInput.value = imageData;
+        lancerOCR(imageData, function(resultat)
+        {
+            if(resultat.numeroBC)
+            {
+                document.getElementById('numero_bc').value =
+                    resultat.numeroBC;
+
+                document.getElementById('numero_bc')
+                    .style.backgroundColor = '#d4edda';
+            }
+
+            if(resultat.numeroSuivi)
+            {
+                document.getElementById('numero_suivi').value =
+                    resultat.numeroSuivi;
+
+                document.getElementById('numero_suivi')
+                    .style.backgroundColor = '#d4edda';
+            }
+
+            document.getElementById('ocr_texte_brut').value =
+                resultat.texteBrut;
+
+            document.getElementById('ocr_confiance').value =
+                resultat.confiance;
+            });
         preview.src = imageData;
         preview.style.display = 'block';
         video.style.display = 'none';
@@ -181,6 +217,32 @@
                     canvas.getContext('2d').drawImage(img, 0, 0, width, height);
                     const imageData = canvas.toDataURL('image/jpeg', 0.7);
                     photoInput.value = imageData;
+                    lancerOCR(imageData, function(resultat)
+                    {
+                        if(resultat.numeroBC)
+                        {
+                            document.getElementById('numero_bc').value =
+                                resultat.numeroBC;
+
+                            document.getElementById('numero_bc')
+                                .style.backgroundColor = '#d4edda';
+                        }
+
+                        if(resultat.numeroSuivi)
+                        {
+                            document.getElementById('numero_suivi').value =
+                                resultat.numeroSuivi;
+
+                            document.getElementById('numero_suivi')
+                                .style.backgroundColor = '#d4edda';
+                        }
+
+                        document.getElementById('ocr_texte_brut').value =
+                            resultat.texteBrut;
+
+                        document.getElementById('ocr_confiance').value =
+                            resultat.confiance;
+                    });
                     preview.src = imageData;
                     preview.style.display = 'block';
                     placeholder.style.display = 'none';

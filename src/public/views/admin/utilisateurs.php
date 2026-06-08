@@ -13,20 +13,20 @@
     <div class="entete-barre">
         <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
         <h2>Administrateur</h2>
-        <p>Gestion du systeme</p>
+        <p>Gestion du système</p>
     </div>
 
     <nav class="menu">
         <a href="/admin/dashboard">Tableau de bord</a>
         <a class="actif" href="/admin/utilisateurs">Utilisateurs</a>
-        <a href="/admin/departements">Departements</a>
+        <a href="/admin/departements">Départements</a>
         <a href="/admin/fournisseurs">Fournisseurs</a>
         <a href="/admin/devis">Tous les devis</a>
         <a href="/admin/colis">Tous les colis</a>
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -35,27 +35,9 @@
     <div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Gestion des utilisateurs</h1>
-            <p class="page-subtitle">Modifier les roles et departements des utilisateurs</p>
-        </div>
-        <div style="display:flex; gap:0.75rem; align-items:center;">
-            <form method="post" action="/admin/test-mail">
-                <button type="submit" class="btn btn-secondary">Envoyer mail de test</button>
-            </form>
-            <a href="/admin/ajouter-utilisateur" class="btn btn-primary">Ajouter un utilisateur</a>
+            <p class="page-subtitle">Modifier les roles et départements des utilisateurs</p>
         </div>
     </div>
-
-    <?php if (isset($_GET['mail'])): ?>
-        <?php if ($_GET['mail'] === 'ok'): ?>
-            <div class="alert alert-success" style="margin-bottom:1rem; padding:0.75rem 1rem; background:#d1fae5; border:1px solid #6ee7b7; border-radius:6px; color:#065f46;">
-                Mail de test envoye avec succes vers <strong><?= htmlspecialchars($_GET['to'] ?? '') ?></strong>.
-            </div>
-        <?php else: ?>
-            <div class="alert alert-error" style="margin-bottom:1rem; padding:0.75rem 1rem; background:#fee2e2; border:1px solid #fca5a5; border-radius:6px; color:#991b1b;">
-                Erreur lors de l'envoi : <?= htmlspecialchars($_GET['msg'] ?? 'inconnue') ?>
-            </div>
-        <?php endif; ?>
-    <?php endif; ?>
 
     <div class="section">
         <div class="table-container">

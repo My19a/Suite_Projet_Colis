@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mes devis – Departement</title>
+    <title>Mes devis – Département</title>
     <link rel="stylesheet" href="/assets/css/theme.css">
 </head>
 
@@ -12,7 +12,7 @@
 <aside class="barre-laterale">
     <div class="entete-barre">
         <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Departement</h2>
+        <h2>Département</h2>
         <p>Gestion des colis</p>
     </div>
 
@@ -27,7 +27,7 @@
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -50,7 +50,7 @@
 
     <div class="search-container">
         <span class="search-icon-text">&#128269;</span>
-        <input type="text" class="search-input" placeholder="Rechercher par objet, fournisseur ou statut..." id="searchDevis" onkeyup="filterDevis()">
+        <input type="text" class="search-input" placeholder="placeholder="placeholder=""Rechercher par objet, fournisseur ou statut..."" id="searchDevis" onkeyup="filterDevis()">
     </div>
 
     <?php
@@ -77,12 +77,12 @@
             <div class="stat-value"><?= $enAttente ?></div>
         </div>
         <div class="stat-card stat-success">
-            <span class="stat-label">Valides</span>
+            <span class="stat-label">Validés</span>
             <div class="stat-value"><?= $valides ?></div>
         </div>
         <?php if ($rejetes > 0): ?>
         <div class="stat-card stat-danger">
-            <span class="stat-label">Rejetes</span>
+            <span class="stat-label">Rejetés</span>
             <div class="stat-value"><?= $rejetes ?></div>
         </div>
         <?php endif; ?>

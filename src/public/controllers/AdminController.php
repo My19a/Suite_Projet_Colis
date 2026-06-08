@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . '/../models/AdminModels.php';
-require_once __DIR__ . '/../../lib-tools/Mail/MailService.php';
 
 class AdminController {
 
@@ -48,20 +47,6 @@ class AdminController {
         header("Location: /admin/utilisateurs?ok=1");
         exit;
     }
-
-    // ajout par fares
-        public function ajouterUtilisateur() {
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $this->model->ajouterUtilisateur($_POST);
-                header('Location: /admin/utilisateurs');
-                exit;
-            }
-    
-            $roles = $this->model->getRoles();
-            $departements = $this->model->getDepartements();
-    
-            require __DIR__ . '/../views/admin/ajouter-utilisateur.php';
-        }
 
     // Liste fournisseurs
     public function fournisseurs() {
@@ -162,29 +147,6 @@ class AdminController {
         $commandes = $this->model->getToutesLesCommandes($search);
 
         require __DIR__ . '/../views/admin/commandes.php';
-    }
-
-    /* ===== TEST MAIL ===== */
-
-    public function testMail() {
-        $to   = getenv('MAIL_TEST_TO') ?: 'test@yopmail.com';
-        $nbUtilisateurs = count($this->model->getTousLesUtilisateurs());
-
-        $subject = '[Test] Suivi Colis – Rapport utilisateurs';
-        $body = "
-            <h2>Mail de test – Suivi Colis IUT</h2>
-            <p>Ce mail confirme que l'envoi automatique fonctionne.</p>
-            <p><strong>Nombre d'utilisateurs enregistrés :</strong> {$nbUtilisateurs}</p>
-            <p><em>Envoyé depuis l'interface d'administration.</em></p>
-        ";
-
-        try {
-            MailService::send($to, 'Administrateur', $subject, $body);
-            header('Location: /admin/utilisateurs?mail=ok&to=' . urlencode($to));
-        } catch (\Exception $e) {
-            header('Location: /admin/utilisateurs?mail=error&msg=' . urlencode($e->getMessage()));
-        }
-        exit;
     }
 
     /* ===== COLIS ===== */

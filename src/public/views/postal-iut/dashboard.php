@@ -18,15 +18,15 @@
 
     <nav class="menu">
         <a class="actif" href="/postal/dashboard">Tableau de bord</a>
-        <a href="/postal/confirmation">Confirmation reception</a>
-        <a href="/postal/colis/recus">Colis recus</a>
+        <a href="/postal/confirmation">Confirmation réception</a>
+        <a href="/postal/colis/recus">Colis reçus</a>
         <a href="/postal/colis/remis">Colis remis</a>
         <a href="/postal/colis/recherche">Recherche colis</a>
-        <a href="/postal/colis/non-identifies">Non identifies</a>
+        <a href="/postal/colis/non-identifies">Non identifiés</a>
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -41,33 +41,33 @@
 
     <div class="stats-grid">
         <div class="stat-card stat-blue">
-            <span class="stat-label">Recus a l'IUT</span>
+            <span class="stat-label">Reçus a l'IUT</span>
             <div class="stat-value"><?= $stats["recus"] ?></div>
-            <div class="stat-description">Colis recus</div>
+            <div class="stat-description">Colis reçus</div>
         </div>
 
         <div class="stat-card stat-warning">
             <span class="stat-label">En attente</span>
             <div class="stat-value"><?= $stats["en_attente"] ?></div>
-            <div class="stat-description">A retirer</div>
+            <div class="stat-description">À retirer</div>
         </div>
 
         <div class="stat-card stat-success">
-            <span class="stat-label">Retires</span>
+            <span class="stat-label">Retirés</span>
             <div class="stat-value"><?= $stats["retires"] ?></div>
-            <div class="stat-description">Colis livres</div>
+            <div class="stat-description">Colis livrés</div>
         </div>
 
         <div class="stat-card stat-danger">
-            <span class="stat-label">Non identifies</span>
+            <span class="stat-label">Non identifiés</span>
             <div class="stat-value"><?= $stats["non_identifies"] ?></div>
-            <div class="stat-description">A traiter</div>
+            <div class="stat-description">À traiter</div>
         </div>
     </div>
 
     <div class="section">
         <div class="section-header">
-            <h2 class="section-title">Derniers colis recus</h2>
+            <h2 class="section-title">Derniers colis reçus</h2>
             <a href="/postal/colis/recus" class="btn-link">Voir tout</a>
         </div>
 
@@ -77,8 +77,8 @@
                     <tr>
                         <th>ID</th>
                         <th>N° suivi</th>
-                        <th>Departement</th>
-                        <th>Date reception</th>
+                        <th>Département</th>
+                        <th>Date réception</th>
                         <th>Statut</th>
                     </tr>
                 </thead>

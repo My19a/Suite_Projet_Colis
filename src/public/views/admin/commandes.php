@@ -13,13 +13,13 @@
     <div class="entete-barre">
         <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
         <h2>Administrateur</h2>
-        <p>Gestion du systeme</p>
+        <p>Gestion du système</p>
     </div>
 
     <nav class="menu">
         <a href="/admin/dashboard">Tableau de bord</a>
         <a href="/admin/utilisateurs">Utilisateurs</a>
-        <a href="/admin/departements">Departements</a>
+        <a href="/admin/departements">Départements</a>
         <a href="/admin/fournisseurs">Fournisseurs</a>
         <a href="/admin/devis">Tous les devis</a>
         <a class="actif" href="/admin/commandes">Bons de commande</a>
@@ -27,7 +27,7 @@
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -53,7 +53,7 @@
 
     <div class="section">
         <form method="get" class="search-form">
-            <input type="text" name="q" class="form-input" placeholder="Rechercher par numero..." value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
+            <input type="text" name="q" class="form-input" placeholder="placeholder="placeholder=""Rechercher par numéro..."" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
             <button type="submit" class="btn btn-primary">Rechercher</button>
         </form>
     </div>
@@ -64,7 +64,7 @@
                 <thead>
                     <tr>
                         <th>N° Commande</th>
-                        <th>Departement</th>
+                        <th>Département</th>
                         <th>Fournisseur</th>
                         <th>Montant</th>
                         <th>Statut</th>

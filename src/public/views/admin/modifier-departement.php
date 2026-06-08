@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modifier departement – Admin</title>
+    <title>Modifier département – Admin</title>
     <link rel="stylesheet" href="/assets/css/theme.css">
 </head>
 
@@ -13,20 +13,20 @@
     <div class="entete-barre">
         <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
         <h2>Administrateur</h2>
-        <p>Gestion du systeme</p>
+        <p>Gestion du système</p>
     </div>
 
     <nav class="menu">
         <a href="/admin/dashboard">Tableau de bord</a>
         <a href="/admin/utilisateurs">Utilisateurs</a>
-        <a class="actif" href="/admin/departements">Departements</a>
+        <a class="actif" href="/admin/departements">Départements</a>
         <a href="/admin/fournisseurs">Fournisseurs</a>
         <a href="/admin/devis">Tous les devis</a>
         <a href="/admin/colis">Tous les colis</a>
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -34,8 +34,8 @@
 
     <div class="page-header">
         <div class="page-header-info">
-            <h1 class="page-title">Modifier le departement</h1>
-            <p class="page-subtitle">Mettre a jour les informations du departement</p>
+            <h1 class="page-title">Modifier le département</h1>
+            <p class="page-subtitle">Mettre a jour les informations du département</p>
         </div>
     </div>
 
@@ -45,7 +45,7 @@
                 <input type="hidden" name="id_departement" value="<?= $departement['id_departement'] ?>">
 
                 <div class="form-group">
-                    <label class="form-label">Nom du departement</label>
+                    <label class="form-label">Nom du département</label>
                     <input type="text" name="nom" class="form-input" value="<?= htmlspecialchars($departement['nom']) ?>" required>
                 </div>
 

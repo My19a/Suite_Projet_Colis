@@ -13,18 +13,18 @@
     <div class="entete-barre">
         <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
         <h2>Service Financier</h2>
-        <p>Gestion budgetaire</p>
+        <p>Gestion budgétaire</p>
     </div>
 
     <nav class="menu">
         <a href="/finance/dashboard">Tableau de bord</a>
-        <a href="/finance/devis">Devis a verifier</a>
+        <a href="/finance/devis">Devis à vérifier</a>
         <a class="actif" href="/finance/bons-commande">Bons de commande</a>
         <a href="/finance/budgets">Budgets</a>
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -33,7 +33,7 @@
     <div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Bons de commande</h1>
-            <p class="page-subtitle">Historique des bons de commande valides</p>
+            <p class="page-subtitle">Historique des bons de commande validés</p>
         </div>
     </div>
 

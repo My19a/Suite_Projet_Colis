@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colis non identifies – Postal Universite</title>
+    <title>Colis non identifiés – Postal Université</title>
     <link rel="stylesheet" href="/assets/css/theme.css">
 </head>
 
@@ -12,20 +12,20 @@
 <aside class="barre-laterale">
     <div class="entete-barre">
         <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Postal Universite</h2>
+        <h2>Postal Université</h2>
         <p>Gestion des colis</p>
     </div>
 
     <nav class="menu">
         <a href="/postal-univ/dashboard">Tableau de bord</a>
-        <a href="/postal-univ/reception">Reception colis</a>
+        <a href="/postal-univ/reception">Réception colis</a>
         <a href="/postal-univ/colis">Liste colis</a>
-        <a class="actif" href="/postal-univ/non-identifies">Non identifies</a>
+        <a class="actif" href="/postal-univ/non-identifies">Non identifiés</a>
         <a href="/postal-univ/historique">Historique</a>
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -33,8 +33,8 @@
 
     <div class="page-header">
         <div class="page-header-info">
-            <h1 class="page-title">Colis non identifies</h1>
-            <p class="page-subtitle">Colis sans correspondance ou information incomplete</p>
+            <h1 class="page-title">Colis non identifiés</h1>
+            <p class="page-subtitle">Colis sans correspondance ou information incomplète</p>
         </div>
     </div>
 
@@ -45,13 +45,13 @@
                     <tr>
                         <th>ID</th>
                         <th>N° suivi</th>
-                        <th>Date reception</th>
+                        <th>Date réception</th>
                         <th>Statut</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php if (empty($colis)): ?>
-                        <tr><td colspan="4" class="empty-state">Aucun colis non identifie</td></tr>
+                        <tr><td colspan="4" class="empty-state">Aucun colis non identifié</td></tr>
                     <?php else: ?>
                         <?php foreach ($colis as $c): ?>
                         <tr>

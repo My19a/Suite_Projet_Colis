@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Devis a signer – Directeur</title>
+    <title>Devis à signer – Directeur</title>
     <link rel="stylesheet" href="/assets/css/theme.css">
 </head>
 
@@ -18,12 +18,12 @@
 
     <nav class="menu">
         <a href="/directeur/dashboard">Tableau de bord</a>
-        <a class="actif" href="/directeur/devis">Devis a signer</a>
+        <a class="actif" href="/directeur/devis">Devis à signer</a>
         <a href="/directeur/bons-commande">Bons de commande</a>
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -31,8 +31,8 @@
 
     <div class="page-header">
         <div class="page-header-info">
-            <h1 class="page-title">Devis a signer</h1>
-            <p class="page-subtitle">Devis valides par le service financier</p>
+            <h1 class="page-title">Devis à signer</h1>
+            <p class="page-subtitle">Devis validés par le service financier</p>
         </div>
     </div>
 
@@ -50,7 +50,7 @@
                 </thead>
                 <tbody>
                     <?php if (empty($devis)): ?>
-                        <tr><td colspan="5" class="empty-state">Aucun devis a signer</td></tr>
+                        <tr><td colspan="5" class="empty-state">Aucun devis à signer</td></tr>
                     <?php else: ?>
                         <?php foreach ($devis as $d): ?>
                         <tr>

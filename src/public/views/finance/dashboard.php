@@ -13,18 +13,18 @@
     <div class="entete-barre">
         <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
         <h2>Service Financier</h2>
-        <p>Gestion budgetaire</p>
+        <p>Gestion budgétaire</p>
     </div>
 
     <nav class="menu">
         <a class="actif" href="/finance/dashboard">Tableau de bord</a>
-        <a href="/finance/devis">Devis a verifier</a>
+        <a href="/finance/devis">Devis à vérifier</a>
         <a href="/finance/bons-commande">Bons de commande</a>
         <a href="/finance/budgets">Budgets</a>
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -33,7 +33,7 @@
     <div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Tableau de bord</h1>
-            <p class="page-subtitle">Suivi budgetaire et validation des devis</p>
+            <p class="page-subtitle">Suivi budgétaire et validation des devis</p>
         </div>
     </div>
 
@@ -41,7 +41,7 @@
         <div class="stat-card stat-warning">
             <span class="stat-label">Devis en attente</span>
             <div class="stat-value"><?= $stats["devis_attente"] ?></div>
-            <div class="stat-description">A verifier</div>
+            <div class="stat-description">À vérifier</div>
         </div>
 
         <div class="stat-card stat-blue">
@@ -53,7 +53,7 @@
 
     <div class="section">
         <div class="section-header">
-            <h2 class="section-title">Budgets des departements</h2>
+            <h2 class="section-title">Budgets des départements</h2>
             <a href="/finance/budgets" class="btn-link">Voir tout</a>
         </div>
 
@@ -61,9 +61,9 @@
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th>Departement</th>
+                        <th>Département</th>
                         <th>Budget total</th>
-                        <th>Budget utilise</th>
+                        <th>Budget utilisé</th>
                         <th>Restant</th>
                     </tr>
                 </thead>
@@ -87,7 +87,7 @@
 
     <div class="section">
         <div class="section-header">
-            <h2 class="section-title">Devis a verifier</h2>
+            <h2 class="section-title">Devis à vérifier</h2>
             <a href="/finance/devis" class="btn-link">Voir tout</a>
         </div>
 
@@ -97,7 +97,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Objet</th>
-                        <th>Departement</th>
+                        <th>Département</th>
                         <th>Montant</th>
                         <th>Actions</th>
                     </tr>

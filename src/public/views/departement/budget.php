@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Budget – Departement</title>
+    <title>Budget – Département</title>
     <link rel="stylesheet" href="/assets/css/theme.css">
 </head>
 
@@ -12,7 +12,7 @@
 <aside class="barre-laterale">
     <div class="entete-barre">
         <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Departement</h2>
+        <h2>Département</h2>
         <p>Gestion des colis</p>
     </div>
 
@@ -27,7 +27,7 @@
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -42,8 +42,8 @@
 
     <div class="page-header">
         <div class="page-header-info">
-            <h1 class="page-title">Budget du departement</h1>
-            <p class="page-subtitle">Situation budgetaire actuelle</p>
+            <h1 class="page-title">Budget du département</h1>
+            <p class="page-subtitle">Situation budgétaire actuelle</p>
         </div>
     </div>
 
@@ -51,13 +51,13 @@
         <div class="stat-card stat-blue">
             <span class="stat-label">Budget total</span>
             <div class="stat-value"><?= number_format($budget["budget_total"], 2, ',', ' ') ?></div>
-            <div class="stat-description">EUR alloue</div>
+            <div class="stat-description">EUR alloué</div>
         </div>
 
         <div class="stat-card stat-warning">
-            <span class="stat-label">Budget utilise</span>
+            <span class="stat-label">Budget utilisé</span>
             <div class="stat-value"><?= number_format($budget["budget_utilise"], 2, ',', ' ') ?></div>
-            <div class="stat-description">EUR depense</div>
+            <div class="stat-description">EUR dépensé</div>
         </div>
 
         <div class="stat-card stat-success">

@@ -18,15 +18,15 @@
 
     <nav class="menu">
         <a href="/postal/dashboard">Tableau de bord</a>
-        <a href="/postal/confirmation">Confirmation reception</a>
-        <a href="/postal/colis/recus">Colis recus</a>
+        <a href="/postal/confirmation">Confirmation réception</a>
+        <a href="/postal/colis/recus">Colis reçus</a>
         <a href="/postal/colis/remis">Colis remis</a>
         <a href="/postal/colis/recherche">Recherche colis</a>
-        <a href="/postal/colis/non-identifies">Non identifies</a>
+        <a href="/postal/colis/non-identifies">Non identifiés</a>
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -55,7 +55,7 @@
             <div class="stat-value" style="font-size: 18px;"><?= htmlspecialchars($colis["numero_commande"] ?: "—") ?></div>
         </div>
         <div class="stat-card">
-            <span class="stat-label">Departement</span>
+            <span class="stat-label">Département</span>
             <div class="stat-value" style="font-size: 18px;"><?= htmlspecialchars($colis["departement"] ?: "Non identifie") ?></div>
         </div>
         <div class="stat-card">
@@ -72,7 +72,7 @@
         </div>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
             <div>
-                <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 4px;">Date reception</p>
+                <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 4px;">Date réception</p>
                 <p style="font-weight: 600;"><?= $colis["date_reception"] ?></p>
             </div>
             <div>

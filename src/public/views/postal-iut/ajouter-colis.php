@@ -18,16 +18,16 @@
 
     <nav class="menu">
         <a href="/postal/dashboard">Tableau de bord</a>
-        <a href="/postal/colis/recus">Colis recus</a>
+        <a href="/postal/colis/recus">Colis reçus</a>
         <a href="/postal/colis/remis">Colis remis</a>
         <a href="/postal/colis/recherche">Recherche colis</a>
-        <a href="/postal/colis/non-identifies">Colis non identifies</a>
+        <a href="/postal/colis/non-identifies">Colis non identifiés</a>
         <a class="actif" href="/postal/colis/ajouter">Ajouter un colis</a>
         <a href="/postal/historique">Historique global</a>
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -36,7 +36,7 @@
     <div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Ajouter un colis</h1>
-            <p class="page-subtitle">Enregistrer l'arrivee d'un nouveau colis avec scan/photo de l'etiquette</p>
+            <p class="page-subtitle">Enregistrer l'arrivée d'un nouveau colis avec scan/photo de l'étiquette</p>
         </div>
     </div>
 
@@ -56,18 +56,18 @@
 
             <form method="POST" enctype="multipart/form-data" id="colisForm">
                 <div class="form-group">
-                    <label class="form-label required">Numero du bon de commande (BC)</label>
-                    <input type="text" name="numero_bc" class="form-input" placeholder="Ex: BC2024-001" required>
+                    <label class="form-label required">Numéro du bon de commande (BC)</label>
+                    <input type="text" name="numero_bc" class="form-input" placeholder="placeholder="placeholder=""Ex: BC2024-001"" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Numero de suivi</label>
-                    <input type="text" name="numero_suivi" class="form-input" placeholder="Ex: FR123456789">
+                    <label class="form-label">Numéro de suivi</label>
+                    <input type="text" name="numero_suivi" class="form-input" placeholder="placeholder="placeholder=""Ex: FR123456789"">
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Commentaire</label>
-                    <textarea name="commentaire" class="form-input" rows="3" placeholder="Notes additionnelles..."></textarea>
+                    <textarea name="commentaire" class="form-input" rows="3" placeholder="placeholder="placeholder=""Notes additionnelles...""></textarea>
                 </div>
 
                 <input type="hidden" id="photo_etiquette" name="photo_etiquette">
@@ -80,7 +80,7 @@
 
         <div class="section">
             <div class="section-header">
-                <h2 class="section-title">Scanner / Photographier l'Etiquette</h2>
+                <h2 class="section-title">Scanner / Photographier l'Étiquette</h2>
             </div>
 
             <div id="cameraContainer" style="position: relative; background: var(--bg); border: 2px dashed var(--blue); border-radius: var(--radius); padding: 20px; text-align: center; margin-bottom: 16px; min-height: 280px; display: flex; align-items: center; justify-content: center;">
@@ -89,13 +89,13 @@
                 <img id="preview" style="max-width: 100%; max-height: 350px; border-radius: var(--radius-sm); display: none;">
 
                 <div id="placeholder" style="text-align: center;">
-                    <p style="color: var(--text-secondary); margin: 20px 0; font-size: 15px;">Cliquez pour activer la camera</p>
+                    <p style="color: var(--text-secondary); margin: 20px 0; font-size: 15px;">Cliquez pour activer la caméra</p>
                     <p style="color: var(--text-muted); font-size: 13px;">ou importez une photo existante</p>
                 </div>
             </div>
 
             <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px;">
-                <button type="button" id="btnStartCamera" class="btn btn-primary">Activer la camera</button>
+                <button type="button" id="btnStartCamera" class="btn btn-primary">Activer la caméra</button>
                 <button type="button" id="btnCapture" class="btn btn-success" style="display: none;">Prendre la photo</button>
                 <button type="button" id="btnRetake" class="btn btn-danger" style="display: none;">Reprendre</button>
             </div>
@@ -107,7 +107,7 @@
 
             <div class="alert alert-warning" style="margin-top: 16px; margin-bottom: 0;">
                 <span class="alert-icon-text">&#9888;</span>
-                <div class="alert-content" style="color: var(--warning-text);">La photo de l'etiquette aide a identifier automatiquement le bon de commande associe.</div>
+                <div class="alert-content" style="color: var(--warning-text);">La photo de l'étiquette aide a identifier automatiquement le bon de commande associe.</div>
             </div>
         </div>
 
@@ -139,7 +139,7 @@
             btnStartCamera.style.display = 'none';
             btnCapture.style.display = 'inline-flex';
         } catch (err) {
-            alert('Impossible d\'acceder a la camera : ' + err.message);
+            alert('Impossible d\'accéder a la caméra : ' + err.message);
         }
     });
 

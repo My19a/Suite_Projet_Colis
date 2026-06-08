@@ -13,18 +13,18 @@
     <div class="entete-barre">
         <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
         <h2>Service Financier</h2>
-        <p>Gestion budgetaire</p>
+        <p>Gestion budgétaire</p>
     </div>
 
     <nav class="menu">
         <a href="/finance/dashboard">Tableau de bord</a>
-        <a href="/finance/devis">Devis a verifier</a>
+        <a href="/finance/devis">Devis à vérifier</a>
         <a href="/finance/bons-commande">Bons de commande</a>
         <a class="actif" href="/finance/budgets">Budgets</a>
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -32,8 +32,8 @@
 
     <div class="page-header">
         <div class="page-header-info">
-            <h1 class="page-title">Budgets des departements</h1>
-            <p class="page-subtitle">Suivi budgetaire global</p>
+            <h1 class="page-title">Budgets des départements</h1>
+            <p class="page-subtitle">Suivi budgétaire global</p>
         </div>
     </div>
 
@@ -42,9 +42,9 @@
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th>Departement</th>
+                        <th>Département</th>
                         <th>Budget total</th>
-                        <th>Budget utilise</th>
+                        <th>Budget utilisé</th>
                         <th>Budget restant</th>
                         <th>Etat</th>
                     </tr>
@@ -61,7 +61,7 @@
                             <td><span class="montant"><?= number_format($b["budget_restant"], 2, ',', ' ') ?> EUR</span></td>
                             <td>
                                 <?php if ($b["budget_restant"] < 0): ?>
-                                    <span class="badge badge-refuse">Depasse</span>
+                                    <span class="badge badge-refuse">Dépassé</span>
                                 <?php else: ?>
                                     <span class="badge badge-valide">OK</span>
                                 <?php endif; ?>

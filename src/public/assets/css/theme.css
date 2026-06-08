@@ -1,7 +1,4 @@
-/* ============================================================================ */
-/*                         THEME MODERNE - SUIVI COLIS                         */
-/*                      Basé sur le design de la page 404                       */
-/* ============================================================================ */
+
 
 *, *::before, *::after {
     box-sizing: border-box;
@@ -1110,20 +1107,31 @@ textarea::placeholder {
 @media (max-width: 768px) {
     body.tableau-bord {
         flex-direction: column;
+        overflow-y: auto;
+        height: auto;
     }
 
     .barre-laterale {
         width: 100%;
         height: auto;
         position: relative;
+        box-shadow: var(--shadow);
     }
 
     .contenu {
         margin-left: 0;
+        padding: 20px;
+        width: 100%;
     }
 
     body::before {
         left: 0;
+    }
+    
+    .table-container {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
     }
 
     .menu {

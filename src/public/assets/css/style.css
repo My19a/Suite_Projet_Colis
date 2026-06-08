@@ -157,14 +157,50 @@ body {
 @media (max-width: 900px) {
     .page-login {
         flex-direction: column;
+        overflow-y: auto;
+        height: auto;
     }
 
-    .left-panel, .right-panel {
+    .gauche {
         width: 100%;
-        height: 50vh;
+        padding: 40px 20px;
+        order: 1;
+    }
+
+    .droite {
+        width: 100%;
+        height: 300px;
+        order: 2;
+    }
+
+    .photo-overlay {
+        top: -40px;
+        left: 0;
+        width: 100%;
+        height: 40px;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.15), transparent);
+        border-top-left-radius: 40px;
+        border-top-right-radius: 40px;
+        border-bottom-left-radius: 0;
     }
 
     .login-card {
-        width: 90%;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .haut h1 {
+        font-size: 26px;
+    }
+}
+
+@media (max-width: 480px) {
+    .gauche {
+        padding: 24px 16px;
+    }
+    
+    .login-card {
+        padding: 20px;
     }
 }

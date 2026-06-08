@@ -38,7 +38,7 @@ body {
 
 .txt {
     margin: 6px 0 35px;
-    color: #555;
+    color: #2b2d31; /* Modifié pour le contraste RGAA */
     font-size: 15px;
     text-align: center;
 }
@@ -83,7 +83,7 @@ body {
     margin-top: 22px;
     text-align: center;
     font-size: 12px;
-    color: #777;
+    color: #334155; /* Modifié pour le contraste RGAA */
     position: relative;
 }
 
@@ -122,7 +122,7 @@ body {
 .bas {
     margin-top: 35px;
     font-size: 12px;
-    color: #555;
+    color: #2b2d31; /* Modifié pour le contraste RGAA */
 }
 
 /* ---------------------------- */

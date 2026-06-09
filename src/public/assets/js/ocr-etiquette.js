@@ -113,4 +113,6 @@ async function lancerOCR(imageBase64, callback) {
             loader.style.display = "none";
         }
     }
+
+    console.log("OCR ETIQUETTE CHARGE");
 }

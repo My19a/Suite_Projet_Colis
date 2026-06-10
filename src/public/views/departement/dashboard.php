@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard – Departement</title>
+    <title>Dashboard – Département</title>
     <link rel="stylesheet" href="/assets/css/theme.css">
 </head>
 
@@ -27,7 +27,7 @@
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -57,7 +57,7 @@
         </div>
 
         <div class="stat-card stat-success">
-            <span class="stat-label">Colis retires</span>
+            <span class="stat-label">Colis retirés</span>
             <div class="stat-value"><?php echo $stats['retire']; ?></div>
             <div class="stat-description">Receptions confirmees</div>
         </div>
@@ -66,8 +66,8 @@
     <?php if (isset($budget)): ?>
     <div class="section">
         <div class="section-header">
-            <h2 class="section-title">Budget du departement</h2>
-            <span class="section-subtitle">Situation budgetaire</span>
+            <h2 class="section-title">Budget du département</h2>
+            <span class="section-subtitle">Situation budgétaire</span>
         </div>
 
         <div class="stats-grid" style="margin-bottom: 0;">
@@ -76,7 +76,7 @@
                 <div class="stat-value" style="font-size: 24px;"><?php echo number_format($budget['budget_total'], 2, ',', ' '); ?> EUR</div>
             </div>
             <div class="stat-card">
-                <span class="stat-label">Budget utilise</span>
+                <span class="stat-label">Budget utilisé</span>
                 <div class="stat-value" style="font-size: 24px;"><?php echo number_format($budget['budget_utilise'], 2, ',', ' '); ?> EUR</div>
             </div>
             <div class="stat-card">
@@ -101,7 +101,7 @@
                         <th>N° Suivi</th>
                         <th>BC lie</th>
                         <th>Destinataire</th>
-                        <th>Date reception</th>
+                        <th>Date réception</th>
                         <th>Statut</th>
                     </tr>
                 </thead>

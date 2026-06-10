@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mes colis – Departement</title>
+    <title>Mes colis – Département</title>
     <link rel="stylesheet" href="/assets/css/theme.css">
 </head>
 
@@ -12,7 +12,7 @@
 <aside class="barre-laterale">
     <div class="entete-barre">
         <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Departement</h2>
+        <h2>Département</h2>
         <p>Gestion des colis</p>
     </div>
 
@@ -27,7 +27,7 @@
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -49,7 +49,7 @@
 
     <div class="search-container">
         <span class="search-icon-text">&#128269;</span>
-        <input type="text" class="search-input" placeholder="Rechercher par numero de suivi, BC ou statut..." id="rechercheColis" onkeyup="filtrerColis()">
+        <input type="text" class="search-input" placeholder="placeholder="placeholder=""Rechercher par numéro de suivi, BC ou statut..."" id="rechercheColis" onkeyup="filtrerColis()">
     </div>
 
     <?php
@@ -79,7 +79,7 @@
             <div class="stat-value"><?= $enAttente ?></div>
         </div>
         <div class="stat-card stat-success">
-            <span class="stat-label">Livres</span>
+            <span class="stat-label">Livrés</span>
             <div class="stat-value"><?= $livres ?></div>
         </div>
     </div>
@@ -96,7 +96,7 @@
                     <tr>
                         <th>N° Suivi</th>
                         <th>Bon de commande</th>
-                        <th>Date reception</th>
+                        <th>Date réception</th>
                         <th>Statut</th>
                     </tr>
                 </thead>

@@ -18,12 +18,12 @@
 
     <nav class="menu">
         <a href="/directeur/dashboard">Tableau de bord</a>
-        <a class="actif" href="/directeur/devis">Devis a signer</a>
+        <a class="actif" href="/directeur/devis">Devis à signer</a>
         <a href="/directeur/bons-commande">Bons de commande</a>
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -50,7 +50,7 @@
                 </thead>
                 <tbody>
                     <?php if (empty($devis)): ?>
-                        <tr><td colspan="5" class="empty-state">Aucun devis a signer</td></tr>
+                        <tr><td colspan="5" class="empty-state">Aucun devis à signer</td></tr>
                     <?php else: ?>
                         <?php foreach ($devis as $d): ?>
                         <tr>

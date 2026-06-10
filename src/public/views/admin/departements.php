@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Departements – Admin</title>
+    <title>Départements – Admin</title>
     <link rel="stylesheet" href="/assets/css/theme.css">
 </head>
 
@@ -13,20 +13,20 @@
     <div class="entete-barre">
         <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
         <h2>Administrateur</h2>
-        <p>Gestion du systeme</p>
+        <p>Gestion du système</p>
     </div>
 
     <nav class="menu">
         <a href="/admin/dashboard">Tableau de bord</a>
         <a href="/admin/utilisateurs">Utilisateurs</a>
-        <a class="actif" href="/admin/departements">Departements</a>
+        <a class="actif" href="/admin/departements">Départements</a>
         <a href="/admin/fournisseurs">Fournisseurs</a>
         <a href="/admin/devis">Tous les devis</a>
         <a href="/admin/colis">Tous les colis</a>
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -34,23 +34,23 @@
 
     <div class="page-header">
         <div class="page-header-info">
-            <h1 class="page-title">Gestion des departements</h1>
-            <p class="page-subtitle">Ajouter, modifier et supprimer les departements</p>
+            <h1 class="page-title">Gestion des départements</h1>
+            <p class="page-subtitle">Ajouter, modifier et supprimer les départements</p>
         </div>
     </div>
 
     <div class="section">
         <div class="form-card">
-            <h3 class="form-title">Ajouter un departement</h3>
+            <h3 class="form-title">Ajouter un département</h3>
             <form method="post" action="/admin/ajouter-departement">
                 <div class="form-row">
                     <div class="form-group">
-                        <label class="form-label">Nom du departement</label>
-                        <input type="text" name="nom" class="form-input" placeholder="Ex: Informatique" required>
+                        <label class="form-label">Nom du département</label>
+                        <input type="text" name="nom" class="form-input" placeholder="placeholder="placeholder=""Ex: Informatique"" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Budget total (EUR)</label>
-                        <input type="number" name="budget_total" class="form-input" placeholder="Ex: 50000" step="0.01" required>
+                        <input type="number" name="budget_total" class="form-input" placeholder="placeholder="placeholder=""Ex: 50000"" step="0.01" required>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Ajouter</button>
@@ -65,14 +65,14 @@
                     <tr>
                         <th>Nom</th>
                         <th>Budget total</th>
-                        <th>Budget utilise</th>
+                        <th>Budget utilisé</th>
                         <th>Budget restant</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php if (empty($departements)): ?>
-                        <tr><td colspan="5" class="empty-state">Aucun departement</td></tr>
+                        <tr><td colspan="5" class="empty-state">Aucun département</td></tr>
                     <?php else: ?>
                         <?php foreach ($departements as $d): ?>
                         <tr>

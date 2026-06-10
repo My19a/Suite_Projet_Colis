@@ -13,20 +13,20 @@
     <div class="entete-barre">
         <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
         <h2>Administrateur</h2>
-        <p>Gestion du systeme</p>
+        <p>Gestion du système</p>
     </div>
 
     <nav class="menu">
         <a href="/admin/dashboard">Tableau de bord</a>
         <a href="/admin/utilisateurs">Utilisateurs</a>
-        <a href="/admin/departements">Departements</a>
+        <a href="/admin/departements">Départements</a>
         <a class="actif" href="/admin/fournisseurs">Fournisseurs</a>
         <a href="/admin/devis">Tous les devis</a>
         <a href="/admin/colis">Tous les colis</a>
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -59,7 +59,7 @@
                         <input type="email" name="contact_email" class="form-input">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Telephone</label>
+                        <label class="form-label">Téléphone</label>
                         <input type="text" name="contact_telephone" class="form-input">
                     </div>
                 </div>
@@ -77,7 +77,7 @@
                         <th>Nom</th>
                         <th>Contact</th>
                         <th>Email</th>
-                        <th>Telephone</th>
+                        <th>Téléphone</th>
                         <th>Actions</th>
                     </tr>
                 </thead>

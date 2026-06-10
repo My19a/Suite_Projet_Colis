@@ -18,12 +18,12 @@
 
     <nav class="menu">
         <a href="/directeur/dashboard">Tableau de bord</a>
-        <a href="/directeur/devis">Devis a signer</a>
+        <a href="/directeur/devis">Devis à signer</a>
         <a class="actif" href="/directeur/bons-commande">Bons de commande</a>
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -32,7 +32,7 @@
     <div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Bons de commande</h1>
-            <p class="page-subtitle">Historique des bons de commande valides</p>
+            <p class="page-subtitle">Historique des bons de commande validés</p>
         </div>
     </div>
 

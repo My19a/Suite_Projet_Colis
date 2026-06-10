@@ -18,16 +18,16 @@
 
     <nav class="menu">
         <a href="/postal/dashboard">Tableau de bord</a>
-        <a href="/postal/colis/recus">Colis recus</a>
+        <a href="/postal/colis/recus">Colis reçus</a>
         <a href="/postal/colis/remis">Colis remis</a>
         <a href="/postal/colis/recherche">Recherche colis</a>
         <a class="actif" href="/postal/colis/attente">Colis en attente</a>
-        <a href="/postal/colis/non-identifies">Colis non identifies</a>
+        <a href="/postal/colis/non-identifies">Colis non identifiés</a>
         <a href="/postal/historique">Historique global</a>
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -36,7 +36,7 @@
     <div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Colis en attente</h1>
-            <p class="page-subtitle">Tous les colis recus mais non encore livres</p>
+            <p class="page-subtitle">Tous les colis reçus mais non encore livrés</p>
         </div>
     </div>
 
@@ -46,10 +46,10 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Departement</th>
+                        <th>Département</th>
                         <th>N° commande</th>
                         <th>N° suivi</th>
-                        <th>Date reception</th>
+                        <th>Date réception</th>
                         <th>Details</th>
                     </tr>
                 </thead>

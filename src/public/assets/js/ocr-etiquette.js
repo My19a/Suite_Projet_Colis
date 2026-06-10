@@ -1,12 +1,12 @@
 // assets/js/ocr-etiquette.js
 
 async function lancerOCR(imageBase64, callback) {
+    console.log("lancerOCR appelé !");
+
     const loader = document.getElementById("ocr-loader");
     const message = document.getElementById("ocr-message");
 
     try {
-        // Affichage du loader
-
         if (loader) {
             loader.style.display = "block";
         }
@@ -16,89 +16,61 @@ async function lancerOCR(imageBase64, callback) {
             message.className = "";
         }
 
-        // OCR avec Tesseract
-
         const resultat = await Tesseract.recognize(
             imageBase64,
             "fra"
         );
 
-        // Texte extrait
-
         const texte = resultat.data.text;
-
-        // Score de confiance entre 0 et 1
+        console.log("TEXTE EXTRAIT :", texte);
+        console.log("CONFIANCE :", resultat.data.confidence);
 
         const confiance = resultat.data.confidence / 100;
 
-        // Recherche du numéro BC
+        const matchUPS = texte.match(/TRACKING\s*#:\s*([^\n]+)/);
+        console.log("MATCH UPS :", matchUPS);
+        const matchChronopost = texte.replace(/\s/g, '').match(/[A-Z]{2}\d{9}[A-Z]{2}/);
 
-        const matchBC = texte.match(
-            /BC-\d{4}-\d{3}/
-        );
+        const numeroBC = "";
+        const numeroSuivi = matchUPS ? matchUPS[1].replace(/\s/g, '') : (matchChronopost ? matchChronopost[0] : "");
 
-        // Recherche du numéro de suivi
-
-        const matchSuivi = texte.match(
-            /LP\d{9}FR/
-        );
-
-        // Résultats
-
-        const numeroBC =
-            matchBC ? matchBC[0] : "";
-
-        const numeroSuivi =
-            matchSuivi ? matchSuivi[0] : "";
-
-        // Message utilisateur
-
+        // Extraire le nom 
+        const matchNom = texte.match(/SHIP TO:\s*\n(.+)/);        
+        const nomDestinataire = matchNom ? matchNom[1].trim() : "";
+        console.log("NUMÉRO SUIVI :", numeroSuivi);
+        console.log("NOM DESTINATAIRE :", nomDestinataire);
+        
         if (!numeroBC && !numeroSuivi) {
             if (message) {
-                message.textContent =
-                    "Aucune référence détectée. Veuillez compléter les champs manuellement.";
-
-                message.className =
-                    "text-danger";
+                message.textContent = "Aucune référence détectée. Veuillez compléter les champs manuellement.";
+                message.className = "text-danger";
             }
-        }
-        else {
+        } else {
             if (message) {
                 if (confiance < 0.5) {
-                    message.textContent =
-                        "Références détectées mais confiance OCR faible.";
-
-                    message.className =
-                        "text-warning";
-                }
-                else {
-                    message.textContent =
-                        "Références détectées automatiquement.";
-
-                    message.className =
-                        "text-success";
+                    message.textContent = "Références détectées mais confiance OCR faible.";
+                    message.className = "text-warning";
+                } else {
+                    message.textContent = "Références détectées automatiquement.";
+                    message.className = "text-success";
                 }
             }
         }
-
-        // Envoi du résultat à la page
 
         callback({
             numeroBC: numeroBC,
             numeroSuivi: numeroSuivi,
+            nomDestinataire: nomDestinataire,
             texteBrut: texte,
             confiance: confiance
         });
-    }
-    catch (erreur) {
+
+    } catch (erreur) {
         console.error(erreur);
 
         if (message) {
-            message.textContent =
-                "Erreur lors de l'analyse OCR.";
-
-            message.className =
-                "text-danger";
+            message.textContent = "Erreur lors de l'analyse OCR.";
+            message.className = "text-danger";
         }
 
         callback({
@@ -107,12 +79,10 @@ async function lancerOCR(imageBase64, callback) {
             texteBrut: "",
             confiance: 0
         });
-    }
-    finally {
+
+    } finally {
         if (loader) {
             loader.style.display = "none";
         }
     }
-
-    console.log("OCR ETIQUETTE CHARGE");
 }

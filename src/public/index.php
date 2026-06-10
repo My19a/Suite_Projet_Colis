@@ -42,6 +42,7 @@ require_once __DIR__ . '/controllers/DepartementController.php';
 require_once __DIR__ . '/controllers/FinanceController.php';
 require_once __DIR__ . '/controllers/DirecteurController.php';
 require_once __DIR__ . '/controllers/AdminController.php';
+require_once __DIR__ . '/controllers/TicketController.php';
 
 $publicRoutes = ['/', '/dev-login', '/login', '/logout'];
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -193,6 +194,14 @@ $router->post('/admin/update-departement', 'AdminController', 'updateDepartement
 $router->get('/admin/devis', 'AdminController', 'devis');
 $router->get('/admin/commandes', 'AdminController', 'commandes');
 $router->get('/admin/colis', 'AdminController', 'colis');
+
+// ===== TICKETS / ASSISTANCE =====
+$router->get('/tickets', 'TicketController', 'index');
+$router->get('/tickets/nouveau', 'TicketController', 'nouveau');
+$router->post('/tickets/creer', 'TicketController', 'creer');
+$router->get('/tickets/:id', 'TicketController', 'detail');
+$router->post('/tickets/:id/message', 'TicketController', 'repondre');
+$router->post('/tickets/:id/statut', 'TicketController', 'changerStatut');
 
 
 try {

@@ -61,8 +61,9 @@
         <div class="stat-card">
             <span class="stat-label">Statut</span>
             <div style="margin-top: 8px;">
-                <span class="badge badge-<?= strtolower(str_replace(' ', '_', $colis["statut"])) ?>"><?= $colis["statut"] ?></span>
-            </div>
+
+            <span class="badge badge-<?= strtolower(str_replace(' ', '_', $c["statut"])) ?>"><?= ucfirst(str_replace('_', ' ', $c["statut"])) ?></span>
+          </div>
         </div>
     </div>
 

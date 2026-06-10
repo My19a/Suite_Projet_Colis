@@ -80,8 +80,7 @@
                             <td><?= htmlspecialchars($c["numero_commande"] ?: "—") ?></td>
                             <td><?= htmlspecialchars($c["departement"] ?: "—") ?></td>
                             <td><?= $c["date_reception"] ?></td>
-                            <td><span class="badge badge-<?= strtolower(str_replace(' ', '_', $c["statut"])) ?>"><?= $c["statut"] ?></span></td>
-                        </tr>
+                            <td><span class="badge badge-<?= strtolower(str_replace(' ', '_', $c["statut"])) ?>"><?= ucfirst(str_replace('_', ' ', $c["statut"])) ?></span></td>                        </tr>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </tbody>

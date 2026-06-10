@@ -64,8 +64,7 @@
                             <td><?= htmlspecialchars($c["numero_suivi"]) ?></td>
                             <td><?= htmlspecialchars($c["departement"] ?: "Non identifie") ?></td>
                             <td><?= $c["date_reception"] ?></td>
-                            <td><span class="badge badge-<?= strtolower(str_replace(' ', '_', $c["statut"])) ?>"><?= $c["statut"] ?></span></td>
-                            <td>
+                            <td><span class="badge badge-<?= strtolower(str_replace(' ', '_', $c["statut"])) ?>"><?= ucfirst(str_replace('_', ' ', $c["statut"])) ?></span></td>                            <td>
                                 <a class="btn btn-sm btn-success" href="/postal/colis/retirer?id=<?= $c["id_colis"] ?>">Retire</a>
                             </td>
                         </tr>

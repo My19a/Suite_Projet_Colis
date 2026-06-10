@@ -128,4 +128,41 @@ class TicketModels {
             'resolu'   => (int) ($rows['resolu']   ?? 0),
         ];
     }
+
+    /* ===================== NOTIFICATIONS ===================== */
+
+    /** Enregistre une notification pour un utilisateur. */
+    public function ajouterNotification(int $idUtilisateur, string $message): void {
+        $this->db->prepare("INSERT INTO notification (id_utilisateur, message_notification) VALUES (?, ?)")
+                 ->execute([$idUtilisateur, $message]);
+    }
+
+    /** Ids des administrateurs (le support des tickets). */
+    public function getAdminIds(): array {
+        $rows = $this->db->query("
+            SELECT u.id_utilisateur
+            FROM utilisateur u
+            JOIN role r ON u.role_id = r.id_role
+            WHERE r.libelle = 'admin'
+        ")->fetchAll(PDO::FETCH_COLUMN);
+        return array_map('intval', $rows);
+    }
+
+    /** Notifications non lues d'un utilisateur. */
+    public function getNotificationsNonLues(int $idUtilisateur): array {
+        $req = $this->db->prepare("
+            SELECT id_notification, message_notification, date_envoi
+            FROM notification
+            WHERE id_utilisateur = ? AND lu = 0
+            ORDER BY date_envoi DESC
+        ");
+        $req->execute([$idUtilisateur]);
+        return $req->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /** Marque toutes les notifications d'un utilisateur comme lues. */
+    public function marquerNotificationsLues(int $idUtilisateur): void {
+        $this->db->prepare("UPDATE notification SET lu = 1 WHERE id_utilisateur = ?")
+                 ->execute([$idUtilisateur]);
+    }
 }

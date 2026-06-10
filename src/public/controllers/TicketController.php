@@ -63,6 +63,10 @@ class TicketController {
             $stats   = null;
         }
 
+        // Notifications non lues (nouvelles reponses) : affichees puis marquees lues.
+        $notifications = $this->model->getNotificationsNonLues($this->user()->getId());
+        $this->model->marquerNotificationsLues($this->user()->getId());
+
         require __DIR__ . "/../views/tickets/index.php";
     }
 
@@ -154,11 +158,29 @@ class TicketController {
             throw new \Exception("Acces refuse", 403);
         }
         if ($message !== '') {
-            $this->model->ajouterMessage($id, $this->user()->getId(), $message);
+            $auteurId   = $this->user()->getId();
+            $createurId = (int) $ticket['createur_id'];
+
+            $this->model->ajouterMessage($id, $auteurId, $message);
 
             // Si le support repond a un ticket encore "ouvert", il passe "en_cours".
             if ($this->estSupport() && $ticket['statut'] === 'ouvert') {
                 $this->model->changerStatut($id, 'en_cours');
+            }
+
+            // Notification a l'autre partie (dans les 2 sens).
+            if ($auteurId === $createurId) {
+                // Le demandeur a repondu -> on previent le support (les admins).
+                foreach ($this->model->getAdminIds() as $adminId) {
+                    if ($adminId !== $auteurId) {
+                        $this->model->ajouterNotification($adminId,
+                            "Nouvelle reponse sur le ticket #{$id} : " . $ticket['sujet']);
+                    }
+                }
+            } else {
+                // Le support a repondu -> on previent le demandeur.
+                $this->model->ajouterNotification($createurId,
+                    "Reponse du support sur votre ticket #{$id} : " . $ticket['sujet']);
             }
         }
 

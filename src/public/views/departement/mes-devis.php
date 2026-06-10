@@ -24,6 +24,7 @@
         <a href="/departement/mes-colis">Mes colis</a>
         <a href="/departement/budget">Budget</a>
         <a href="/departement/fournisseurs">Fournisseurs</a>
+        <a href="/tickets">Assistance<?php if (function_exists('ticketNotifsCount') && ($__n=ticketNotifsCount())>0): ?> <span style="display:inline-block;min-width:18px;height:18px;line-height:18px;text-align:center;background:#ef4444;color:#fff;border-radius:999px;padding:0 5px;font-size:11px;font-weight:700;margin-left:6px;"><?= $__n ?></span><?php endif; ?></a>
     </nav>
 
     <div class="deconnexion">

@@ -73,3 +73,15 @@ function config(string $key = null): mixed
     }
     return $value;
 }
+
+function ticketNotifsCount(): int
+{
+    if (!isset($_SESSION['user']) || !($_SESSION['user'] instanceof User)) return 0;
+    try {
+        require_once __DIR__ . '/../../public/models/Model.php';
+        $db = Model::getModel()->bd;
+        $req = $db->prepare("SELECT COUNT(*) FROM notification WHERE id_utilisateur = ? AND lu = 0");
+        $req->execute([$_SESSION['user']->getId()]);
+        return (int) $req->fetchColumn();
+    } catch (\Throwable $e) { return 0; }
+}

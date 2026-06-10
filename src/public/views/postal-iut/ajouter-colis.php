@@ -24,6 +24,7 @@
         <a href="/postal/colis/non-identifies">Colis non identifiés</a>
         <a class="actif" href="/postal/colis/ajouter">Ajouter un colis</a>
         <a href="/postal/historique">Historique global</a>
+        <a href="/tickets">Assistance<?php if (function_exists('ticketNotifsCount') && ($__n=ticketNotifsCount())>0): ?> <span style="display:inline-block;min-width:18px;height:18px;line-height:18px;text-align:center;background:#ef4444;color:#fff;border-radius:999px;padding:0 5px;font-size:11px;font-weight:700;margin-left:6px;"><?= $__n ?></span><?php endif; ?></a>
     </nav>
 
     <div class="deconnexion">

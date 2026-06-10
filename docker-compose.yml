@@ -1,0 +1,72 @@
+# Conteneurisation de l'application de suivi des colis.
+# Demarrage :  docker compose up --build
+#   - app : PHP 8.3 + Apache  -> http://localhost:8000
+#   - db  : MariaDB 11 (import auto du schema + migrations)
+#   - pma : phpMyAdmin         -> http://localhost:8080
+
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sae_app
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:80"
+    environment:
+      APP_ENV: development
+      APP_BASE_URL: http://localhost:8000
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: sae_colis
+      DB_USER: root
+      DB_PASSWORD: root_password
+      ADMIN_UIDS: admin1
+    networks:
+      - sae
+    restart: unless-stopped
+
+  db:
+    image: mariadb:11
+    container_name: sae_db
+    environment:
+      MARIADB_ROOT_PASSWORD: root_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - sae_db_data:/var/lib/mysql
+      - ./DataBase/sae_colis_maria_db.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./DataBase/migrations/2026_06_tickets.sql:/docker-entrypoint-initdb.d/02-tickets.sql:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - sae
+    restart: unless-stopped
+
+  pma:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: sae_phpmyadmin
+    depends_on:
+      - db
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: root_password
+    ports:
+      - "8080:80"
+    networks:
+      - sae
+    restart: unless-stopped
+
+volumes:
+  sae_db_data:
+
+networks:
+  sae:
+    driver: bridge

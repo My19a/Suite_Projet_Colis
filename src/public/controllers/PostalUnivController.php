@@ -116,4 +116,17 @@ class PostalUnivController {
 
         require __DIR__ . '/../views/postal-univ/historique.php';
     }
+
+    public function rechercherDestinataire() {
+    $nom = $_GET["nom"] ?? "";
+    $destinataire = $this->model->rechercherDestinataireParNom($nom);
+    
+    if ($destinataire) {
+        $dept = $this->model->getDepartementNom($destinataire["departement_id"]);
+        echo json_encode(["departement" => $dept]);
+    } else {
+        echo json_encode(["departement" => null]);
+    }
+    exit;
+    }
 }

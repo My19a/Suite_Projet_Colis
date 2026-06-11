@@ -110,6 +110,11 @@
                 </div>
 
                 <div id="ocr-message" style="margin-top:10px;"></div>
+                <div id="ocr-resultat" style="display:none; margin-top:12px; padding:12px; background: var(--blue-bg); border-radius: var(--radius); border: 1px solid var(--blue-border);">
+                    <p style="margin:0 0 6px 0;"><strong>Destinataire détecté :</strong> <span id="ocr-nom"></span></p>
+                    <p style="margin:0;"><strong>Département :</strong> <span id="ocr-departement">Recherche en cours...</span></p>
+                </div>
+
             </div>
 
             <div class="alert alert-warning" style="margin-top: 16px; margin-bottom: 0;">

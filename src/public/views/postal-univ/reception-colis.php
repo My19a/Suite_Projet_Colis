@@ -114,7 +114,12 @@
                 <div id="ocr-loader" style="display:none; margin-top:10px;">
                     Analyse OCR en cours...
                 </div>
-                <div id="ocr-message" style="margin-top:10px;"></div>
+            <div id="ocr-message" style="margin-top:10px;"></div>
+                            <div id="ocr-resultat" style="display:none; margin-top:12px; padding:12px; background: var(--blue-bg); border-radius: var(--radius); border: 1px solid var(--blue-border);">
+                                <p style="margin:0 0 6px 0;"><strong>Destinataire détecté :</strong> <span id="ocr-nom"></span></p>
+                                <p style="margin:0;"><strong>Département :</strong> <span id="ocr-departement">Recherche en cours...</span></p>
+                            </div>
+                        </div>
             </div>
 
             <div class="alert alert-warning" style="margin-top: 16px; margin-bottom: 0;">
@@ -165,6 +170,7 @@
         const imageData = canvas.toDataURL('image/jpeg', 0.7);
         photoInput.value = imageData;
         lancerOCR(imageData, function(resultat) {
+            console.log("RESULTAT CALLBACK :", resultat);
             if (resultat.numeroBC) {
                 document.getElementById('numero_bc').value = resultat.numeroBC;
                 document.getElementById('numero_bc').style.backgroundColor = '#d4edda';
@@ -175,6 +181,17 @@
             }
             document.getElementById('ocr_texte_brut').value = resultat.texteBrut;
             document.getElementById('ocr_nom_destinataire').value = resultat.nomDestinataire;
+            console.log("nomDestinataire dans callback :", resultat.nomDestinataire);
+            if (resultat.nomDestinataire) {
+                document.getElementById('ocr-nom').textContent = resultat.nomDestinataire;
+                document.getElementById('ocr-resultat').style.display = 'block';
+                
+                fetch('/postal-univ/rechercher-destinataire?nom=' + encodeURIComponent(resultat.nomDestinataire))
+                    .then(res => res.json())
+                    .then(data => {
+                        document.getElementById('ocr-departement').textContent = data.departement ?? 'Non trouve en BDD';
+                    });
+            }
             document.getElementById('ocr_confiance').value = resultat.confiance;
         });
         preview.src = imageData;
@@ -212,6 +229,8 @@
                     const imageData = canvas.toDataURL('image/jpeg', 0.7);
                     photoInput.value = imageData;
                     lancerOCR(imageData, function(resultat) {
+                        console.log("RESULTAT CALLBACK :", resultat);
+
                         if (resultat.numeroBC) {
                             document.getElementById('numero_bc').value = resultat.numeroBC;
                             document.getElementById('numero_bc').style.backgroundColor = '#d4edda';
@@ -221,7 +240,19 @@
                             document.getElementById('numero_suivi').style.backgroundColor = '#d4edda';
                         }
                         document.getElementById('ocr_texte_brut').value = resultat.texteBrut;
+                        document.getElementById('ocr_nom_destinataire').value = resultat.nomDestinataire;
                         document.getElementById('ocr_confiance').value = resultat.confiance;
+                        console.log("nomDestinataire dans callback :", resultat.nomDestinataire);
+                        if (resultat.nomDestinataire) {
+                            document.getElementById('ocr-nom').textContent = resultat.nomDestinataire;
+                            document.getElementById('ocr-resultat').style.display = 'block';
+                            
+                            fetch('/postal-univ/rechercher-destinataire?nom=' + encodeURIComponent(resultat.nomDestinataire))
+                                .then(res => res.json())
+                                .then(data => {
+                                    document.getElementById('ocr-departement').textContent = data.departement ?? 'Non trouve en BDD';
+                                });
+                        }
                     });
                     preview.src = imageData;
                     preview.style.display = 'block';

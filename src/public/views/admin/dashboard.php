@@ -38,7 +38,25 @@
             <h1 class="page-title">Tableau de bord</h1>
             <p class="page-subtitle">Vue globale du système</p>
         </div>
+        <form method="post" action="/admin/test-mail" style="display:flex; gap:0.5rem; align-items:center;">
+            <input type="email" name="to" class="form-input" placeholder="destinataire@exemple.com"
+                   value="<?= htmlspecialchars(getenv('MAIL_TEST_TO') ?: '') ?>" required
+                   style="min-width:240px;">
+            <button type="submit" class="btn btn-secondary">Envoyer mail de test</button>
+        </form>
     </div>
+
+    <?php if (isset($_GET['mail'])): ?>
+        <?php if ($_GET['mail'] === 'ok'): ?>
+            <div class="alert alert-success" style="margin-bottom:1rem; padding:0.75rem 1rem; background:#d1fae5; border:1px solid #6ee7b7; border-radius:6px; color:#065f46;">
+                Mail de test envoyé avec succès vers <strong><?= htmlspecialchars($_GET['to'] ?? '') ?></strong>.
+            </div>
+        <?php else: ?>
+            <div class="alert alert-error" style="margin-bottom:1rem; padding:0.75rem 1rem; background:#fee2e2; border:1px solid #fca5a5; border-radius:6px; color:#991b1b;">
+                Erreur lors de l'envoi : <?= htmlspecialchars($_GET['msg'] ?? 'inconnue') ?>
+            </div>
+        <?php endif; ?>
+    <?php endif; ?>
 
     <div class="stats-grid">
         <div class="stat-card">

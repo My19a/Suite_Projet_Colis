@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../models/AdminModels.php';
+require_once __DIR__ . '/../../lib-tools/Mail/MailService.php';
 
 class AdminController {
 
@@ -147,6 +148,40 @@ class AdminController {
         $commandes = $this->model->getToutesLesCommandes($search);
 
         require __DIR__ . '/../views/admin/commandes.php';
+    }
+
+    /* ===== TEST MAIL ===== */
+
+    public function testMail() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            die("Accès invalide");
+        }
+
+        // Adresse saisie au clic, avec repli sur la valeur du .env
+        $to = trim($_POST['to'] ?? '') ?: (getenv('MAIL_TEST_TO') ?: '');
+
+        if (!filter_var($to, FILTER_VALIDATE_EMAIL)) {
+            header('Location: /admin/dashboard?mail=error&msg=' . urlencode('Adresse email invalide.'));
+            exit;
+        }
+
+        $nbUtilisateurs = $this->model->countUtilisateurs();
+
+        $subject = '[Test] Suivi Colis – Notification administrateur';
+        $body = "
+            <h2>Mail de test – Suivi Colis IUT</h2>
+            <p>Ce mail confirme que l'envoi automatique fonctionne.</p>
+            <p><strong>Nombre d'utilisateurs enregistrés :</strong> {$nbUtilisateurs}</p>
+            <p><em>Envoyé depuis le tableau de bord administrateur.</em></p>
+        ";
+
+        try {
+            MailService::send($to, 'Administrateur', $subject, $body);
+            header('Location: /admin/dashboard?mail=ok&to=' . urlencode($to));
+        } catch (\Exception $e) {
+            header('Location: /admin/dashboard?mail=error&msg=' . urlencode($e->getMessage()));
+        }
+        exit;
     }
 
     /* ===== COLIS ===== */

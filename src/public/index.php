@@ -181,6 +181,7 @@ $router->get('/directeur/voir-devis', 'DirecteurController', 'voirDevis');
 // ===== ADMIN =====
 $router->get('/admin', 'AdminController', 'dashboard');
 $router->get('/admin/dashboard', 'AdminController', 'dashboard');
+$router->post('/admin/test-mail', 'AdminController', 'testMail');
 $router->get('/admin/utilisateurs', 'AdminController', 'utilisateurs');
 $router->post('/admin/update-utilisateur', 'AdminController', 'updateUtilisateur');
 $router->get('/admin/fournisseurs', 'AdminController', 'fournisseurs');

@@ -12,6 +12,7 @@ return [
         'directeur/*',
         'postal-univ/*',
         'postal/*',
+        'presence',
     ], $tickets),
 
     'finance' => array_merge([

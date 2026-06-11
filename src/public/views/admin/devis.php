@@ -19,6 +19,7 @@
     <nav class="menu">
         <a href="/admin/dashboard">Tableau de bord</a>
         <a href="/admin/utilisateurs">Utilisateurs</a>
+        <a href="/presence">Qui est connecte</a>
         <a href="/admin/departements">Départements</a>
         <a href="/admin/fournisseurs">Fournisseurs</a>
         <a class="actif" href="/admin/devis">Tous les devis</a>

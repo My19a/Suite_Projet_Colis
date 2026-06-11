@@ -9,6 +9,34 @@ class AdminModels {
         $this->db = Model::getModel()->bd;
     }
 
+    /* ===== SUPPRESSIONS ===== */
+    // Renvoie true si supprime, false si bloque par une cle etrangere
+    // (ex: un departement encore utilise par des bons de commande).
+
+    public function supprimerDepartement($id): bool {
+        try {
+            return $this->db->prepare("DELETE FROM departement WHERE id_departement = ?")->execute([$id]);
+        } catch (\PDOException $e) {
+            return false;
+        }
+    }
+
+    public function supprimerFournisseur($id): bool {
+        try {
+            return $this->db->prepare("DELETE FROM fournisseur WHERE id_fournisseur = ?")->execute([$id]);
+        } catch (\PDOException $e) {
+            return false;
+        }
+    }
+
+    public function supprimerUtilisateur($id): bool {
+        try {
+            return $this->db->prepare("DELETE FROM utilisateur WHERE id_utilisateur = ?")->execute([$id]);
+        } catch (\PDOException $e) {
+            return false;
+        }
+    }
+
 
     public function countUtilisateurs() {
         return $this->db

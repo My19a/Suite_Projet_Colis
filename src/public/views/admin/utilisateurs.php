@@ -32,6 +32,9 @@
 </aside>
 
 <main class="contenu">
+    <?php if (($_GET["err"] ?? "") === "lie"): ?>
+    <div style="background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;padding:10px 14px;border-radius:8px;margin-bottom:16px;">Suppression impossible : des elements sont encore rattaches a cet element.</div>
+    <?php endif; ?>
 
     <div class="page-header">
         <div class="page-header-info">
@@ -85,6 +88,7 @@
                                 <td>
                                     <input type="hidden" name="id_utilisateur" value="<?= $u["id_utilisateur"] ?>">
                                     <button type="submit" class="btn btn-sm btn-primary">Enregistrer</button>
+                                    <a class="btn btn-sm btn-danger" href="/admin/supprimer-utilisateur?id=<?= $u["id_utilisateur"] ?>" onclick="return confirm('Supprimer cet utilisateur ?')">Supprimer</a>
                                 </td>
                             </form>
                         </tr>

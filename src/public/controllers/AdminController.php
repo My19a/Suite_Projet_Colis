@@ -161,5 +161,26 @@ class AdminController {
         require __DIR__ . '/../views/admin/colis.php';
     }
 
-    
+    /* ===== SUPPRESSIONS ===== */
+
+    public function supprimerDepartement() {
+        $id = (int) ($_GET['id'] ?? 0);
+        $ok = $id && $this->model->supprimerDepartement($id);
+        header("Location: /admin/departements?" . ($ok ? "ok=1" : "err=lie"));
+        exit;
+    }
+
+    public function supprimerFournisseur() {
+        $id = (int) ($_GET['id'] ?? 0);
+        $ok = $id && $this->model->supprimerFournisseur($id);
+        header("Location: /admin/fournisseurs?" . ($ok ? "ok=1" : "err=lie"));
+        exit;
+    }
+
+    public function supprimerUtilisateur() {
+        $id = (int) ($_GET['id'] ?? 0);
+        $ok = $id && $this->model->supprimerUtilisateur($id);
+        header("Location: /admin/utilisateurs?" . ($ok ? "ok=1" : "err=lie"));
+        exit;
+    }
 }

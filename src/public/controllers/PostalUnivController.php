@@ -56,8 +56,8 @@ class PostalUnivController {
             // Enregistrement dans historique_colis
             $this->model->ajouterHistorique([
                 "colis_id"   => $colis_id,
-                "action"     => "Reçu à l'université",
-                "utilisateur" => $_SESSION["user"]->fullName ?? "postal_univ"
+                "action" => "Recu a l universite",
+                "utilisateur" => $_SESSION["user"]->getFullName() ?? "postal_univ"
             ]);
 
             $message_session = "Colis enregistre avec succes";

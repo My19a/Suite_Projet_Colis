@@ -115,5 +115,6 @@
 
 </main>
 
+<?php require __DIR__ . "/../partials/tutoriel.php"; ?>
 </body>
 </html>

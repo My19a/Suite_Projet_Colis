@@ -24,6 +24,10 @@
         <a href="<?= e($dashboardUrl) ?>">&larr; Tableau de bord</a>
     </nav>
 
+    <div class="utilisateur-connecte">
+        <div class="utilisateur-nom"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getFullName()) : "" ?></div>
+        <div class="utilisateur-role"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getRole()) : "" ?></div>
+    </div>
     <div class="deconnexion">
         <a href="/logout">Deconnexion</a>
     </div>

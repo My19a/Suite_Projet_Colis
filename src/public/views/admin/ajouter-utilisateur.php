@@ -25,6 +25,10 @@
         <a href="/admin/colis">Tous les colis</a>
     </nav>
 
+    <div class="utilisateur-connecte">
+        <div class="utilisateur-nom"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getFullName()) : "" ?></div>
+        <div class="utilisateur-role"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getRole()) : "" ?></div>
+    </div>
     <div class="deconnexion">
         <a href="/logout">Déconnexion</a>
     </div>

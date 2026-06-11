@@ -177,9 +177,37 @@ body::before {
 }
 
 /* Déconnexion */
+.utilisateur-connecte {
+    margin: 12px 12px 4px;
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.utilisateur-nom {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.utilisateur-role {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: capitalize;
+    letter-spacing: 0.2px;
+}
+
 .deconnexion {
-    padding: 16px 12px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 4px 12px 12px;
 }
 
 .deconnexion a {

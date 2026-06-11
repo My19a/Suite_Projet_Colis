@@ -17,5 +17,10 @@ until php -r 'exit(@fsockopen(getenv("DB_HOST") ?: "db", (int)(getenv("DB_PORT")
     sleep 2
 done
 
-echo "[entrypoint] Demarrage d'Apache."
+echo ""
+echo "=================================================="
+echo "  Application prete  ->  http://localhost:8000"
+echo "  phpMyAdmin         ->  http://localhost:8080"
+echo "=================================================="
+echo ""
 exec apache2-foreground

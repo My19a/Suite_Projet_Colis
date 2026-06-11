@@ -33,19 +33,58 @@ class AdminController {
         require __DIR__ . '/../views/admin/utilisateurs.php';
     }
 
-    public function updateUtilisateur() {
+    public function ajouterUtilisateur() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->model->ajouterUtilisateur($_POST);
+            header('Location: /admin/utilisateurs?ok=1');
+            exit;
+        }
 
+        $roles        = $this->model->getRoles();
+        $departements = $this->model->getDepartements();
+
+        require __DIR__ . '/../views/admin/ajouter-utilisateur.php';
+    }
+
+    public function modifierUtilisateur() {
+        if (!isset($_GET['id'])) {
+            die("ID utilisateur manquant");
+        }
+
+        $utilisateur = $this->model->getUtilisateurById($_GET['id']);
+
+        if (!$utilisateur) {
+            die("Utilisateur introuvable");
+        }
+
+        $roles        = $this->model->getRoles();
+        $departements = $this->model->getDepartements();
+
+        require __DIR__ . '/../views/admin/modifier-utilisateur.php';
+    }
+
+    public function updateUtilisateur() {
         if ($_SERVER["REQUEST_METHOD"] !== "POST") {
             die("Accès invalide");
         }
 
-        $this->model->updateUtilisateur(
-            $_POST["id_utilisateur"],
-            $_POST["role_id"],
-            $_POST["departement_id"] ?: null
-        );
+        $this->model->updateUtilisateur($_POST["id_utilisateur"], $_POST);
 
         header("Location: /admin/utilisateurs?ok=1");
+        exit;
+    }
+
+    public function supprimerUtilisateur() {
+        if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+            die("Accès invalide");
+        }
+
+        try {
+            $this->model->supprimerUtilisateur($_POST["id_utilisateur"]);
+            header("Location: /admin/utilisateurs?deleted=1");
+        } catch (\PDOException $e) {
+            header("Location: /admin/utilisateurs?error=fk");
+        }
         exit;
     }
 
@@ -62,6 +101,8 @@ class AdminController {
             header('Location: /admin/fournisseurs');
             exit;
         }
+
+        require __DIR__ . '/../views/admin/ajouter-fournisseur.php';
     }
 
     // Modifier
@@ -91,6 +132,19 @@ class AdminController {
         require __DIR__ . '/../views/admin/modifier-fournisseur.php';
     }
 
+    public function supprimerFournisseur() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            die("Accès invalide");
+        }
+        try {
+            $this->model->supprimerFournisseur($_POST['id_fournisseur']);
+            header('Location: /admin/fournisseurs?deleted=1');
+        } catch (\PDOException $e) {
+            header('Location: /admin/fournisseurs?error=fk');
+        }
+        exit;
+    }
+
     /* ===== DEPARTEMENTS ===== */
 
     public function departements() {
@@ -107,6 +161,8 @@ class AdminController {
             header("Location: /admin/departements");
             exit;
         }
+
+        require __DIR__ . '/../views/admin/ajouter-departement.php';
     }
 
     public function modifierDepartement() {
@@ -128,6 +184,19 @@ class AdminController {
             header("Location: /admin/departements");
             exit;
         }
+    }
+
+    public function supprimerDepartement() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            die("Accès invalide");
+        }
+        try {
+            $this->model->supprimerDepartement($_POST['id_departement']);
+            header('Location: /admin/departements?deleted=1');
+        } catch (\PDOException $e) {
+            header('Location: /admin/departements?error=fk');
+        }
+        exit;
     }
 
     public function devis() {
@@ -196,26 +265,5 @@ class AdminController {
         require __DIR__ . '/../views/admin/colis.php';
     }
 
-    /* ===== SUPPRESSIONS ===== */
-
-    public function supprimerDepartement() {
-        $id = (int) ($_GET['id'] ?? 0);
-        $ok = $id && $this->model->supprimerDepartement($id);
-        header("Location: /admin/departements?" . ($ok ? "ok=1" : "err=lie"));
-        exit;
-    }
-
-    public function supprimerFournisseur() {
-        $id = (int) ($_GET['id'] ?? 0);
-        $ok = $id && $this->model->supprimerFournisseur($id);
-        header("Location: /admin/fournisseurs?" . ($ok ? "ok=1" : "err=lie"));
-        exit;
-    }
-
-    public function supprimerUtilisateur() {
-        $id = (int) ($_GET['id'] ?? 0);
-        $ok = $id && $this->model->supprimerUtilisateur($id);
-        header("Location: /admin/utilisateurs?" . ($ok ? "ok=1" : "err=lie"));
-        exit;
-    }
+    
 }

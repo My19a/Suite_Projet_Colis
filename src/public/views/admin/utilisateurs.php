@@ -33,16 +33,32 @@
 </aside>
 
 <main class="contenu">
-    <?php if (($_GET["err"] ?? "") === "lie"): ?>
-    <div style="background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;padding:10px 14px;border-radius:8px;margin-bottom:16px;">Suppression impossible : des elements sont encore rattaches a cet element.</div>
-    <?php endif; ?>
 
     <div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Gestion des utilisateurs</h1>
-            <p class="page-subtitle">Modifier les roles et départements des utilisateurs</p>
+            <p class="page-subtitle">Consulter, modifier et supprimer les utilisateurs</p>
         </div>
+        <a href="/admin/ajouter-utilisateur" class="btn btn-primary">Ajouter un utilisateur</a>
     </div>
+
+    <?php if (isset($_GET['ok'])): ?>
+        <div class="alert alert-success" style="margin-bottom:1rem; padding:0.75rem 1rem; background:#d1fae5; border:1px solid #6ee7b7; border-radius:6px; color:#065f46;">
+            Utilisateur enregistré avec succès.
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['deleted'])): ?>
+        <div class="alert alert-success" style="margin-bottom:1rem; padding:0.75rem 1rem; background:#d1fae5; border:1px solid #6ee7b7; border-radius:6px; color:#065f46;">
+            Utilisateur supprimé avec succès.
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['error']) && $_GET['error'] === 'fk'): ?>
+        <div class="alert alert-error" style="margin-bottom:1rem; padding:0.75rem 1rem; background:#fee2e2; border:1px solid #fca5a5; border-radius:6px; color:#991b1b;">
+            Suppression impossible : cet utilisateur est encore lié à des données (devis, bons de commande, colis…). Réaffectez ou supprimez d'abord ces éléments.
+        </div>
+    <?php endif; ?>
 
     <div class="section">
         <div class="table-container">
@@ -63,35 +79,14 @@
                     <?php else: ?>
                         <?php foreach ($utilisateurs as $u): ?>
                         <tr>
-                            <form method="post" action="/admin/update-utilisateur">
-                                <td><strong><?= htmlspecialchars($u["fullName"]) ?></strong></td>
-                                <td><?= htmlspecialchars($u["email"]) ?></td>
-                                <td><?= htmlspecialchars($u["uid_cas"]) ?></td>
-                                <td>
-                                    <select name="role_id" class="form-select" style="min-width: 150px;">
-                                        <?php foreach ($roles as $r): ?>
-                                            <option value="<?= $r["id_role"] ?>" <?= $r["id_role"] == $u["role_id"] ? "selected" : "" ?>>
-                                                <?= htmlspecialchars($r["libelle"]) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select name="departement_id" class="form-select" style="min-width: 150px;">
-                                        <option value="">—</option>
-                                        <?php foreach ($departements as $d): ?>
-                                            <option value="<?= $d["id_departement"] ?>" <?= $d["id_departement"] == $u["departement_id"] ? "selected" : "" ?>>
-                                                <?= htmlspecialchars($d["nom"]) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </td>
-                                <td>
-                                    <input type="hidden" name="id_utilisateur" value="<?= $u["id_utilisateur"] ?>">
-                                    <button type="submit" class="btn btn-sm btn-primary">Enregistrer</button>
-                                    <a class="btn btn-sm btn-danger" href="/admin/supprimer-utilisateur?id=<?= $u["id_utilisateur"] ?>" onclick="return confirm('Supprimer cet utilisateur ?')">Supprimer</a>
-                                </td>
-                            </form>
+                            <td><strong><?= htmlspecialchars($u["fullName"]) ?></strong></td>
+                            <td><?= htmlspecialchars($u["email"]) ?></td>
+                            <td><?= htmlspecialchars($u["uid_cas"]) ?></td>
+                            <td><?= htmlspecialchars($u["role"]) ?></td>
+                            <td><?= htmlspecialchars($u["departement"] ?? "—") ?></td>
+                            <td>
+                                <a href="/admin/modifier-utilisateur?id=<?= $u["id_utilisateur"] ?>" class="btn btn-sm btn-primary">Modifier</a>
+                            </td>
                         </tr>
                         <?php endforeach; ?>
                     <?php endif; ?>

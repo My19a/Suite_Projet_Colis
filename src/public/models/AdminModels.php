@@ -9,34 +9,6 @@ class AdminModels {
         $this->db = Model::getModel()->bd;
     }
 
-    /* ===== SUPPRESSIONS ===== */
-    // Renvoie true si supprime, false si bloque par une cle etrangere
-    // (ex: un departement encore utilise par des bons de commande).
-
-    public function supprimerDepartement($id): bool {
-        try {
-            return $this->db->prepare("DELETE FROM departement WHERE id_departement = ?")->execute([$id]);
-        } catch (\PDOException $e) {
-            return false;
-        }
-    }
-
-    public function supprimerFournisseur($id): bool {
-        try {
-            return $this->db->prepare("DELETE FROM fournisseur WHERE id_fournisseur = ?")->execute([$id]);
-        } catch (\PDOException $e) {
-            return false;
-        }
-    }
-
-    public function supprimerUtilisateur($id): bool {
-        try {
-            return $this->db->prepare("DELETE FROM utilisateur WHERE id_utilisateur = ?")->execute([$id]);
-        } catch (\PDOException $e) {
-            return false;
-        }
-    }
-
 
     public function countUtilisateurs() {
         return $this->db
@@ -109,14 +81,53 @@ class AdminModels {
         ")->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function updateUtilisateur($id, $role_id, $departement_id) {
+    public function ajouterUtilisateur($data) {
         $sql = "
-            UPDATE utilisateur
-            SET role_id = ?, departement_id = ?
+            INSERT INTO utilisateur (fullName, email, uid_cas, role_id, departement_id, access_token_api_cas)
+            VALUES (?, ?, ?, ?, ?, ?)
+        ";
+        $req = $this->db->prepare($sql);
+        $req->execute([
+            $data['fullName'],
+            $data['email'],
+            $data['uid_cas'],
+            $data['role_id'],
+            $data['departement_id'] ?: null,
+            ''
+        ]);
+    }
+
+    public function getUtilisateurById($id) {
+        $sql = "
+            SELECT id_utilisateur, uid_cas, fullName, email, role_id, departement_id
+            FROM utilisateur
             WHERE id_utilisateur = ?
         ";
         $req = $this->db->prepare($sql);
-        $req->execute([$role_id, $departement_id, $id]);
+        $req->execute([$id]);
+        return $req->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function updateUtilisateur($id, $data) {
+        $sql = "
+            UPDATE utilisateur
+            SET fullName = ?, email = ?, uid_cas = ?, role_id = ?, departement_id = ?
+            WHERE id_utilisateur = ?
+        ";
+        $req = $this->db->prepare($sql);
+        $req->execute([
+            $data['fullName'],
+            $data['email'],
+            $data['uid_cas'],
+            $data['role_id'],
+            $data['departement_id'] ?: null,
+            $id
+        ]);
+    }
+
+    public function supprimerUtilisateur($id) {
+        $req = $this->db->prepare("DELETE FROM utilisateur WHERE id_utilisateur = ?");
+        $req->execute([$id]);
     }
 
     // Récupérer tous les fournisseurs
@@ -170,6 +181,11 @@ class AdminModels {
         return $req->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function supprimerFournisseur($id) {
+        $req = $this->db->prepare("DELETE FROM fournisseur WHERE id_fournisseur = ?");
+        $req->execute([$id]);
+    }
+
     /* ===== DEPARTEMENTS ===== */
 
     public function getDepartementsAdmin() {
@@ -205,6 +221,11 @@ class AdminModels {
             WHERE id_departement = ?
         ");
         $req->execute([$nom, $budget, $id]);
+    }
+
+    public function supprimerDepartement($id) {
+        $req = $this->db->prepare("DELETE FROM departement WHERE id_departement = ?");
+        $req->execute([$id]);
     }
 
     public function countDevisParStatut() {

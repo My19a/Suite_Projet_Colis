@@ -19,7 +19,6 @@
     <nav class="menu">
         <a href="/admin/dashboard">Tableau de bord</a>
         <a href="/admin/utilisateurs">Utilisateurs</a>
-        <a href="/presence">Utilisateurs connectés</a>
         <a class="actif" href="/admin/departements">Départements</a>
         <a href="/admin/fournisseurs">Fournisseurs</a>
         <a href="/admin/devis">Tous les devis</a>
@@ -60,6 +59,13 @@
                     <button type="submit" class="btn btn-primary">Enregistrer</button>
                     <a class="btn btn-secondary" href="/admin/departements">Annuler</a>
                 </div>
+            </form>
+
+            <form method="post" action="/admin/supprimer-departement"
+                  onsubmit="return confirm('Supprimer définitivement ce département ?');"
+                  style="margin-top:1.5rem; padding-top:1.5rem; border-top:1px solid #e5e7eb;">
+                <input type="hidden" name="id_departement" value="<?= $departement['id_departement'] ?>">
+                <button type="submit" class="btn btn-danger">Supprimer ce département</button>
             </form>
         </div>
     </div>

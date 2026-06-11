@@ -19,7 +19,6 @@
     <nav class="menu">
         <a href="/admin/dashboard">Tableau de bord</a>
         <a href="/admin/utilisateurs">Utilisateurs</a>
-        <a href="/presence">Utilisateurs connectés</a>
         <a href="/admin/departements">Départements</a>
         <a class="actif" href="/admin/fournisseurs">Fournisseurs</a>
         <a href="/admin/devis">Tous les devis</a>
@@ -70,6 +69,13 @@
                     <button type="submit" class="btn btn-primary">Enregistrer</button>
                     <a class="btn btn-secondary" href="/admin/fournisseurs">Annuler</a>
                 </div>
+            </form>
+
+            <form method="post" action="/admin/supprimer-fournisseur"
+                  onsubmit="return confirm('Supprimer définitivement ce fournisseur ?');"
+                  style="margin-top:1.5rem; padding-top:1.5rem; border-top:1px solid #e5e7eb;">
+                <input type="hidden" name="id_fournisseur" value="<?= $fournisseur['id_fournisseur'] ?>">
+                <button type="submit" class="btn btn-danger">Supprimer ce fournisseur</button>
             </form>
         </div>
     </div>

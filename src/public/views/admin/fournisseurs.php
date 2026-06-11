@@ -33,45 +33,26 @@
 </aside>
 
 <main class="contenu">
-    <?php if (($_GET["err"] ?? "") === "lie"): ?>
-    <div style="background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;padding:10px 14px;border-radius:8px;margin-bottom:16px;">Suppression impossible : des elements sont encore rattaches a cet element.</div>
-    <?php endif; ?>
 
     <div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Gestion des fournisseurs</h1>
-            <p class="page-subtitle">Ajout, modification et suppression des fournisseurs</p>
+            <p class="page-subtitle">Consulter, modifier et supprimer les fournisseurs</p>
         </div>
+        <a href="/admin/ajouter-fournisseur" class="btn btn-primary">Ajouter un fournisseur</a>
     </div>
 
-    <div class="section">
-        <div class="form-card">
-            <h3 class="form-title">Ajouter un fournisseur</h3>
-            <form method="post" action="/admin/ajouter-fournisseur">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Nom</label>
-                        <input type="text" name="nom" class="form-input" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Nom du contact</label>
-                        <input type="text" name="contact_nom" class="form-input">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Email</label>
-                        <input type="email" name="contact_email" class="form-input">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Téléphone</label>
-                        <input type="text" name="contact_telephone" class="form-input">
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary">Ajouter</button>
-            </form>
+    <?php if (isset($_GET['deleted'])): ?>
+        <div class="alert alert-success" style="margin-bottom:1rem; padding:0.75rem 1rem; background:#d1fae5; border:1px solid #6ee7b7; border-radius:6px; color:#065f46;">
+            Fournisseur supprimé avec succès.
         </div>
-    </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['error']) && $_GET['error'] === 'fk'): ?>
+        <div class="alert alert-error" style="margin-bottom:1rem; padding:0.75rem 1rem; background:#fee2e2; border:1px solid #fca5a5; border-radius:6px; color:#991b1b;">
+            Suppression impossible : ce fournisseur est encore lié à des données (devis, bons de commande…). Supprimez d'abord ces éléments.
+        </div>
+    <?php endif; ?>
 
     <div class="section">
         <h3 class="section-title">Liste des fournisseurs</h3>
@@ -98,7 +79,6 @@
                             <td><?= htmlspecialchars($f['contact_telephone'] ?: "—") ?></td>
                             <td>
                                 <a class="btn btn-sm btn-secondary" href="/admin/modifier-fournisseur?id=<?= $f['id_fournisseur'] ?>">Modifier</a>
-                                <a class="btn btn-sm btn-danger" href="/admin/supprimer-fournisseur?id=<?= $f['id_fournisseur'] ?>" onclick="return confirm('Supprimer ce fournisseur ?')">Supprimer</a>
                             </td>
                         </tr>
                         <?php endforeach; ?>

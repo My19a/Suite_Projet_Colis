@@ -52,8 +52,9 @@
                 <div class="form-section">
                     <div class="form-group">
                         <label for="objet" class="form-label required">Objet de la demande</label>
-                        <input type="text" id="objet" name="objet" class="form-input" placeholder="placeholder="placeholder=""Ex: Achat de matériel informatique pour le laboratoire"" required>
-                        <small class="form-help">Decrivez brièvement l'objet de votre demande d'achat</small>
+                        <input type="text" id="objet" name="objet" class="form-input" placeholder="Ex: Achat de matériel informatique pour le laboratoire" value="<?= htmlspecialchars($ancien['objet'] ?? '') ?>" required>
+                        <small class="form-help">Décrivez brièvement l'objet de votre demande d'achat</small>
+                        <?php if (isset($erreurs['objet'])): ?><div style="color:#dc2626;font-size:13px;margin-top:4px;"><?= htmlspecialchars($erreurs['objet']) ?></div><?php endif; ?>
                     </div>
 
                     <div class="form-group">
@@ -61,7 +62,7 @@
                         <select id="fournisseur_id" name="fournisseur_id" class="form-select" required>
                             <option value="">Sélectionnez un fournisseur</option>
                             <?php foreach ($fournisseurs as $fournisseur): ?>
-                                <option value="<?= $fournisseur['id_fournisseur']; ?>">
+                                <option value="<?= $fournisseur['id_fournisseur']; ?>" <?= (($ancien['fournisseur_id'] ?? '') == $fournisseur['id_fournisseur']) ? 'selected' : '' ?>>
                                     <?= htmlspecialchars($fournisseur['nom']); ?>
                                     <?php if (!empty($fournisseur['contact_email'])): ?>
                                         - <?= htmlspecialchars($fournisseur['contact_email']); ?>
@@ -69,12 +70,14 @@
                                 </option>
                             <?php endforeach; ?>
                         </select>
+                        <?php if (isset($erreurs['fournisseur'])): ?><div style="color:#dc2626;font-size:13px;margin-top:4px;"><?= htmlspecialchars($erreurs['fournisseur']) ?></div><?php endif; ?>
                     </div>
 
                     <div class="form-group">
                         <label for="montant_estime" class="form-label required">Montant estime (EUR)</label>
-                        <input type="number" id="montant_estime" name="montant_estime" class="form-input" placeholder="placeholder="placeholder=""0.00"" step="0.01" min="0" required>
-                        <small class="form-help">Montant estime de la commande en euros</small>
+                        <input type="number" id="montant_estime" name="montant_estime" class="form-input" placeholder="0.00" step="0.01" min="0" value="<?= htmlspecialchars($ancien['montant'] ?? '') ?>" required>
+                        <small class="form-help">Montant estimé de la commande en euros</small>
+                        <?php if (isset($erreurs['montant'])): ?><div style="color:#dc2626;font-size:13px;margin-top:4px;"><?= htmlspecialchars($erreurs['montant']) ?></div><?php endif; ?>
                     </div>
                 </div>
 

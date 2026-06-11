@@ -206,6 +206,9 @@ $router->post('/admin/update-departement', 'AdminController', 'updateDepartement
 $router->get('/admin/devis', 'AdminController', 'devis');
 $router->get('/admin/commandes', 'AdminController', 'commandes');
 $router->get('/admin/colis', 'AdminController', 'colis');
+$router->get('/admin/supprimer-departement', 'AdminController', 'supprimerDepartement');
+$router->get('/admin/supprimer-fournisseur', 'AdminController', 'supprimerFournisseur');
+$router->get('/admin/supprimer-utilisateur', 'AdminController', 'supprimerUtilisateur');
 
 // ===== TICKETS / ASSISTANCE =====
 $router->get('/tickets', 'TicketController', 'index');

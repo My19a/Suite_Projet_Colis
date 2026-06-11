@@ -17,10 +17,19 @@ until php -r 'exit(@fsockopen(getenv("DB_HOST") ?: "db", (int)(getenv("DB_PORT")
     sleep 2
 done
 
+echo "[entrypoint] Demarrage d'Apache."
+
+# On lance Apache en arriere-plan, on attend qu'il affiche ses logs de
+# demarrage, PUIS on affiche le message (pour qu'il soit tout en bas).
+apache2-foreground &
+APACHE_PID=$!
+
+sleep 2
 echo ""
 echo "=================================================="
 echo "  Application prete  ->  http://localhost:8000"
 echo "  phpMyAdmin         ->  http://localhost:8080"
 echo "=================================================="
 echo ""
-exec apache2-foreground
+
+wait "$APACHE_PID"

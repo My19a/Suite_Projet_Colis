@@ -1,41 +1,11 @@
-<?php /** @var array $categories ; @var array $priorites ; @var array $erreurs ; @var array $ancien ; @var string $dashboardUrl */ ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signaler un probleme</title>
-    <link rel="stylesheet" href="/assets/css/theme.css">
-    <link rel="stylesheet" href="/assets/css/style-tickets.css">
-</head>
+<?php
+$titre = 'Signaler un probleme';
+$actif = '/tickets';
+$feuillesDeStyle = ['/assets/css/style-tickets.css'];
+require __DIR__ . '/../partials/header.php';
+?>
 
-<body class="tableau-bord">
-
-<aside class="barre-laterale">
-    <div class="entete-barre">
-        <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Assistance</h2>
-        <p><?= e($_SESSION['user']->getFullName()) ?></p>
-    </div>
-
-    <nav class="menu">
-        <a href="/tickets">Mes tickets</a>
-        <a class="actif" href="/tickets/nouveau">Signaler un probleme</a>
-        <a href="<?= e($dashboardUrl) ?>">&larr; Tableau de bord</a>
-    </nav>
-
-    <div class="utilisateur-connecte">
-        <div class="utilisateur-nom"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getFullName()) : "" ?></div>
-        <div class="utilisateur-role"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getRole()) : "" ?></div>
-    </div>
-    <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
-    </div>
-</aside>
-
-<main class="contenu">
-
-    <div class="form-container">
+<div class="form-container">
         <div class="form-header">
             <h1 class="form-title">Signaler un probleme</h1>
             <p class="form-subtitle">Decrivez votre probleme, l'equipe support vous repondra ici meme.</p>
@@ -96,7 +66,4 @@
         </form>
     </div>
 
-</main>
-
-</body>
-</html>
+<?php require __DIR__ . '/../partials/footer.php'; ?>

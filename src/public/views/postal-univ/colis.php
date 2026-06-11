@@ -1,42 +1,10 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste des colis – Postal Université</title>
-    <link rel="stylesheet" href="/assets/css/theme.css">
-</head>
+<?php
+$titre = 'Liste des colis – Postal Université';
+$actif = '/postal-univ/colis';
+require __DIR__ . '/../partials/header.php';
+?>
 
-<body class="tableau-bord">
-
-<aside class="barre-laterale">
-    <div class="entete-barre">
-        <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Postal Université</h2>
-        <p>Gestion des colis</p>
-    </div>
-
-    <nav class="menu">
-        <a href="/postal-univ/dashboard">Tableau de bord</a>
-        <a href="/postal-univ/reception">Réception colis</a>
-        <a class="actif" href="/postal-univ/colis">Liste colis</a>
-        <a href="/postal-univ/non-identifies">Non identifiés</a>
-        <a href="/postal-univ/historique">Historique</a>
-        <a href="/tickets">Assistance<?php if (function_exists('ticketNotifsCount') && ($__n=ticketNotifsCount())>0): ?> <span style="display:inline-block;min-width:18px;height:18px;line-height:18px;text-align:center;background:#ef4444;color:#fff;border-radius:999px;padding:0 5px;font-size:11px;font-weight:700;margin-left:6px;"><?= $__n ?></span><?php endif; ?></a>
-    </nav>
-
-    <div class="utilisateur-connecte">
-        <div class="utilisateur-nom"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getFullName()) : "" ?></div>
-        <div class="utilisateur-role"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getRole()) : "" ?></div>
-    </div>
-    <div class="deconnexion">
-        <a href="/logout">Déconnexion</a>
-    </div>
-</aside>
-
-<main class="contenu">
-
-    <div class="page-header">
+<div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Liste des colis reçus</h1>
             <p class="page-subtitle">Tous les colis réceptionnés par l'université</p>
@@ -84,7 +52,4 @@
         </div>
     </div>
 
-</main>
-
-</body>
-</html>
+<?php require __DIR__ . '/../partials/footer.php'; ?>

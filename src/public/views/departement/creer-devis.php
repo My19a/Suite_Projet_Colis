@@ -1,44 +1,10 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creer un devis – Département</title>
-    <link rel="stylesheet" href="/assets/css/theme.css">
-</head>
+<?php
+$titre = 'Creer un devis – Département';
+$actif = '/departement/creer-devis';
+require __DIR__ . '/../partials/header.php';
+?>
 
-<body class="tableau-bord">
-
-<aside class="barre-laterale">
-    <div class="entete-barre">
-        <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Département</h2>
-        <p>Gestion des colis</p>
-    </div>
-
-    <nav class="menu">
-        <a href="/departement/dashboard">Tableau de bord</a>
-        <a class="actif" href="/departement/creer-devis">Creer un devis</a>
-        <a href="/departement/mes-devis">Mes devis</a>
-        <a href="/departement/bons-commande">Mes bons de commande</a>
-        <a href="/departement/mes-colis">Mes colis</a>
-        <a href="/departement/budget">Budget</a>
-        <a href="/departement/fournisseurs">Fournisseurs</a>
-        <a href="/tickets">Assistance<?php if (function_exists('ticketNotifsCount') && ($__n=ticketNotifsCount())>0): ?> <span style="display:inline-block;min-width:18px;height:18px;line-height:18px;text-align:center;background:#ef4444;color:#fff;border-radius:999px;padding:0 5px;font-size:11px;font-weight:700;margin-left:6px;"><?= $__n ?></span><?php endif; ?></a>
-    </nav>
-
-    <div class="utilisateur-connecte">
-        <div class="utilisateur-nom"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getFullName()) : "" ?></div>
-        <div class="utilisateur-role"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getRole()) : "" ?></div>
-    </div>
-    <div class="deconnexion">
-        <a href="/logout">Déconnexion</a>
-    </div>
-</aside>
-
-<main class="contenu">
-
-    <div class="create-devis-page">
+<div class="create-devis-page">
         <div class="page-header-simple">
             <a href="/departement/dashboard" class="back-button-simple">
                 <span class="back-arrow">&larr;</span>
@@ -119,7 +85,4 @@
         </div>
     </div>
 
-</main>
-
-</body>
-</html>
+<?php require __DIR__ . '/../partials/footer.php'; ?>

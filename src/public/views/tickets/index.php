@@ -1,41 +1,11 @@
-<?php /** @var array $tickets ; @var bool $estSupport ; @var ?array $stats ; @var string $dashboardUrl ; @var ?string $filtre */ ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $estSupport ? 'Tickets - Assistance' : 'Mes tickets' ?></title>
-    <link rel="stylesheet" href="/assets/css/theme.css">
-    <link rel="stylesheet" href="/assets/css/style-tickets.css">
-</head>
+<?php
+$titre = $estSupport ? 'Tickets - Assistance' : 'Mes tickets';
+$actif = '/tickets';
+$feuillesDeStyle = ['/assets/css/style-tickets.css'];
+require __DIR__ . '/../partials/header.php';
+?>
 
-<body class="tableau-bord">
-
-<aside class="barre-laterale">
-    <div class="entete-barre">
-        <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Assistance</h2>
-        <p><?= e($_SESSION['user']->getFullName()) ?></p>
-    </div>
-
-    <nav class="menu">
-        <a class="actif" href="/tickets"><?= $estSupport ? 'Tous les tickets' : 'Mes tickets' ?></a>
-        <a href="/tickets/nouveau">Signaler un probleme</a>
-        <a href="<?= e($dashboardUrl) ?>">&larr; Tableau de bord</a>
-    </nav>
-
-    <div class="utilisateur-connecte">
-        <div class="utilisateur-nom"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getFullName()) : "" ?></div>
-        <div class="utilisateur-role"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getRole()) : "" ?></div>
-    </div>
-    <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
-    </div>
-</aside>
-
-<main class="contenu">
-
-    <div class="page-header">
+<div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title"><?= $estSupport ? 'Tickets d\'assistance' : 'Mes tickets' ?></h1>
             <p class="page-subtitle">
@@ -138,7 +108,4 @@
         </div>
     </div>
 
-</main>
-
-</body>
-</html>
+<?php require __DIR__ . '/../partials/footer.php'; ?>

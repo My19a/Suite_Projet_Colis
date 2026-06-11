@@ -1,41 +1,11 @@
-<?php /** @var array $ticket ; @var array $messages ; @var bool $estSupport ; @var array $statuts ; @var string $dashboardUrl */ ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ticket #<?= (int) $ticket['id_ticket'] ?> - <?= e($ticket['sujet']) ?></title>
-    <link rel="stylesheet" href="/assets/css/theme.css">
-    <link rel="stylesheet" href="/assets/css/style-tickets.css">
-</head>
+<?php
+$titre = 'Ticket #' . (int) $ticket['id_ticket'] . ' - ' . $ticket['sujet'];
+$actif = '/tickets';
+$feuillesDeStyle = ['/assets/css/style-tickets.css'];
+require __DIR__ . '/../partials/header.php';
+?>
 
-<body class="tableau-bord">
-
-<aside class="barre-laterale">
-    <div class="entete-barre">
-        <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Assistance</h2>
-        <p><?= e($_SESSION['user']->getFullName()) ?></p>
-    </div>
-
-    <nav class="menu">
-        <a href="/tickets"><?= $estSupport ? 'Tous les tickets' : 'Mes tickets' ?></a>
-        <a href="/tickets/nouveau">Signaler un probleme</a>
-        <a href="<?= e($dashboardUrl) ?>">&larr; Tableau de bord</a>
-    </nav>
-
-    <div class="utilisateur-connecte">
-        <div class="utilisateur-nom"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getFullName()) : "" ?></div>
-        <div class="utilisateur-role"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getRole()) : "" ?></div>
-    </div>
-    <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
-    </div>
-</aside>
-
-<main class="contenu">
-
-    <div class="page-header">
+<div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Ticket #<?= (int) $ticket['id_ticket'] ?></h1>
             <p class="page-subtitle"><?= e($ticket['sujet']) ?></p>
@@ -123,7 +93,4 @@
         <?php endif; ?>
     </div>
 
-</main>
-
-</body>
-</html>
+<?php require __DIR__ . '/../partials/footer.php'; ?>

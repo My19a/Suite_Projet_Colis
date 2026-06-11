@@ -22,14 +22,13 @@ require __DIR__ . '/../partials/header.php';
     </div>
     <?php endif; ?>
 
-    <div class="section">
-        <div class="search-card">
-            <form method="get" class="search-form">
-                <input type="text" name="q" class="form-input" placeholder="placeholder="placeholder=""Recherche : n° suivi, BC, departement, statut"" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
-                <button type="submit" class="btn btn-primary">Rechercher</button>
-            </form>
+    <form method="get" class="search-form">
+        <div class="search-container">
+            <span class="search-icon-text"><?= icone('recherche', 15) ?></span>
+            <input type="text" name="q" class="search-input" placeholder="N° suivi, BC, département, statut…" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
         </div>
-    </div>
+        <button type="submit" class="btn btn-secondary">Rechercher</button>
+    </form>
 
     <div class="section">
         <div class="table-container">

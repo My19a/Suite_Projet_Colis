@@ -1,13 +1,18 @@
 /* ============================================================================
    THÈME — SUIVI COLIS IUT
-   Design administratif épuré. Navbar horizontale, surfaces blanches sobres.
+   Back-office minimaliste et professionnel.
 
-   Système :
+   Principes :
+   - Couleur réservée aux actions principales et aux statuts ; tout le reste
+     est neutre (gris, blanc, bordures fines).
+   - Arrondis discrets : 4px partout.
+   - Pas d'ombres ni d'animations : bordures et changements de teinte.
+   - Actions secondaires (tableaux) : simples liens texte.
+
+   Palette :
    - Fond général      : #E7EEF8 (principale)
    - Actions / actifs  : #443E83 (secondaire)
    - Accents / détails : #7AA0C7 (tertiaire)
-   - Interactif (boutons, onglets, badges) : rayon pilule
-   - Surfaces (cartes, tableaux, champs)   : rayon 12px
    ============================================================================ */
 
 *, *::before, *::after {
@@ -49,12 +54,10 @@
     --info-bg: #E8F0F8;
     --info-border: #C9DCEE;
 
-    /* Rayons : pilule pour l'interactif, 12px pour les surfaces */
-    --radius-pill: 999px;
-    --radius: 12px;
-
-    /* Ombre unique, discrète */
-    --shadow: 0 1px 2px rgba(31, 36, 55, 0.05);
+    /* Arrondi unique, discret */
+    --radius: 4px;
+    --radius-sm: 4px;
+    --radius-pill: 999px; /* réservé aux pastilles de compteur */
 }
 
 /* ============================================================================
@@ -65,8 +68,8 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', 'Inter', sans-serif;
     background: var(--bg);
     color: var(--text);
-    font-size: 14px;
-    line-height: 1.6;
+    font-size: 13.5px;
+    line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -77,42 +80,45 @@ body.app {
     flex-direction: column;
 }
 
+/* Icônes SVG inline : alignées sur le texte, héritent de sa couleur */
+.icone {
+    flex-shrink: 0;
+    vertical-align: -2px;
+}
+
 /* ============================================================================
-   NAVBAR
+   NAVBAR — barre blanche pleine largeur, onglet actif souligné
    ============================================================================ */
 
 .navbar {
     display: flex;
-    align-items: center;
-    gap: 16px;
-    margin: 14px 20px 0;
-    padding: 8px 10px 8px 18px;
+    align-items: stretch;
+    gap: 24px;
+    padding: 0 20px;
+    height: 48px;
     background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-pill);
-    box-shadow: var(--shadow);
+    border-bottom: 1px solid var(--border);
     position: sticky;
-    top: 12px;
+    top: 0;
     z-index: 100;
 }
 
 .navbar-marque {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     text-decoration: none;
     flex-shrink: 0;
 }
 
 .navbar-logo {
-    width: 32px;
-    height: 32px;
-    border-radius: var(--radius-pill);
+    width: 24px;
+    height: 24px;
     object-fit: contain;
 }
 
 .navbar-titre {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 700;
     color: var(--primary);
     letter-spacing: -0.2px;
@@ -121,55 +127,55 @@ body.app {
 
 .navbar-menu {
     display: flex;
-    align-items: center;
-    gap: 2px;
+    align-items: stretch;
+    gap: 0;
     flex: 1;
-    flex-wrap: wrap;
+    overflow-x: auto;
 }
 
 .navbar-menu a {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 7px 14px;
-    border-radius: var(--radius-pill);
+    gap: 5px;
+    padding: 0 11px;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
     color: var(--text-secondary);
     text-decoration: none;
-    font-size: 13.5px;
+    font-size: 13px;
     font-weight: 500;
     white-space: nowrap;
-    transition: background-color 0.15s ease, color 0.15s ease;
+    transition: color 0.1s ease, border-color 0.1s ease;
 }
 
 .navbar-menu a:hover {
-    background: var(--primary-soft);
-    color: var(--primary);
+    color: var(--text);
 }
 
 .navbar-menu a.actif {
-    background: var(--primary);
-    color: #fff;
+    color: var(--primary);
     font-weight: 600;
+    border-bottom-color: var(--primary);
 }
 
 .notif-pastille {
     display: inline-block;
-    min-width: 17px;
-    height: 17px;
-    line-height: 17px;
+    min-width: 15px;
+    height: 15px;
+    line-height: 15px;
     text-align: center;
-    padding: 0 5px;
+    padding: 0 4px;
     border-radius: var(--radius-pill);
     background: #C03B32;
     color: #fff;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
 }
 
 .navbar-utilisateur {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     flex-shrink: 0;
     margin-left: auto;
 }
@@ -178,11 +184,12 @@ body.app {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    line-height: 1.3;
+    justify-content: center;
+    line-height: 1.25;
 }
 
 .utilisateur-nom {
-    font-size: 13.5px;
+    font-size: 12.5px;
     font-weight: 600;
     color: var(--text);
     max-width: 180px;
@@ -192,24 +199,22 @@ body.app {
 }
 
 .utilisateur-role {
-    font-size: 12px;
+    font-size: 11px;
     color: var(--text-muted);
 }
 
 .btn-deconnexion {
-    padding: 7px 16px;
-    border: 1px solid var(--danger-border);
-    border-radius: var(--radius-pill);
-    color: var(--danger-text);
+    color: var(--text-muted);
     text-decoration: none;
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 500;
     white-space: nowrap;
-    transition: background-color 0.15s ease;
+    transition: color 0.1s ease;
 }
 
 .btn-deconnexion:hover {
-    background: var(--danger-bg);
+    color: var(--danger-text);
+    text-decoration: underline;
 }
 
 /* ============================================================================
@@ -219,23 +224,17 @@ body.app {
 .contenu {
     flex: 1;
     width: 100%;
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 32px 24px;
+    padding: 18px 20px 28px;
 }
 
 .pied-page {
-    margin: 8px 20px 16px;
-    padding: 13px 24px;
+    padding: 10px 20px;
     background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-pill);
-    box-shadow: var(--shadow);
+    border-top: 1px solid var(--border);
 }
 
 .pied-page-contenu {
-    text-align: center;
-    font-size: 12.5px;
+    font-size: 11.5px;
     color: var(--text-muted);
 }
 
@@ -245,62 +244,56 @@ body.app {
 
 .page-header {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
-    gap: 20px;
+    gap: 14px;
     flex-wrap: wrap;
-    margin-bottom: 24px;
+    margin-bottom: 14px;
 }
 
 .page-header-info h1,
 h1.page-title,
 .contenu > h1 {
-    font-size: 22px;
-    font-weight: 700;
+    font-size: 18px;
+    font-weight: 650;
     color: var(--text);
-    letter-spacing: -0.3px;
-    margin: 0 0 4px;
+    letter-spacing: -0.2px;
+    margin: 0;
 }
 
 .page-subtitle,
 .sous-titre {
-    font-size: 14px;
+    font-size: 12.5px;
     color: var(--text-secondary);
     margin: 0;
 }
 
 .page-header-simple {
-    margin-bottom: 20px;
+    margin-bottom: 12px;
 }
 
 .back-button-simple {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-pill);
+    gap: 6px;
     color: var(--text-secondary);
     text-decoration: none;
-    font-size: 13.5px;
+    font-size: 13px;
     font-weight: 500;
-    transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .back-button-simple:hover {
-    background: var(--primary-soft);
     color: var(--primary);
+    text-decoration: underline;
 }
 
 .back-arrow {
-    font-size: 16px;
+    font-size: 14px;
     line-height: 1;
 }
 
 /* ============================================================================
-   BOUTONS
-   Tous identiques : pilule, mêmes hauteurs, hover par changement de teinte.
+   BOUTONS — sobres : un seul accent, le reste neutre
    ============================================================================ */
 
 .btn,
@@ -312,22 +305,25 @@ button.btn-secondary,
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 9px 20px;
-    border: none;
-    border-radius: var(--radius-pill);
-    font-size: 13.5px;
-    font-weight: 600;
+    gap: 6px;
+    padding: 6px 13px;
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    font-size: 13px;
+    font-weight: 500;
     font-family: inherit;
+    line-height: 1.4;
+    white-space: nowrap;
     text-decoration: none;
     cursor: pointer;
-    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    transition: background-color 0.1s ease, color 0.1s ease, border-color 0.1s ease;
 }
 
 .btn-primary,
 button.btn-primary,
 .btn-action {
     background: var(--primary);
+    border-color: var(--primary);
     color: #fff;
 }
 
@@ -335,50 +331,51 @@ button.btn-primary,
 button.btn-primary:hover,
 .btn-action:hover {
     background: var(--primary-dark);
+    border-color: var(--primary-dark);
 }
 
 .btn-secondary,
 button.btn-secondary {
     background: var(--surface);
     color: var(--text);
-    border: 1px solid var(--border);
+    border-color: var(--border);
 }
 
 .btn-secondary:hover,
 button.btn-secondary:hover {
-    background: var(--primary-soft);
-    border-color: var(--primary);
-    color: var(--primary);
+    border-color: var(--text-muted);
 }
 
 .btn-danger {
-    background: #C03B32;
-    color: #fff;
+    background: var(--surface);
+    border-color: var(--danger-border);
+    color: var(--danger-text);
 }
 
 .btn-danger:hover {
-    background: #A32E26;
+    background: var(--danger-bg);
 }
 
 .btn-success {
-    background: #1F8A55;
-    color: #fff;
+    background: var(--surface);
+    border-color: var(--success-border);
+    color: var(--success-text);
 }
 
 .btn-success:hover {
-    background: #197447;
+    background: var(--success-bg);
 }
 
 .btn-sm {
-    padding: 6px 14px;
-    font-size: 13px;
+    padding: 3px 9px;
+    font-size: 12.5px;
 }
 
 .btn-link {
     color: var(--primary);
     text-decoration: none;
-    font-weight: 600;
-    font-size: 13.5px;
+    font-weight: 500;
+    font-size: 13px;
 }
 
 .btn-link:hover {
@@ -386,23 +383,22 @@ button.btn-secondary:hover {
 }
 
 .btn-icon {
-    width: 34px;
-    height: 34px;
+    width: 28px;
+    height: 28px;
     padding: 0;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius);
     background: transparent;
     border: 1px solid var(--border);
     cursor: pointer;
-    font-size: 15px;
-    transition: background-color 0.15s ease, border-color 0.15s ease;
+    font-size: 13px;
+    transition: border-color 0.1s ease;
 }
 
 .btn-icon:hover {
-    background: var(--primary-soft);
-    border-color: var(--primary);
+    border-color: var(--text-muted);
 }
 
 .btn-icon.danger:hover {
@@ -412,83 +408,144 @@ button.btn-secondary:hover {
 
 :is(.btn, .btn-primary, .btn-secondary, .btn-danger, .btn-success, .btn-action):focus-visible {
     outline: 2px solid var(--accent);
-    outline-offset: 2px;
+    outline-offset: 1px;
+}
+
+/* Dans les tableaux, les actions deviennent de simples liens texte */
+.data-table .btn,
+.tableau .btn,
+.data-table .btn-primary,
+.tableau .btn-primary,
+.data-table .btn-secondary,
+.tableau .btn-secondary {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--text-secondary);
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.data-table .btn:hover,
+.tableau .btn:hover,
+.data-table .btn-primary:hover,
+.tableau .btn-primary:hover,
+.data-table .btn-secondary:hover,
+.tableau .btn-secondary:hover {
+    background: none;
+    color: var(--primary);
+}
+
+.data-table .btn-danger,
+.tableau .btn-danger {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--danger-text);
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.data-table .btn-danger:hover,
+.tableau .btn-danger:hover {
+    background: none;
+    color: #8E2A23;
+}
+
+/* Croix de suppression en bout de ligne */
+.cellule-suppr {
+    width: 1%;
+    text-align: right;
+}
+
+.cellule-suppr form {
+    display: inline-flex;
+}
+
+.btn-croix {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: var(--radius);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color 0.1s ease, background-color 0.1s ease;
+}
+
+.btn-croix:hover {
+    color: var(--danger-text);
+    background: var(--danger-bg);
 }
 
 /* ============================================================================
-   CARTES STATISTIQUES
-   Sobres et denses : fond blanc, valeur colorée selon le statut.
+   STATISTIQUES — une seule barre de métriques, séparées par des filets
    ============================================================================ */
 
 .cartes,
 .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-    gap: 14px;
-    margin-bottom: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 12px;
 }
 
 .carte,
 .stat-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px 18px;
-    box-shadow: var(--shadow);
+    flex: 1 1 0;
+    min-width: 140px;
+    padding: 10px 16px;
+    border-left: 1px solid var(--border-light);
+}
+
+.carte:first-child,
+.stat-card:first-child {
+    border-left: none;
 }
 
 .carte h3,
 .stat-label {
     display: block;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
     color: var(--text-secondary);
-    margin: 0 0 6px;
+    margin: 0 0 1px;
 }
 
 .carte .valeur,
 .stat-value {
-    font-size: 26px;
-    font-weight: 700;
-    color: var(--primary);
-    line-height: 1.2;
+    font-size: 19px;
+    font-weight: 650;
+    color: var(--text);
+    line-height: 1.25;
     margin: 0;
 }
 
+/* Les sous-libellés redondants sont masqués : le libellé suffit */
 .stat-description {
-    font-size: 12.5px;
-    color: var(--text-muted);
-    margin-top: 4px;
+    display: none;
 }
 
 .stat-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 8px;
+    margin-bottom: 2px;
 }
 
-/* Variantes : seule la couleur de la valeur change */
-.stat-card.stat-warning .stat-value,
-.devis-stat-card.stat-warning .stat-value,
-.commande-stat-card.stat-warning .stat-value {
-    color: var(--warning-text);
-}
-
-.stat-card.stat-success .stat-value,
-.devis-stat-card.stat-success .stat-value,
-.colis-stat-card.stat-success .stat-value {
-    color: var(--success-text);
-}
-
-.stat-card.stat-blue .stat-value,
-.commande-stat-card.stat-blue .stat-value,
-.colis-stat-card.stat-blue .stat-value {
-    color: var(--info-text);
-}
-
-.stat-card.stat-danger .stat-value {
-    color: var(--danger-text);
+/* Barre de métriques imbriquée dans une section : pas de double cadre */
+.section .stats-grid,
+.section .cartes {
+    border: none;
+    margin-bottom: 0;
 }
 
 /* ============================================================================
@@ -500,41 +557,39 @@ button.btn-secondary:hover {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 24px;
-    margin-bottom: 20px;
-    box-shadow: var(--shadow);
+    padding: 16px;
+    margin-bottom: 12px;
 }
 
 .section-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
+    gap: 12px;
     flex-wrap: wrap;
-    margin-bottom: 18px;
+    margin-bottom: 12px;
 }
 
 .section-title,
 .contenu h2 {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     color: var(--text);
-    letter-spacing: -0.2px;
     margin: 0;
 }
 
 .section-subtitle {
-    font-size: 13px;
+    font-size: 12px;
     color: var(--text-secondary);
     flex: 1;
 }
 
 h2 {
-    margin: 0 0 16px;
+    margin: 0 0 12px;
 }
 
 /* ============================================================================
-   TABLEAUX
+   TABLEAUX — denses, sobres
    ============================================================================ */
 
 .table-container {
@@ -552,16 +607,18 @@ h2 {
 
 .tableau thead,
 .data-table thead {
-    background: #F5F8FC;
+    background: #F7F9FC;
 }
 
 .tableau th,
 .data-table th {
-    padding: 11px 16px;
+    padding: 7px 12px;
     text-align: left;
-    font-size: 12.5px;
+    font-size: 11.5px;
     font-weight: 600;
     color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
     border-bottom: 1px solid var(--border-light);
     white-space: nowrap;
 }
@@ -578,25 +635,25 @@ h2 {
 
 .tableau tbody tr:hover,
 .data-table tbody tr:hover {
-    background: #F7FAFD;
+    background: #F7F9FC;
 }
 
 .tableau td,
 .data-table td {
-    padding: 12px 16px;
-    font-size: 13.5px;
+    padding: 8px 12px;
+    font-size: 13px;
     color: var(--text);
 }
 
 .empty-state {
     text-align: center;
-    padding: 40px 16px !important;
+    padding: 28px 16px !important;
     color: var(--text-muted);
 }
 
 .action-buttons {
     display: flex;
-    gap: 8px;
+    gap: 10px;
     justify-content: center;
 }
 
@@ -606,16 +663,16 @@ h2 {
 }
 
 /* ============================================================================
-   BADGES
+   BADGES — seuls porteurs de couleur de statut
    ============================================================================ */
 
 .badge {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 4px 12px;
-    border-radius: var(--radius-pill);
-    font-size: 12px;
+    gap: 4px;
+    padding: 1px 8px;
+    border-radius: var(--radius);
+    font-size: 11.5px;
     font-weight: 600;
     text-transform: capitalize;
     white-space: nowrap;
@@ -669,24 +726,23 @@ h2 {
    ============================================================================ */
 
 .form-container {
-    max-width: 720px;
-    margin: 0 auto;
+    max-width: 640px;
 }
 
 .form-header {
-    margin-bottom: 24px;
+    margin-bottom: 14px;
 }
 
 .form-title {
-    font-size: 22px;
-    font-weight: 700;
+    font-size: 18px;
+    font-weight: 650;
     color: var(--text);
-    letter-spacing: -0.3px;
-    margin-bottom: 4px;
+    letter-spacing: -0.2px;
+    margin-bottom: 2px;
 }
 
 .form-subtitle {
-    font-size: 14px;
+    font-size: 12.5px;
     color: var(--text-secondary);
 }
 
@@ -695,13 +751,22 @@ h2 {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 28px;
-    margin-bottom: 20px;
-    box-shadow: var(--shadow);
+    padding: 16px;
+    margin-bottom: 12px;
+}
+
+/* Carte de formulaire imbriquée dans une section : pas de double cadre,
+   et largeur plafonnée pour garder des champs lisibles */
+.section > .form-card,
+.section > .devis-form {
+    border: none;
+    padding: 0;
+    margin-bottom: 0;
+    max-width: 720px;
 }
 
 .form-section {
-    margin-bottom: 24px;
+    margin-bottom: 14px;
 }
 
 .form-section:last-child {
@@ -709,15 +774,15 @@ h2 {
 }
 
 .form-group {
-    margin-bottom: 18px;
+    margin-bottom: 12px;
 }
 
 .form-label {
     display: block;
-    font-size: 13.5px;
+    font-size: 12.5px;
     font-weight: 600;
     color: var(--text);
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 
 .form-label.required::after {
@@ -735,14 +800,14 @@ input[type="password"],
 select,
 textarea {
     width: 100%;
-    padding: 10px 14px;
+    padding: 7px 10px;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    font-size: 14px;
+    font-size: 13px;
     color: var(--text);
     font-family: inherit;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    transition: border-color 0.1s ease, box-shadow 0.1s ease;
 }
 
 .form-input:focus,
@@ -752,7 +817,7 @@ select:focus,
 textarea:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(68, 62, 131, 0.12);
+    box-shadow: 0 0 0 2px rgba(68, 62, 131, 0.1);
 }
 
 .form-input::placeholder,
@@ -763,38 +828,38 @@ textarea::placeholder {
 
 .form-help {
     display: block;
-    font-size: 12.5px;
+    font-size: 11.5px;
     color: var(--text-muted);
-    margin-top: 5px;
+    margin-top: 3px;
 }
 
 .form-actions {
     display: flex;
-    gap: 12px;
+    gap: 8px;
     justify-content: flex-end;
-    padding-top: 20px;
+    padding-top: 12px;
     border-top: 1px solid var(--border-light);
-    margin-top: 20px;
+    margin-top: 12px;
 }
 
 .form-row {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
+    gap: 12px;
 }
 
 .form-info {
     background: var(--accent-soft);
     border: 1px solid var(--info-border);
     border-radius: var(--radius);
-    padding: 14px 16px;
-    margin: 18px 0;
+    padding: 9px 12px;
+    margin: 12px 0;
 }
 
 .form-info p {
-    font-size: 13px;
+    font-size: 12px;
     color: var(--info-text);
-    margin: 0 0 6px;
+    margin: 0 0 4px;
 }
 
 .form-info p:last-child {
@@ -803,68 +868,77 @@ textarea::placeholder {
 
 h3.form-title,
 .form-card h3 {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     color: var(--text);
-    margin: 0 0 18px;
-    padding-bottom: 14px;
+    margin: 0 0 12px;
+    padding-bottom: 9px;
     border-bottom: 1px solid var(--border-light);
 }
 
 /* ============================================================================
-   RECHERCHE
+   RECHERCHE — champ compact avec loupe intégrée
    ============================================================================ */
 
 .search-container,
 .search-container-simple {
     position: relative;
-    margin-bottom: 20px;
+    max-width: 320px;
+    margin-bottom: 12px;
 }
 
 .search-icon-text {
     position: absolute;
-    left: 16px;
+    left: 9px;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 16px;
+    display: flex;
+    align-items: center;
+    color: var(--text-muted);
     pointer-events: none;
-    opacity: 0.45;
 }
 
 .search-input {
     width: 100%;
-    padding: 11px 16px 11px 44px;
+    padding: 6px 10px 6px 31px;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    font-size: 14px;
+    font-size: 13px;
     color: var(--text);
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    transition: border-color 0.1s ease, box-shadow 0.1s ease;
 }
 
 .search-input:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(68, 62, 131, 0.12);
+    box-shadow: 0 0 0 2px rgba(68, 62, 131, 0.1);
 }
 
 .search-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 18px;
-    margin-bottom: 20px;
-    box-shadow: var(--shadow);
+    padding: 12px 14px;
+    margin-bottom: 12px;
 }
 
 .search-form {
     display: flex;
-    gap: 12px;
+    gap: 8px;
     align-items: center;
+    max-width: 480px;
+    margin-bottom: 12px;
 }
 
 .search-form .form-input {
     flex: 1;
+}
+
+.search-form .search-container {
+    flex: 1;
+    max-width: none;
+    margin-bottom: 0;
 }
 
 .search-form .btn {
@@ -879,15 +953,14 @@ h3.form-title,
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 24px;
-    box-shadow: var(--shadow);
+    padding: 16px;
 }
 
 .process-title {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     color: var(--text);
-    margin-bottom: 18px;
+    margin-bottom: 10px;
 }
 
 .process-list {
@@ -899,8 +972,8 @@ h3.form-title,
 .process-item {
     display: flex;
     align-items: center;
-    gap: 14px;
-    padding: 13px 0;
+    gap: 10px;
+    padding: 8px 0;
     border-bottom: 1px solid var(--border-light);
 }
 
@@ -912,18 +985,18 @@ h3.form-title,
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
-    background: var(--primary);
-    color: #fff;
+    width: 21px;
+    height: 21px;
+    background: var(--primary-soft);
+    color: var(--primary);
     border-radius: var(--radius-pill);
-    font-size: 13px;
+    font-size: 11.5px;
     font-weight: 600;
     flex-shrink: 0;
 }
 
 .process-text {
-    font-size: 13.5px;
+    font-size: 13px;
     color: var(--text);
 }
 
@@ -933,11 +1006,11 @@ h3.form-title,
 
 .alert {
     display: flex;
-    gap: 12px;
-    padding: 13px 16px;
+    gap: 8px;
+    padding: 8px 12px;
     border-radius: var(--radius);
-    margin-bottom: 20px;
-    font-size: 13.5px;
+    margin-bottom: 12px;
+    font-size: 12.5px;
 }
 
 .alert-info,
@@ -967,13 +1040,13 @@ h3.form-title,
 }
 
 .alert-icon-text {
-    font-size: 20px;
+    font-size: 15px;
     line-height: 1;
     flex-shrink: 0;
 }
 
 .alert-content {
-    font-size: 13.5px;
+    font-size: 12.5px;
 }
 
 /* ============================================================================
@@ -982,32 +1055,31 @@ h3.form-title,
 
 .fournisseurs-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 10px;
 }
 
 .fournisseur-card-simple {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 20px;
-    box-shadow: var(--shadow);
-    transition: border-color 0.15s ease;
+    padding: 14px;
+    transition: border-color 0.1s ease;
 }
 
 .fournisseur-card-simple:hover {
-    border-color: var(--accent);
+    border-color: var(--text-muted);
 }
 
 .fournisseur-card-header-simple {
     display: flex;
     align-items: flex-start;
-    gap: 14px;
+    gap: 10px;
 }
 
 .fournisseur-icon-simple {
-    width: 42px;
-    height: 42px;
+    width: 32px;
+    height: 32px;
     background: var(--accent-soft);
     border-radius: var(--radius);
     display: flex;
@@ -1017,7 +1089,7 @@ h3.form-title,
 }
 
 .icon-text {
-    font-size: 20px;
+    font-size: 15px;
     line-height: 1;
 }
 
@@ -1026,25 +1098,25 @@ h3.form-title,
 }
 
 .fournisseur-name {
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 600;
     color: var(--text);
-    margin-bottom: 6px;
+    margin-bottom: 3px;
 }
 
 .empty-state-card-simple {
     grid-column: 1 / -1;
     text-align: center;
-    padding: 48px 20px;
+    padding: 32px 20px;
     background: var(--surface);
     border: 1px dashed var(--border);
     border-radius: var(--radius);
 }
 
 .empty-icon {
-    font-size: 48px;
+    font-size: 32px;
     display: block;
-    margin: 0 auto 12px;
+    margin: 0 auto 8px;
     opacity: 0.4;
 }
 
@@ -1053,8 +1125,7 @@ h3.form-title,
    ============================================================================ */
 
 .create-devis-page {
-    max-width: 800px;
-    margin: 0 auto;
+    max-width: 760px;
 }
 
 /* ============================================================================
@@ -1063,20 +1134,28 @@ h3.form-title,
 
 @media (max-width: 1100px) {
     .navbar {
+        height: auto;
         flex-wrap: wrap;
-        border-radius: 24px;
-        padding: 10px 16px;
+        padding: 6px 16px;
+        gap: 12px;
+        align-items: center;
     }
 
     .navbar-menu {
         order: 3;
         width: 100%;
     }
+
+    .navbar-menu a {
+        padding: 7px 11px;
+        border-bottom-width: 2px;
+        margin-bottom: 0;
+    }
 }
 
 @media (max-width: 900px) {
     .contenu {
-        padding: 24px 16px;
+        padding: 14px 16px;
     }
 
     .page-header {
@@ -1086,14 +1165,6 @@ h3.form-title,
 }
 
 @media (max-width: 600px) {
-    .navbar {
-        margin: 10px 12px 0;
-    }
-
-    .pied-page {
-        margin: 8px 12px 12px;
-    }
-
     .utilisateur-infos {
         display: none;
     }

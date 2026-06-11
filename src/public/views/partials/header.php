@@ -20,55 +20,56 @@ $libellesRoles = [
     'directeur'   => 'Directeur IUT',
 ];
 
+// [href, libellé, icône]
 $menusParRole = [
     'admin' => [
-        ['/admin/dashboard', 'Tableau de bord'],
-        ['/admin/utilisateurs', 'Utilisateurs'],
-        ['/admin/departements', 'Départements'],
-        ['/admin/fournisseurs', 'Fournisseurs'],
-        ['/admin/devis', 'Devis'],
-        ['/admin/colis', 'Colis'],
-        ['/tickets', 'Assistance'],
+        ['/admin/dashboard', 'Tableau de bord', 'tableau-bord'],
+        ['/admin/utilisateurs', 'Utilisateurs', 'utilisateurs'],
+        ['/admin/departements', 'Départements', 'departements'],
+        ['/admin/fournisseurs', 'Fournisseurs', 'fournisseurs'],
+        ['/admin/devis', 'Devis', 'devis'],
+        ['/admin/colis', 'Colis', 'colis'],
+        ['/tickets', 'Assistance', 'assistance'],
     ],
     'postal_iut' => [
-        ['/postal/dashboard', 'Tableau de bord'],
-        ['/postal/confirmation', 'Confirmation'],
-        ['/postal/colis/recus', 'Colis reçus'],
-        ['/postal/colis/remis', 'Colis remis'],
-        ['/postal/colis/recherche', 'Recherche'],
-        ['/postal/colis/non-identifies', 'Non identifiés'],
-        ['/tickets', 'Assistance'],
+        ['/postal/dashboard', 'Tableau de bord', 'tableau-bord'],
+        ['/postal/confirmation', 'Confirmation', 'confirmation'],
+        ['/postal/colis/recus', 'Colis reçus', 'reception'],
+        ['/postal/colis/remis', 'Colis remis', 'valide'],
+        ['/postal/colis/recherche', 'Recherche', 'recherche'],
+        ['/postal/colis/non-identifies', 'Non identifiés', 'alerte'],
+        ['/tickets', 'Assistance', 'assistance'],
     ],
     'postal_univ' => [
-        ['/postal-univ/dashboard', 'Tableau de bord'],
-        ['/postal-univ/reception', 'Réception colis'],
-        ['/postal-univ/colis', 'Liste colis'],
-        ['/postal-univ/non-identifies', 'Non identifiés'],
-        ['/postal-univ/historique', 'Historique'],
-        ['/tickets', 'Assistance'],
+        ['/postal-univ/dashboard', 'Tableau de bord', 'tableau-bord'],
+        ['/postal-univ/reception', 'Réception colis', 'reception'],
+        ['/postal-univ/colis', 'Liste colis', 'colis'],
+        ['/postal-univ/non-identifies', 'Non identifiés', 'alerte'],
+        ['/postal-univ/historique', 'Historique', 'historique'],
+        ['/tickets', 'Assistance', 'assistance'],
     ],
     'departement' => [
-        ['/departement/dashboard', 'Tableau de bord'],
-        ['/departement/creer-devis', 'Créer un devis'],
-        ['/departement/mes-devis', 'Mes devis'],
-        ['/departement/bons-commande', 'Bons de commande'],
-        ['/departement/mes-colis', 'Mes colis'],
-        ['/departement/budget', 'Budget'],
-        ['/departement/fournisseurs', 'Fournisseurs'],
-        ['/tickets', 'Assistance'],
+        ['/departement/dashboard', 'Tableau de bord', 'tableau-bord'],
+        ['/departement/creer-devis', 'Créer un devis', 'devis-plus'],
+        ['/departement/mes-devis', 'Mes devis', 'devis'],
+        ['/departement/bons-commande', 'Bons de commande', 'commandes'],
+        ['/departement/mes-colis', 'Mes colis', 'colis'],
+        ['/departement/budget', 'Budget', 'budget'],
+        ['/departement/fournisseurs', 'Fournisseurs', 'fournisseurs'],
+        ['/tickets', 'Assistance', 'assistance'],
     ],
     'finance' => [
-        ['/finance/dashboard', 'Tableau de bord'],
-        ['/finance/devis', 'Devis à vérifier'],
-        ['/finance/bons-commande', 'Bons de commande'],
-        ['/finance/budgets', 'Budgets'],
-        ['/tickets', 'Assistance'],
+        ['/finance/dashboard', 'Tableau de bord', 'tableau-bord'],
+        ['/finance/devis', 'Devis à vérifier', 'devis'],
+        ['/finance/bons-commande', 'Bons de commande', 'commandes'],
+        ['/finance/budgets', 'Budgets', 'budget'],
+        ['/tickets', 'Assistance', 'assistance'],
     ],
     'directeur' => [
-        ['/directeur/dashboard', 'Tableau de bord'],
-        ['/directeur/devis', 'Devis à signer'],
-        ['/directeur/bons-commande', 'Bons de commande'],
-        ['/tickets', 'Assistance'],
+        ['/directeur/dashboard', 'Tableau de bord', 'tableau-bord'],
+        ['/directeur/devis', 'Devis à signer', 'signature'],
+        ['/directeur/bons-commande', 'Bons de commande', 'commandes'],
+        ['/tickets', 'Assistance', 'assistance'],
     ],
 ];
 
@@ -93,14 +94,13 @@ $notifs = function_exists('ticketNotifsCount') ? ticketNotifsCount() : 0;
 
 <header class="navbar">
     <a class="navbar-marque" href="/">
-        <img src="/assets/img/logo-iutv.png" class="navbar-logo" alt="Logo IUT">
         <span class="navbar-titre">Suivi Colis</span>
     </a>
 
     <nav class="navbar-menu">
-        <?php foreach ($menu as [$href, $libelle]): ?>
+        <?php foreach ($menu as [$href, $libelle, $icn]): ?>
             <a href="<?= $href ?>"<?= $href === $lienActif ? ' class="actif"' : '' ?>>
-                <?= $libelle ?><?php if ($href === '/tickets' && $notifs > 0): ?><span class="notif-pastille"><?= $notifs ?></span><?php endif; ?>
+                <?= icone($icn, 15) ?><?= $libelle ?><?php if ($href === '/tickets' && $notifs > 0): ?><span class="notif-pastille"><?= $notifs ?></span><?php endif; ?>
             </a>
         <?php endforeach; ?>
     </nav>

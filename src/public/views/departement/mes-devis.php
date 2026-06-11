@@ -20,8 +20,8 @@ require __DIR__ . '/../partials/header.php';
     </div>
 
     <div class="search-container">
-        <span class="search-icon-text">&#128269;</span>
-        <input type="text" class="search-input" placeholder="placeholder="placeholder=""Rechercher par objet, fournisseur ou statut..."" id="searchDevis" onkeyup="filterDevis()">
+        <span class="search-icon-text"><?= icone('recherche', 15) ?></span>
+        <input type="text" class="search-input" placeholder="Rechercher par objet, fournisseur ou statut..." id="searchDevis" onkeyup="filterDevis()">
     </div>
 
     <?php

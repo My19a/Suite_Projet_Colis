@@ -13,7 +13,7 @@ require __DIR__ . '/../partials/header.php';
             </p>
         </div>
         <button class="btn btn-primary" onclick="window.location.href='/tickets/nouveau'">
-            Signaler un probleme
+            <?= icone('plus', 14) ?>Signaler un probleme
         </button>
     </div>
 

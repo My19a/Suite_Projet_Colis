@@ -33,7 +33,7 @@ require __DIR__ . '/../partials/header.php';
                         <tr>
                             <td><?= $h["date_action"] ?></td>
                             <td>
-                                <a href="/postal/colis/details?id=<?= $h["colis_id"] ?>" class="btn-link">#<?= $h["colis_id"] ?></a>
+                                <a href="/postal/colis/details?id=<?= $h["id_colis"] ?>" class="btn-link">#<?= $h["id_colis"] ?></a>
                             </td>
                             <td><?= htmlspecialchars($h["numero_commande"] ?: "—") ?></td>
                             <td><?= htmlspecialchars($h["numero_suivi"] ?: "—") ?></td>

@@ -9,7 +9,7 @@ require __DIR__ . '/../partials/header.php';
             <h1 class="page-title">Gestion des départements</h1>
             <p class="page-subtitle">Consulter, modifier et supprimer les départements</p>
         </div>
-        <a href="/admin/ajouter-departement" class="btn btn-primary">Ajouter un département</a>
+        <a href="/admin/ajouter-departement" class="btn btn-primary"><?= icone('plus', 14) ?>Ajouter un département</a>
     </div>
 
     <?php if (isset($_GET['deleted'])): ?>
@@ -34,11 +34,12 @@ require __DIR__ . '/../partials/header.php';
                         <th>Budget utilisé</th>
                         <th>Budget restant</th>
                         <th>Actions</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php if (empty($departements)): ?>
-                        <tr><td colspan="5" class="empty-state">Aucun département</td></tr>
+                        <tr><td colspan="6" class="empty-state">Aucun département</td></tr>
                     <?php else: ?>
                         <?php foreach ($departements as $d): ?>
                         <tr>
@@ -48,6 +49,13 @@ require __DIR__ . '/../partials/header.php';
                             <td><span class="montant"><?= number_format($d['budget_total'] - $d['budget_utilise'], 2, ',', ' ') ?> EUR</span></td>
                             <td>
                                 <a class="btn btn-sm btn-primary" href="/admin/modifier-departement?id=<?= $d['id_departement'] ?>">Modifier</a>
+                            </td>
+                            <td class="cellule-suppr">
+                                <form method="post" action="/admin/supprimer-departement"
+                                      onsubmit="return confirm('Supprimer définitivement le département <?= htmlspecialchars($d['nom'], ENT_QUOTES) ?> ?');">
+                                    <input type="hidden" name="id_departement" value="<?= $d['id_departement'] ?>">
+                                    <button type="submit" class="btn-croix" title="Supprimer"><?= icone('croix', 14) ?></button>
+                                </form>
                             </td>
                         </tr>
                         <?php endforeach; ?>

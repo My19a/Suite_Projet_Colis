@@ -19,7 +19,7 @@ require __DIR__ . '/../partials/header.php';
     </div>
 
     <div class="alert alert-info">
-        <span class="alert-icon-text">&#9432;</span>
+        <span class="alert-icon-text"><?= icone('info', 17) ?></span>
         <div class="alert-content">
             <strong>Fournisseurs validés uniquement</strong><br>
             Vous ne pouvez passer commande qu'auprès des fournisseurs listés ci-dessous. Ces partenaires ont ete validés par l'administration de l'IUT.
@@ -35,7 +35,7 @@ require __DIR__ . '/../partials/header.php';
         <div class="fournisseurs-grid">
             <?php if (empty($fournisseurs)): ?>
                 <div class="empty-state-card-simple">
-                    <span class="empty-icon">&#128230;</span>
+                    <span class="empty-icon"><?= icone('colis', 32) ?></span>
                     <p>Aucun fournisseur disponible</p>
                 </div>
             <?php else: ?>
@@ -43,7 +43,7 @@ require __DIR__ . '/../partials/header.php';
                     <div class="fournisseur-card-simple">
                         <div class="fournisseur-card-header-simple">
                             <div class="fournisseur-icon-simple">
-                                <span class="icon-text">&#127970;</span>
+                                <span class="icon-text"><?= icone('batiment', 18) ?></span>
                             </div>
                             <div class="fournisseur-info">
                                 <h3 class="fournisseur-name"><?= htmlspecialchars($f['nom']) ?></h3>

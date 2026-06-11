@@ -11,15 +11,13 @@ require __DIR__ . '/../partials/header.php';
         </div>
     </div>
 
-    <div class="section">
-        <form method="get" style="display: flex; gap: 12px; flex-wrap: wrap;">
-            <div class="search-container" style="flex: 1; min-width: 300px; margin-bottom: 0;">
-                <span class="search-icon-text">&#128269;</span>
-                <input type="text" name="q" class="search-input" placeholder="placeholder="placeholder=""N° suivi, BC, departement, ID colis..."" value="<?= htmlspecialchars($_GET["q"] ?? "") ?>">
-            </div>
-            <button type="submit" class="btn btn-primary">Rechercher</button>
-        </form>
-    </div>
+    <form method="get" class="search-form">
+        <div class="search-container">
+            <span class="search-icon-text"><?= icone('recherche', 15) ?></span>
+            <input type="text" name="q" class="search-input" placeholder="N° suivi, BC, departement, ID colis..." value="<?= htmlspecialchars($_GET["q"] ?? "") ?>">
+        </div>
+        <button type="submit" class="btn btn-secondary">Rechercher</button>
+    </form>
 
     <div class="section">
         <div class="section-header">

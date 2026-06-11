@@ -13,7 +13,7 @@ require __DIR__ . '/../partials/header.php';
 
     <?php if (!empty($message)): ?>
         <div class="alert <?= strpos($message, 'succes') !== false ? 'alert-success' : 'alert-danger' ?>">
-            <span class="alert-icon-text"><?= strpos($message, 'succes') !== false ? '&#10003;' : '&#10007;' ?></span>
+            <span class="alert-icon-text"><?= strpos($message, 'succes') !== false ? icone('valide', 16) : icone('croix', 16) ?></span>
             <div class="alert-content"><?= htmlspecialchars($message) ?></div>
         </div>
     <?php endif; ?>
@@ -28,17 +28,17 @@ require __DIR__ . '/../partials/header.php';
             <form method="POST" enctype="multipart/form-data" id="colisForm">
                 <div class="form-group">
                     <label class="form-label required">Numéro du bon de commande (BC)</label>
-                    <input type="text" name="numero_bc" class="form-input" placeholder="placeholder="placeholder=""Ex: BC2024-001"" required>
+                    <input type="text" name="numero_bc" class="form-input" placeholder="Ex: BC2024-001" required>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Numéro de suivi</label>
-                    <input type="text" name="numero_suivi" class="form-input" placeholder="placeholder="placeholder=""Ex: FR123456789"">
+                    <input type="text" name="numero_suivi" class="form-input" placeholder="Ex: FR123456789">
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Commentaire</label>
-                    <textarea name="commentaire" class="form-input" rows="3" placeholder="placeholder="placeholder=""Notes additionnelles...""></textarea>
+                    <textarea name="commentaire" class="form-input" rows="3" placeholder="Notes additionnelles..."></textarea>
                 </div>
 
                 <input type="hidden" id="photo_etiquette" name="photo_etiquette">
@@ -77,7 +77,7 @@ require __DIR__ . '/../partials/header.php';
             </div>
 
             <div class="alert alert-warning">
-                <span class="alert-icon-text">&#9888;</span>
+                <span class="alert-icon-text"><?= icone('alerte', 16) ?></span>
                 <div class="alert-content">La photo de l'étiquette aide a identifier automatiquement le bon de commande associe.</div>
             </div>
         </div>

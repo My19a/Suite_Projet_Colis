@@ -11,7 +11,7 @@ require __DIR__ . '/../partials/header.php';
             <p class="page-subtitle">Gerez vos devis, commandes et colis</p>
         </div>
         <button class="btn btn-primary" onclick="window.location.href='/departement/creer-devis'">
-            Creer un devis
+            <?= icone('plus', 14) ?>Creer un devis
         </button>
     </div>
 

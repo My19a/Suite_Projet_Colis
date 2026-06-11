@@ -9,7 +9,7 @@ require __DIR__ . '/../partials/header.php';
             <h1 class="page-title">Gestion des utilisateurs</h1>
             <p class="page-subtitle">Consulter, modifier et supprimer les utilisateurs</p>
         </div>
-        <a href="/admin/ajouter-utilisateur" class="btn btn-primary">Ajouter un utilisateur</a>
+        <a href="/admin/ajouter-utilisateur" class="btn btn-primary"><?= icone('plus', 14) ?>Ajouter un utilisateur</a>
     </div>
 
     <?php if (isset($_GET['ok'])): ?>
@@ -41,11 +41,12 @@ require __DIR__ . '/../partials/header.php';
                         <th>Role</th>
                         <th>Département</th>
                         <th>Action</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php if (empty($utilisateurs)): ?>
-                        <tr><td colspan="6" class="empty-state">Aucun utilisateur</td></tr>
+                        <tr><td colspan="7" class="empty-state">Aucun utilisateur</td></tr>
                     <?php else: ?>
                         <?php foreach ($utilisateurs as $u): ?>
                         <tr>
@@ -56,6 +57,13 @@ require __DIR__ . '/../partials/header.php';
                             <td><?= htmlspecialchars($u["departement"] ?? "—") ?></td>
                             <td>
                                 <a href="/admin/modifier-utilisateur?id=<?= $u["id_utilisateur"] ?>" class="btn btn-sm btn-primary">Modifier</a>
+                            </td>
+                            <td class="cellule-suppr">
+                                <form method="post" action="/admin/supprimer-utilisateur"
+                                      onsubmit="return confirm('Supprimer définitivement <?= htmlspecialchars($u["fullName"], ENT_QUOTES) ?> ?');">
+                                    <input type="hidden" name="id_utilisateur" value="<?= $u["id_utilisateur"] ?>">
+                                    <button type="submit" class="btn-croix" title="Supprimer"><?= icone('croix', 14) ?></button>
+                                </form>
                             </td>
                         </tr>
                         <?php endforeach; ?>

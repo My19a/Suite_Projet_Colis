@@ -19,7 +19,6 @@
     <nav class="menu">
         <a href="/admin/dashboard">Tableau de bord</a>
         <a href="/admin/utilisateurs">Utilisateurs</a>
-        <a href="/presence">Utilisateurs connectés</a>
         <a href="/admin/departements">Départements</a>
         <a href="/admin/fournisseurs">Fournisseurs</a>
         <a href="/admin/devis">Tous les devis</a>
@@ -28,6 +27,10 @@
         <a href="/tickets">Assistance<?php if (function_exists('ticketNotifsCount') && ($__n=ticketNotifsCount())>0): ?> <span style="display:inline-block;min-width:18px;height:18px;line-height:18px;text-align:center;background:#ef4444;color:#fff;border-radius:999px;padding:0 5px;font-size:11px;font-weight:700;margin-left:6px;"><?= $__n ?></span><?php endif; ?></a>
     </nav>
 
+    <div class="utilisateur-connecte">
+        <div class="utilisateur-nom"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getFullName()) : "" ?></div>
+        <div class="utilisateur-role"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getRole()) : "" ?></div>
+    </div>
     <div class="deconnexion">
         <a href="/logout">Déconnexion</a>
     </div>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Qui est connecte</title>
+    <title>Utilisateurs connectés</title>
     <link rel="stylesheet" href="/assets/css/theme.css">
     <style>
         .pastille { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:7px; vertical-align:middle; }
@@ -26,13 +26,13 @@
 
     <nav class="menu">
         <a href="/admin/dashboard">Tableau de bord</a>
-        <a class="actif" href="/presence">Qui est connecte</a>
+        <a class="actif" href="/presence">Utilisateurs connectés</a>
         <a href="/admin/utilisateurs">Utilisateurs</a>
         <a href="/tickets">Assistance</a>
     </nav>
 
     <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+        <a href="/logout">Déconnexion</a>
     </div>
 </aside>
 
@@ -40,8 +40,8 @@
 
     <div class="page-header">
         <div class="page-header-info">
-            <h1 class="page-title">Qui est connecte</h1>
-            <p class="page-subtitle"><?= $nbEnLigne ?> utilisateur(s) en ligne (activite &lt; <?= $seuil ?> min)</p>
+            <h1 class="page-title">Utilisateurs connectés</h1>
+            <p class="page-subtitle"><?= $nbEnLigne ?> utilisateur(s) en ligne (activité &lt; <?= $seuil ?> min)</p>
         </div>
     </div>
 
@@ -51,9 +51,9 @@
                 <thead>
                     <tr>
                         <th>Utilisateur</th>
-                        <th>Role</th>
-                        <th>Etat</th>
-                        <th>Derniere activite</th>
+                        <th>Rôle</th>
+                        <th>État</th>
+                        <th>Dernière activité</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -75,9 +75,9 @@
                                 </td>
                                 <td>
                                     <?php if (empty($u['derniere_activite'])): ?>
-                                        Jamais connecte
+                                        Jamais connecté
                                     <?php elseif ($enLigne): ?>
-                                        A l'instant
+                                        À l'instant
                                     <?php else: ?>
                                         <?= date('d/m/Y H:i', strtotime($u['derniere_activite'])) ?>
                                         (il y a <?= (int) $u['minutes_inactif'] ?> min)

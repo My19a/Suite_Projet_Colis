@@ -43,6 +43,8 @@ require_once __DIR__ . '/controllers/FinanceController.php';
 require_once __DIR__ . '/controllers/DirecteurController.php';
 require_once __DIR__ . '/controllers/AdminController.php';
 require_once __DIR__ . '/controllers/TicketController.php';
+require_once __DIR__ . '/controllers/PresenceController.php';
+require_once __DIR__ . '/models/PresenceModel.php';
 
 $publicRoutes = ['/', '/dev-login', '/login', '/logout'];
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -87,6 +89,15 @@ if (!in_array($uri, $publicRoutes)) {
         }
     } else {
         $currentUser = $_SESSION['user'];
+    }
+}
+
+// Met a jour la presence de l'utilisateur connecte (page "Qui est connecte")
+if ($currentUser) {
+    try {
+        (new PresenceModel())->marquerActivite($currentUser->getId());
+    } catch (\Throwable $e) {
+        // La presence ne doit jamais casser la page
     }
 }
 
@@ -203,6 +214,9 @@ $router->post('/tickets/creer', 'TicketController', 'creer');
 $router->get('/tickets/:id', 'TicketController', 'detail');
 $router->post('/tickets/:id/message', 'TicketController', 'repondre');
 $router->post('/tickets/:id/statut', 'TicketController', 'changerStatut');
+
+// ===== PRESENCE / QUI EST CONNECTE =====
+$router->get('/presence', 'PresenceController', 'index');
 
 
 try {

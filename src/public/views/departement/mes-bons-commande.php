@@ -19,8 +19,8 @@ require __DIR__ . '/../partials/header.php';
     </div>
 
     <div class="search-container">
-        <span class="search-icon-text"><?= icone('recherche', 15) ?></span>
         <input type="text" class="search-input" placeholder="Rechercher par numéro, fournisseur ou statut..." id="searchCommandes" onkeyup="filterCommandes()">
+        <button type="button" class="btn-loupe" onclick="filterCommandes()" title="Rechercher"><?= icone('recherche', 15) ?></button>
     </div>
 
     <?php

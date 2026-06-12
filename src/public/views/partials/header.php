@@ -8,8 +8,8 @@
  *   $feuillesDeStyle (array)   : feuilles de style additionnelles (optionnel)
  */
 
-$utilisateur = $_SESSION['user'] ?? null;
-$role = $utilisateur ? $utilisateur->getRole() : '';
+$utilisateurConnecte = $_SESSION['user'] ?? null;
+$role = $utilisateurConnecte ? $utilisateurConnecte->getRole() : '';
 
 $libellesRoles = [
     'admin'       => 'Administrateur',
@@ -107,7 +107,7 @@ $notifs = function_exists('ticketNotifsCount') ? ticketNotifsCount() : 0;
 
     <div class="navbar-utilisateur">
         <div class="utilisateur-infos">
-            <span class="utilisateur-nom"><?= $utilisateur ? htmlspecialchars($utilisateur->getFullName()) : '' ?></span>
+            <span class="utilisateur-nom"><?= $utilisateurConnecte ? htmlspecialchars($utilisateurConnecte->getFullName()) : '' ?></span>
             <span class="utilisateur-role"><?= htmlspecialchars($libellesRoles[$role] ?? $role) ?></span>
         </div>
         <a class="btn-deconnexion" href="/logout" title="Déconnexion">Déconnexion</a>

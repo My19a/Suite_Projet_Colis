@@ -22,12 +22,9 @@ require __DIR__ . '/../partials/header.php';
         </div>
     </div>
 
-    <form method="get" class="search-form">
-        <div class="search-container">
-            <span class="search-icon-text"><?= icone('recherche', 15) ?></span>
-            <input type="text" name="q" class="search-input" placeholder="Rechercher par numéro…" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
-        </div>
-        <button type="submit" class="btn btn-secondary">Rechercher</button>
+    <form method="get" class="search-container">
+        <input type="text" name="q" class="search-input" placeholder="Rechercher par numéro…" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
+        <button type="submit" class="btn-loupe" title="Rechercher"><?= icone('recherche', 15) ?></button>
     </form>
 
     <div class="section">

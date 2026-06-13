@@ -18,14 +18,14 @@ require __DIR__ . '/../partials/header.php';
             <span class="ticket-meta-label">Statut</span>
             <span class="ticket-meta-valeur">
                 <span class="badge badge-<?= e($ticket['statut']) ?>">
-                    <?= ucfirst(str_replace('_', ' ', e($ticket['statut']))) ?>
+                    <?= e(joli($ticket['statut'])) ?>
                 </span>
             </span>
         </div>
         <div class="ticket-meta-item">
             <span class="ticket-meta-label">Priorite</span>
             <span class="ticket-meta-valeur">
-                <span class="badge badge-priorite-<?= e($ticket['priorite']) ?>"><?= ucfirst(e($ticket['priorite'])) ?></span>
+                <span class="badge badge-priorite-<?= e($ticket['priorite']) ?>"><?= e(joli($ticket['priorite'])) ?></span>
             </span>
         </div>
         <div class="ticket-meta-item">

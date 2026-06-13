@@ -16,7 +16,7 @@ require __DIR__ . '/../partials/header.php';
         <?php foreach ($stats as $s): ?>
         <div class="chiffre">
             <div class="chiffre-valeur"><?= $s['total'] ?></div>
-            <div class="chiffre-titre"><?= ucfirst(str_replace('_', ' ', $s['statut'])) ?></div>
+            <div class="chiffre-titre"><?= htmlspecialchars(joli($s['statut'])) ?></div>
         </div>
         <?php endforeach; ?>
     </div>

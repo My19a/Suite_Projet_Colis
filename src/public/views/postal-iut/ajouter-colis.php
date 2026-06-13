@@ -196,6 +196,21 @@
                     .style.backgroundColor = '#d4edda';
             }
 
+            const champNom =
+            document.getElementById('nom_destinataire');
+
+            champNom.value =
+                resultat.nomDestinataire || '';
+
+            if(resultat.nomDestinataire)
+            {
+                champNom.style.backgroundColor = '#d4edda';
+            }
+            else
+            {
+                champNom.style.backgroundColor = '';
+            }
+
             document.getElementById('ocr_texte_brut').value =
                 resultat.texteBrut;
 
@@ -217,6 +232,16 @@
         btnRetake.style.display = 'none';
         photoInput.value = '';
         fileUpload.value = '';
+
+        // permet reinitialisation des données pour chaque nouvelle étiquette
+
+        document.getElementById('numero_suivi').value = '';
+        document.getElementById('nom_destinataire').value = '';
+        document.getElementById('ocr_texte_brut').value = '';
+        document.getElementById('ocr_confiance').value = '';
+
+        document.getElementById('numero_suivi').style.backgroundColor = '';
+        document.getElementById('nom_destinataire').style.backgroundColor = '';
     });
 
     fileUpload.addEventListener('change', (e) => {
@@ -252,6 +277,21 @@
 
                             document.getElementById('numero_suivi')
                                 .style.backgroundColor = '#d4edda';
+                        }
+
+                        const champNom =
+                        document.getElementById('nom_destinataire');
+
+                        champNom.value =
+                            resultat.nomDestinataire || '';
+
+                        if(resultat.nomDestinataire)
+                        {
+                            champNom.style.backgroundColor = '#d4edda';
+                        }
+                        else
+                        {
+                            champNom.style.backgroundColor = '';
                         }
 
                         document.getElementById('ocr_texte_brut').value =

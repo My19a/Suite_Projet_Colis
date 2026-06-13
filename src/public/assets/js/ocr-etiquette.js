@@ -35,11 +35,11 @@ async function lancerOCR(imageBase64, callback) {
         const numeroSuivi = matchUPS ? matchUPS[1].replace(/\s/g, '') : (matchChronopost ? matchChronopost[0] : "");
 
         // Extraire le nom 
-        const matchNom = texte.match(/SHIP TO:\s*\n(.+)/);        
+        const matchNom = texte.match(/SHIP\s*T[O0]\s*:\s*\n?\s*(.+)/i);
         const nomDestinataire = matchNom ? matchNom[1].trim() : "";
         console.log("NUMÉRO SUIVI :", numeroSuivi);
         console.log("NOM DESTINATAIRE :", nomDestinataire);
-        
+
         if (!numeroBC && !numeroSuivi) {
             if (message) {
                 message.textContent = "Aucune référence détectée. Veuillez compléter les champs manuellement.";

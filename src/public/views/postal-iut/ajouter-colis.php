@@ -66,6 +66,18 @@
                 </div>
 
                 <div class="form-group">
+                <label>Destinataire identifié</label>
+
+                <input type="text" id="nom_destinataire" name="nom_destinataire" class="form-control" placeholder="Nom détecté par OCR ou saisie manuelle">
+
+                <button type="button" id="btnRechercheDest" class="btn btn-secondary" style="margin-top:10px;">
+                    Rechercher
+                </button>
+
+                <div id="resultatDestinataire" style="margin-top:10px;"></div>
+                </div>
+
+                <div class="form-group">
                     <label class="form-label">Commentaire</label>
                     <textarea name="commentaire" class="form-input" rows="3" placeholder="Notes additionnelles..."></textarea>
                 </div>
@@ -265,6 +277,42 @@
 
     window.addEventListener('beforeunload', () => {
         if (stream) stream.getTracks().forEach(track => track.stop());
+    });
+</script>
+<script>
+
+    document
+    .getElementById('btnRechercheDest')
+    .addEventListener('click', async () => {
+
+        const nom =
+            document.getElementById(
+                'nom_destinataire'
+            ).value;
+
+        const response = await fetch(
+            '/postal/rechercher-destinataire?nom='
+            + encodeURIComponent(nom)
+        );
+
+        const data = await response.json();
+
+        const zone =
+            document.getElementById(
+                'resultatDestinataire'
+            );
+
+        if (data.length > 0) {
+
+            zone.innerHTML =
+                "✔ Destinataire trouvé : "
+                + data[0].fullName;
+
+        } else {
+
+            zone.innerHTML =
+                "❌ Aucun destinataire trouvé";
+        }
     });
 </script>
 

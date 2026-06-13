@@ -285,4 +285,61 @@ class PostalIutModels {
         $req->execute([$num_bc]);
         return $req->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function rechercherDestinataireParNom($nom)
+{
+    $sql = "
+        SELECT id_utilisateur, fullName
+        FROM utilisateur
+        WHERE LOWER(fullName) LIKE LOWER(?)
+        LIMIT 10
+    ";
+
+    $req = $this->db->prepare($sql);
+    $req->execute(["%".$nom."%"]);
+
+    return $req->fetchAll(PDO::FETCH_ASSOC);
+}
+
+    public function ajouterHistorique(
+        $colisId,
+        $utilisateurId,
+        $ancienStatut,
+        $nouveauStatut,
+        $commentaire = null
+    ) {
+        $sql = "
+            INSERT INTO historique_colis
+            (
+                colis_id,
+                utilisateur_id,
+                date_modification,
+                ancien_statut,
+                nouveau_statut,
+                commentaire
+            )
+            VALUES (?, ?, NOW(), ?, ?, ?)
+        ";
+
+        $req = $this->db->prepare($sql);
+
+        return $req->execute([
+            $colisId,
+            $utilisateurId,
+            $ancienStatut,
+            $nouveauStatut,
+            $commentaire
+        ]);
+    }
+
+    public function getDepartementNom($id)
+    {
+        $req = $this->db->prepare(
+            "SELECT nom FROM departement WHERE id_departement = ?"
+        );
+
+        $req->execute([$id]);
+
+        return $req->fetchColumn();
+    }
 }

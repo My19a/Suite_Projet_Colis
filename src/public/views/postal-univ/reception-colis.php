@@ -15,7 +15,6 @@
         <h2>Postal Universite</h2>
         <p>Gestion des colis</p>
     </div>
-
     <nav class="menu">
         <a href="/postal-univ/dashboard">Tableau de bord</a>
         <a class="actif" href="/postal-univ/reception">Reception colis</a>
@@ -23,7 +22,6 @@
         <a href="/postal-univ/non-identifies">Non identifies</a>
         <a href="/postal-univ/historique">Historique</a>
     </nav>
-
     <div class="deconnexion">
         <a href="/logout">Deconnexion</a>
     </div>
@@ -47,45 +45,82 @@
 
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 24px;">
 
-        <div class="section">
-            <div class="section-header">
-                <h2 class="section-title">Informations du colis</h2>
+        <!-- COLONNE GAUCHE : Formulaire + Destinataire identifie -->
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Informations du colis</h2>
+                </div>
+
+                <form method="post" action="/postal-univ/reception" enctype="multipart/form-data" id="colisForm">
+
+                    <div class="form-group">
+                        <label class="form-label">Numero du bon de commande (BC)</label>
+                        <input type="text" id="numero_bc" name="numero_commande" class="form-input" placeholder="Ex: BC-2026-001">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Numero de suivi</label>
+                        <input type="text" id="numero_suivi" name="numero_suivi" class="form-input" placeholder="Ex: LP123456789FR">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Commentaire</label>
+                        <textarea name="commentaire" class="form-input" rows="3" placeholder="Notes additionnelles..."></textarea>
+                    </div>
+
+                    <input type="hidden" id="photo_etiquette" name="photo_etiquette">
+                    <input type="hidden" id="ocr_texte_brut" name="ocr_texte_brut">
+                    <input type="hidden" id="ocr_confiance" name="ocr_confiance">
+                    <input type="hidden" id="ocr_nom_destinataire" name="ocr_nom_destinataire">
+
+                    <div class="form-info">
+                        <p>Si un bon de commande est renseigné, le colis y sera automatiquement rattaché.</p>
+                        <p>Sinon, le colis sera marqué <strong>Non identifié</strong> et pourra être traité ultérieurement.</p>
+                    </div>
+
+                    <div class="form-actions" style="border-top: none; padding-top: 0;">
+                        <button type="submit" class="btn btn-primary">Enregistrer le colis</button>
+                    </div>
+
+                </form>
             </div>
 
-            <form method="post" action="/postal-univ/reception" enctype="multipart/form-data" id="colisForm">
-
-                <div class="form-group">
-                    <label class="form-label required">Numero du bon de commande (BC)</label>
-                    <input type="text" id="numero_bc" name="numero_commande" class="form-input" placeholder="Ex: BC-2026-001" >
+            <!-- SECTION DESTINATAIRE IDENTIFIE -->
+            <div class="section" id="section-destinataire">
+                <div class="section-header">
+                    <h2 class="section-title">Destinataire identifie</h2>
                 </div>
+                <div style="padding: 8px 0;">
 
-                <div class="form-group">
-                    <label class="form-label">Numero de suivi</label>
-                    <input type="text" id="numero_suivi" name="numero_suivi" class="form-input" placeholder="Ex: LP123456789FR">
+                    <div class="form-group" style="margin-bottom: 12px;">
+                        <label class="form-label">Nom du destinataire</label>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="text" id="nom-manuel" class="form-input" placeholder="Ex: Valerie Touzet" style="flex: 1;">
+                            <button type="button" id="btnRechercherDestinataire" class="btn btn-primary">Rechercher</button>
+                        </div>
+                        <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Rempli automatiquement par l'OCR ou saisissez manuellement</p>
+                    </div>
+
+                    <!-- MESSAGE SI OCR N'A PAS DETECTE DE NOM -->
+                    <div id="ocr-nom-message" style="display:none; margin-bottom: 12px; padding: 8px 12px; background: #fff3cd; border-radius: var(--radius-sm); border: 1px solid #ffc107; font-size: 13px; color: #856404;">
+                        ⚠️ L'OCR n'a pas détecté de nom sur l'étiquette. Veuillez saisir le nom manuellement.
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label">Departement</label>
+                        <div style="padding: 10px 14px; background: var(--blue-bg); border-radius: var(--radius-sm); border: 1px solid var(--blue-border); font-weight: 500; color: var(--blue-dark);">
+                            <span id="ocr-departement">—</span>
+                        </div>
+                    </div>
+
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label class="form-label">Commentaire</label>
-                    <textarea name="commentaire" class="form-input" rows="3" placeholder="Notes additionnelles..."></textarea>
-                </div>
-
-                <input type="hidden" id="photo_etiquette" name="photo_etiquette">
-                <input type="hidden" id="ocr_texte_brut" name="ocr_texte_brut">
-                <input type="hidden" id="ocr_confiance" name="ocr_confiance">
-                <input type="hidden" id="ocr_nom_destinataire" name="ocr_nom_destinataire">
-
-                <div class="form-info">
-                    <p>Le campus / IUT sera identifie automatiquement via le bon de commande.</p>
-                    <p>Si l'identification echoue, le colis sera marque <strong>Non identifie</strong>.</p>
-                </div>
-
-                <div class="form-actions" style="border-top: none; padding-top: 0;">
-                    <button type="submit" class="btn btn-primary">Enregistrer le colis</button>
-                </div>
-
-            </form>
         </div>
 
+        <!-- COLONNE DROITE : Scanner -->
         <div class="section">
             <div class="section-header">
                 <h2 class="section-title">Scanner / Photographier l'Etiquette</h2>
@@ -108,19 +143,22 @@
                 <button type="button" id="btnRetake" class="btn btn-danger" style="display: none;">Reprendre</button>
             </div>
 
+            <!-- IMPORT PHOTO AMELIORE -->
             <div style="padding: 16px; background: var(--blue-bg); border-radius: var(--radius); border: 1px solid var(--blue-border);">
-                <label class="form-label" style="color: var(--blue-dark);">Ou importer une photo</label>
-                <input type="file" id="fileUpload" accept="image/*" capture="environment" class="form-input" style="background: white;">
-                <div id="ocr-loader" style="display:none; margin-top:10px;">
-                    Analyse OCR en cours...
+                <label class="form-label" style="color: var(--blue-dark); margin-bottom: 10px; display: block;">Ou importer une photo</label>
+
+                <label for="fileUpload" style="display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 10px 16px; background: white; border: 2px dashed var(--blue); border-radius: var(--radius-sm); transition: all 0.2s;">
+                    <span style="font-size: 18px; color: var(--blue);">&#8679;</span>
+                    <span id="fileUploadText" style="color: var(--text-secondary); font-size: 14px;">Cliquez pour choisir une image...</span>
+                </label>
+                <input type="file" id="fileUpload" accept="image/*" capture="environment" style="display: none;">
+
+                <div id="ocr-loader" style="display:none; margin-top:12px; padding: 8px 12px; background: white; border-radius: var(--radius-sm); color: var(--blue-dark); font-size: 14px;">
+                    ⏳ Analyse OCR en cours...
                 </div>
-                <div id="ocr-message" style="margin-top:10px;"></div>
+                <div id="ocr-message" style="margin-top:10px; font-size: 14px;"></div>
             </div>
 
-            <div class="alert alert-warning" style="margin-top: 16px; margin-bottom: 0;">
-                <span class="alert-icon-text">&#9888;</span>
-                <div class="alert-content" style="color: var(--warning-text);">La photo de l'etiquette aide a identifier automatiquement le bon de commande associe.</div>
-            </div>
         </div>
 
     </div>
@@ -143,6 +181,84 @@
 
     let stream = null;
 
+    // Timer pour cacher le message de succes apres 10 secondes
+    setTimeout(() => {
+        const alertSuccess = document.querySelector('.alert-success');
+        if (alertSuccess) alertSuccess.style.display = 'none';
+    }, 10000);
+
+    function afficherResultatOCR(resultat) {
+        if (resultat.numeroBC) {
+            document.getElementById('numero_bc').value = resultat.numeroBC;
+            document.getElementById('numero_bc').style.backgroundColor = '#d4edda';
+        }
+        if (resultat.numeroSuivi) {
+            document.getElementById('numero_suivi').value = resultat.numeroSuivi;
+            document.getElementById('numero_suivi').style.backgroundColor = '#d4edda';
+        }
+        document.getElementById('ocr_texte_brut').value = resultat.texteBrut;
+        document.getElementById('ocr_nom_destinataire').value = resultat.nomDestinataire;
+        document.getElementById('ocr_confiance').value = resultat.confiance;
+
+        if (resultat.nomDestinataire) {
+            document.getElementById('nom-manuel').value = resultat.nomDestinataire;
+            document.getElementById('ocr-nom-message').style.display = 'none';
+
+            fetch('/postal-univ/rechercher-destinataire?nom=' + encodeURIComponent(resultat.nomDestinataire))
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('ocr-departement').textContent = data.departement ?? 'Non identifie en BDD';
+                });
+        } else {
+            // OCR n'a pas detecte de nom
+            document.getElementById('ocr-nom-message').style.display = 'block';
+            document.getElementById('ocr-departement').textContent = '—';
+        }
+    }
+
+    fileUpload.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            document.getElementById('fileUploadText').textContent = file.name;
+            document.getElementById('numero_bc').value = '';
+            document.getElementById('numero_suivi').value = '';
+            document.getElementById('numero_bc').style.backgroundColor = '';
+            document.getElementById('numero_suivi').style.backgroundColor = '';
+            document.getElementById('nom-manuel').value = '';
+            document.getElementById('ocr-departement').textContent = '—';
+            document.getElementById('ocr-message').textContent = '';
+            document.getElementById('ocr-nom-message').style.display = 'none';
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const img = new Image();
+                img.onload = () => {
+                    let width = img.width, height = img.height;
+                    if (width > 1920) { height *= 1920 / width; width = 1920; }
+                    if (height > 1080) { width *= 1080 / height; height = 1080; }
+                    canvas.width = width;
+                    canvas.height = height;
+                    canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+                    const imageData = canvas.toDataURL('image/jpeg', 0.7);
+                    photoInput.value = imageData;
+
+                    lancerOCR(imageData, afficherResultatOCR);
+
+                    preview.src = imageData;
+                    preview.style.display = 'block';
+                    placeholder.style.display = 'none';
+                    video.style.display = 'none';
+                    if (stream) stream.getTracks().forEach(track => track.stop());
+                    btnStartCamera.style.display = 'none';
+                    btnCapture.style.display = 'none';
+                    btnRetake.style.display = 'inline-flex';
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
     btnStartCamera.addEventListener('click', async () => {
         try {
             stream = await navigator.mediaDevices.getUserMedia({
@@ -164,19 +280,9 @@
         canvas.getContext('2d').drawImage(video, 0, 0);
         const imageData = canvas.toDataURL('image/jpeg', 0.7);
         photoInput.value = imageData;
-        lancerOCR(imageData, function(resultat) {
-            if (resultat.numeroBC) {
-                document.getElementById('numero_bc').value = resultat.numeroBC;
-                document.getElementById('numero_bc').style.backgroundColor = '#d4edda';
-            }
-            if (resultat.numeroSuivi) {
-                document.getElementById('numero_suivi').value = resultat.numeroSuivi;
-                document.getElementById('numero_suivi').style.backgroundColor = '#d4edda';
-            }
-            document.getElementById('ocr_texte_brut').value = resultat.texteBrut;
-            document.getElementById('ocr_nom_destinataire').value = resultat.nomDestinataire;
-            document.getElementById('ocr_confiance').value = resultat.confiance;
-        });
+
+        lancerOCR(imageData, afficherResultatOCR);
+
         preview.src = imageData;
         preview.style.display = 'block';
         video.style.display = 'none';
@@ -192,50 +298,28 @@
         btnRetake.style.display = 'none';
         photoInput.value = '';
         fileUpload.value = '';
+        document.getElementById('fileUploadText').textContent = 'Cliquez pour choisir une image...';
         document.getElementById('numero_bc').style.backgroundColor = '';
         document.getElementById('numero_suivi').style.backgroundColor = '';
+        document.getElementById('numero_bc').value = '';
+        document.getElementById('numero_suivi').value = '';
+        document.getElementById('nom-manuel').value = '';
+        document.getElementById('ocr-departement').textContent = '—';
+        document.getElementById('ocr-message').textContent = '';
+        document.getElementById('ocr-nom-message').style.display = 'none';
     });
 
-    fileUpload.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                const img = new Image();
-                img.onload = () => {
-                    let width = img.width, height = img.height;
-                    if (width > 1920) { height *= 1920 / width; width = 1920; }
-                    if (height > 1080) { width *= 1080 / height; height = 1080; }
-                    canvas.width = width;
-                    canvas.height = height;
-                    canvas.getContext('2d').drawImage(img, 0, 0, width, height);
-                    const imageData = canvas.toDataURL('image/jpeg', 0.7);
-                    photoInput.value = imageData;
-                    lancerOCR(imageData, function(resultat) {
-                        if (resultat.numeroBC) {
-                            document.getElementById('numero_bc').value = resultat.numeroBC;
-                            document.getElementById('numero_bc').style.backgroundColor = '#d4edda';
-                        }
-                        if (resultat.numeroSuivi) {
-                            document.getElementById('numero_suivi').value = resultat.numeroSuivi;
-                            document.getElementById('numero_suivi').style.backgroundColor = '#d4edda';
-                        }
-                        document.getElementById('ocr_texte_brut').value = resultat.texteBrut;
-                        document.getElementById('ocr_confiance').value = resultat.confiance;
-                    });
-                    preview.src = imageData;
-                    preview.style.display = 'block';
-                    placeholder.style.display = 'none';
-                    video.style.display = 'none';
-                    if (stream) stream.getTracks().forEach(track => track.stop());
-                    btnStartCamera.style.display = 'none';
-                    btnCapture.style.display = 'none';
-                    btnRetake.style.display = 'inline-flex';
-                };
-                img.src = event.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
+    document.getElementById('btnRechercherDestinataire').addEventListener('click', () => {
+        const nom = document.getElementById('nom-manuel').value.trim();
+        if (!nom) return;
+
+        document.getElementById('ocr-departement').textContent = 'Recherche en cours...';
+
+        fetch('/postal-univ/rechercher-destinataire?nom=' + encodeURIComponent(nom))
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('ocr-departement').textContent = data.departement ?? 'Non identifie en BDD';
+            });
     });
 
     window.addEventListener('beforeunload', () => {

@@ -56,8 +56,8 @@ class PostalUnivController {
             // Enregistrement dans historique_colis
             $this->model->ajouterHistorique([
                 "colis_id"   => $colis_id,
-                "action"     => "Reçu à l'université",
-                "utilisateur" => $_SESSION["user"]->fullName ?? "postal_univ"
+                "action" => "Recu a l universite",
+                "utilisateur" => $_SESSION["user"]->getFullName() ?? "postal_univ"
             ]);
 
             $message_session = "Colis enregistre avec succes";
@@ -115,5 +115,18 @@ class PostalUnivController {
         $historique = $this->model->getHistorique();
 
         require __DIR__ . '/../views/postal-univ/historique.php';
+    }
+
+    public function rechercherDestinataire() {
+    $nom = $_GET["nom"] ?? "";
+    $destinataire = $this->model->rechercherDestinataireParNom($nom);
+    
+    if ($destinataire) {
+        $dept = $this->model->getDepartementNom($destinataire["departement_id"]);
+        echo json_encode(["departement" => $dept]);
+    } else {
+        echo json_encode(["departement" => null]);
+    }
+    exit;
     }
 }

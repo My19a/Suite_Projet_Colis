@@ -32,7 +32,7 @@ require __DIR__ . '/../partials/header.php';
         <div class="chiffre">
             <span class="chiffre-titre">Statut</span>
             <div style="margin-top: 8px;">
-                <span class="badge badge-<?= strtolower(str_replace(' ', '_', $colis["statut"])) ?>"><?= $colis["statut"] ?></span>
+                <span class="<?= badgeStatut($colis["statut"]) ?>"><?= htmlspecialchars(joli($colis["statut"])) ?></span>
             </div>
         </div>
     </div>

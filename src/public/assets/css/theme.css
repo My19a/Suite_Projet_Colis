@@ -363,11 +363,9 @@ h3.formulaire-titre, .formulaire h3 {
     padding: 18px 22px;
 }
 a.carte-ligne { text-decoration: none; color: inherit; }
-a.carte-ligne, .carte-ligne.cliquable { transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease; }
+a.carte-ligne, .carte-ligne.cliquable { transition: border-color .12s ease; }
 .carte-ligne.cliquable { cursor: pointer; }
-a.carte-ligne:hover, .carte-ligne.cliquable:hover {
-    border-color: var(--accent); box-shadow: 0 6px 18px rgba(31, 36, 55, .09); transform: translateY(-2px);
-}
+a.carte-ligne:hover, .carte-ligne.cliquable:hover { border-color: var(--accent); }
 .cl-tete { display: flex; align-items: center; gap: 14px; flex: 0 1 auto; min-width: 190px; }
 .cl-icone {
     width: 46px; height: 46px; flex-shrink: 0;

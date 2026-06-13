@@ -11,28 +11,28 @@ require __DIR__ . '/../partials/header.php';
         </div>
     </div>
 
-    <div class="section">
-        <div class="form-card">
+    <div class="bloc">
+        <div class="formulaire">
             <form method="post" action="/admin/ajouter-utilisateur">
 
-                <div class="form-group">
-                    <label class="form-label">Nom complet</label>
-                    <input type="text" name="fullName" class="form-input" placeholder="Ex: Jean Dupont" required>
+                <div class="champ">
+                    <label class="etiquette">Nom complet</label>
+                    <input type="text" name="fullName" class="saisie" placeholder="Ex: Jean Dupont" required>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input type="email" name="email" class="form-input" placeholder="Ex: jean.dupont@univ.fr" required>
+                <div class="champ">
+                    <label class="etiquette">Email</label>
+                    <input type="email" name="email" class="saisie" placeholder="Ex: jean.dupont@univ.fr" required>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">UID CAS</label>
-                    <input type="text" name="uid_cas" class="form-input" placeholder="Ex: jdupont" required>
+                <div class="champ">
+                    <label class="etiquette">UID CAS</label>
+                    <input type="text" name="uid_cas" class="saisie" placeholder="Ex: jdupont" required>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Role</label>
-                    <select name="role_id" class="form-select" required>
+                <div class="champ">
+                    <label class="etiquette">Role</label>
+                    <select name="role_id" class="liste-deroulante" required>
                         <option value="">-- Choisir un role --</option>
                         <?php foreach ($roles as $r): ?>
                             <option value="<?= $r['id_role'] ?>"><?= htmlspecialchars($r['libelle']) ?></option>
@@ -40,9 +40,9 @@ require __DIR__ . '/../partials/header.php';
                     </select>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Département</label>
-                    <select name="departement_id" class="form-select">
+                <div class="champ">
+                    <label class="etiquette">Département</label>
+                    <select name="departement_id" class="liste-deroulante">
                         <option value="">-- Aucun --</option>
                         <?php foreach ($departements as $d): ?>
                             <option value="<?= $d['id_departement'] ?>"><?= htmlspecialchars($d['nom']) ?></option>
@@ -50,9 +50,9 @@ require __DIR__ . '/../partials/header.php';
                     </select>
                 </div>
 
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Créer l'utilisateur</button>
-                    <a href="/admin/utilisateurs" class="btn btn-secondary">Annuler</a>
+                <div class="formulaire-boutons">
+                    <button type="submit" class="bouton bouton-principal">Créer l'utilisateur</button>
+                    <a href="/admin/utilisateurs" class="bouton bouton-secondaire">Annuler</a>
                 </div>
 
             </form>

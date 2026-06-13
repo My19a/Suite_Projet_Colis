@@ -11,35 +11,29 @@ require __DIR__ . '/../partials/header.php';
         </div>
     </div>
 
-    <div class="section">
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>ID Colis</th>
-                        <th>N° Suivi</th>
-                        <th>Action</th>
-                        <th>Utilisateur</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($historique)): ?>
-                        <tr><td colspan="5" class="empty-state">Aucun historique</td></tr>
-                    <?php else: ?>
-                        <?php foreach ($historique as $h): ?>
-                        <tr>
-                            <td><?= $h["date_action"] ?></td>
-                            <td>#<?= $h["id_colis"] ?></td>
-                            <td><strong><?= htmlspecialchars($h["numero_suivi"] ?: "—") ?></strong></td>
-                            <td><?= htmlspecialchars($h["action"]) ?></td>
-                            <td><?= htmlspecialchars($h["utilisateur"] ?? "—") ?></td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+    <?php if (empty($historique)): ?>
+        <div class="vide-cadre">Aucun historique</div>
+    <?php else: ?>
+        <div class="liste">
+            <?php foreach ($historique as $h): ?>
+                <div class="carte-ligne">
+                    <div class="cl-tete">
+                        <div class="cl-icone"><?= icone('historique', 19) ?></div>
+                        <div>
+                            <div class="cl-titre"><?= htmlspecialchars($h["numero_suivi"] ?: "—") ?></div>
+                            <div class="cl-sous">Colis #<?= $h["id_colis"] ?></div>
+                        </div>
+                    </div>
+                    <div class="cl-champs">
+                        <div class="cl-champ"><span class="cl-cle">Date</span><span class="cl-val"><?= $h["date_action"] ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Utilisateur</span><span class="cl-val"><?= htmlspecialchars($h["utilisateur"] ?? "—") ?></span></div>
+                    </div>
+                    <div class="cl-fin">
+                        <span class="badge"><?= htmlspecialchars(joli($h["action"])) ?></span>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
-    </div>
+    <?php endif; ?>
 
 <?php require __DIR__ . '/../partials/footer.php'; ?>

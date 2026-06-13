@@ -5,7 +5,7 @@ require __DIR__ . '/../partials/header.php';
 ?>
 
 <div class="page-header-simple">
-        <a href="/departement/dashboard" class="back-button-simple">
+        <a href="/departement/dashboard" class="lien-retour">
             <span class="back-arrow">&larr;</span>
             Retour
         </a>
@@ -18,29 +18,29 @@ require __DIR__ . '/../partials/header.php';
         </div>
     </div>
 
-    <div class="stats-grid">
-        <div class="stat-card stat-blue">
-            <span class="stat-label">Budget total</span>
-            <div class="stat-value"><?= number_format($budget["budget_total"], 2, ',', ' ') ?></div>
-            <div class="stat-description">EUR alloué</div>
+    <div class="chiffres">
+        <div class="chiffre chiffre-info-c">
+            <span class="chiffre-titre">Budget total</span>
+            <div class="chiffre-valeur"><?= number_format($budget["budget_total"], 2, ',', ' ') ?></div>
+            <div class="chiffre-info">EUR alloué</div>
         </div>
 
-        <div class="stat-card stat-warning">
-            <span class="stat-label">Budget utilisé</span>
-            <div class="stat-value"><?= number_format($budget["budget_utilise"], 2, ',', ' ') ?></div>
-            <div class="stat-description">EUR dépensé</div>
+        <div class="chiffre chiffre-attn">
+            <span class="chiffre-titre">Budget utilisé</span>
+            <div class="chiffre-valeur"><?= number_format($budget["budget_utilise"], 2, ',', ' ') ?></div>
+            <div class="chiffre-info">EUR dépensé</div>
         </div>
 
-        <div class="stat-card stat-success">
-            <span class="stat-label">Budget restant</span>
-            <div class="stat-value"><?= number_format($budget["budget_total"] - $budget["budget_utilise"], 2, ',', ' ') ?></div>
-            <div class="stat-description">EUR disponible</div>
+        <div class="chiffre chiffre-ok">
+            <span class="chiffre-titre">Budget restant</span>
+            <div class="chiffre-valeur"><?= number_format($budget["budget_total"] - $budget["budget_utilise"], 2, ',', ' ') ?></div>
+            <div class="chiffre-info">EUR disponible</div>
         </div>
     </div>
 
-    <div class="section">
-        <div class="section-header">
-            <h2 class="section-title">Repartition du budget</h2>
+    <div class="bloc">
+        <div class="bloc-entete">
+            <h2 class="bloc-titre">Repartition du budget</h2>
         </div>
 
         <?php

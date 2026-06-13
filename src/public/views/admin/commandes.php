@@ -11,53 +11,47 @@ require __DIR__ . '/../partials/header.php';
         </div>
     </div>
 
-    <div class="section">
-        <div class="stats-grid">
+    <div class="bloc">
+        <div class="chiffres">
             <?php foreach ($stats as $statut => $count): ?>
-            <div class="stat-card">
-                <div class="stat-value"><?= $count ?></div>
-                <div class="stat-label"><?= ucfirst(str_replace('_', ' ', $statut)) ?></div>
+            <div class="chiffre">
+                <div class="chiffre-valeur"><?= $count ?></div>
+                <div class="chiffre-titre"><?= ucfirst(str_replace('_', ' ', $statut)) ?></div>
             </div>
             <?php endforeach; ?>
         </div>
     </div>
 
-    <form method="get" class="search-container">
-        <input type="text" name="q" class="search-input" placeholder="Rechercher par numéro…" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
+    <form method="get" class="recherche">
+        <input type="text" name="q" class="recherche-saisie" placeholder="Rechercher par numéro…" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
         <button type="submit" class="btn-loupe" title="Rechercher"><?= icone('recherche', 15) ?></button>
     </form>
 
-    <div class="section">
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>N° Commande</th>
-                        <th>Département</th>
-                        <th>Fournisseur</th>
-                        <th>Montant</th>
-                        <th>Statut</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($commandes)): ?>
-                        <tr><td colspan="6" class="empty-state">Aucune commande</td></tr>
-                    <?php else: ?>
-                        <?php foreach ($commandes as $c): ?>
-                        <tr>
-                            <td><strong><?= htmlspecialchars($c['numero_commande']) ?></strong></td>
-                            <td><?= htmlspecialchars($c['departement'] ?? '-') ?></td>
-                            <td><?= htmlspecialchars($c['fournisseur'] ?? '-') ?></td>
-                            <td><?= number_format($c['montant_estime'] ?? 0, 2, ',', ' ') ?> EUR</td>
-                            <td><span class="badge badge-<?= $c['statut'] ?>"><?= $c['statut'] ?></span></td>
-                            <td><?= $c['date_commande'] ?></td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+    <?php if (empty($commandes)): ?>
+        <div class="vide-cadre">Aucune commande</div>
+    <?php else: ?>
+        <div class="liste">
+            <?php foreach ($commandes as $c): ?>
+                <div class="carte-ligne">
+                    <div class="cl-tete">
+                        <div class="cl-icone"><?= icone('commandes', 19) ?></div>
+                        <div>
+                            <div class="cl-titre"><?= htmlspecialchars($c['numero_commande']) ?></div>
+                            <div class="cl-sous">Bon de commande</div>
+                        </div>
+                    </div>
+                    <div class="cl-champs">
+                        <div class="cl-champ"><span class="cl-cle">Département</span><span class="cl-val"><?= htmlspecialchars($c['departement'] ?? '—') ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Fournisseur</span><span class="cl-val"><?= htmlspecialchars($c['fournisseur'] ?? '—') ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Montant</span><span class="cl-val montant"><?= number_format($c['montant_estime'] ?? 0, 2, ',', ' ') ?> EUR</span></div>
+                        <div class="cl-champ"><span class="cl-cle">Date</span><span class="cl-val"><?= $c['date_commande'] ?></span></div>
+                    </div>
+                    <div class="cl-fin">
+                        <span class="<?= badgeStatut($c['statut']) ?>"><?= htmlspecialchars(joli($c['statut'])) ?></span>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
-    </div>
+    <?php endif; ?>
 
 <?php require __DIR__ . '/../partials/footer.php'; ?>

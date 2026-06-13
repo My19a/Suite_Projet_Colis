@@ -11,43 +11,31 @@ require __DIR__ . '/../partials/header.php';
         </div>
     </div>
 
-    <div class="section">
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Objet</th>
-                        <th>Département</th>
-                        <th>Montant</th>
-                        <th>Date</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($devis)): ?>
-                        <tr><td colspan="6" class="empty-state">Aucun devis à vérifier</td></tr>
-                    <?php else: ?>
-                        <?php foreach ($devis as $d): ?>
-                        <tr>
-                            <td>#<?= $d["id_devis"] ?></td>
-                            <td><strong><?= htmlspecialchars($d["objet"]) ?></strong></td>
-                            <td><?= htmlspecialchars($d["departement"] ?? "—") ?></td>
-                            <td><span class="montant"><?= number_format($d["montant_estime"], 2, ',', ' ') ?> EUR</span></td>
-                            <td><?= $d["date_demande"] ?></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <a class="btn btn-sm btn-success" href="/finance/valider-devis?id=<?= $d["id_devis"] ?>">Valider</a>
-                                    <a class="btn btn-sm btn-danger" href="/finance/rejeter-devis?id=<?= $d["id_devis"] ?>">Rejeter</a>
-                                    <a class="btn btn-sm btn-secondary" href="/finance/voir-devis?id=<?= $d["id_devis"] ?>" target="_blank">Voir</a>
-                                </div>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+    <?php if (empty($devis)): ?>
+        <div class="vide-cadre">Aucun devis à vérifier</div>
+    <?php else: ?>
+        <div class="liste">
+            <?php foreach ($devis as $d): ?>
+                <div class="carte-ligne cliquable" onclick="window.open('/finance/voir-devis?id=<?= $d["id_devis"] ?>', '_blank')">
+                    <div class="cl-tete">
+                        <div class="cl-icone"><?= icone('devis', 19) ?></div>
+                        <div>
+                            <div class="cl-titre"><?= htmlspecialchars($d["objet"]) ?></div>
+                            <div class="cl-sous">Devis #<?= $d["id_devis"] ?></div>
+                        </div>
+                    </div>
+                    <div class="cl-champs">
+                        <div class="cl-champ"><span class="cl-cle">Département</span><span class="cl-val"><?= htmlspecialchars($d["departement"] ?? "—") ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Montant</span><span class="cl-val montant"><?= number_format($d["montant_estime"], 2, ',', ' ') ?> EUR</span></div>
+                        <div class="cl-champ"><span class="cl-cle">Date</span><span class="cl-val"><?= $d["date_demande"] ?></span></div>
+                    </div>
+                    <div class="cl-fin" onclick="event.stopPropagation()">
+                        <a class="bouton bouton-petit bouton-valider" href="/finance/valider-devis?id=<?= $d["id_devis"] ?>">Valider</a>
+                        <a class="bouton bouton-petit bouton-danger" href="/finance/rejeter-devis?id=<?= $d["id_devis"] ?>">Rejeter</a>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
-    </div>
+    <?php endif; ?>
 
 <?php require __DIR__ . '/../partials/footer.php'; ?>

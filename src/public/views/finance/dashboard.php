@@ -12,93 +12,77 @@ require __DIR__ . '/../partials/header.php';
         </div>
     </div>
 
-    <div class="stats-grid">
-        <div class="stat-card stat-warning">
-            <span class="stat-label">Devis en attente</span>
-            <div class="stat-value"><?= $stats["devis_attente"] ?></div>
-            <div class="stat-description">À vérifier</div>
+    <div class="chiffres">
+        <div class="chiffre chiffre-attn">
+            <span class="chiffre-titre">Devis en attente</span>
+            <div class="chiffre-valeur"><?= $stats["devis_attente"] ?></div>
+            <div class="chiffre-info">À vérifier</div>
         </div>
 
-        <div class="stat-card stat-blue">
-            <span class="stat-label">Bons de commande</span>
-            <div class="stat-value"><?= $stats["bons_commande"] ?></div>
-            <div class="stat-description">Total</div>
+        <div class="chiffre chiffre-info-c">
+            <span class="chiffre-titre">Bons de commande</span>
+            <div class="chiffre-valeur"><?= $stats["bons_commande"] ?></div>
+            <div class="chiffre-info">Total</div>
         </div>
     </div>
 
-    <div class="section">
-        <div class="section-header">
-            <h2 class="section-title">Budgets des départements</h2>
-            <a href="/finance/budgets" class="btn-link">Voir tout</a>
-        </div>
-
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Département</th>
-                        <th>Budget total</th>
-                        <th>Budget utilisé</th>
-                        <th>Restant</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($budgets)): ?>
-                        <tr><td colspan="4" class="empty-state">Aucun budget trouve</td></tr>
-                    <?php else: ?>
-                        <?php foreach ($budgets as $b): ?>
-                        <tr>
-                            <td><strong><?= htmlspecialchars($b["nom"]) ?></strong></td>
-                            <td><?= number_format($b["budget_total"], 2, ',', ' ') ?> EUR</td>
-                            <td><?= number_format($b["budget_utilise"], 2, ',', ' ') ?> EUR</td>
-                            <td><span class="montant"><?= number_format($b["budget_total"] - $b["budget_utilise"], 2, ',', ' ') ?> EUR</span></td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
+    <div class="bloc-entete">
+        <h2 class="bloc-titre">Budgets des départements</h2>
+        <a href="/finance/budgets" class="lien-action">Voir tout</a>
     </div>
 
-    <div class="section">
-        <div class="section-header">
-            <h2 class="section-title">Devis à vérifier</h2>
-            <a href="/finance/devis" class="btn-link">Voir tout</a>
+    <?php if (empty($budgets)): ?>
+        <div class="vide-cadre">Aucun budget trouvé</div>
+    <?php else: ?>
+        <div class="liste">
+            <?php foreach ($budgets as $b): ?>
+                <div class="carte-ligne">
+                    <div class="cl-tete">
+                        <div class="cl-icone"><?= icone('budget', 19) ?></div>
+                        <div>
+                            <div class="cl-titre"><?= htmlspecialchars($b["nom"]) ?></div>
+                            <div class="cl-sous">Département</div>
+                        </div>
+                    </div>
+                    <div class="cl-champs">
+                        <div class="cl-champ"><span class="cl-cle">Budget total</span><span class="cl-val"><?= number_format($b["budget_total"], 2, ',', ' ') ?> EUR</span></div>
+                        <div class="cl-champ"><span class="cl-cle">Utilisé</span><span class="cl-val"><?= number_format($b["budget_utilise"], 2, ',', ' ') ?> EUR</span></div>
+                        <div class="cl-champ"><span class="cl-cle">Restant</span><span class="cl-val montant"><?= number_format($b["budget_total"] - $b["budget_utilise"], 2, ',', ' ') ?> EUR</span></div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
+    <?php endif; ?>
 
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Objet</th>
-                        <th>Département</th>
-                        <th>Montant</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($devis)): ?>
-                        <tr><td colspan="5" class="empty-state">Aucun devis en attente</td></tr>
-                    <?php else: ?>
-                        <?php foreach ($devis as $d): ?>
-                        <tr>
-                            <td>#<?= $d["id_devis"] ?></td>
-                            <td><strong><?= htmlspecialchars($d["objet"]) ?></strong></td>
-                            <td><?= htmlspecialchars($d["departement"]) ?></td>
-                            <td><span class="montant"><?= number_format($d["montant_estime"], 2, ',', ' ') ?> EUR</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <a class="btn btn-sm btn-success" href="/finance/valider-devis?id=<?= $d["id_devis"] ?>">Valider</a>
-                                    <a class="btn btn-sm btn-danger" href="/finance/rejeter-devis?id=<?= $d["id_devis"] ?>">Rejeter</a>
-                                </div>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
+    <div class="bloc-entete">
+        <h2 class="bloc-titre">Devis à vérifier</h2>
+        <a href="/finance/devis" class="lien-action">Voir tout</a>
     </div>
+
+    <?php if (empty($devis)): ?>
+        <div class="vide-cadre">Aucun devis en attente</div>
+    <?php else: ?>
+        <div class="liste">
+            <?php foreach ($devis as $d): ?>
+                <div class="carte-ligne cliquable" onclick="window.open('/finance/voir-devis?id=<?= $d["id_devis"] ?>', '_blank')">
+                    <div class="cl-tete">
+                        <div class="cl-icone"><?= icone('devis', 19) ?></div>
+                        <div>
+                            <div class="cl-titre"><?= htmlspecialchars($d["objet"]) ?></div>
+                            <div class="cl-sous">Devis #<?= $d["id_devis"] ?></div>
+                        </div>
+                    </div>
+                    <div class="cl-champs">
+                        <div class="cl-champ"><span class="cl-cle">Département</span><span class="cl-val"><?= htmlspecialchars($d["departement"]) ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Montant</span><span class="cl-val montant"><?= number_format($d["montant_estime"], 2, ',', ' ') ?> EUR</span></div>
+                    </div>
+                    <div class="cl-fin" onclick="event.stopPropagation()">
+                        <a class="bouton bouton-petit bouton-valider" href="/finance/valider-devis?id=<?= $d["id_devis"] ?>">Valider</a>
+                        <a class="bouton bouton-petit bouton-danger" href="/finance/rejeter-devis?id=<?= $d["id_devis"] ?>">Rejeter</a>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 
 <?php require __DIR__ . '/../partials/footer.php'; ?>

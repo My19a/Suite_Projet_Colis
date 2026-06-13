@@ -5,7 +5,7 @@ require __DIR__ . '/../partials/header.php';
 ?>
 
 <div class="page-header-simple">
-        <a href="/departement/dashboard" class="back-button-simple">
+        <a href="/departement/dashboard" class="lien-retour">
             <span class="back-arrow">&larr;</span>
             Retour
         </a>
@@ -18,8 +18,8 @@ require __DIR__ . '/../partials/header.php';
         </div>
     </div>
 
-    <div class="search-container">
-        <input type="text" class="search-input" placeholder="Rechercher par numéro de suivi, BC ou statut..." id="rechercheColis" onkeyup="filtrerColis()">
+    <div class="recherche">
+        <input type="text" class="recherche-saisie" placeholder="Rechercher par numéro de suivi, BC ou statut..." id="rechercheColis" onkeyup="filtrerColis()">
         <button type="button" class="btn-loupe" onclick="filtrerColis()" title="Rechercher"><?= icone('recherche', 15) ?></button>
     </div>
 
@@ -36,74 +36,61 @@ require __DIR__ . '/../partials/header.php';
     }
     ?>
 
-    <div class="stats-grid">
-        <div class="stat-card">
-            <span class="stat-label">Total colis</span>
-            <div class="stat-value"><?= $totalColis ?></div>
+    <div class="chiffres">
+        <div class="chiffre">
+            <span class="chiffre-titre">Total colis</span>
+            <div class="chiffre-valeur"><?= $totalColis ?></div>
         </div>
-        <div class="stat-card stat-blue">
-            <span class="stat-label">En transit</span>
-            <div class="stat-value"><?= $enTransit ?></div>
+        <div class="chiffre chiffre-info-c">
+            <span class="chiffre-titre">En transit</span>
+            <div class="chiffre-valeur"><?= $enTransit ?></div>
         </div>
-        <div class="stat-card stat-warning">
-            <span class="stat-label">En attente</span>
-            <div class="stat-value"><?= $enAttente ?></div>
+        <div class="chiffre chiffre-attn">
+            <span class="chiffre-titre">En attente</span>
+            <div class="chiffre-valeur"><?= $enAttente ?></div>
         </div>
-        <div class="stat-card stat-success">
-            <span class="stat-label">Livrés</span>
-            <div class="stat-value"><?= $livres ?></div>
+        <div class="chiffre chiffre-ok">
+            <span class="chiffre-titre">Livrés</span>
+            <div class="chiffre-valeur"><?= $livres ?></div>
         </div>
     </div>
 
-    <div class="section">
-        <div class="section-header">
-            <h2 class="section-title">Liste des colis</h2>
-            <span class="section-subtitle"><?= $totalColis ?> colis trouve(s)</span>
-        </div>
-
-        <div class="table-container">
-            <table class="data-table" id="tableauColis">
-                <thead>
-                    <tr>
-                        <th>N° Suivi</th>
-                        <th>Bon de commande</th>
-                        <th>Date réception</th>
-                        <th>Statut</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($colis)): ?>
-                        <tr>
-                            <td colspan="4" class="empty-state">Aucun colis trouve</td>
-                        </tr>
-                    <?php else: ?>
-                        <?php foreach ($colis as $c): ?>
-                            <tr class="ligne-colis">
-                                <td><strong><?= htmlspecialchars($c['numero_suivi'] ?? '—') ?></strong></td>
-                                <td><?= htmlspecialchars($c['numero_commande']) ?></td>
-                                <td><?= $c['date_reception'] ? date('d/m/Y', strtotime($c['date_reception'])) : '—' ?></td>
-                                <td>
-                                    <?php $statutAffichage = $c['statut'] === 'Retire' ? 'Livre' : $c['statut']; ?>
-                                    <span class="badge badge-<?= strtolower(str_replace(' ', '_', $statutAffichage)) ?>"><?= $statutAffichage ?></span>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
+    <div class="bloc-entete">
+        <h2 class="bloc-titre">Liste des colis</h2>
+        <span class="bloc-sous-titre"><?= $totalColis ?> colis trouve(s)</span>
     </div>
+
+    <?php if (empty($colis)): ?>
+        <div class="vide-cadre">Aucun colis trouve</div>
+    <?php else: ?>
+        <div class="liste" id="grilleColis">
+            <?php foreach ($colis as $c): ?>
+                <?php $statutAffichage = $c['statut'] === 'Retire' ? 'Livre' : $c['statut']; ?>
+                <div class="carte-ligne ligne-colis">
+                    <div class="cl-tete">
+                        <div class="cl-icone"><?= icone('colis', 19) ?></div>
+                        <div>
+                            <div class="cl-titre"><?= htmlspecialchars($c['numero_suivi'] ?? '—') ?></div>
+                            <div class="cl-sous">N° de suivi</div>
+                        </div>
+                    </div>
+                    <div class="cl-champs">
+                        <div class="cl-champ"><span class="cl-cle">Bon de commande</span><span class="cl-val"><?= htmlspecialchars($c['numero_commande']) ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Date réception</span><span class="cl-val"><?= $c['date_reception'] ? date('d/m/Y', strtotime($c['date_reception'])) : '—' ?></span></div>
+                    </div>
+                    <div class="cl-fin">
+                        <span class="<?= badgeStatut($statutAffichage) ?>"><?= htmlspecialchars(joli($statutAffichage)) ?></span>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 
 <script>
 function filtrerColis() {
-    const input = document.getElementById('rechercheColis');
-    const filter = input.value.toLowerCase();
-    const table = document.getElementById('tableauColis');
-    const rows = table.getElementsByClassName('ligne-colis');
-
-    for (let row of rows) {
-        const text = row.textContent.toLowerCase();
-        row.style.display = text.includes(filter) ? '' : 'none';
+    const filter = document.getElementById('rechercheColis').value.toLowerCase();
+    for (let carte of document.getElementsByClassName('ligne-colis')) {
+        carte.style.display = carte.textContent.toLowerCase().includes(filter) ? '' : 'none';
     }
 }
 </script>

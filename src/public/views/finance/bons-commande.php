@@ -11,33 +11,29 @@ require __DIR__ . '/../partials/header.php';
         </div>
     </div>
 
-    <div class="section">
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>N° commande</th>
-                        <th>Date</th>
-                        <th>Montant</th>
-                        <th>Statut</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($bons)): ?>
-                        <tr><td colspan="4" class="empty-state">Aucun bon de commande</td></tr>
-                    <?php else: ?>
-                        <?php foreach ($bons as $b): ?>
-                        <tr>
-                            <td><strong><?= htmlspecialchars($b["numero_commande"]) ?></strong></td>
-                            <td><?= $b["date_commande"] ?></td>
-                            <td><span class="montant"><?= number_format($b["montant_estime"], 2, ',', ' ') ?> EUR</span></td>
-                            <td><span class="badge badge-<?= strtolower($b["statut"]) ?>"><?= ucfirst($b["statut"]) ?></span></td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+    <?php if (empty($bons)): ?>
+        <div class="vide-cadre">Aucun bon de commande</div>
+    <?php else: ?>
+        <div class="liste">
+            <?php foreach ($bons as $b): ?>
+                <div class="carte-ligne">
+                    <div class="cl-tete">
+                        <div class="cl-icone"><?= icone('commandes', 19) ?></div>
+                        <div>
+                            <div class="cl-titre"><?= htmlspecialchars($b["numero_commande"]) ?></div>
+                            <div class="cl-sous">Bon de commande</div>
+                        </div>
+                    </div>
+                    <div class="cl-champs">
+                        <div class="cl-champ"><span class="cl-cle">Date</span><span class="cl-val"><?= $b["date_commande"] ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Montant</span><span class="cl-val montant"><?= number_format($b["montant_estime"], 2, ',', ' ') ?> EUR</span></div>
+                    </div>
+                    <div class="cl-fin">
+                        <span class="<?= badgeStatut($b["statut"]) ?>"><?= htmlspecialchars(joli($b["statut"])) ?></span>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
-    </div>
+    <?php endif; ?>
 
 <?php require __DIR__ . '/../partials/footer.php'; ?>

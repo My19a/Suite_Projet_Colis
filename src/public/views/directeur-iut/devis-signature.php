@@ -11,37 +11,29 @@ require __DIR__ . '/../partials/header.php';
         </div>
     </div>
 
-    <div class="section">
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Objet</th>
-                        <th>Montant</th>
-                        <th>Date</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($devis)): ?>
-                        <tr><td colspan="5" class="empty-state">Aucun devis à signer</td></tr>
-                    <?php else: ?>
-                        <?php foreach ($devis as $d): ?>
-                        <tr>
-                            <td>#<?= $d["id_devis"] ?></td>
-                            <td><strong><?= htmlspecialchars($d["objet"]) ?></strong></td>
-                            <td><span class="montant"><?= number_format($d["montant_estime"], 2, ',', ' ') ?> EUR</span></td>
-                            <td><?= $d["date_demande"] ?></td>
-                            <td>
-                                <a class="btn btn-sm btn-primary" href="/directeur/signer-devis?id=<?= $d["id_devis"] ?>">Signer</a>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+    <?php if (empty($devis)): ?>
+        <div class="vide-cadre">Aucun devis à signer</div>
+    <?php else: ?>
+        <div class="liste">
+            <?php foreach ($devis as $d): ?>
+                <div class="carte-ligne">
+                    <div class="cl-tete">
+                        <div class="cl-icone"><?= icone('devis', 19) ?></div>
+                        <div>
+                            <div class="cl-titre"><?= htmlspecialchars($d["objet"]) ?></div>
+                            <div class="cl-sous">Devis #<?= $d["id_devis"] ?></div>
+                        </div>
+                    </div>
+                    <div class="cl-champs">
+                        <div class="cl-champ"><span class="cl-cle">Montant</span><span class="cl-val montant"><?= number_format($d["montant_estime"], 2, ',', ' ') ?> EUR</span></div>
+                        <div class="cl-champ"><span class="cl-cle">Date</span><span class="cl-val"><?= $d["date_demande"] ?></span></div>
+                    </div>
+                    <div class="cl-fin">
+                        <a class="bouton bouton-petit bouton-principal" href="/directeur/signer-devis?id=<?= $d["id_devis"] ?>">Signer</a>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
-    </div>
+    <?php endif; ?>
 
 <?php require __DIR__ . '/../partials/footer.php'; ?>

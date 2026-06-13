@@ -11,41 +11,30 @@ require __DIR__ . '/../partials/header.php';
         </div>
     </div>
 
-    <div class="section">
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>N° suivi</th>
-                        <th>Département</th>
-                        <th>Date réception</th>
-                        <th>Statut</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($colis)): ?>
-                        <tr>
-                            <td colspan="6" class="empty-state">Aucun colis reçu</td>
-                        </tr>
-                    <?php else: ?>
-                        <?php foreach ($colis as $c): ?>
-                        <tr>
-                            <td><a href="/postal/colis/details?id=<?= $c["id_colis"] ?>" class="btn-link">#<?= $c["id_colis"] ?></a></td>
-                            <td><?= htmlspecialchars($c["numero_suivi"]) ?></td>
-                            <td><?= htmlspecialchars($c["departement"] ?: "Non identifie") ?></td>
-                            <td><?= $c["date_reception"] ?></td>
-                            <td><span class="badge badge-<?= strtolower(str_replace(' ', '_', $c["statut"])) ?>"><?= $c["statut"] ?></span></td>
-                            <td>
-                                <a class="btn btn-sm btn-success" href="/postal/colis/retirer?id=<?= $c["id_colis"] ?>">Retire</a>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+    <?php if (empty($colis)): ?>
+        <div class="vide-cadre">Aucun colis reçu</div>
+    <?php else: ?>
+        <div class="liste">
+            <?php foreach ($colis as $c): ?>
+                <div class="carte-ligne cliquable" onclick="location.href='/postal/colis/details?id=<?= $c["id_colis"] ?>'">
+                    <div class="cl-tete">
+                        <div class="cl-icone"><?= icone('colis', 19) ?></div>
+                        <div>
+                            <div class="cl-titre"><?= htmlspecialchars($c["numero_suivi"]) ?></div>
+                            <div class="cl-sous">Colis #<?= $c["id_colis"] ?></div>
+                        </div>
+                    </div>
+                    <div class="cl-champs">
+                        <div class="cl-champ"><span class="cl-cle">Département</span><span class="cl-val"><?= htmlspecialchars($c["departement"] ?: "Non identifié") ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Date réception</span><span class="cl-val"><?= $c["date_reception"] ?></span></div>
+                    </div>
+                    <div class="cl-fin">
+                        <span class="<?= badgeStatut($c["statut"]) ?>"><?= htmlspecialchars(joli($c["statut"])) ?></span>
+                        <a class="bouton bouton-petit bouton-valider" href="/postal/colis/retirer?id=<?= $c["id_colis"] ?>" onclick="event.stopPropagation()">Retiré</a>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
-    </div>
+    <?php endif; ?>
 
 <?php require __DIR__ . '/../partials/footer.php'; ?>

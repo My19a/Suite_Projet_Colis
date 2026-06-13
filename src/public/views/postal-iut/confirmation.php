@@ -11,41 +11,30 @@ require __DIR__ . '/../partials/header.php';
         </div>
     </div>
 
-    <div class="section">
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>N° suivi</th>
-                        <th>Bon de commande</th>
-                        <th>Département</th>
-                        <th>Date transfert</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($colis)): ?>
-                        <tr>
-                            <td colspan="6" class="empty-state">Aucun colis a confirmer</td>
-                        </tr>
-                    <?php else: ?>
-                        <?php foreach ($colis as $c): ?>
-                        <tr>
-                            <td>#<?= $c["id_colis"] ?></td>
-                            <td><?= htmlspecialchars($c["numero_suivi"]) ?></td>
-                            <td><?= htmlspecialchars($c["numero_commande"]) ?></td>
-                            <td><?= htmlspecialchars($c["departement"] ?: "—") ?></td>
-                            <td><?= $c["date_reception"] ?></td>
-                            <td>
-                                <a class="btn btn-sm btn-primary" href="/postal/confirmer?id=<?= $c["id_colis"] ?>">Confirmer réception</a>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+    <?php if (empty($colis)): ?>
+        <div class="vide-cadre">Aucun colis à confirmer</div>
+    <?php else: ?>
+        <div class="liste">
+            <?php foreach ($colis as $c): ?>
+                <div class="carte-ligne cliquable" onclick="location.href='/postal/colis/details?id=<?= $c["id_colis"] ?>'">
+                    <div class="cl-tete">
+                        <div class="cl-icone"><?= icone('colis', 19) ?></div>
+                        <div>
+                            <div class="cl-titre"><?= htmlspecialchars($c["numero_suivi"]) ?></div>
+                            <div class="cl-sous">Colis #<?= $c["id_colis"] ?></div>
+                        </div>
+                    </div>
+                    <div class="cl-champs">
+                        <div class="cl-champ"><span class="cl-cle">Bon de commande</span><span class="cl-val"><?= htmlspecialchars($c["numero_commande"]) ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Département</span><span class="cl-val"><?= htmlspecialchars($c["departement"] ?: "—") ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Date transfert</span><span class="cl-val"><?= $c["date_reception"] ?></span></div>
+                    </div>
+                    <div class="cl-fin" onclick="event.stopPropagation()">
+                        <a class="bouton bouton-petit bouton-principal" href="/postal/confirmer?id=<?= $c["id_colis"] ?>">Confirmer réception</a>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
-    </div>
+    <?php endif; ?>
 
 <?php require __DIR__ . '/../partials/footer.php'; ?>

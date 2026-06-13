@@ -11,37 +11,30 @@ require __DIR__ . '/../partials/header.php';
         </div>
     </div>
 
-    <div class="section">
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>N° suivi</th>
-                        <th>Département</th>
-                        <th>Date réception</th>
-                        <th>Date retrait</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($colis)): ?>
-                        <tr>
-                            <td colspan="5" class="empty-state">Aucun colis remis</td>
-                        </tr>
-                    <?php else: ?>
-                        <?php foreach ($colis as $c): ?>
-                        <tr>
-                            <td><a href="/postal/colis/details?id=<?= $c["id_colis"] ?>" class="btn-link">#<?= $c["id_colis"] ?></a></td>
-                            <td><?= htmlspecialchars($c["numero_suivi"] ?: "—") ?></td>
-                            <td><?= htmlspecialchars($c["departement"] ?: "—") ?></td>
-                            <td><?= $c["date_reception"] ?></td>
-                            <td><?= $c["date_retrait"] ?></td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+    <?php if (empty($colis)): ?>
+        <div class="vide-cadre">Aucun colis remis</div>
+    <?php else: ?>
+        <div class="liste">
+            <?php foreach ($colis as $c): ?>
+                <a class="carte-ligne" href="/postal/colis/details?id=<?= $c["id_colis"] ?>">
+                    <div class="cl-tete">
+                        <div class="cl-icone"><?= icone('colis', 19) ?></div>
+                        <div>
+                            <div class="cl-titre"><?= htmlspecialchars($c["numero_suivi"] ?: "—") ?></div>
+                            <div class="cl-sous">Colis #<?= $c["id_colis"] ?></div>
+                        </div>
+                    </div>
+                    <div class="cl-champs">
+                        <div class="cl-champ"><span class="cl-cle">Département</span><span class="cl-val"><?= htmlspecialchars($c["departement"] ?: "—") ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Date réception</span><span class="cl-val"><?= $c["date_reception"] ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Date retrait</span><span class="cl-val"><?= $c["date_retrait"] ?></span></div>
+                    </div>
+                    <div class="cl-fin">
+                        <span class="badge badge-livre">Remis</span>
+                    </div>
+                </a>
+            <?php endforeach; ?>
         </div>
-    </div>
+    <?php endif; ?>
 
 <?php require __DIR__ . '/../partials/footer.php'; ?>

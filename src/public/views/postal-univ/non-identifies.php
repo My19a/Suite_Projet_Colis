@@ -11,33 +11,28 @@ require __DIR__ . '/../partials/header.php';
         </div>
     </div>
 
-    <div class="section">
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>N° suivi</th>
-                        <th>Date réception</th>
-                        <th>Statut</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($colis)): ?>
-                        <tr><td colspan="4" class="empty-state">Aucun colis non identifié</td></tr>
-                    <?php else: ?>
-                        <?php foreach ($colis as $c): ?>
-                        <tr>
-                            <td>#<?= $c["id_colis"] ?></td>
-                            <td><strong><?= htmlspecialchars($c["numero_suivi"] ?: "—") ?></strong></td>
-                            <td><?= $c["date_reception"] ?></td>
-                            <td><span class="badge badge-non_identifie"><?= htmlspecialchars($c["statut"]) ?></span></td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+    <?php if (empty($colis)): ?>
+        <div class="vide-cadre">Aucun colis non identifié</div>
+    <?php else: ?>
+        <div class="liste">
+            <?php foreach ($colis as $c): ?>
+                <div class="carte-ligne">
+                    <div class="cl-tete">
+                        <div class="cl-icone"><?= icone('colis', 19) ?></div>
+                        <div>
+                            <div class="cl-titre"><?= htmlspecialchars($c["numero_suivi"] ?: "Sans suivi") ?></div>
+                            <div class="cl-sous">Colis #<?= $c["id_colis"] ?></div>
+                        </div>
+                    </div>
+                    <div class="cl-champs">
+                        <div class="cl-champ"><span class="cl-cle">Date réception</span><span class="cl-val"><?= $c["date_reception"] ?></span></div>
+                    </div>
+                    <div class="cl-fin">
+                        <span class="badge badge-non_identifie"><?= htmlspecialchars(joli($c["statut"])) ?></span>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
-    </div>
+    <?php endif; ?>
 
 <?php require __DIR__ . '/../partials/footer.php'; ?>

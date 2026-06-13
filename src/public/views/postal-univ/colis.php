@@ -11,45 +11,33 @@ require __DIR__ . '/../partials/header.php';
         </div>
     </div>
 
-    <div class="section">
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>N° suivi</th>
-                        <th>N° bon de commande</th>
-                        <th>Campus / IUT</th>
-                        <th>Statut</th>
-                        <th>Date réception</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($colis)): ?>
-                        <tr><td colspan="7" class="empty-state">Aucun colis</td></tr>
-                    <?php else: ?>
-                        <?php foreach ($colis as $c): ?>
-                        <tr>
-                            <td>#<?= $c["id_colis"] ?></td>
-                            <td><strong><?= htmlspecialchars($c["numero_suivi"] ?: "—") ?></strong></td>
-                            <td><?= htmlspecialchars($c["numero_commande"]) ?></td>
-                            <td><?= htmlspecialchars($c["departement"] ?: "Non identifie") ?></td>
-                            <td><span class="badge badge-<?= strtolower(str_replace(' ', '_', $c["statut"])) ?>"><?= $c["statut"] ?></span></td>
-                            <td><?= $c["date_reception"] ?></td>
-                            <td>
-                                <?php if ($c["statut_id"] == 1): ?>
-                                    <a class="btn btn-sm btn-primary" href="/postal-univ/transferer?id=<?= $c["id_colis"] ?>">Transferer vers IUT</a>
-                                <?php else: ?>
-                                    —
-                                <?php endif; ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+    <?php if (empty($colis)): ?>
+        <div class="vide-cadre">Aucun colis</div>
+    <?php else: ?>
+        <div class="liste">
+            <?php foreach ($colis as $c): ?>
+                <div class="carte-ligne">
+                    <div class="cl-tete">
+                        <div class="cl-icone"><?= icone('colis', 19) ?></div>
+                        <div>
+                            <div class="cl-titre"><?= htmlspecialchars($c["numero_suivi"] ?: "—") ?></div>
+                            <div class="cl-sous">Colis #<?= $c["id_colis"] ?></div>
+                        </div>
+                    </div>
+                    <div class="cl-champs">
+                        <div class="cl-champ"><span class="cl-cle">N° bon de commande</span><span class="cl-val"><?= htmlspecialchars($c["numero_commande"]) ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Campus / IUT</span><span class="cl-val"><?= htmlspecialchars($c["departement"] ?: "Non identifié") ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Date réception</span><span class="cl-val"><?= $c["date_reception"] ?></span></div>
+                    </div>
+                    <div class="cl-fin">
+                        <span class="<?= badgeStatut($c["statut"]) ?>"><?= htmlspecialchars(joli($c["statut"])) ?></span>
+                        <?php if ($c["statut_id"] == 1): ?>
+                            <a class="bouton bouton-petit bouton-principal" href="/postal-univ/transferer?id=<?= $c["id_colis"] ?>">Transférer vers IUT</a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
-    </div>
+    <?php endif; ?>
 
 <?php require __DIR__ . '/../partials/footer.php'; ?>

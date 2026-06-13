@@ -10,7 +10,7 @@ require __DIR__ . '/../partials/header.php';
             <h1 class="page-title">Ticket #<?= (int) $ticket['id_ticket'] ?></h1>
             <p class="page-subtitle"><?= e($ticket['sujet']) ?></p>
         </div>
-        <a class="btn btn-secondary" href="/tickets">&larr; Retour a la liste</a>
+        <a class="bouton bouton-secondaire" href="/tickets">&larr; Retour a la liste</a>
     </div>
 
     <div class="ticket-meta">
@@ -45,21 +45,21 @@ require __DIR__ . '/../partials/header.php';
     <?php if ($estSupport): ?>
     <form class="ticket-actions-support" method="POST" action="/tickets/<?= (int) $ticket['id_ticket'] ?>/statut">
         <span class="ticket-meta-label">Changer le statut :</span>
-        <select name="statut" class="form-select" style="max-width:200px;">
+        <select name="statut" class="liste-deroulante" style="max-width:200px;">
             <?php foreach ($statuts as $s): ?>
                 <option value="<?= e($s) ?>" <?= $ticket['statut'] === $s ? 'selected' : '' ?>>
                     <?= ucfirst(str_replace('_', ' ', e($s))) ?>
                 </option>
             <?php endforeach; ?>
         </select>
-        <button type="submit" class="btn btn-primary btn-sm">Mettre a jour</button>
+        <button type="submit" class="bouton bouton-principal bouton-petit">Mettre a jour</button>
     </form>
     <?php endif; ?>
 
-    <div class="section">
-        <div class="section-header">
-            <h2 class="section-title">Discussion</h2>
-            <span class="section-subtitle"><?= count($messages) ?> message(s)</span>
+    <div class="bloc">
+        <div class="bloc-entete">
+            <h2 class="bloc-titre">Discussion</h2>
+            <span class="bloc-sous-titre"><?= count($messages) ?> message(s)</span>
         </div>
 
         <div class="ticket-fil">
@@ -79,15 +79,15 @@ require __DIR__ . '/../partials/header.php';
         </div>
 
         <?php if ($ticket['statut'] === 'resolu' && !$estSupport): ?>
-            <p class="empty-state">Ce ticket est resolu. Reouvrez-en un nouveau si le probleme persiste.</p>
+            <p class="vide">Ce ticket est resolu. Reouvrez-en un nouveau si le probleme persiste.</p>
         <?php else: ?>
             <form class="ticket-reponse" method="POST" action="/tickets/<?= (int) $ticket['id_ticket'] ?>/message">
-                <div class="form-group">
-                    <label for="message" class="form-label">Votre reponse</label>
+                <div class="champ">
+                    <label for="message" class="etiquette">Votre reponse</label>
                     <textarea id="message" name="message" placeholder="Ecrire un message..." required></textarea>
                 </div>
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Envoyer</button>
+                <div class="formulaire-boutons">
+                    <button type="submit" class="bouton bouton-principal">Envoyer</button>
                 </div>
             </form>
         <?php endif; ?>

@@ -11,35 +11,35 @@ require __DIR__ . '/../partials/header.php';
         </div>
     </div>
 
-    <div class="section">
-        <div class="form-card">
+    <div class="bloc">
+        <div class="formulaire">
             <form method="post" action="/admin/ajouter-fournisseur">
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Nom</label>
-                        <input type="text" name="nom" class="form-input" required>
+                <div class="champs-en-ligne">
+                    <div class="champ">
+                        <label class="etiquette">Nom</label>
+                        <input type="text" name="nom" class="saisie" required>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Nom du contact</label>
-                        <input type="text" name="contact_nom" class="form-input">
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Email</label>
-                        <input type="email" name="contact_email" class="form-input">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Téléphone</label>
-                        <input type="text" name="contact_telephone" class="form-input">
+                    <div class="champ">
+                        <label class="etiquette">Nom du contact</label>
+                        <input type="text" name="contact_nom" class="saisie">
                     </div>
                 </div>
 
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Créer le fournisseur</button>
-                    <a href="/admin/fournisseurs" class="btn btn-secondary">Annuler</a>
+                <div class="champs-en-ligne">
+                    <div class="champ">
+                        <label class="etiquette">Email</label>
+                        <input type="email" name="contact_email" class="saisie">
+                    </div>
+                    <div class="champ">
+                        <label class="etiquette">Téléphone</label>
+                        <input type="text" name="contact_telephone" class="saisie">
+                    </div>
+                </div>
+
+                <div class="formulaire-boutons">
+                    <button type="submit" class="bouton bouton-principal">Créer le fournisseur</button>
+                    <a href="/admin/fournisseurs" class="bouton bouton-secondaire">Annuler</a>
                 </div>
             </form>
         </div>

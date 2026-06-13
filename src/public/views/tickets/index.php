@@ -12,7 +12,7 @@ require __DIR__ . '/../partials/header.php';
                 <?= $estSupport ? 'Suivez et traitez les demandes des utilisateurs' : 'Vos demandes d\'assistance et leur suivi' ?>
             </p>
         </div>
-        <button class="btn btn-primary" onclick="window.location.href='/tickets/nouveau'">
+        <button class="bouton bouton-principal" onclick="window.location.href='/tickets/nouveau'">
             <?= icone('plus', 14) ?>Signaler un probleme
         </button>
     </div>
@@ -31,21 +31,21 @@ require __DIR__ . '/../partials/header.php';
     <?php endif; ?>
 
     <?php if ($estSupport && $stats !== null): ?>
-    <div class="stats-grid">
-        <div class="stat-card stat-warning">
-            <span class="stat-label">Ouverts</span>
-            <div class="stat-value"><?= $stats['ouvert'] ?></div>
-            <div class="stat-description">En attente de traitement</div>
+    <div class="chiffres">
+        <div class="chiffre chiffre-attn">
+            <span class="chiffre-titre">Ouverts</span>
+            <div class="chiffre-valeur"><?= $stats['ouvert'] ?></div>
+            <div class="chiffre-info">En attente de traitement</div>
         </div>
-        <div class="stat-card stat-blue">
-            <span class="stat-label">En cours</span>
-            <div class="stat-value"><?= $stats['en_cours'] ?></div>
-            <div class="stat-description">Pris en charge</div>
+        <div class="chiffre chiffre-info-c">
+            <span class="chiffre-titre">En cours</span>
+            <div class="chiffre-valeur"><?= $stats['en_cours'] ?></div>
+            <div class="chiffre-info">Pris en charge</div>
         </div>
-        <div class="stat-card stat-success">
-            <span class="stat-label">Resolus</span>
-            <div class="stat-value"><?= $stats['resolu'] ?></div>
-            <div class="stat-description">Cloture</div>
+        <div class="chiffre chiffre-ok">
+            <span class="chiffre-titre">Resolus</span>
+            <div class="chiffre-valeur"><?= $stats['resolu'] ?></div>
+            <div class="chiffre-info">Cloture</div>
         </div>
     </div>
 
@@ -57,55 +57,33 @@ require __DIR__ . '/../partials/header.php';
     </div>
     <?php endif; ?>
 
-    <div class="section">
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Sujet</th>
-                        <?php if ($estSupport): ?><th>Demandeur</th><?php endif; ?>
-                        <th>Priorite</th>
-                        <th>Statut</th>
-                        <th>Messages</th>
-                        <th>Mise a jour</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($tickets)): ?>
-                        <tr>
-                            <td colspan="<?= $estSupport ? 8 : 7 ?>" class="empty-state">
-                                Aucun ticket pour le moment.
-                            </td>
-                        </tr>
-                    <?php else: ?>
-                        <?php foreach ($tickets as $t): ?>
-                            <tr onclick="window.location.href='/tickets/<?= (int) $t['id_ticket'] ?>'" style="cursor:pointer;">
-                                <td>#<?= (int) $t['id_ticket'] ?></td>
-                                <td><?= e($t['sujet']) ?></td>
-                                <?php if ($estSupport): ?>
-                                    <td><?= e($t['createur_nom'] ?? '') ?></td>
-                                <?php endif; ?>
-                                <td>
-                                    <span class="badge badge-priorite-<?= e($t['priorite']) ?>">
-                                        <?= ucfirst(e($t['priorite'])) ?>
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="badge badge-<?= e($t['statut']) ?>">
-                                        <?= ucfirst(str_replace('_', ' ', e($t['statut']))) ?>
-                                    </span>
-                                </td>
-                                <td><?= (int) ($t['nb_messages'] ?? 0) ?></td>
-                                <td><?= date('d/m/Y H:i', strtotime($t['date_maj'])) ?></td>
-                                <td><a class="btn-link" href="/tickets/<?= (int) $t['id_ticket'] ?>">Ouvrir</a></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+    <?php if (empty($tickets)): ?>
+        <div class="vide-cadre">Aucun ticket pour le moment.</div>
+    <?php else: ?>
+        <div class="liste">
+            <?php foreach ($tickets as $t): ?>
+                <a class="carte-ligne" href="/tickets/<?= (int) $t['id_ticket'] ?>">
+                    <div class="cl-tete">
+                        <div class="cl-icone"><?= icone('assistance', 19) ?></div>
+                        <div>
+                            <div class="cl-titre"><?= e($t['sujet']) ?></div>
+                            <div class="cl-sous">Ticket #<?= (int) $t['id_ticket'] ?></div>
+                        </div>
+                    </div>
+                    <div class="cl-champs">
+                        <?php if ($estSupport): ?>
+                            <div class="cl-champ"><span class="cl-cle">Demandeur</span><span class="cl-val"><?= e($t['createur_nom'] ?? '') ?></span></div>
+                        <?php endif; ?>
+                        <div class="cl-champ"><span class="cl-cle">Messages</span><span class="cl-val"><?= (int) ($t['nb_messages'] ?? 0) ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Mise à jour</span><span class="cl-val"><?= date('d/m/Y H:i', strtotime($t['date_maj'])) ?></span></div>
+                    </div>
+                    <div class="cl-fin">
+                        <span class="badge badge-priorite-<?= e($t['priorite']) ?>"><?= e(joli($t['priorite'])) ?></span>
+                        <span class="badge badge-<?= e($t['statut']) ?>"><?= e(joli($t['statut'])) ?></span>
+                    </div>
+                </a>
+            <?php endforeach; ?>
         </div>
-    </div>
+    <?php endif; ?>
 
 <?php require __DIR__ . '/../partials/footer.php'; ?>

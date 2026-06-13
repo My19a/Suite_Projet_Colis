@@ -11,41 +11,27 @@ require __DIR__ . '/../partials/header.php';
         </div>
     </div>
 
-    <div class="section">
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Département</th>
-                        <th>N° commande</th>
-                        <th>N° suivi</th>
-                        <th>Date réception</th>
-                        <th>Details</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($colis)): ?>
-                        <tr>
-                            <td colspan="6" class="empty-state">Aucun colis en attente</td>
-                        </tr>
-                    <?php else: ?>
-                        <?php foreach ($colis as $c): ?>
-                        <tr>
-                            <td><a href="/postal/colis/details?id=<?= $c["id_colis"] ?>" class="btn-link">#<?= $c["id_colis"] ?></a></td>
-                            <td><?= htmlspecialchars($c["departement"] ?: "Non identifie") ?></td>
-                            <td><?= htmlspecialchars($c["numero_commande"]) ?></td>
-                            <td><?= htmlspecialchars($c["numero_suivi"]) ?></td>
-                            <td><?= $c["date_reception"] ?></td>
-                            <td>
-                                <a class="btn btn-sm btn-primary" href="/postal/colis/details?id=<?= $c["id_colis"] ?>">Ouvrir</a>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+    <?php if (empty($colis)): ?>
+        <div class="vide-cadre">Aucun colis en attente</div>
+    <?php else: ?>
+        <div class="liste">
+            <?php foreach ($colis as $c): ?>
+                <a class="carte-ligne" href="/postal/colis/details?id=<?= $c["id_colis"] ?>">
+                    <div class="cl-tete">
+                        <div class="cl-icone"><?= icone('colis', 19) ?></div>
+                        <div>
+                            <div class="cl-titre"><?= htmlspecialchars($c["numero_suivi"]) ?></div>
+                            <div class="cl-sous">Colis #<?= $c["id_colis"] ?></div>
+                        </div>
+                    </div>
+                    <div class="cl-champs">
+                        <div class="cl-champ"><span class="cl-cle">Département</span><span class="cl-val"><?= htmlspecialchars($c["departement"] ?: "Non identifié") ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">N° commande</span><span class="cl-val"><?= htmlspecialchars($c["numero_commande"]) ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Date réception</span><span class="cl-val"><?= $c["date_reception"] ?></span></div>
+                    </div>
+                </a>
+            <?php endforeach; ?>
         </div>
-    </div>
+    <?php endif; ?>
 
 <?php require __DIR__ . '/../partials/footer.php'; ?>

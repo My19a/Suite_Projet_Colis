@@ -11,31 +11,31 @@ require __DIR__ . '/../partials/header.php';
         </div>
     </div>
 
-    <div class="section">
-        <div class="form-card">
+    <div class="bloc">
+        <div class="formulaire">
             <form method="post" action="/postal-univ/reception" enctype="multipart/form-data">
 
-                <div class="form-group">
-                    <label class="form-label">Numéro de suivi</label>
-                    <input type="text" name="numero_suivi" class="form-input" required>
+                <div class="champ">
+                    <label class="etiquette">Numéro de suivi</label>
+                    <input type="text" name="numero_suivi" class="saisie" required>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Numéro de bon de commande</label>
-                    <input type="text" name="numero_commande" class="form-input" required>
+                <div class="champ">
+                    <label class="etiquette">Numéro de bon de commande</label>
+                    <input type="text" name="numero_commande" class="saisie" required>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Photo de l'étiquette (optionnel)</label>
-                    <input type="file" name="photo_etiquette" accept="image/*" class="form-input">
+                <div class="champ">
+                    <label class="etiquette">Photo de l'étiquette (optionnel)</label>
+                    <input type="file" name="photo_etiquette" accept="image/*" class="saisie">
                 </div>
 
-                <div class="form-info">
+                <div class="formulaire-info">
                     <p>Le campus / IUT sera identifié automatiquement via le bon de commande.</p>
                     <p>Si l'identification echoue, le colis sera marque <strong>Non identifié</strong>.</p>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Enregistrer le colis</button>
+                <button type="submit" class="bouton bouton-principal">Enregistrer le colis</button>
 
             </form>
         </div>

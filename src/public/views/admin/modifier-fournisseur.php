@@ -11,34 +11,34 @@ require __DIR__ . '/../partials/header.php';
         </div>
     </div>
 
-    <div class="section">
-        <div class="form-card">
+    <div class="bloc">
+        <div class="formulaire">
             <form method="post" action="/admin/update-fournisseur">
                 <input type="hidden" name="id_fournisseur" value="<?= $fournisseur['id_fournisseur'] ?>">
 
-                <div class="form-group">
-                    <label class="form-label">Nom</label>
-                    <input type="text" name="nom" class="form-input" value="<?= htmlspecialchars($fournisseur['nom']) ?>" required>
+                <div class="champ">
+                    <label class="etiquette">Nom</label>
+                    <input type="text" name="nom" class="saisie" value="<?= htmlspecialchars($fournisseur['nom']) ?>" required>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Nom du contact</label>
-                    <input type="text" name="contact_nom" class="form-input" value="<?= htmlspecialchars($fournisseur['contact_nom'] ?? '') ?>">
+                <div class="champ">
+                    <label class="etiquette">Nom du contact</label>
+                    <input type="text" name="contact_nom" class="saisie" value="<?= htmlspecialchars($fournisseur['contact_nom'] ?? '') ?>">
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input type="email" name="contact_email" class="form-input" value="<?= htmlspecialchars($fournisseur['contact_email'] ?? '') ?>">
+                <div class="champ">
+                    <label class="etiquette">Email</label>
+                    <input type="email" name="contact_email" class="saisie" value="<?= htmlspecialchars($fournisseur['contact_email'] ?? '') ?>">
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Téléphone</label>
-                    <input type="text" name="contact_telephone" class="form-input" value="<?= htmlspecialchars($fournisseur['contact_telephone'] ?? '') ?>">
+                <div class="champ">
+                    <label class="etiquette">Téléphone</label>
+                    <input type="text" name="contact_telephone" class="saisie" value="<?= htmlspecialchars($fournisseur['contact_telephone'] ?? '') ?>">
                 </div>
 
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
-                    <a class="btn btn-secondary" href="/admin/fournisseurs">Annuler</a>
+                <div class="formulaire-boutons">
+                    <button type="submit" class="bouton bouton-principal">Enregistrer</button>
+                    <a class="bouton bouton-secondaire" href="/admin/fournisseurs">Annuler</a>
                 </div>
             </form>
 
@@ -46,7 +46,7 @@ require __DIR__ . '/../partials/header.php';
                   onsubmit="return confirm('Supprimer définitivement ce fournisseur ?');"
                   style="margin-top:1.5rem; padding-top:1.5rem; border-top:1px solid #e5e7eb;">
                 <input type="hidden" name="id_fournisseur" value="<?= $fournisseur['id_fournisseur'] ?>">
-                <button type="submit" class="btn btn-danger">Supprimer ce fournisseur</button>
+                <button type="submit" class="bouton bouton-danger">Supprimer ce fournisseur</button>
             </form>
         </div>
     </div>

@@ -10,67 +10,62 @@ require __DIR__ . '/../partials/header.php';
             <h1 class="page-title">Tableau de bord</h1>
             <p class="page-subtitle">Gestion des colis du service postal universitaire</p>
         </div>
-        <a href="/postal-univ/reception" class="btn btn-primary">Recevoir un colis</a>
+        <a href="/postal-univ/reception" class="bouton bouton-principal">Recevoir un colis</a>
     </div>
 
-    <div class="stats-grid">
-        <div class="stat-card stat-blue">
-            <span class="stat-label">Colis reçus</span>
-            <div class="stat-value"><?= $stats["recus"] ?></div>
-            <div class="stat-description">Total</div>
+    <div class="chiffres">
+        <div class="chiffre chiffre-info-c">
+            <span class="chiffre-titre">Colis reçus</span>
+            <div class="chiffre-valeur"><?= $stats["recus"] ?></div>
+            <div class="chiffre-info">Total</div>
         </div>
 
-        <div class="stat-card stat-warning">
-            <span class="stat-label">A transferer</span>
-            <div class="stat-value"><?= $stats["a_transferer"] ?></div>
-            <div class="stat-description">Vers l'IUT</div>
+        <div class="chiffre chiffre-attn">
+            <span class="chiffre-titre">A transferer</span>
+            <div class="chiffre-valeur"><?= $stats["a_transferer"] ?></div>
+            <div class="chiffre-info">Vers l'IUT</div>
         </div>
 
-        <div class="stat-card stat-success">
-            <span class="stat-label">Transférés</span>
-            <div class="stat-value"><?= $stats["transferes"] ?></div>
-            <div class="stat-description">Vers l'IUT</div>
+        <div class="chiffre chiffre-ok">
+            <span class="chiffre-titre">Transférés</span>
+            <div class="chiffre-valeur"><?= $stats["transferes"] ?></div>
+            <div class="chiffre-info">Vers l'IUT</div>
         </div>
 
-        <div class="stat-card stat-danger">
-            <span class="stat-label">Non identifiés</span>
-            <div class="stat-value"><?= $stats["non_identifies"] ?></div>
-            <div class="stat-description">À traiter</div>
+        <div class="chiffre chiffre-err">
+            <span class="chiffre-titre">Non identifiés</span>
+            <div class="chiffre-valeur"><?= $stats["non_identifies"] ?></div>
+            <div class="chiffre-info">À traiter</div>
         </div>
     </div>
 
-    <div class="section">
-        <div class="section-header">
-            <h2 class="section-title">Derniers colis reçus</h2>
-            <a href="/postal-univ/colis" class="btn-link">Voir tout</a>
-        </div>
-
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>N° suivi</th>
-                        <th>Date réception</th>
-                        <th>Statut</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($colis_recents)): ?>
-                        <tr><td colspan="4" class="empty-state">Aucun colis reçu</td></tr>
-                    <?php else: ?>
-                        <?php foreach ($colis_recents as $c): ?>
-                        <tr>
-                            <td>#<?= $c["id_colis"] ?></td>
-                            <td><strong><?= htmlspecialchars($c["numero_suivi"]) ?></strong></td>
-                            <td><?= $c["date_reception"] ?></td>
-                            <td><span class="badge badge-<?= strtolower(str_replace(' ', '_', $c["statut"])) ?>"><?= $c["statut"] ?></span></td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
+    <div class="bloc-entete">
+        <h2 class="bloc-titre">Derniers colis reçus</h2>
+        <a href="/postal-univ/colis" class="lien-action">Voir tout</a>
     </div>
+
+    <?php if (empty($colis_recents)): ?>
+        <div class="vide-cadre">Aucun colis reçu</div>
+    <?php else: ?>
+        <div class="liste">
+            <?php foreach ($colis_recents as $c): ?>
+                <a class="carte-ligne" href="/postal-univ/colis">
+                    <div class="cl-tete">
+                        <div class="cl-icone"><?= icone('colis', 19) ?></div>
+                        <div>
+                            <div class="cl-titre"><?= htmlspecialchars($c["numero_suivi"]) ?></div>
+                            <div class="cl-sous">Colis #<?= $c["id_colis"] ?></div>
+                        </div>
+                    </div>
+                    <div class="cl-champs">
+                        <div class="cl-champ"><span class="cl-cle">Date réception</span><span class="cl-val"><?= $c["date_reception"] ?></span></div>
+                    </div>
+                    <div class="cl-fin">
+                        <span class="<?= badgeStatut($c["statut"]) ?>"><?= htmlspecialchars(joli($c["statut"])) ?></span>
+                    </div>
+                </a>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 
 <?php require __DIR__ . '/../partials/footer.php'; ?>

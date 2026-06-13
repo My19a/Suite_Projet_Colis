@@ -29,10 +29,14 @@ function view(string $viewName, array $data = []): void
     require $viewPath;
 }
 
-function asset(string $path): string
+/**
+ * Lien vers un asset public, suffixé de la version (mtime) du fichier
+ * pour forcer le rechargement par le navigateur quand il change.
+ */
+function asset(string $chemin): string
 {
-    $config = require __DIR__ . '/../../config/app.php';
-    return rtrim($config['base_url'], '/') . '/assets/' . ltrim($path, '/');
+    $abs = __DIR__ . '/../../public' . $chemin;
+    return is_file($abs) ? $chemin . '?v=' . filemtime($abs) : $chemin;
 }
 
 function e(?string $value): string
@@ -87,6 +91,41 @@ function ticketNotifsCount(): int
 }
 
 /**
+ * Met en forme un libellé stocké en base (statut, rôle…) pour l'affichage.
+ * Ex : "en_attente" -> "En Attente", "transfere_iut" -> "Transfere IUT".
+ */
+function joli(?string $texte): string
+{
+    if ($texte === null || trim($texte) === '') return '—';
+    $t = ucwords(str_replace(['_', '-'], ' ', strtolower(trim($texte))));
+    return strtr($t, ['Iut' => 'IUT', 'Bc' => 'BC', 'Cas' => 'CAS', 'Uid' => 'UID']);
+}
+
+/**
+ * Libellé lisible d'un rôle. Retombe sur joli() pour un rôle inconnu.
+ */
+function libelleRole(?string $role): string
+{
+    $map = [
+        'admin'       => 'Administrateur',
+        'postal_iut'  => 'Postal IUT',
+        'postal_univ' => 'Postal Université',
+        'departement' => 'Département',
+        'finance'     => 'Service Financier',
+        'directeur'   => 'Directeur IUT',
+    ];
+    return $map[$role] ?? joli($role);
+}
+
+/**
+ * Classe CSS de badge correspondant à un statut (slug normalisé).
+ */
+function badgeStatut(?string $statut): string
+{
+    return 'badge badge-' . strtolower(str_replace(' ', '_', trim($statut ?? '')));
+}
+
+/**
  * Icône SVG inline (style trait, hérite de la couleur du texte via currentColor).
  * Usage : <?= icone('utilisateurs') ?> ou <?= icone('plus', 14) ?>
  */
@@ -116,6 +155,7 @@ function icone(string $nom, int $taille = 16): string
         'budget'        => '<path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/>',
         'liste'         => '<line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>',
         'batiment'      => '<rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>',
+        'menu'          => '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>',
     ];
 
     if (!isset($traits[$nom])) return '';

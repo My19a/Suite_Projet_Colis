@@ -4,32 +4,32 @@ $actif = '/departement/creer-devis';
 require __DIR__ . '/../partials/header.php';
 ?>
 
-<div class="create-devis-page">
+<div class="largeur-moyenne">
         <div class="page-header-simple">
-            <a href="/departement/dashboard" class="back-button-simple">
+            <a href="/departement/dashboard" class="lien-retour">
                 <span class="back-arrow">&larr;</span>
                 Retour
             </a>
         </div>
 
-        <div class="form-container">
-            <div class="form-header">
-                <h1 class="form-title">Creer un Devis</h1>
-                <p class="form-subtitle">Saisissez les informations du devis pour creer une demande d'achat</p>
+        <div class="formulaire-page">
+            <div class="formulaire-entete">
+                <h1 class="formulaire-titre">Creer un Devis</h1>
+                <p class="formulaire-sous-titre">Saisissez les informations du devis pour creer une demande d'achat</p>
             </div>
 
-            <form method="POST" action="/departement/envoyer-devis" class="devis-form" id="devisForm">
-                <div class="form-section">
-                    <div class="form-group">
-                        <label for="objet" class="form-label required">Objet de la demande</label>
-                        <input type="text" id="objet" name="objet" class="form-input" placeholder="Ex: Achat de matériel informatique pour le laboratoire" value="<?= htmlspecialchars($ancien['objet'] ?? '') ?>" required>
-                        <small class="form-help">Décrivez brièvement l'objet de votre demande d'achat</small>
+            <form method="POST" action="/departement/envoyer-devis" class="formulaire" id="devisForm">
+                <div class="formulaire-partie">
+                    <div class="champ">
+                        <label for="objet" class="etiquette requis">Objet de la demande</label>
+                        <input type="text" id="objet" name="objet" class="saisie" placeholder="Ex: Achat de matériel informatique pour le laboratoire" value="<?= htmlspecialchars($ancien['objet'] ?? '') ?>" required>
+                        <small class="aide-champ">Décrivez brièvement l'objet de votre demande d'achat</small>
                         <?php if (isset($erreurs['objet'])): ?><div style="color:#dc2626;font-size:13px;margin-top:4px;"><?= htmlspecialchars($erreurs['objet']) ?></div><?php endif; ?>
                     </div>
 
-                    <div class="form-group">
-                        <label for="fournisseur_id" class="form-label required">Fournisseur</label>
-                        <select id="fournisseur_id" name="fournisseur_id" class="form-select" required>
+                    <div class="champ">
+                        <label for="fournisseur_id" class="etiquette requis">Fournisseur</label>
+                        <select id="fournisseur_id" name="fournisseur_id" class="liste-deroulante" required>
                             <option value="">Sélectionnez un fournisseur</option>
                             <?php foreach ($fournisseurs as $fournisseur): ?>
                                 <option value="<?= $fournisseur['id_fournisseur']; ?>" <?= (($ancien['fournisseur_id'] ?? '') == $fournisseur['id_fournisseur']) ? 'selected' : '' ?>>
@@ -43,42 +43,42 @@ require __DIR__ . '/../partials/header.php';
                         <?php if (isset($erreurs['fournisseur'])): ?><div style="color:#dc2626;font-size:13px;margin-top:4px;"><?= htmlspecialchars($erreurs['fournisseur']) ?></div><?php endif; ?>
                     </div>
 
-                    <div class="form-group">
-                        <label for="montant_estime" class="form-label required">Montant estime (EUR)</label>
-                        <input type="number" id="montant_estime" name="montant_estime" class="form-input" placeholder="0.00" step="0.01" min="0" value="<?= htmlspecialchars($ancien['montant'] ?? '') ?>" required>
-                        <small class="form-help">Montant estimé de la commande en euros</small>
+                    <div class="champ">
+                        <label for="montant_estime" class="etiquette requis">Montant estime (EUR)</label>
+                        <input type="number" id="montant_estime" name="montant_estime" class="saisie" placeholder="0.00" step="0.01" min="0" value="<?= htmlspecialchars($ancien['montant'] ?? '') ?>" required>
+                        <small class="aide-champ">Montant estimé de la commande en euros</small>
                         <?php if (isset($erreurs['montant'])): ?><div style="color:#dc2626;font-size:13px;margin-top:4px;"><?= htmlspecialchars($erreurs['montant']) ?></div><?php endif; ?>
                     </div>
                 </div>
 
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="window.location.href='/departement/dashboard'">Annuler</button>
-                    <button type="submit" class="btn btn-primary">Creer et envoyer le devis</button>
+                <div class="formulaire-boutons">
+                    <button type="button" class="bouton bouton-secondaire" onclick="window.location.href='/departement/dashboard'">Annuler</button>
+                    <button type="submit" class="bouton bouton-principal">Creer et envoyer le devis</button>
                 </div>
             </form>
 
-            <div class="process-section">
-                <h3 class="process-title">Detail de la validation</h3>
-                <ol class="process-list">
-                    <li class="process-item">
-                        <span class="process-number">1</span>
-                        <span class="process-text">Vous creez le devis</span>
+            <div class="etapes">
+                <h3 class="etapes-titre">Detail de la validation</h3>
+                <ol class="etapes-liste">
+                    <li class="etape">
+                        <span class="etape-numero">1</span>
+                        <span class="etape-texte">Vous creez le devis</span>
                     </li>
-                    <li class="process-item">
-                        <span class="process-number">2</span>
-                        <span class="process-text">Le service financier vérifié le budget</span>
+                    <li class="etape">
+                        <span class="etape-numero">2</span>
+                        <span class="etape-texte">Le service financier vérifié le budget</span>
                     </li>
-                    <li class="process-item">
-                        <span class="process-number">3</span>
-                        <span class="process-text">Si validé, un bon de commande est créé</span>
+                    <li class="etape">
+                        <span class="etape-numero">3</span>
+                        <span class="etape-texte">Si validé, un bon de commande est créé</span>
                     </li>
-                    <li class="process-item">
-                        <span class="process-number">4</span>
-                        <span class="process-text">Le directeur signé le bon de commande</span>
+                    <li class="etape">
+                        <span class="etape-numero">4</span>
+                        <span class="etape-texte">Le directeur signé le bon de commande</span>
                     </li>
-                    <li class="process-item">
-                        <span class="process-number">5</span>
-                        <span class="process-text">La commande est envoyee au fournisseur</span>
+                    <li class="etape">
+                        <span class="etape-numero">5</span>
+                        <span class="etape-texte">La commande est envoyee au fournisseur</span>
                     </li>
                 </ol>
             </div>

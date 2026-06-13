@@ -4,7 +4,7 @@ require __DIR__ . '/../partials/header.php';
 ?>
 
 <div class="page-header-simple">
-        <a href="/postal/colis/details?id=<?= $colis['id_colis'] ?>" class="back-button-simple">
+        <a href="/postal/colis/details?id=<?= $colis['id_colis'] ?>" class="lien-retour">
             <span class="back-arrow">&larr;</span>
             Retour
         </a>
@@ -16,18 +16,18 @@ require __DIR__ . '/../partials/header.php';
         </div>
     </div>
 
-    <div class="section" style="max-width: 600px;">
+    <div class="bloc" style="max-width: 600px;">
         <form method="post" action="/postal/colis/update">
             <input type="hidden" name="id_colis" value="<?= htmlspecialchars($colis['id_colis']) ?>">
 
-            <div class="form-group">
-                <label class="form-label">Numéro suivi</label>
-                <input type="text" name="numero_suivi" class="form-input" value="<?= htmlspecialchars($colis['numero_suivi'] ?? '') ?>">
+            <div class="champ">
+                <label class="etiquette">Numéro suivi</label>
+                <input type="text" name="numero_suivi" class="saisie" value="<?= htmlspecialchars($colis['numero_suivi'] ?? '') ?>">
             </div>
 
-            <div class="form-group">
-                <label class="form-label">Bon de commande</label>
-                <select name="bon_commande_id" class="form-select">
+            <div class="champ">
+                <label class="etiquette">Bon de commande</label>
+                <select name="bon_commande_id" class="liste-deroulante">
                     <option value="">— Aucun —</option>
                     <?php foreach ($bonCommandes as $b): ?>
                         <option value="<?= $b['id_bon_commande'] ?>" <?= (isset($colis['bon_commande_id']) && $colis['bon_commande_id'] == $b['id_bon_commande']) ? 'selected' : '' ?>>
@@ -37,9 +37,9 @@ require __DIR__ . '/../partials/header.php';
                 </select>
             </div>
 
-            <div class="form-group">
-                <label class="form-label">Département</label>
-                <select name="destinataire_id" class="form-select">
+            <div class="champ">
+                <label class="etiquette">Département</label>
+                <select name="destinataire_id" class="liste-deroulante">
                     <option value="">— Aucun —</option>
                     <?php foreach ($departements as $d): ?>
                         <option value="<?= $d['id_departement'] ?>" <?= (isset($colis['destinataire_id']) && $colis['destinataire_id'] == $d['id_departement']) ? 'selected' : '' ?>>
@@ -49,9 +49,9 @@ require __DIR__ . '/../partials/header.php';
                 </select>
             </div>
 
-            <div class="form-group">
-                <label class="form-label">Statut</label>
-                <select name="statut_id" class="form-select">
+            <div class="champ">
+                <label class="etiquette">Statut</label>
+                <select name="statut_id" class="liste-deroulante">
                     <?php foreach ($statuts as $s): ?>
                         <option value="<?= $s['id_statut'] ?>" <?= (isset($colis['statut_id']) && $colis['statut_id'] == $s['id_statut']) ? 'selected' : '' ?>>
                             <?= htmlspecialchars($s['libelle']) ?>
@@ -60,14 +60,14 @@ require __DIR__ . '/../partials/header.php';
                 </select>
             </div>
 
-            <div class="form-group">
-                <label class="form-label">Commentaire</label>
-                <textarea name="commentaire" class="form-input" rows="4"><?= htmlspecialchars($colis['commentaire'] ?? '') ?></textarea>
+            <div class="champ">
+                <label class="etiquette">Commentaire</label>
+                <textarea name="commentaire" class="saisie" rows="4"><?= htmlspecialchars($colis['commentaire'] ?? '') ?></textarea>
             </div>
 
-            <div class="form-actions">
-                <a href="/postal/colis/details?id=<?= $colis['id_colis'] ?>" class="btn btn-secondary">Annuler</a>
-                <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <div class="formulaire-boutons">
+                <a href="/postal/colis/details?id=<?= $colis['id_colis'] ?>" class="bouton bouton-secondaire">Annuler</a>
+                <button type="submit" class="bouton bouton-principal">Enregistrer</button>
             </div>
         </form>
     </div>

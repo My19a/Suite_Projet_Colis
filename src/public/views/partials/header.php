@@ -11,15 +11,6 @@
 $utilisateurConnecte = $_SESSION['user'] ?? null;
 $role = $utilisateurConnecte ? $utilisateurConnecte->getRole() : '';
 
-$libellesRoles = [
-    'admin'       => 'Administrateur',
-    'postal_iut'  => 'Postal IUT',
-    'postal_univ' => 'Postal Université',
-    'departement' => 'Département',
-    'finance'     => 'Service Financier',
-    'directeur'   => 'Directeur IUT',
-];
-
 // [href, libellé, icône]
 $menusParRole = [
     'admin' => [
@@ -84,18 +75,30 @@ $notifs = function_exists('ticketNotifsCount') ? ticketNotifsCount() : 0;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($titre ?? 'Suivi Colis') ?></title>
-    <link rel="stylesheet" href="/assets/css/theme.css">
+    <link rel="stylesheet" href="<?= asset('/assets/css/theme.css') ?>">
     <?php foreach ($feuillesDeStyle ?? [] as $feuille): ?>
-    <link rel="stylesheet" href="<?= htmlspecialchars($feuille) ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(asset($feuille)) ?>">
     <?php endforeach; ?>
 </head>
 
 <body class="app">
 
-<header class="navbar">
+<header class="navbar" id="navbar">
     <a class="navbar-marque" href="/">
         <span class="navbar-titre">Suivi Colis</span>
     </a>
+
+    <div class="navbar-utilisateur">
+        <div class="utilisateur-infos">
+            <span class="utilisateur-nom"><?= $utilisateurConnecte ? htmlspecialchars($utilisateurConnecte->getFullName()) : '' ?></span>
+            <span class="utilisateur-role"><?= htmlspecialchars(libelleRole($role)) ?></span>
+        </div>
+        <a class="btn-deconnexion" href="/logout" title="Déconnexion">Déconnexion</a>
+    </div>
+
+    <button class="navbar-burger" type="button" aria-label="Menu" onclick="document.getElementById('navbar').classList.toggle('ouvert')">
+        <?= icone('menu', 20) ?>
+    </button>
 
     <nav class="navbar-menu">
         <?php foreach ($menu as [$href, $libelle, $icn]): ?>
@@ -104,14 +107,6 @@ $notifs = function_exists('ticketNotifsCount') ? ticketNotifsCount() : 0;
             </a>
         <?php endforeach; ?>
     </nav>
-
-    <div class="navbar-utilisateur">
-        <div class="utilisateur-infos">
-            <span class="utilisateur-nom"><?= $utilisateurConnecte ? htmlspecialchars($utilisateurConnecte->getFullName()) : '' ?></span>
-            <span class="utilisateur-role"><?= htmlspecialchars($libellesRoles[$role] ?? $role) ?></span>
-        </div>
-        <a class="btn-deconnexion" href="/logout" title="Déconnexion">Déconnexion</a>
-    </div>
 </header>
 
 <main class="contenu">

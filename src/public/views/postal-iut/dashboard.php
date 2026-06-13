@@ -12,68 +12,60 @@ require __DIR__ . '/../partials/header.php';
         </div>
     </div>
 
-    <div class="stats-grid">
-        <div class="stat-card stat-blue">
-            <span class="stat-label">Reçus a l'IUT</span>
-            <div class="stat-value"><?= $stats["recus"] ?></div>
-            <div class="stat-description">Colis reçus</div>
+    <div class="chiffres">
+        <div class="chiffre chiffre-info-c">
+            <span class="chiffre-titre">Reçus a l'IUT</span>
+            <div class="chiffre-valeur"><?= $stats["recus"] ?></div>
+            <div class="chiffre-info">Colis reçus</div>
         </div>
 
-        <div class="stat-card stat-warning">
-            <span class="stat-label">En attente</span>
-            <div class="stat-value"><?= $stats["en_attente"] ?></div>
-            <div class="stat-description">À retirer</div>
+        <div class="chiffre chiffre-attn">
+            <span class="chiffre-titre">En attente</span>
+            <div class="chiffre-valeur"><?= $stats["en_attente"] ?></div>
+            <div class="chiffre-info">À retirer</div>
         </div>
 
-        <div class="stat-card stat-success">
-            <span class="stat-label">Retirés</span>
-            <div class="stat-value"><?= $stats["retires"] ?></div>
-            <div class="stat-description">Colis livrés</div>
+        <div class="chiffre chiffre-ok">
+            <span class="chiffre-titre">Retirés</span>
+            <div class="chiffre-valeur"><?= $stats["retires"] ?></div>
+            <div class="chiffre-info">Colis livrés</div>
         </div>
 
-        <div class="stat-card stat-danger">
-            <span class="stat-label">Non identifiés</span>
-            <div class="stat-value"><?= $stats["non_identifies"] ?></div>
-            <div class="stat-description">À traiter</div>
+        <div class="chiffre chiffre-err">
+            <span class="chiffre-titre">Non identifiés</span>
+            <div class="chiffre-valeur"><?= $stats["non_identifies"] ?></div>
+            <div class="chiffre-info">À traiter</div>
         </div>
     </div>
 
-    <div class="section">
-        <div class="section-header">
-            <h2 class="section-title">Derniers colis reçus</h2>
-            <a href="/postal/colis/recus" class="btn-link">Voir tout</a>
-        </div>
-
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>N° suivi</th>
-                        <th>Département</th>
-                        <th>Date réception</th>
-                        <th>Statut</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($colis)): ?>
-                        <tr>
-                            <td colspan="5" class="empty-state">Aucun colis trouve</td>
-                        </tr>
-                    <?php else: ?>
-                        <?php foreach ($colis as $c): ?>
-                        <tr>
-                            <td><a href="/postal/colis/details?id=<?= $c["id_colis"] ?>" class="btn-link">#<?= $c["id_colis"] ?></a></td>
-                            <td><?= htmlspecialchars($c["numero_suivi"]) ?></td>
-                            <td><?= htmlspecialchars($c["departement"] ?: "—") ?></td>
-                            <td><?= $c["date_reception"] ?></td>
-                            <td><span class="badge badge-<?= strtolower(str_replace(' ', '_', $c["statut"])) ?>"><?= $c["statut"] ?></span></td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
+    <div class="bloc-entete">
+        <h2 class="bloc-titre">Derniers colis reçus</h2>
+        <a href="/postal/colis/recus" class="lien-action">Voir tout</a>
     </div>
+
+    <?php if (empty($colis)): ?>
+        <div class="vide-cadre">Aucun colis trouvé</div>
+    <?php else: ?>
+        <div class="liste">
+            <?php foreach ($colis as $c): ?>
+                <a class="carte-ligne" href="/postal/colis/details?id=<?= $c["id_colis"] ?>">
+                    <div class="cl-tete">
+                        <div class="cl-icone"><?= icone('colis', 19) ?></div>
+                        <div>
+                            <div class="cl-titre"><?= htmlspecialchars($c["numero_suivi"]) ?></div>
+                            <div class="cl-sous">Colis #<?= $c["id_colis"] ?></div>
+                        </div>
+                    </div>
+                    <div class="cl-champs">
+                        <div class="cl-champ"><span class="cl-cle">Département</span><span class="cl-val"><?= htmlspecialchars($c["departement"] ?: "—") ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Date réception</span><span class="cl-val"><?= $c["date_reception"] ?></span></div>
+                    </div>
+                    <div class="cl-fin">
+                        <span class="<?= badgeStatut($c["statut"]) ?>"><?= htmlspecialchars(joli($c["statut"])) ?></span>
+                    </div>
+                </a>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 
 <?php require __DIR__ . '/../partials/footer.php'; ?>

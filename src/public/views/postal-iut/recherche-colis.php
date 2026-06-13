@@ -11,49 +11,38 @@ require __DIR__ . '/../partials/header.php';
         </div>
     </div>
 
-    <form method="get" class="search-container">
-        <input type="text" name="q" class="search-input" placeholder="N° suivi, BC, departement, ID colis..." value="<?= htmlspecialchars($_GET["q"] ?? "") ?>">
+    <form method="get" class="recherche">
+        <input type="text" name="q" class="recherche-saisie" placeholder="N° suivi, BC, departement, ID colis..." value="<?= htmlspecialchars($_GET["q"] ?? "") ?>">
         <button type="submit" class="btn-loupe" title="Rechercher"><?= icone('recherche', 15) ?></button>
     </form>
 
-    <div class="section">
-        <div class="section-header">
-            <h2 class="section-title">Resultats</h2>
-        </div>
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>N° suivi</th>
-                        <th>Bon de commande</th>
-                        <th>Département</th>
-                        <th>Date réception</th>
-                        <th>Statut</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($resultats)): ?>
-                        <tr>
-                            <td colspan="6" class="empty-state">Aucun résultat</td>
-                        </tr>
-                    <?php else: ?>
-                        <?php foreach ($resultats as $c): ?>
-                        <tr>
-                            <td>
-                                <a href="/postal/colis/details?id=<?= $c["id_colis"] ?>" class="btn-link">#<?= $c["id_colis"] ?></a>
-                            </td>
-                            <td><?= htmlspecialchars($c["numero_suivi"]) ?></td>
-                            <td><?= htmlspecialchars($c["numero_commande"] ?: "—") ?></td>
-                            <td><?= htmlspecialchars($c["departement"] ?: "—") ?></td>
-                            <td><?= $c["date_reception"] ?></td>
-                            <td><span class="badge badge-<?= strtolower(str_replace(' ', '_', $c["statut"])) ?>"><?= $c["statut"] ?></span></td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
+    <div class="bloc-entete">
+        <h2 class="bloc-titre">Resultats</h2>
     </div>
+    <?php if (empty($resultats)): ?>
+        <div class="vide-cadre">Aucun résultat</div>
+    <?php else: ?>
+        <div class="liste">
+            <?php foreach ($resultats as $c): ?>
+                <a class="carte-ligne" href="/postal/colis/details?id=<?= $c["id_colis"] ?>">
+                    <div class="cl-tete">
+                        <div class="cl-icone"><?= icone('colis', 19) ?></div>
+                        <div>
+                            <div class="cl-titre"><?= htmlspecialchars($c["numero_suivi"]) ?></div>
+                            <div class="cl-sous">Colis #<?= $c["id_colis"] ?></div>
+                        </div>
+                    </div>
+                    <div class="cl-champs">
+                        <div class="cl-champ"><span class="cl-cle">Bon de commande</span><span class="cl-val"><?= htmlspecialchars($c["numero_commande"] ?: "—") ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Département</span><span class="cl-val"><?= htmlspecialchars($c["departement"] ?: "—") ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Date réception</span><span class="cl-val"><?= $c["date_reception"] ?></span></div>
+                    </div>
+                    <div class="cl-fin">
+                        <span class="<?= badgeStatut($c["statut"]) ?>"><?= htmlspecialchars(joli($c["statut"])) ?></span>
+                    </div>
+                </a>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 
 <?php require __DIR__ . '/../partials/footer.php'; ?>

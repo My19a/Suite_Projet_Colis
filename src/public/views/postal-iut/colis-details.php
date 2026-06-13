@@ -4,7 +4,7 @@ require __DIR__ . '/../partials/header.php';
 ?>
 
 <div class="page-header-simple">
-        <a href="/postal/colis/recus" class="back-button-simple">
+        <a href="/postal/colis/recus" class="lien-retour">
             <span class="back-arrow">&larr;</span>
             Retour
         </a>
@@ -16,30 +16,30 @@ require __DIR__ . '/../partials/header.php';
         </div>
     </div>
 
-    <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
-        <div class="stat-card">
-            <span class="stat-label">N° suivi</span>
-            <div class="stat-value" style="font-size: 18px;"><?= htmlspecialchars($colis["numero_suivi"] ?: "—") ?></div>
+    <div class="chiffres" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+        <div class="chiffre">
+            <span class="chiffre-titre">N° suivi</span>
+            <div class="chiffre-valeur" style="font-size: 18px;"><?= htmlspecialchars($colis["numero_suivi"] ?: "—") ?></div>
         </div>
-        <div class="stat-card">
-            <span class="stat-label">Bon de commande</span>
-            <div class="stat-value" style="font-size: 18px;"><?= htmlspecialchars($colis["numero_commande"] ?: "—") ?></div>
+        <div class="chiffre">
+            <span class="chiffre-titre">Bon de commande</span>
+            <div class="chiffre-valeur" style="font-size: 18px;"><?= htmlspecialchars($colis["numero_commande"] ?: "—") ?></div>
         </div>
-        <div class="stat-card">
-            <span class="stat-label">Département</span>
-            <div class="stat-value" style="font-size: 18px;"><?= htmlspecialchars($colis["departement"] ?: "Non identifie") ?></div>
+        <div class="chiffre">
+            <span class="chiffre-titre">Département</span>
+            <div class="chiffre-valeur" style="font-size: 18px;"><?= htmlspecialchars($colis["departement"] ?: "Non identifie") ?></div>
         </div>
-        <div class="stat-card">
-            <span class="stat-label">Statut</span>
+        <div class="chiffre">
+            <span class="chiffre-titre">Statut</span>
             <div style="margin-top: 8px;">
                 <span class="badge badge-<?= strtolower(str_replace(' ', '_', $colis["statut"])) ?>"><?= $colis["statut"] ?></span>
             </div>
         </div>
     </div>
 
-    <div class="section">
-        <div class="section-header">
-            <h2 class="section-title">Informations</h2>
+    <div class="bloc">
+        <div class="bloc-entete">
+            <h2 class="bloc-titre">Informations</h2>
         </div>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
             <div>
@@ -57,12 +57,12 @@ require __DIR__ . '/../partials/header.php';
         </div>
     </div>
 
-    <div class="section">
-        <div class="section-header">
-            <h2 class="section-title">Historique</h2>
+    <div class="bloc">
+        <div class="bloc-entete">
+            <h2 class="bloc-titre">Historique</h2>
         </div>
-        <div class="table-container">
-            <table class="data-table">
+        <div class="tableau-cadre">
+            <table class="tableau">
                 <thead>
                     <tr>
                         <th>Date</th>
@@ -72,7 +72,7 @@ require __DIR__ . '/../partials/header.php';
                 <tbody>
                     <?php if (empty($historique)): ?>
                         <tr>
-                            <td colspan="2" class="empty-state">Aucun historique disponible</td>
+                            <td colspan="2" class="vide">Aucun historique disponible</td>
                         </tr>
                     <?php else: ?>
                         <?php foreach ($historique as $h): ?>

@@ -11,29 +11,29 @@ require __DIR__ . '/../partials/header.php';
         </div>
     </div>
 
-    <div class="section">
-        <div class="form-card">
+    <div class="bloc">
+        <div class="formulaire">
             <form method="post" action="/admin/update-utilisateur">
                 <input type="hidden" name="id_utilisateur" value="<?= $utilisateur['id_utilisateur'] ?>">
 
-                <div class="form-group">
-                    <label class="form-label">Nom complet</label>
-                    <input type="text" name="fullName" class="form-input" value="<?= htmlspecialchars($utilisateur['fullName']) ?>" required>
+                <div class="champ">
+                    <label class="etiquette">Nom complet</label>
+                    <input type="text" name="fullName" class="saisie" value="<?= htmlspecialchars($utilisateur['fullName']) ?>" required>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input type="email" name="email" class="form-input" value="<?= htmlspecialchars($utilisateur['email']) ?>" required>
+                <div class="champ">
+                    <label class="etiquette">Email</label>
+                    <input type="email" name="email" class="saisie" value="<?= htmlspecialchars($utilisateur['email']) ?>" required>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">UID CAS</label>
-                    <input type="text" name="uid_cas" class="form-input" value="<?= htmlspecialchars($utilisateur['uid_cas']) ?>" required>
+                <div class="champ">
+                    <label class="etiquette">UID CAS</label>
+                    <input type="text" name="uid_cas" class="saisie" value="<?= htmlspecialchars($utilisateur['uid_cas']) ?>" required>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Role</label>
-                    <select name="role_id" class="form-select" required>
+                <div class="champ">
+                    <label class="etiquette">Role</label>
+                    <select name="role_id" class="liste-deroulante" required>
                         <?php foreach ($roles as $r): ?>
                             <option value="<?= $r['id_role'] ?>" <?= $r['id_role'] == $utilisateur['role_id'] ? 'selected' : '' ?>>
                                 <?= htmlspecialchars($r['libelle']) ?>
@@ -42,9 +42,9 @@ require __DIR__ . '/../partials/header.php';
                     </select>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Département</label>
-                    <select name="departement_id" class="form-select">
+                <div class="champ">
+                    <label class="etiquette">Département</label>
+                    <select name="departement_id" class="liste-deroulante">
                         <option value="">— Aucun —</option>
                         <?php foreach ($departements as $d): ?>
                             <option value="<?= $d['id_departement'] ?>" <?= $d['id_departement'] == $utilisateur['departement_id'] ? 'selected' : '' ?>>
@@ -54,9 +54,9 @@ require __DIR__ . '/../partials/header.php';
                     </select>
                 </div>
 
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
-                    <a href="/admin/utilisateurs" class="btn btn-secondary">Annuler</a>
+                <div class="formulaire-boutons">
+                    <button type="submit" class="bouton bouton-principal">Enregistrer</button>
+                    <a href="/admin/utilisateurs" class="bouton bouton-secondaire">Annuler</a>
                 </div>
             </form>
 
@@ -64,7 +64,7 @@ require __DIR__ . '/../partials/header.php';
                   onsubmit="return confirm('Supprimer définitivement cet utilisateur ?');"
                   style="margin-top:1.5rem; padding-top:1.5rem; border-top:1px solid #e5e7eb;">
                 <input type="hidden" name="id_utilisateur" value="<?= $utilisateur['id_utilisateur'] ?>">
-                <button type="submit" class="btn btn-danger">Supprimer cet utilisateur</button>
+                <button type="submit" class="bouton bouton-danger">Supprimer cet utilisateur</button>
             </form>
         </div>
     </div>

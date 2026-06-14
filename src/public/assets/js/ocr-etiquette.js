@@ -36,7 +36,17 @@ async function lancerOCR(imageBase64, callback) {
 
         // Extraire le nom 
         const matchNom = texte.match(/SHIP\s*T[O0]\s*:\s*\n?\s*(.+)/i);
-        const nomDestinataire = matchNom ? matchNom[1].trim() : "";
+        let nomDestinataire = matchNom ? matchNom[1].trim() : "";
+
+        if (!nomDestinataire) {
+
+            const matchContact =
+                texte.match(/Contact\s+([A-ZÀ-ÿ\s]+)/i);
+
+            if (matchContact) {
+                nomDestinataire = matchContact[1].trim();
+            }
+        }
         console.log("NUMÉRO SUIVI :", numeroSuivi);
         console.log("NOM DESTINATAIRE :", nomDestinataire);
 

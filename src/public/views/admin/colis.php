@@ -44,8 +44,20 @@
         <?php foreach ($stats as $s): ?>
         <div class="stat-card">
             <div class="stat-value"><?= $s['total'] ?></div>
-            <div class="stat-label"><?= $s['statut'] ?></div>
-        </div>
+            <div class="stat-label">
+            <?php
+            $statuts = [
+                'en_attente' => 'En attente',
+                'recu_universite' => 'Reçu universite',
+                'transfere_iut' => 'Transfere IUT',
+                'livre' => 'Livre',
+                'non_identifie' => 'Non identifie'
+            ];
+
+            echo $statuts[$s['statut']]
+                ?? ucfirst(str_replace('_', ' ', $s['statut']));
+            ?>
+            </div>        </div>
         <?php endforeach; ?>
     </div>
     <?php endif; ?>
@@ -83,8 +95,16 @@
                             <td><strong><?= htmlspecialchars($c['numero_suivi'] ?: '—') ?></strong></td>
                             <td><?= htmlspecialchars($c['numero_commande'] ?: '—') ?></td>
                             <td><?= htmlspecialchars($c['departement'] ?: '—') ?></td>
-                            <td><span class="badge badge-<?= strtolower(str_replace(' ', '_', $c['statut'])) ?>"><?= $c['statut'] ?></span></td>
-                            <td><?= $c['date_reception'] ?: '—' ?></td>
+                            <td>
+                            <?php
+                            $statutLabel = str_replace('_', ' ', $c['statut']);
+                            $statutLabel = ucfirst($statutLabel);
+                            ?>
+
+                            <span class="badge badge-<?= strtolower(str_replace(' ', '_', $c['statut'])) ?>">
+                                <?= htmlspecialchars($statutLabel) ?>
+                            </span>
+                            </td>                            <td><?= $c['date_reception'] ?: '—' ?></td>
                             <td><?= $c['date_retrait'] ?: '—' ?></td>
                         </tr>
                         <?php endforeach; ?>

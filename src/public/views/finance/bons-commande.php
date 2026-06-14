@@ -57,8 +57,21 @@
                             <td><strong><?= htmlspecialchars($b["numero_commande"]) ?></strong></td>
                             <td><?= $b["date_commande"] ?></td>
                             <td><span class="montant"><?= number_format($b["montant_estime"], 2, ',', ' ') ?> EUR</span></td>
-                            <td><span class="badge badge-<?= strtolower($b["statut"]) ?>"><?= ucfirst($b["statut"]) ?></span></td>
-                        </tr>
+                            <td>
+                            <?php
+                            $statutLabels = [
+                                'en_preparation' => 'En préparation',
+                                'signe' => 'Signé',
+                                'envoye' => 'Envoyé',
+                                'livre' => 'Livré',
+                                'annule' => 'Annulé'
+                            ];
+                            ?>
+
+                            <span class="badge badge-<?= strtolower($b["statut"]) ?>">
+                                <?= $statutLabels[$b["statut"]] ?? $b["statut"] ?>
+                            </span>
+                            </td>                        </tr>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </tbody>

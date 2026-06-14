@@ -23,7 +23,6 @@
         <a href="/postal/colis/recherche">Recherche colis</a>
         <a href="/postal/colis/non-identifies">Colis non identifies</a>
         <a class="actif" href="/postal/colis/ajouter">Ajouter un colis</a>
-        <a href="/postal/historique">Historique global</a>
     </nav>
 
     <div class="deconnexion">

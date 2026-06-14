@@ -58,8 +58,16 @@
                             <td>#<?= $c["id_colis"] ?></td>
                             <td><strong><?= htmlspecialchars($c["numero_suivi"] ?: "—") ?></strong></td>
                             <td><?= $c["date_reception"] ?></td>
-                            <td><span class="badge badge-non_identifie"><?= htmlspecialchars($c["statut"]) ?></span></td>
-                        </tr>
+                            <td>
+                            <?php
+                            $statutLabel = str_replace('_', ' ', $c["statut"]);
+                            $statutLabel = ucfirst($statutLabel);
+                            ?>
+
+                            <span class="badge badge-non_identifie">
+                                <?= htmlspecialchars($statutLabel) ?>
+                            </span>
+                            </td>                        </tr>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </tbody>

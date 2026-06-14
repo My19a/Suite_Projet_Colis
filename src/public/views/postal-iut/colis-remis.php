@@ -23,6 +23,7 @@
         <a class="actif" href="/postal/colis/remis">Colis remis</a>
         <a href="/postal/colis/recherche">Recherche colis</a>
         <a href="/postal/colis/non-identifies">Non identifies</a>
+        <a href="/postal/colis/ajouter">Ajouter un colis</a>
     </nav>
 
     <div class="deconnexion">

@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../models/AdminModels.php';
 require_once __DIR__ . '/../../lib-tools/Mail/MailService.php';
-
+//Controller pour la partie admin (tableau de bord, gestion utilisateurs, devis, etc.)
 class AdminController {
 
     private $model;

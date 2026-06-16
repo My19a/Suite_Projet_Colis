@@ -34,6 +34,33 @@ class AdminModels {
             ->fetchColumn();
     }
 
+    public function countDepartements() {
+        return $this->db
+            ->query("SELECT COUNT(*) FROM departement")
+            ->fetchColumn();
+    }
+
+    public function countFournisseurs() {
+        return $this->db
+            ->query("SELECT COUNT(*) FROM fournisseur")
+            ->fetchColumn();
+    }
+
+    /**
+     * Devis encore en cours de traitement (ni acceptés, ni refusés/annulés).
+     */
+    public function countDevisEnCours() {
+        $sql = "
+            SELECT COUNT(*) FROM devis
+            WHERE statut NOT IN (
+                'accepte', 'accepted',
+                'refuse', 'rejected', 'rejete', 'rejete_finance',
+                'annule', 'cancelled'
+            )
+        ";
+        return $this->db->query($sql)->fetchColumn();
+    }
+
 
     public function countUtilisateursParRole() {
         $sql = "
@@ -49,7 +76,7 @@ class AdminModels {
 
     public function getTousLesUtilisateurs() {
         $sql = "
-            SELECT 
+            SELECT
                 u.id_utilisateur,
                 u.uid_cas,
                 u.fullName,
@@ -241,7 +268,7 @@ class AdminModels {
     public function getTousLesDevis($search = null) {
 
         $sql = "
-            SELECT 
+            SELECT
                 d.id_devis,
                 d.objet,
                 d.montant_estime,
@@ -289,7 +316,7 @@ class AdminModels {
     public function getToutesLesCommandes($search = null) {
 
         $sql = "
-            SELECT 
+            SELECT
                 b.id_bon_commande,
                 b.numero_commande,
                 b.date_commande,
@@ -372,8 +399,105 @@ class AdminModels {
     }
 
 
-    
+    /* ===== APERÇUS TABLEAU DE BORD =====
+       Petites listes limitées pour les cartes du dashboard admin.
+       $limite est un entier interne : injecté directement (jamais une saisie utilisateur)
+       pour éviter les soucis de binding de LIMIT en mode PDO émulé. */
 
+    public function getDerniersUtilisateurs($limite = 5) {
+        $limite = (int) $limite;
+        $sql = "
+            SELECT
+                u.id_utilisateur,
+                u.fullName,
+                u.email,
+                r.libelle AS role,
+                d.nom AS departement
+            FROM utilisateur u
+            JOIN role r ON u.role_id = r.id_role
+            LEFT JOIN departement d ON u.departement_id = d.id_departement
+            ORDER BY u.id_utilisateur DESC
+            LIMIT {$limite}
+        ";
+        return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    }
 
-    
+    public function getApercuDepartements($limite = 5) {
+        $limite = (int) $limite;
+        $sql = "
+            SELECT id_departement, nom, budget_total, budget_utilise
+            FROM departement
+            ORDER BY nom
+            LIMIT {$limite}
+        ";
+        return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getDerniersDevis($limite = 5) {
+        $limite = (int) $limite;
+        $sql = "
+            SELECT
+                d.id_devis,
+                d.objet,
+                d.montant_estime,
+                d.statut,
+                d.date_demande,
+                f.nom AS fournisseur
+            FROM devis d
+            LEFT JOIN fournisseur f ON d.fournisseur_id = f.id_fournisseur
+            ORDER BY d.date_demande DESC, d.id_devis DESC
+            LIMIT {$limite}
+        ";
+        return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getDerniersColis($limite = 5) {
+        $limite = (int) $limite;
+        $sql = "
+            SELECT
+                c.id_colis,
+                c.numero_suivi,
+                c.date_reception,
+                d.nom AS departement,
+                s.libelle AS statut
+            FROM colis c
+            LEFT JOIN bon_commande b ON c.bon_commande_id = b.id_bon_commande
+            LEFT JOIN departement d ON b.departement_id = d.id_departement
+            JOIN statut_colis s ON c.statut_id = s.id_statut
+            ORDER BY c.date_reception DESC, c.id_colis DESC
+            LIMIT {$limite}
+        ";
+        return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getDernieresCommandes($limite = 5) {
+        $limite = (int) $limite;
+        $sql = "
+            SELECT
+                b.id_bon_commande,
+                b.numero_commande,
+                b.date_commande,
+                b.montant_estime,
+                b.statut,
+                d.nom AS departement,
+                f.nom AS fournisseur
+            FROM bon_commande b
+            LEFT JOIN departement d ON b.departement_id = d.id_departement
+            LEFT JOIN fournisseur f ON b.fournisseur_id = f.id_fournisseur
+            ORDER BY b.date_commande DESC, b.id_bon_commande DESC
+            LIMIT {$limite}
+        ";
+        return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getApercuFournisseurs($limite = 5) {
+        $limite = (int) $limite;
+        $sql = "
+            SELECT id_fournisseur, nom, contact_nom, contact_email
+            FROM fournisseur
+            ORDER BY nom
+            LIMIT {$limite}
+        ";
+        return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

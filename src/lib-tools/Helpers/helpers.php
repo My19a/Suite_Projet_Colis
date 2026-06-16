@@ -118,6 +118,49 @@ function libelleRole(?string $role): string
 }
 
 /**
+ * Libellé lisible et accentué d'un statut (devis, bon de commande, colis).
+ * Casse de phrase française (accents corrects), repli sur joli() si inconnu.
+ */
+function libelleStatut(?string $statut): string
+{
+    $s = strtolower(trim($statut ?? ''));
+    $map = [
+        'en_attente'      => 'En attente',
+        'en_cours'        => 'En cours',
+        'en_preparation'  => 'En préparation',
+        'brouillon'       => 'Brouillon',
+        'envoye'          => 'Envoyé',
+        'sent'            => 'Envoyé',
+        'accepte'         => 'Accepté',
+        'accepted'        => 'Accepté',
+        'refuse'          => 'Refusé',
+        'rejected'        => 'Refusé',
+        'rejete'          => 'Rejeté',
+        'rejete_finance'  => 'Rejeté (finance)',
+        'valide'          => 'Validé',
+        'validated'       => 'Validé',
+        'valide_finance'  => 'Validé (finance)',
+        'signe'           => 'Signé',
+        'signe_directeur' => 'Signé (directeur)',
+        'signed'          => 'Signé',
+        'annule'          => 'Annulé',
+        'annulee'         => 'Annulée',
+        'cancelled'       => 'Annulé',
+        'livre'           => 'Livré',
+        'livree'          => 'Livrée',
+        'delivered'       => 'Livré',
+        'retire'          => 'Retiré',
+        'retrieved'       => 'Retiré',
+        'recu_universite' => "Reçu à l'université",
+        'received'        => 'Reçu',
+        'transfere_iut'   => "Transféré à l'IUT",
+        'transferred'     => 'Transféré',
+        'non_identifie'   => 'Non identifié',
+    ];
+    return $map[$s] ?? joli($statut);
+}
+
+/**
  * Classe CSS de badge correspondant à un statut (slug normalisé).
  */
 function badgeStatut(?string $statut): string

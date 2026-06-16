@@ -13,13 +13,24 @@ class AdminController {
     public function dashboard() {
 
         $stats = [
-            "utilisateurs" => $this->model->countUtilisateurs(),
-            "devis"        => $this->model->countDevis(),
-            "bons"         => $this->model->countBonsCommande(),
-            "colis"        => $this->model->countColis()
+            "utilisateurs"   => $this->model->countUtilisateurs(),
+            "departements"   => $this->model->countDepartements(),
+            "devis_en_cours" => $this->model->countDevisEnCours(),
+            "devis"          => $this->model->countDevis(),
+            "bons"           => $this->model->countBonsCommande(),
+            "colis"          => $this->model->countColis(),
+            "fournisseurs"   => $this->model->countFournisseurs(),
         ];
 
         $roles = $this->model->countUtilisateursParRole();
+
+        // Aperçus pour les cartes du tableau de bord
+        $apercuUtilisateurs = $this->model->getDerniersUtilisateurs(5);
+        $apercuDepartements = $this->model->getApercuDepartements(5);
+        $apercuDevis        = $this->model->getDerniersDevis(5);
+        $apercuColis        = $this->model->getDerniersColis(5);
+        $apercuCommandes    = $this->model->getDernieresCommandes(5);
+        $apercuFournisseurs = $this->model->getApercuFournisseurs(5);
 
         require __DIR__ . '/../views/admin/dashboard.php';
     }

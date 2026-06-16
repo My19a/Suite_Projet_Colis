@@ -604,7 +604,7 @@ a.carte-ligne:hover::after, .carte-ligne.cliquable:hover::after { border-color: 
         padding: 11px 8px; margin-bottom: 0;
         border-bottom: none; border-left: 2px solid transparent; border-radius: 0;
     }
-    .navbar-menu a.actif { border-bottom-color: transparent; border-left-color: var(--princ); background: var(--princ-doux); }
+    .navbar-menu a.actif { color: #ffffff; font-weight: 600; background: #640d70; border-bottom-color: transparent; border-radius: 6px; padding: 4px 11px; }
 }
 @media (max-width: 900px) {
     .contenu { padding: 14px 16px; }

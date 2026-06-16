@@ -62,7 +62,7 @@ require __DIR__ . '/../partials/header.php';
     </div>
 
     <?php if (empty($bons)): ?>
-        <div class="vide-cadre">Aucun bon de commande trouvé</div>
+        <?= etatVide('commandes', 'Aucun bon de commande', 'Vos bons de commande apparaîtront ici.') ?>
     <?php else: ?>
         <div class="liste" id="commandesTable">
             <?php foreach ($bons as $cmd): ?>

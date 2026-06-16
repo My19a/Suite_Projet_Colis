@@ -360,6 +360,18 @@ class AdminModels {
         return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function countColisParDepartement() {
+        $sql = "
+            SELECT COALESCE(d.nom, 'Non identifié') AS departement, COUNT(*) AS total
+            FROM colis c
+            LEFT JOIN bon_commande b ON c.bon_commande_id = b.id_bon_commande
+            LEFT JOIN departement d ON b.departement_id = d.id_departement
+            GROUP BY departement
+            ORDER BY total DESC
+        ";
+        return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     // Tous les colis + recherche
     public function getTousLesColisAdmin($search = null) {
 

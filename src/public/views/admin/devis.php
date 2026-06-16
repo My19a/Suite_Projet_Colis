@@ -28,7 +28,7 @@ require __DIR__ . '/../partials/header.php';
     </form>
 
     <?php if (empty($devis)): ?>
-        <div class="vide-cadre">Aucun devis trouvé</div>
+        <?= etatVide('devis', 'Aucun devis', 'Aucun devis ne correspond à votre recherche.') ?>
     <?php else: ?>
         <div class="liste">
             <?php foreach ($devis as $d): ?>

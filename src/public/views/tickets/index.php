@@ -58,7 +58,7 @@ require __DIR__ . '/../partials/header.php';
     <?php endif; ?>
 
     <?php if (empty($tickets)): ?>
-        <div class="vide-cadre">Aucun ticket pour le moment.</div>
+        <?= etatVide('assistance', 'Aucun ticket', 'Aucune demande d\'assistance pour le moment.') ?>
     <?php else: ?>
         <div class="liste">
             <?php foreach ($tickets as $t): ?>

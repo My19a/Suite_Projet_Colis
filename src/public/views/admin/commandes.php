@@ -28,7 +28,7 @@ require __DIR__ . '/../partials/header.php';
     </form>
 
     <?php if (empty($commandes)): ?>
-        <div class="vide-cadre">Aucune commande</div>
+        <?= etatVide('commandes', 'Aucune commande', 'Aucun bon de commande à afficher.') ?>
     <?php else: ?>
         <div class="liste">
             <?php foreach ($commandes as $c): ?>

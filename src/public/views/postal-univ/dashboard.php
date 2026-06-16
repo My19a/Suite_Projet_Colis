@@ -45,7 +45,7 @@ require __DIR__ . '/../partials/header.php';
     </div>
 
     <?php if (empty($colis_recents)): ?>
-        <div class="vide-cadre">Aucun colis reçu</div>
+        <?= etatVide('reception', 'Aucun colis reçu', 'Les colis reçus à l\'université s\'afficheront ici.') ?>
     <?php else: ?>
         <div class="liste">
             <?php foreach ($colis_recents as $c): ?>

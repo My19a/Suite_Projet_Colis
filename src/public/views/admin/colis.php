@@ -28,7 +28,7 @@ require __DIR__ . '/../partials/header.php';
     </form>
 
     <?php if (empty($colis)): ?>
-        <div class="vide-cadre">Aucun colis trouvé</div>
+        <?= etatVide('colis', 'Aucun colis', 'Aucun colis ne correspond à votre recherche.') ?>
     <?php else: ?>
         <div class="liste">
             <?php foreach ($colis as $c): ?>

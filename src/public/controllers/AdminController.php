@@ -32,6 +32,10 @@ class AdminController {
         $apercuCommandes    = $this->model->getDernieresCommandes(5);
         $apercuFournisseurs = $this->model->getApercuFournisseurs(5);
 
+        // Données des mini-graphiques
+        $colisParDepartement = $this->model->countColisParDepartement();
+        $colisParStatut      = $this->model->countColisParStatut();
+
         require __DIR__ . '/../views/admin/dashboard.php';
     }
 

@@ -25,7 +25,7 @@ require __DIR__ . '/../partials/header.php';
     <?php endif; ?>
 
     <?php if (empty($departements)): ?>
-        <div class="vide-cadre">Aucun département</div>
+        <?= etatVide('departements', 'Aucun département', 'Ajoutez un département pour commencer.', '/admin/ajouter-departement', 'Ajouter un département') ?>
     <?php else: ?>
         <div class="liste">
             <?php foreach ($departements as $d): ?>

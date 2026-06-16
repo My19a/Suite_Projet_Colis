@@ -212,6 +212,25 @@ function classeBudget($restant, $total): string
 }
 
 /**
+ * État vide soigné (icône + titre + sous-texte + bouton d'action optionnel).
+ * Usage : <?= etatVide('colis', 'Aucun colis', 'Les colis reçus apparaîtront ici.', '/postal/colis/ajouter', 'Ajouter un colis') ?>
+ */
+function etatVide(string $icone, string $titre, string $sous = '', ?string $ctaHref = null, ?string $ctaLibelle = null): string
+{
+    $html  = '<div class="etat-vide">';
+    $html .= '<div class="etat-vide-icone">' . icone($icone, 22) . '</div>';
+    $html .= '<div class="etat-vide-titre">' . htmlspecialchars($titre) . '</div>';
+    if ($sous !== '') {
+        $html .= '<div class="etat-vide-sous">' . htmlspecialchars($sous) . '</div>';
+    }
+    if ($ctaHref !== null && $ctaLibelle !== null) {
+        $html .= '<a href="' . htmlspecialchars($ctaHref) . '" class="bouton bouton-principal">'
+               . icone('plus', 14) . htmlspecialchars($ctaLibelle) . '</a>';
+    }
+    return $html . '</div>';
+}
+
+/**
  * Icône SVG inline (style trait, hérite de la couleur du texte via currentColor).
  * Usage : <?= icone('utilisateurs') ?> ou <?= icone('plus', 14) ?>
  */

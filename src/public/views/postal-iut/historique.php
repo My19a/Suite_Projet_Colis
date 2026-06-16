@@ -12,7 +12,7 @@ require __DIR__ . '/../partials/header.php';
     </div>
 
     <?php if (empty($historique)): ?>
-        <div class="vide-cadre">Aucun historique disponible</div>
+        <?= etatVide('historique', 'Aucun historique', 'Les actions sur les colis s\'afficheront ici.') ?>
     <?php else: ?>
         <div class="liste">
             <?php foreach ($historique as $h): ?>

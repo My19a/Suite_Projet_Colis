@@ -32,7 +32,7 @@ require __DIR__ . '/../partials/header.php';
     </div>
 
     <?php if (empty($fournisseurs)): ?>
-        <div class="vide-cadre">Aucun fournisseur disponible</div>
+        <?= etatVide('fournisseurs', 'Aucun fournisseur', 'Aucun fournisseur n\'est disponible pour le moment.') ?>
     <?php else: ?>
         <div class="liste">
             <?php foreach ($fournisseurs as $f): ?>

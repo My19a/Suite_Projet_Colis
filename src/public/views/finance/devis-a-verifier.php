@@ -12,7 +12,7 @@ require __DIR__ . '/../partials/header.php';
     </div>
 
     <?php if (empty($devis)): ?>
-        <div class="vide-cadre">Aucun devis à vérifier</div>
+        <?= etatVide('devis', 'Aucun devis à vérifier', 'Aucun devis en attente de vérification.') ?>
     <?php else: ?>
         <div class="liste">
             <?php foreach ($devis as $d): ?>

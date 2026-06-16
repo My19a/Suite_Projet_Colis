@@ -12,7 +12,7 @@ require __DIR__ . '/../partials/header.php';
     </div>
 
     <?php if (empty($budgets)): ?>
-        <div class="vide-cadre">Aucun budget trouvé</div>
+        <?= etatVide('budget', 'Aucun budget', 'Les budgets des départements s\'afficheront ici.') ?>
     <?php else: ?>
         <div class="liste">
             <?php foreach ($budgets as $b): ?>

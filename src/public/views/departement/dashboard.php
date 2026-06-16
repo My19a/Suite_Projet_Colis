@@ -76,7 +76,7 @@ require __DIR__ . '/../partials/header.php';
     </div>
 
     <?php if (empty($colis)): ?>
-        <div class="vide-cadre">Aucun colis trouvé</div>
+        <?= etatVide('colis', 'Aucun colis', 'Vos derniers colis s\'afficheront ici.') ?>
     <?php else: ?>
         <div class="liste">
             <?php foreach ($colis as $col): ?>

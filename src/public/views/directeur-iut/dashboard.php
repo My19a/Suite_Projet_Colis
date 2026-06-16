@@ -32,7 +32,7 @@ require __DIR__ . '/../partials/header.php';
     </div>
 
     <?php if (empty($devis)): ?>
-        <div class="vide-cadre">Aucun devis à signer</div>
+        <?= etatVide('signature', 'Aucun devis à signer', 'Aucun devis n\'attend votre signature.') ?>
     <?php else: ?>
         <div class="liste">
             <?php foreach ($devis as $d): ?>
@@ -62,7 +62,7 @@ require __DIR__ . '/../partials/header.php';
     </div>
 
     <?php if (empty($bons)): ?>
-        <div class="vide-cadre">Aucun bon de commande</div>
+        <?= etatVide('commandes', 'Aucun bon de commande', 'Les bons de commande s\'afficheront ici.') ?>
     <?php else: ?>
         <div class="liste">
             <?php foreach ($bons as $b): ?>

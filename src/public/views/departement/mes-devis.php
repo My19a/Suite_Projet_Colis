@@ -80,7 +80,7 @@ require __DIR__ . '/../partials/header.php';
     ?>
 
     <?php if (empty($devis)): ?>
-        <div class="vide-cadre">Aucun devis trouvé</div>
+        <?= etatVide('devis', 'Aucun devis', 'Créez un devis pour démarrer une commande.', '/departement/creer-devis', 'Créer un devis') ?>
     <?php else: ?>
         <div class="liste" id="devisTable">
             <?php foreach ($devis as $d): ?>

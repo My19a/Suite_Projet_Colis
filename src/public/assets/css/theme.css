@@ -518,6 +518,76 @@ a.carte-ligne:hover::after, .carte-ligne.cliquable:hover::after { border-color: 
     margin-top: 8px; font-size: 11.5px; color: var(--texte-leger);
 }
 
+/* ===== Suivi colis : étapes (stepper horizontal) ===== */
+.suivi { display: flex; margin-top: 4px; }
+.suivi-etape { flex: 1 1 0; min-width: 0; text-align: center; position: relative; padding: 0 4px; }
+.suivi-etape::before {
+    content: ""; position: absolute; top: 15px; left: -50%;
+    width: 100%; height: 2px; background: var(--bord); z-index: 0;
+}
+.suivi-etape:first-child::before { display: none; }
+.suivi-etape.faite::before, .suivi-etape.active::before { background: var(--ok); }
+.suivi-pastille {
+    position: relative; z-index: 1;
+    width: 32px; height: 32px; border-radius: var(--rond); margin: 0 auto 8px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--surface); border: 2px solid var(--bord); color: var(--texte-leger);
+}
+.suivi-etape.faite .suivi-pastille { background: var(--ok); border-color: var(--ok); color: #fff; }
+.suivi-etape.active .suivi-pastille { background: var(--princ); border-color: var(--princ); color: #fff; }
+.suivi-libelle { font-size: 12.5px; font-weight: 500; color: var(--texte); line-height: 1.3; }
+.suivi-etape.afaire .suivi-libelle { color: var(--texte-leger); font-weight: 400; }
+.suivi-date { font-size: 11.5px; color: var(--texte-leger); margin-top: 2px; font-variant-numeric: tabular-nums; }
+.suivi-alerte {
+    display: flex; align-items: center; gap: 9px;
+    padding: 10px 14px; border-radius: var(--r);
+    background: var(--err-fond); border: 1px solid var(--err-bord); color: var(--err);
+    font-size: 13px; font-weight: 500;
+}
+
+/* ===== Fil d'historique (timeline verticale) ===== */
+.fil { padding: 2px 0; }
+.fil-evt { position: relative; padding: 0 0 14px 26px; }
+.fil-evt::before { content: ""; position: absolute; left: 7px; top: 5px; bottom: -5px; width: 2px; background: var(--bord-doux); }
+.fil-evt:last-child { padding-bottom: 0; }
+.fil-evt:last-child::before { display: none; }
+.fil-point { position: absolute; left: 1px; top: 3px; width: 14px; height: 14px; border-radius: var(--rond); background: var(--princ-doux); border: 2px solid var(--princ); }
+.fil-evt:first-child .fil-point { background: var(--princ); }
+.fil-action { font-size: 13px; font-weight: 500; color: var(--texte); }
+.fil-date { font-size: 11.5px; color: var(--texte-leger); font-variant-numeric: tabular-nums; }
+
+/* ===== Mini-graphiques (dashboard) ===== */
+.grille-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-items: start; margin-bottom: 12px; }
+@media (max-width: 900px) { .grille-2 { grid-template-columns: 1fr; } }
+.mini-graph { display: flex; flex-direction: column; gap: 10px; }
+.mini-ligne { display: grid; grid-template-columns: 110px 1fr 34px; align-items: center; gap: 10px; }
+.mini-cle { font-size: 12.5px; color: var(--texte-doux); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mini-piste { height: 8px; background: var(--bord-doux); border-radius: var(--rond); overflow: hidden; }
+.mini-jauge { height: 100%; border-radius: var(--rond); background: var(--princ); }
+.mini-val { font-size: 12.5px; font-weight: 600; color: var(--texte); text-align: right; font-variant-numeric: tabular-nums; }
+.barre-empilee { display: flex; height: 14px; border-radius: var(--rond); overflow: hidden; background: var(--bord-doux); }
+.barre-seg { height: 100%; min-width: 2px; }
+.legende { display: flex; flex-wrap: wrap; gap: 7px 16px; margin-top: 13px; }
+.legende-item { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--texte-doux); }
+.legende-pastille { width: 9px; height: 9px; border-radius: 2px; flex-shrink: 0; }
+.legende-item b { color: var(--texte); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* ===== État vide soigné ===== */
+.etat-vide {
+    text-align: center; padding: 36px 20px;
+    background: var(--surface); border: 1px dashed var(--bord); border-radius: var(--r);
+}
+.etat-vide-icone {
+    width: 46px; height: 46px; margin: 0 auto 12px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: var(--rond); background: var(--princ-doux); color: var(--princ);
+}
+.etat-vide-titre { font-size: 14px; font-weight: 600; color: var(--texte); margin-bottom: 4px; }
+.etat-vide-sous { font-size: 12.5px; color: var(--texte-leger); max-width: 380px; margin: 0 auto 14px; line-height: 1.5; }
+
+/* Chiffres alignés (tabular) sur les valeurs numériques */
+.montant, .chiffre-valeur, .cl-val, .apercu-valeur, .mini-val { font-variant-numeric: tabular-nums; }
+
 .largeur-moyenne { max-width: 760px; }
 
 @media (max-width: 1024px) {

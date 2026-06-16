@@ -20,7 +20,7 @@ require __DIR__ . '/../partials/header.php';
         <h2 class="bloc-titre">Résultats</h2>
     </div>
     <?php if (empty($resultats)): ?>
-        <div class="vide-cadre">Aucun résultat</div>
+        <?= etatVide('recherche', 'Aucun résultat', 'Essayez un autre numéro de suivi, BC ou département.') ?>
     <?php else: ?>
         <div class="liste">
             <?php foreach ($resultats as $c): ?>

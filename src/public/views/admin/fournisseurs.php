@@ -25,7 +25,7 @@ require __DIR__ . '/../partials/header.php';
     <?php endif; ?>
 
     <?php if (empty($fournisseurs)): ?>
-        <div class="vide-cadre">Aucun fournisseur</div>
+        <?= etatVide('fournisseurs', 'Aucun fournisseur', 'Ajoutez un fournisseur pour commencer.', '/admin/ajouter-fournisseur', 'Ajouter un fournisseur') ?>
     <?php else: ?>
         <div class="liste">
             <?php foreach ($fournisseurs as $f): ?>

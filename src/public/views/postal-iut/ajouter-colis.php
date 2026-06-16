@@ -64,17 +64,6 @@
                     <input type="text" id="numero_suivi" name="numero_suivi" class="form-input" placeholder="Ex: FR123456789">
                 </div>
 
-                <div class="form-group">
-                <label>Destinataire identifié</label>
-
-                <input type="text" id="nom_destinataire" name="nom_destinataire" class="form-control" placeholder="Nom détecté par OCR ou saisie manuelle">
-
-                <button type="button" id="btnRechercheDest" class="btn btn-secondary" style="margin-top:10px;">
-                    Rechercher
-                </button>
-
-                <div id="resultatDestinataire" style="margin-top:10px;"></div>
-                </div>
 
                 <div class="form-group">
                     <label class="form-label">Commentaire</label>
@@ -91,6 +80,59 @@
             </form>
         </div>
 
+        <div class="section" id="section-destinataire">
+    <div class="section-header">
+        <h2 class="section-title">Destinataire identifié</h2>
+    </div>
+
+    <div style="padding: 8px 0;">
+
+        <div class="form-group" style="margin-bottom: 12px;">
+            <label class="form-label">Nom du destinataire</label>
+
+            <div style="display:flex; gap:8px;">
+                <input
+                    type="text"
+                    id="nom_destinataire"
+                    class="form-input"
+                    placeholder="Ex: Valerie Touzet"
+                    style="flex:1;"
+                >
+
+                <button
+                    type="button"
+                    id="btnRechercheDest"
+                    class="btn btn-primary"
+                >
+                    Rechercher
+                </button>
+            </div>
+
+            <p style="font-size:12px; color:var(--text-muted); margin-top:4px;">
+                Rempli automatiquement par l'OCR ou saisissez manuellement
+            </p>
+        </div>
+
+        <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label">Résultat</label>
+
+            <div
+                id="resultatDestinataire"
+                style="
+                    padding:10px 14px;
+                    background:var(--blue-bg);
+                    border-radius:var(--radius-sm);
+                    border:1px solid var(--blue-border);
+                    font-weight:500;
+                    color:var(--blue-dark);
+                "
+            >
+                —
+            </div>
+        </div>
+
+    </div>
+</div>
         <div class="section">
             <div class="section-header">
                 <h2 class="section-title">Scanner / Photographier l'Etiquette</h2>
@@ -128,10 +170,7 @@
 
             </div>
 
-            <div class="alert alert-warning" style="margin-top: 16px; margin-bottom: 0;">
-                <span class="alert-icon-text">&#9888;</span>
-                <div class="alert-content" style="color: var(--warning-text);">La photo de l'etiquette aide a identifier automatiquement le bon de commande associe.</div>
-            </div>
+            
         </div>
 
     </div>
@@ -343,14 +382,13 @@
 
         if (data.length > 0) {
 
-            zone.innerHTML =
-                "✔ Destinataire trouvé : "
-                + data[0].fullName;
+           zone.innerHTML =
+    "✔ " + data[0].fullName;
 
         } else {
 
             zone.innerHTML =
-                "❌ Aucun destinataire trouvé";
+                " Aucun destinataire trouvé";
         }
     });
 </script>

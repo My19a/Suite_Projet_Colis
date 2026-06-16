@@ -1,85 +1,39 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bons de commande – Service Financier</title>
-    <link rel="stylesheet" href="/assets/css/theme.css">
-</head>
+<?php
+$titre = 'Bons de commande – Service Financier';
+$actif = '/finance/bons-commande';
+require __DIR__ . '/../partials/header.php';
+?>
 
-<body class="tableau-bord">
-
-<aside class="barre-laterale">
-    <div class="entete-barre">
-        <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Service Financier</h2>
-        <p>Gestion budgetaire</p>
-    </div>
-
-    <nav class="menu">
-        <a href="/finance/dashboard">Tableau de bord</a>
-        <a href="/finance/devis">Devis a verifier</a>
-        <a class="actif" href="/finance/bons-commande">Bons de commande</a>
-        <a href="/finance/budgets">Budgets</a>
-    </nav>
-
-    <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
-    </div>
-</aside>
-
-<main class="contenu">
-
-    <div class="page-header">
+<div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Bons de commande</h1>
-            <p class="page-subtitle">Historique des bons de commande valides</p>
+            <p class="page-subtitle">Historique des bons de commande validés</p>
         </div>
     </div>
 
-    <div class="section">
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>N° commande</th>
-                        <th>Date</th>
-                        <th>Montant</th>
-                        <th>Statut</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($bons)): ?>
-                        <tr><td colspan="4" class="empty-state">Aucun bon de commande</td></tr>
-                    <?php else: ?>
-                        <?php foreach ($bons as $b): ?>
-                        <tr>
-                            <td><strong><?= htmlspecialchars($b["numero_commande"]) ?></strong></td>
-                            <td><?= $b["date_commande"] ?></td>
-                            <td><span class="montant"><?= number_format($b["montant_estime"], 2, ',', ' ') ?> EUR</span></td>
-                            <td>
-                            <?php
-                            $statutLabels = [
-                                'en_preparation' => 'En préparation',
-                                'signe' => 'Signé',
-                                'envoye' => 'Envoyé',
-                                'livre' => 'Livré',
-                                'annule' => 'Annulé'
-                            ];
-                            ?>
-
-                            <span class="badge badge-<?= strtolower($b["statut"]) ?>">
-                                <?= $statutLabels[$b["statut"]] ?? $b["statut"] ?>
-                            </span>
-                            </td>                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+    <?php if (empty($bons)): ?>
+        <?= etatVide('commandes', 'Aucun bon de commande', 'Aucun bon de commande à afficher.') ?>
+    <?php else: ?>
+        <div class="liste">
+            <?php foreach ($bons as $b): ?>
+                <div class="carte-ligne">
+                    <div class="cl-tete">
+                        <div class="cl-icone"><?= icone('commandes', 19) ?></div>
+                        <div>
+                            <div class="cl-titre"><?= htmlspecialchars($b["numero_commande"]) ?></div>
+                            <div class="cl-sous">Bon de commande</div>
+                        </div>
+                    </div>
+                    <div class="cl-champs">
+                        <div class="cl-champ"><span class="cl-cle">Date</span><span class="cl-val"><?= $b["date_commande"] ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Montant</span><span class="cl-val montant"><?= number_format($b["montant_estime"], 2, ',', ' ') ?> EUR</span></div>
+                    </div>
+                    <div class="cl-fin">
+                        <span class="<?= badgeStatut($b["statut"]) ?>"><?= htmlspecialchars(libelleStatut($b["statut"])) ?></span>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
-    </div>
+    <?php endif; ?>
 
-</main>
-
-</body>
-</html>
+<?php require __DIR__ . '/../partials/footer.php'; ?>

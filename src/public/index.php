@@ -42,6 +42,7 @@ require_once __DIR__ . '/controllers/DepartementController.php';
 require_once __DIR__ . '/controllers/FinanceController.php';
 require_once __DIR__ . '/controllers/DirecteurController.php';
 require_once __DIR__ . '/controllers/AdminController.php';
+require_once __DIR__ . '/controllers/TicketController.php';
 
 $publicRoutes = ['/', '/dev-login', '/login', '/logout'];
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -187,20 +188,36 @@ $router->get('/directeur/voir-devis', 'DirecteurController', 'voirDevis');
 // ===== ADMIN =====
 $router->get('/admin', 'AdminController', 'dashboard');
 $router->get('/admin/dashboard', 'AdminController', 'dashboard');
+$router->post('/admin/test-mail', 'AdminController', 'testMail');
 $router->get('/admin/utilisateurs', 'AdminController', 'utilisateurs');
+$router->get('/admin/ajouter-utilisateur', 'AdminController', 'ajouterUtilisateur');
+$router->post('/admin/ajouter-utilisateur', 'AdminController', 'ajouterUtilisateur');
+$router->get('/admin/modifier-utilisateur', 'AdminController', 'modifierUtilisateur');
 $router->post('/admin/update-utilisateur', 'AdminController', 'updateUtilisateur');
+$router->post('/admin/supprimer-utilisateur', 'AdminController', 'supprimerUtilisateur');
 $router->get('/admin/fournisseurs', 'AdminController', 'fournisseurs');
+$router->get('/admin/ajouter-fournisseur', 'AdminController', 'ajouterFournisseur');
 $router->post('/admin/ajouter-fournisseur', 'AdminController', 'ajouterFournisseur');
 $router->get('/admin/modifier-fournisseur', 'AdminController', 'modifierFournisseur');
 $router->post('/admin/update-fournisseur', 'AdminController', 'updateFournisseur');
+$router->post('/admin/supprimer-fournisseur', 'AdminController', 'supprimerFournisseur');
 $router->get('/admin/departements', 'AdminController', 'departements');
+$router->get('/admin/ajouter-departement', 'AdminController', 'ajouterDepartement');
 $router->post('/admin/ajouter-departement', 'AdminController', 'ajouterDepartement');
 $router->get('/admin/modifier-departement', 'AdminController', 'modifierDepartement');
 $router->post('/admin/update-departement', 'AdminController', 'updateDepartement');
+$router->post('/admin/supprimer-departement', 'AdminController', 'supprimerDepartement');
 $router->get('/admin/devis', 'AdminController', 'devis');
 $router->get('/admin/commandes', 'AdminController', 'commandes');
 $router->get('/admin/colis', 'AdminController', 'colis');
 
+// ===== TICKETS / ASSISTANCE =====
+$router->get('/tickets', 'TicketController', 'index');
+$router->get('/tickets/nouveau', 'TicketController', 'nouveau');
+$router->post('/tickets/creer', 'TicketController', 'creer');
+$router->get('/tickets/:id', 'TicketController', 'detail');
+$router->post('/tickets/:id/message', 'TicketController', 'repondre');
+$router->post('/tickets/:id/statut', 'TicketController', 'changerStatut');
 
 try {
     $method = $_SERVER['REQUEST_METHOD'];

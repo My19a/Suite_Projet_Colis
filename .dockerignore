@@ -1,0 +1,8 @@
+.git
+.github
+Depot rendu
+Documentation
+**/vendor
+**/.env
+**/node_modules
+*.md

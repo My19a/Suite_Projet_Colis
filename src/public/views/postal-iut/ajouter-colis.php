@@ -1,142 +1,103 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajouter un colis – Service Postal IUT</title>
-    <link rel="stylesheet" href="/assets/css/theme.css">
-</head>
+<?php
+$titre = 'Ajouter un colis – Service Postal IUT';
+$actif = '/postal/colis/ajouter';
+require __DIR__ . '/../partials/header.php';
+?>
 
-<body class="tableau-bord">
-
-<aside class="barre-laterale">
-    <div class="entete-barre">
-        <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Postal IUT</h2>
-        <p>Service Postal</p>
+<div class="page-header">
+    <div class="page-header-info">
+        <h1 class="page-title">Ajouter un colis</h1>
+        <p class="page-subtitle">Enregistrer l'arrivée d'un nouveau colis avec scan/photo de l'étiquette</p>
     </div>
+</div>
 
-    <nav class="menu">
-        <a href="/postal/dashboard">Tableau de bord</a>
-        <a href="/postal/colis/recus">Colis recus</a>
-        <a href="/postal/colis/remis">Colis remis</a>
-        <a href="/postal/colis/recherche">Recherche colis</a>
-        <a href="/postal/colis/non-identifies">Colis non identifies</a>
-        <a class="actif" href="/postal/colis/ajouter">Ajouter un colis</a>
-    </nav>
-
-    <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
+<?php if (!empty($message)): ?>
+    <div class="message <?= strpos($message, 'succes') !== false ? 'message-ok' : 'message-err' ?>">
+        <span class="message-icone"><?= strpos($message, 'succes') !== false ? icone('valide', 16) : icone('croix', 16) ?></span>
+        <div class="message-corps"><?= htmlspecialchars($message) ?></div>
     </div>
-</aside>
+<?php endif; ?>
 
-<main class="contenu">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 24px;">
 
-    <div class="page-header">
-        <div class="page-header-info">
-            <h1 class="page-title">Ajouter un colis</h1>
-            <p class="page-subtitle">Enregistrer l'arrivee d'un nouveau colis avec scan/photo de l'etiquette</p>
+    <div class="bloc">
+        <div class="bloc-entete">
+            <h2 class="bloc-titre">Informations du colis</h2>
         </div>
-    </div>
 
-    <?php if (!empty($message)): ?>
-        <div class="alert <?= strpos($message, 'succes') !== false ? 'alert-success' : 'alert-danger' ?>">
-            <span class="alert-icon-text"><?= strpos($message, 'succes') !== false ? '&#10003;' : '&#10007;' ?></span>
-            <div class="alert-content"><?= htmlspecialchars($message) ?></div>
-        </div>
-    <?php endif; ?>
-
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 24px;">
-
-        <div class="section">
-            <div class="section-header">
-                <h2 class="section-title">Informations du colis</h2>
+        <form method="POST" enctype="multipart/form-data" id="colisForm">
+            <div class="champ">
+                <label class="etiquette requis">Numéro du bon de commande (BC)</label>
+                <input type="text" id="numero_bc" name="numero_bc" class="saisie" placeholder="Ex: BC2024-001" required>
             </div>
 
-            <form method="POST" enctype="multipart/form-data" id="colisForm">
-                <div class="form-group">
-                    <label class="form-label required">Numero du bon de commande (BC)</label>
-                    <input type="text" id="numero_bc" name="numero_bc" class="form-input" placeholder="Ex: BC2024-001" required>
-                </div>
+            <div class="champ">
+                <label class="etiquette">Numéro de suivi</label>
+                <input type="text" id="numero_suivi" name="numero_suivi" class="saisie" placeholder="Ex: FR123456789">
+            </div>
 
-                <div class="form-group">
-                    <label class="form-label">Numero de suivi</label>
-                    <input type="text" id="numero_suivi" name="numero_suivi" class="form-input" placeholder="Ex: FR123456789">
-                </div>
-
-                <div class="form-group">
-                <label>Destinataire identifié</label>
-
-                <input type="text" id="nom_destinataire" name="nom_destinataire" class="form-control" placeholder="Nom détecté par OCR ou saisie manuelle">
-
-                <button type="button" id="btnRechercheDest" class="btn btn-secondary" style="margin-top:10px;">
-                    Rechercher
-                </button>
-
+            <div class="champ">
+                <label class="etiquette">Destinataire identifié</label>
+                <input type="text" id="nom_destinataire" name="nom_destinataire" class="saisie" placeholder="Nom détecté par OCR ou saisie manuelle">
+                <button type="button" id="btnRechercheDest" class="bouton bouton-secondaire" style="margin-top:10px;">Rechercher</button>
                 <div id="resultatDestinataire" style="margin-top:10px;"></div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Commentaire</label>
-                    <textarea name="commentaire" class="form-input" rows="3" placeholder="Notes additionnelles..."></textarea>
-                </div>
-
-                <input type="hidden" id="photo_etiquette" name="photo_etiquette">
-                <input type="hidden" id="ocr_texte_brut" name="ocr_texte_brut">
-                <input type="hidden" id="ocr_confiance" name="ocr_confiance">
-
-                <div class="form-actions" style="border-top: none; padding-top: 0;">
-                    <button type="submit" class="btn btn-primary">Ajouter le colis</button>
-                </div>
-            </form>
-        </div>
-
-        <div class="section">
-            <div class="section-header">
-                <h2 class="section-title">Scanner / Photographier l'Etiquette</h2>
             </div>
 
-            <div id="cameraContainer" style="position: relative; background: var(--bg); border: 2px dashed var(--blue); border-radius: var(--radius); padding: 20px; text-align: center; margin-bottom: 16px; min-height: 280px; display: flex; align-items: center; justify-content: center;">
-                <video id="video" autoplay playsinline style="width: 100%; max-width: 100%; border-radius: var(--radius-sm); display: none;"></video>
-                <canvas id="canvas" style="display: none;"></canvas>
-                <img id="preview" style="max-width: 100%; max-height: 350px; border-radius: var(--radius-sm); display: none;">
-
-                <div id="placeholder" style="text-align: center;">
-                    <p style="color: var(--text-secondary); margin: 20px 0; font-size: 15px;">Cliquez pour activer la camera</p>
-                    <p style="color: var(--text-muted); font-size: 13px;">ou importez une photo existante</p>
-                </div>
+            <div class="champ">
+                <label class="etiquette">Commentaire</label>
+                <textarea name="commentaire" class="saisie" rows="3" placeholder="Notes additionnelles..."></textarea>
             </div>
 
-            <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px;">
-                <button type="button" id="btnStartCamera" class="btn btn-primary">Activer la camera</button>
-                <button type="button" id="btnCapture" class="btn btn-success" style="display: none;">Prendre la photo</button>
-                <button type="button" id="btnRetake" class="btn btn-danger" style="display: none;">Reprendre</button>
+            <input type="hidden" id="photo_etiquette" name="photo_etiquette">
+            <input type="hidden" id="ocr_texte_brut" name="ocr_texte_brut">
+            <input type="hidden" id="ocr_confiance" name="ocr_confiance">
+
+            <div class="formulaire-boutons" style="border-top: none; padding-top: 0;">
+                <button type="submit" class="bouton bouton-principal">Ajouter le colis</button>
             </div>
-
-            <div style="padding: 16px; background: var(--blue-bg); border-radius: var(--radius); border: 1px solid var(--blue-border);">
-                <label class="form-label" style="color: var(--blue-dark);">Ou importer une photo</label>
-                <input type="file" id="fileUpload" accept="image/*" capture="environment" class="form-input" style="background: white;">
-                <div id="ocr-loader" style="display:none; margin-top:10px;">
-                Analyse OCR en cours...
-                </div>
-
-                <div id="ocr-message" style="margin-top:10px;"></div>
-                <div id="ocr-resultat" style="display:none; margin-top:12px; padding:12px; background: var(--blue-bg); border-radius: var(--radius); border: 1px solid var(--blue-border);">
-                    <p style="margin:0 0 6px 0;"><strong>Destinataire détecté :</strong> <span id="ocr-nom"></span></p>
-                    <p style="margin:0;"><strong>Département :</strong> <span id="ocr-departement">Recherche en cours...</span></p>
-                </div>
-
-            </div>
-
-            <div class="alert alert-warning" style="margin-top: 16px; margin-bottom: 0;">
-                <span class="alert-icon-text">&#9888;</span>
-                <div class="alert-content" style="color: var(--warning-text);">La photo de l'etiquette aide a identifier automatiquement le bon de commande associe.</div>
-            </div>
-        </div>
-
+        </form>
     </div>
 
-</main>
+    <div class="bloc">
+        <div class="bloc-entete">
+            <h2 class="bloc-titre">Scanner / Photographier l'Étiquette</h2>
+        </div>
+
+        <div id="cameraContainer" style="position: relative; background: var(--fond); border: 2px dashed var(--princ); border-radius: var(--r); padding: 20px; text-align: center; margin-bottom: 16px; min-height: 280px; display: flex; align-items: center; justify-content: center;">
+            <video id="video" autoplay playsinline style="width: 100%; max-width: 100%; border-radius: var(--r); display: none;"></video>
+            <canvas id="canvas" style="display: none;"></canvas>
+            <img id="preview" style="max-width: 100%; max-height: 350px; border-radius: var(--r); display: none;">
+
+            <div id="placeholder" style="text-align: center;">
+                <p style="color: var(--texte-doux); margin: 20px 0; font-size: 15px;">Cliquez pour activer la caméra</p>
+                <p style="color: var(--texte-leger); font-size: 13px;">ou importez une photo existante</p>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px;">
+            <button type="button" id="btnStartCamera" class="bouton bouton-principal">Activer la caméra</button>
+            <button type="button" id="btnCapture" class="bouton bouton-valider" style="display: none;">Prendre la photo</button>
+            <button type="button" id="btnRetake" class="bouton bouton-danger" style="display: none;">Reprendre</button>
+        </div>
+
+        <div style="padding: 16px; background: var(--princ-doux); border-radius: var(--r); border: 1px solid var(--bord);">
+            <label class="etiquette">Ou importer une photo</label>
+            <input type="file" id="fileUpload" accept="image/*" capture="environment" class="saisie" style="background: var(--surface);">
+            <div id="ocr-loader" style="display:none; margin-top:10px;">Analyse OCR en cours...</div>
+            <div id="ocr-message" style="margin-top:10px;"></div>
+            <div id="ocr-resultat" style="display:none; margin-top:12px; padding:12px; background: var(--princ-doux); border-radius: var(--r); border: 1px solid var(--bord);">
+                <p style="margin:0 0 6px 0;"><strong>Destinataire détecté :</strong> <span id="ocr-nom"></span></p>
+                <p style="margin:0;"><strong>Département :</strong> <span id="ocr-departement">Recherche en cours...</span></p>
+            </div>
+        </div>
+
+        <div class="message message-attn">
+            <span class="message-icone"><?= icone('alerte', 16) ?></span>
+            <div class="message-corps">La photo de l'étiquette aide à identifier automatiquement le bon de commande associé.</div>
+        </div>
+    </div>
+
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <script src="/assets/js/ocr-etiquette.js"></script>
@@ -165,7 +126,7 @@
             btnStartCamera.style.display = 'none';
             btnCapture.style.display = 'inline-flex';
         } catch (err) {
-            alert('Impossible d\'acceder a la camera : ' + err.message);
+            alert('Impossible d\'accéder à la caméra : ' + err.message);
         }
     });
 
@@ -175,47 +136,21 @@
         canvas.getContext('2d').drawImage(video, 0, 0);
         const imageData = canvas.toDataURL('image/jpeg', 0.7);
         photoInput.value = imageData;
-        lancerOCR(imageData, function(resultat)
-        {
-            if(resultat.numeroBC)
-            {
-                document.getElementById('numero_bc').value =
-                    resultat.numeroBC;
-
-                document.getElementById('numero_bc')
-                    .style.backgroundColor = '#d4edda';
+        lancerOCR(imageData, function(resultat) {
+            if (resultat.numeroBC) {
+                document.getElementById('numero_bc').value = resultat.numeroBC;
+                document.getElementById('numero_bc').style.backgroundColor = '#d4edda';
             }
-
-            if(resultat.numeroSuivi)
-            {
-                document.getElementById('numero_suivi').value =
-                    resultat.numeroSuivi;
-
-                document.getElementById('numero_suivi')
-                    .style.backgroundColor = '#d4edda';
+            if (resultat.numeroSuivi) {
+                document.getElementById('numero_suivi').value = resultat.numeroSuivi;
+                document.getElementById('numero_suivi').style.backgroundColor = '#d4edda';
             }
-
-            const champNom =
-            document.getElementById('nom_destinataire');
-
-            champNom.value =
-                resultat.nomDestinataire || '';
-
-            if(resultat.nomDestinataire)
-            {
-                champNom.style.backgroundColor = '#d4edda';
-            }
-            else
-            {
-                champNom.style.backgroundColor = '';
-            }
-
-            document.getElementById('ocr_texte_brut').value =
-                resultat.texteBrut;
-
-            document.getElementById('ocr_confiance').value =
-                resultat.confiance;
-            });
+            const champNom = document.getElementById('nom_destinataire');
+            champNom.value = resultat.nomDestinataire || '';
+            champNom.style.backgroundColor = resultat.nomDestinataire ? '#d4edda' : '';
+            document.getElementById('ocr_texte_brut').value = resultat.texteBrut;
+            document.getElementById('ocr_confiance').value = resultat.confiance;
+        });
         preview.src = imageData;
         preview.style.display = 'block';
         video.style.display = 'none';
@@ -231,14 +166,10 @@
         btnRetake.style.display = 'none';
         photoInput.value = '';
         fileUpload.value = '';
-
-        // permet reinitialisation des données pour chaque nouvelle étiquette
-
         document.getElementById('numero_suivi').value = '';
         document.getElementById('nom_destinataire').value = '';
         document.getElementById('ocr_texte_brut').value = '';
         document.getElementById('ocr_confiance').value = '';
-
         document.getElementById('numero_suivi').style.backgroundColor = '';
         document.getElementById('nom_destinataire').style.backgroundColor = '';
     });
@@ -258,46 +189,20 @@
                     canvas.getContext('2d').drawImage(img, 0, 0, width, height);
                     const imageData = canvas.toDataURL('image/jpeg', 0.7);
                     photoInput.value = imageData;
-                    lancerOCR(imageData, function(resultat)
-                    {
-                        if(resultat.numeroBC)
-                        {
-                            document.getElementById('numero_bc').value =
-                                resultat.numeroBC;
-
-                            document.getElementById('numero_bc')
-                                .style.backgroundColor = '#d4edda';
+                    lancerOCR(imageData, function(resultat) {
+                        if (resultat.numeroBC) {
+                            document.getElementById('numero_bc').value = resultat.numeroBC;
+                            document.getElementById('numero_bc').style.backgroundColor = '#d4edda';
                         }
-
-                        if(resultat.numeroSuivi)
-                        {
-                            document.getElementById('numero_suivi').value =
-                                resultat.numeroSuivi;
-
-                            document.getElementById('numero_suivi')
-                                .style.backgroundColor = '#d4edda';
+                        if (resultat.numeroSuivi) {
+                            document.getElementById('numero_suivi').value = resultat.numeroSuivi;
+                            document.getElementById('numero_suivi').style.backgroundColor = '#d4edda';
                         }
-
-                        const champNom =
-                        document.getElementById('nom_destinataire');
-
-                        champNom.value =
-                            resultat.nomDestinataire || '';
-
-                        if(resultat.nomDestinataire)
-                        {
-                            champNom.style.backgroundColor = '#d4edda';
-                        }
-                        else
-                        {
-                            champNom.style.backgroundColor = '';
-                        }
-
-                        document.getElementById('ocr_texte_brut').value =
-                            resultat.texteBrut;
-
-                        document.getElementById('ocr_confiance').value =
-                            resultat.confiance;
+                        const champNom = document.getElementById('nom_destinataire');
+                        champNom.value = resultat.nomDestinataire || '';
+                        champNom.style.backgroundColor = resultat.nomDestinataire ? '#d4edda' : '';
+                        document.getElementById('ocr_texte_brut').value = resultat.texteBrut;
+                        document.getElementById('ocr_confiance').value = resultat.confiance;
                     });
                     preview.src = imageData;
                     preview.style.display = 'block';
@@ -318,42 +223,20 @@
         if (stream) stream.getTracks().forEach(track => track.stop());
     });
 </script>
+
 <script>
-
-    document
-    .getElementById('btnRechercheDest')
-    .addEventListener('click', async () => {
-
-        const nom =
-            document.getElementById(
-                'nom_destinataire'
-            ).value;
-
-        const response = await fetch(
-            '/postal/rechercher-destinataire?nom='
-            + encodeURIComponent(nom)
-        );
-
+    document.getElementById('btnRechercheDest').addEventListener('click', async () => {
+        const nom = document.getElementById('nom_destinataire').value;
+        const response = await fetch('/postal/rechercher-destinataire?nom=' + encodeURIComponent(nom));
         const data = await response.json();
-
-        const zone =
-            document.getElementById(
-                'resultatDestinataire'
-            );
+        const zone = document.getElementById('resultatDestinataire');
 
         if (data.length > 0) {
-
-            zone.innerHTML =
-                "✔ Destinataire trouvé : "
-                + data[0].fullName;
-
+            zone.innerHTML = "✔ Destinataire trouvé : " + data[0].fullName;
         } else {
-
-            zone.innerHTML =
-                "❌ Aucun destinataire trouvé";
+            zone.innerHTML = "❌ Aucun destinataire trouvé";
         }
     });
 </script>
 
-</body>
-</html>
+<?php require __DIR__ . '/../partials/footer.php'; ?>

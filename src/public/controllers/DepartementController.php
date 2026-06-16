@@ -49,22 +49,42 @@ class DepartementController {
 
     public function creerDevis() {
         $fournisseurs = $this->model->getFournisseurs();
+        $erreurs = $_SESSION['devis_erreurs'] ?? [];
+        $ancien  = $_SESSION['devis_ancien'] ?? [];
+        unset($_SESSION['devis_erreurs'], $_SESSION['devis_ancien']);
         require __DIR__ . '/../views/departement/creer-devis.php';
     }
 
     public function envoyerDevis() {
-        $objet          = $_POST["objet"];
-        $montant        = $_POST["montant_estime"];
-        $fournisseur_id = $_POST["fournisseur_id"];
+        $objet          = trim($_POST["objet"] ?? '');
+        $montant        = $_POST["montant_estime"] ?? '';
+        $fournisseur_id = $_POST["fournisseur_id"] ?? '';
         $commentaire    = $_POST["commentaire"] ?? null;
 
-        $createur_id = $this->getUserId();
+        // Validation cote serveur (ne jamais faire confiance au navigateur)
+        $erreurs = [];
+        if ($objet === '' || mb_strlen($objet) < 3) {
+            $erreurs['objet'] = "L'objet est obligatoire (3 caracteres minimum).";
+        }
+        if (!is_numeric($montant) || (float) $montant <= 0) {
+            $erreurs['montant'] = "Le montant doit etre un nombre superieur a 0.";
+        }
+        if (!ctype_digit((string) $fournisseur_id)) {
+            $erreurs['fournisseur'] = "Veuillez choisir un fournisseur.";
+        }
+
+        if (!empty($erreurs)) {
+            $_SESSION['devis_erreurs'] = $erreurs;
+            $_SESSION['devis_ancien']  = ['objet' => $objet, 'montant' => $montant, 'fournisseur_id' => $fournisseur_id];
+            header("Location: /departement/creer-devis");
+            exit;
+        }
 
         $this->model->insertDevis(
             $objet,
             $montant,
             $fournisseur_id,
-            $createur_id
+            $this->getUserId()
         );
 
         header("Location: /departement/dashboard");

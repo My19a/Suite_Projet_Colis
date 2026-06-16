@@ -1,80 +1,44 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Budgets – Service Financier</title>
-    <link rel="stylesheet" href="/assets/css/theme.css">
-</head>
+<?php
+$titre = 'Budgets – Service Financier';
+$actif = '/finance/budgets';
+require __DIR__ . '/../partials/header.php';
+?>
 
-<body class="tableau-bord">
-
-<aside class="barre-laterale">
-    <div class="entete-barre">
-        <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Service Financier</h2>
-        <p>Gestion budgetaire</p>
-    </div>
-
-    <nav class="menu">
-        <a href="/finance/dashboard">Tableau de bord</a>
-        <a href="/finance/devis">Devis a verifier</a>
-        <a href="/finance/bons-commande">Bons de commande</a>
-        <a class="actif" href="/finance/budgets">Budgets</a>
-    </nav>
-
-    <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
-    </div>
-</aside>
-
-<main class="contenu">
-
-    <div class="page-header">
+<div class="page-header">
         <div class="page-header-info">
-            <h1 class="page-title">Budgets des departements</h1>
-            <p class="page-subtitle">Suivi budgetaire global</p>
+            <h1 class="page-title">Budgets des départements</h1>
+            <p class="page-subtitle">Suivi budgétaire global</p>
         </div>
     </div>
 
-    <div class="section">
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Departement</th>
-                        <th>Budget total</th>
-                        <th>Budget utilise</th>
-                        <th>Budget restant</th>
-                        <th>Etat</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($budgets)): ?>
-                        <tr><td colspan="5" class="empty-state">Aucun budget trouve</td></tr>
-                    <?php else: ?>
-                        <?php foreach ($budgets as $b): ?>
-                        <tr>
-                            <td><strong><?= htmlspecialchars($b["nom"]) ?></strong></td>
-                            <td><?= number_format($b["budget_total"], 2, ',', ' ') ?> EUR</td>
-                            <td><?= number_format($b["budget_utilise"], 2, ',', ' ') ?> EUR</td>
-                            <td><span class="montant"><?= number_format($b["budget_restant"], 2, ',', ' ') ?> EUR</span></td>
-                            <td>
-                                <?php if ($b["budget_restant"] < 0): ?>
-                                    <span class="badge badge-refuse">Depasse</span>
-                                <?php else: ?>
-                                    <span class="badge badge-valide">OK</span>
-                                <?php endif; ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+    <?php if (empty($budgets)): ?>
+        <?= etatVide('budget', 'Aucun budget', 'Les budgets des départements s\'afficheront ici.') ?>
+    <?php else: ?>
+        <div class="liste">
+            <?php foreach ($budgets as $b): ?>
+                <div class="carte-ligne">
+                    <div class="cl-tete">
+                        <div class="cl-icone"><?= icone('budget', 19) ?></div>
+                        <div>
+                            <div class="cl-titre"><?= htmlspecialchars($b["nom"]) ?></div>
+                            <div class="cl-sous">Département</div>
+                        </div>
+                    </div>
+                    <div class="cl-champs">
+                        <div class="cl-champ"><span class="cl-cle">Budget total</span><span class="cl-val"><?= number_format($b["budget_total"], 2, ',', ' ') ?> EUR</span></div>
+                        <div class="cl-champ"><span class="cl-cle">Utilisé</span><span class="cl-val"><?= number_format($b["budget_utilise"], 2, ',', ' ') ?> EUR</span></div>
+                        <div class="cl-champ"><span class="cl-cle">Restant</span><span class="cl-val <?= classeBudget($b["budget_restant"], $b["budget_total"]) ?>"><?= number_format($b["budget_restant"], 2, ',', ' ') ?> EUR</span></div>
+                    </div>
+                    <div class="cl-fin">
+                        <?php if ($b["budget_restant"] < 0): ?>
+                            <span class="badge badge-refuse">Dépassé</span>
+                        <?php else: ?>
+                            <span class="badge badge-valide">OK</span>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
-    </div>
+    <?php endif; ?>
 
-</main>
-
-</body>
-</html>
+<?php require __DIR__ . '/../partials/footer.php'; ?>

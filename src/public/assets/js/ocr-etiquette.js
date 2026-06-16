@@ -53,16 +53,16 @@ async function lancerOCR(imageBase64, callback) {
         if (!numeroBC && !numeroSuivi) {
             if (message) {
                 message.textContent = "Aucune référence détectée. Veuillez compléter les champs manuellement.";
-                message.className = "text-danger";
+                message.className = "message message-err";
             }
         } else {
             if (message) {
                 if (confiance < 0.5) {
                     message.textContent = "Références détectées mais confiance OCR faible.";
-                    message.className = "text-warning";
+                    message.className = "message message-attn";
                 } else {
                     message.textContent = "Références détectées automatiquement.";
-                    message.className = "text-success";
+                    message.className = "message message-ok";
                 }
             }
         }
@@ -80,7 +80,7 @@ async function lancerOCR(imageBase64, callback) {
 
         if (message) {
             message.textContent = "Erreur lors de l'analyse OCR.";
-            message.className = "text-danger";
+            message.className = "message message-err";
         }
 
         callback({

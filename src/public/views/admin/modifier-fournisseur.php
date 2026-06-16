@@ -1,78 +1,54 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modifier fournisseur – Admin</title>
-    <link rel="stylesheet" href="/assets/css/theme.css">
-</head>
+<?php
+$titre = 'Modifier fournisseur – Admin';
+$actif = '/admin/fournisseurs';
+require __DIR__ . '/../partials/header.php';
+?>
 
-<body class="tableau-bord">
-
-<aside class="barre-laterale">
-    <div class="entete-barre">
-        <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Administrateur</h2>
-        <p>Gestion du systeme</p>
-    </div>
-
-    <nav class="menu">
-        <a href="/admin/dashboard">Tableau de bord</a>
-        <a href="/admin/utilisateurs">Utilisateurs</a>
-        <a href="/admin/departements">Departements</a>
-        <a class="actif" href="/admin/fournisseurs">Fournisseurs</a>
-        <a href="/admin/devis">Tous les devis</a>
-        <a href="/admin/colis">Tous les colis</a>
-    </nav>
-
-    <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
-    </div>
-</aside>
-
-<main class="contenu">
-
-    <div class="page-header">
+<div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Modifier le fournisseur</h1>
-            <p class="page-subtitle">Mettre a jour les informations du fournisseur</p>
+            <p class="page-subtitle">Mettre à jour les informations du fournisseur</p>
         </div>
     </div>
 
-    <div class="section">
-        <div class="form-card">
+    <div class="bloc">
+        <div class="formulaire">
             <form method="post" action="/admin/update-fournisseur">
                 <input type="hidden" name="id_fournisseur" value="<?= $fournisseur['id_fournisseur'] ?>">
 
-                <div class="form-group">
-                    <label class="form-label">Nom</label>
-                    <input type="text" name="nom" class="form-input" value="<?= htmlspecialchars($fournisseur['nom']) ?>" required>
+                <div class="champ">
+                    <label class="etiquette">Nom</label>
+                    <input type="text" name="nom" class="saisie" value="<?= htmlspecialchars($fournisseur['nom']) ?>" required>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Nom du contact</label>
-                    <input type="text" name="contact_nom" class="form-input" value="<?= htmlspecialchars($fournisseur['contact_nom'] ?? '') ?>">
+                <div class="champ">
+                    <label class="etiquette">Nom du contact</label>
+                    <input type="text" name="contact_nom" class="saisie" value="<?= htmlspecialchars($fournisseur['contact_nom'] ?? '') ?>">
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input type="email" name="contact_email" class="form-input" value="<?= htmlspecialchars($fournisseur['contact_email'] ?? '') ?>">
+                <div class="champ">
+                    <label class="etiquette">Email</label>
+                    <input type="email" name="contact_email" class="saisie" value="<?= htmlspecialchars($fournisseur['contact_email'] ?? '') ?>">
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Telephone</label>
-                    <input type="text" name="contact_telephone" class="form-input" value="<?= htmlspecialchars($fournisseur['contact_telephone'] ?? '') ?>">
+                <div class="champ">
+                    <label class="etiquette">Téléphone</label>
+                    <input type="text" name="contact_telephone" class="saisie" value="<?= htmlspecialchars($fournisseur['contact_telephone'] ?? '') ?>">
                 </div>
 
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
-                    <a class="btn btn-secondary" href="/admin/fournisseurs">Annuler</a>
+                <div class="formulaire-boutons">
+                    <button type="submit" class="bouton bouton-principal">Enregistrer</button>
+                    <a class="bouton bouton-secondaire" href="/admin/fournisseurs">Annuler</a>
                 </div>
+            </form>
+
+            <form method="post" action="/admin/supprimer-fournisseur"
+                  onsubmit="return confirm('Supprimer définitivement ce fournisseur ?');"
+                  style="margin-top:1.5rem; padding-top:1.5rem; border-top:1px solid #e5e7eb;">
+                <input type="hidden" name="id_fournisseur" value="<?= $fournisseur['id_fournisseur'] ?>">
+                <button type="submit" class="bouton bouton-danger">Supprimer ce fournisseur</button>
             </form>
         </div>
     </div>
 
-</main>
-
-</body>
-</html>
+<?php require __DIR__ . '/../partials/footer.php'; ?>

@@ -1,136 +1,103 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard – Departement</title>
-    <link rel="stylesheet" href="/assets/css/theme.css">
-</head>
+<?php
+$titre = 'Dashboard – Département';
+$actif = '/departement/dashboard';
+$avecTutoriel = true;
+require __DIR__ . '/../partials/header.php';
+?>
 
-<body class="tableau-bord">
-
-<aside class="barre-laterale">
-    <div class="entete-barre">
-        <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2><?= htmlspecialchars($userInfo['departement'] ?? 'Departement') ?></h2>
-        <p><?= htmlspecialchars($userInfo['nom'] ?? 'Utilisateur') ?></p>
-    </div>
-
-    <nav class="menu">
-        <a class="actif" href="/departement/dashboard">Tableau de bord</a>
-        <a href="/departement/creer-devis">Creer un devis</a>
-        <a href="/departement/mes-devis">Mes devis</a>
-        <a href="/departement/bons-commande">Mes bons de commande</a>
-        <a href="/departement/mes-colis">Mes colis</a>
-        <a href="/departement/budget">Budget</a>
-        <a href="/departement/fournisseurs">Fournisseurs</a>
-    </nav>
-
-    <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
-    </div>
-</aside>
-
-<main class="contenu">
-
-    <div class="page-header">
+<div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Tableau de bord</h1>
-            <p class="page-subtitle">Gerez vos devis, commandes et colis</p>
+            <p class="page-subtitle">Gérez vos devis, commandes et colis</p>
         </div>
-        <button class="btn btn-primary" onclick="window.location.href='/departement/creer-devis'">
-            Creer un devis
+        <button class="bouton bouton-principal" onclick="window.location.href='/departement/creer-devis'">
+            <?= icone('plus', 14) ?>Créer un devis
         </button>
     </div>
 
-    <div class="stats-grid">
-        <div class="stat-card stat-blue">
-            <span class="stat-label">Colis total</span>
-            <div class="stat-value"><?php echo $stats['colis_total']; ?></div>
-            <div class="stat-description">Total des colis</div>
+    <div class="chiffres">
+        <div class="chiffre chiffre-info-c">
+            <span class="chiffre-titre">Colis total</span>
+            <div class="chiffre-valeur"><?php echo $stats['colis_total']; ?></div>
+            <div class="chiffre-info">Total des colis</div>
         </div>
 
-        <div class="stat-card stat-warning">
-            <span class="stat-label">Colis en attente</span>
-            <div class="stat-value"><?php echo $stats['en_attente']; ?></div>
-            <div class="stat-description">A recuperer</div>
+        <div class="chiffre chiffre-attn">
+            <span class="chiffre-titre">Colis en attente</span>
+            <div class="chiffre-valeur"><?php echo $stats['en_attente']; ?></div>
+            <div class="chiffre-info">À récupérer</div>
         </div>
 
-        <div class="stat-card stat-success">
-            <span class="stat-label">Colis retires</span>
-            <div class="stat-value"><?php echo $stats['retire']; ?></div>
-            <div class="stat-description">Receptions confirmees</div>
+        <div class="chiffre chiffre-ok">
+            <span class="chiffre-titre">Colis retirés</span>
+            <div class="chiffre-valeur"><?php echo $stats['retire']; ?></div>
+            <div class="chiffre-info">Réceptions confirmées</div>
         </div>
     </div>
 
     <?php if (isset($budget)): ?>
-    <div class="section">
-        <div class="section-header">
-            <h2 class="section-title">Budget du departement</h2>
-            <span class="section-subtitle">Situation budgetaire</span>
+    <div class="bloc">
+        <div class="bloc-entete">
+            <h2 class="bloc-titre">Budget du département</h2>
+            <span class="bloc-sous-titre">Situation budgétaire</span>
         </div>
 
-        <div class="stats-grid" style="margin-bottom: 0;">
-            <div class="stat-card">
-                <span class="stat-label">Budget total</span>
-                <div class="stat-value" style="font-size: 24px;"><?php echo number_format($budget['budget_total'], 2, ',', ' '); ?> EUR</div>
+        <?php
+            $pct = $budget['budget_total'] > 0 ? round(($budget['budget_utilise'] / $budget['budget_total']) * 100) : 0;
+            $cb  = classeBudget($budget['budget_restant'], $budget['budget_total']);
+        ?>
+        <div class="chiffres" style="margin-bottom: 14px;">
+            <div class="chiffre">
+                <span class="chiffre-titre">Budget total</span>
+                <div class="chiffre-valeur" style="font-size: 24px;"><?php echo number_format($budget['budget_total'], 2, ',', ' '); ?> EUR</div>
             </div>
-            <div class="stat-card">
-                <span class="stat-label">Budget utilise</span>
-                <div class="stat-value" style="font-size: 24px;"><?php echo number_format($budget['budget_utilise'], 2, ',', ' '); ?> EUR</div>
+            <div class="chiffre">
+                <span class="chiffre-titre">Budget utilisé</span>
+                <div class="chiffre-valeur" style="font-size: 24px;"><?php echo number_format($budget['budget_utilise'], 2, ',', ' '); ?> EUR</div>
             </div>
-            <div class="stat-card">
-                <span class="stat-label">Budget restant</span>
-                <div class="stat-value" style="font-size: 24px;"><?php echo number_format($budget['budget_restant'], 2, ',', ' '); ?> EUR</div>
+            <div class="chiffre">
+                <span class="chiffre-titre">Budget restant</span>
+                <div class="chiffre-valeur <?= $cb ?>" style="font-size: 24px;"><?php echo number_format($budget['budget_restant'], 2, ',', ' '); ?> EUR</div>
             </div>
+        </div>
+        <div class="progression">
+            <div class="progression-piste">
+                <div class="progression-jauge <?= $cb ?>" style="width: <?= $pct ?>%;"></div>
+            </div>
+            <span class="progression-pourcent"><?= $pct ?>%</span>
         </div>
     </div>
     <?php endif; ?>
 
-    <div class="section">
-        <div class="section-header">
-            <h2 class="section-title">Derniers colis</h2>
-            <span class="section-subtitle">Suivez vos livraisons recentes</span>
-            <a href="/departement/mes-colis" class="btn-link">Voir tout</a>
-        </div>
-
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>N° Suivi</th>
-                        <th>BC lie</th>
-                        <th>Destinataire</th>
-                        <th>Date reception</th>
-                        <th>Statut</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($colis)): ?>
-                        <tr>
-                            <td colspan="5" class="empty-state">Aucun colis trouve</td>
-                        </tr>
-                    <?php else: ?>
-                        <?php foreach ($colis as $col): ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars($col['numero_suivi'] ?? 'N/A'); ?></td>
-                                <td><?php echo htmlspecialchars($col['numero_commande'] ?? 'N/A'); ?></td>
-                                <td><?php echo htmlspecialchars($col['destinataire_nom'] ?? 'Non assigne'); ?></td>
-                                <td><?php echo isset($col['date_reception']) ? date('d/m/Y', strtotime($col['date_reception'])) : 'N/A'; ?></td>
-                                <td>
-                                    <span class="badge badge-<?php echo strtolower(str_replace(' ', '_', $col['statut_libelle'])); ?>">
-                                        <?php echo ucfirst(str_replace('_', ' ', $col['statut_libelle'])); ?>
-                                    </span>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
+    <div class="bloc-entete">
+        <h2 class="bloc-titre">Derniers colis</h2>
+        <span class="bloc-sous-titre">Suivez vos livraisons récentes</span>
+        <a href="/departement/mes-colis" class="lien-action">Voir tout</a>
     </div>
 
-</main>
+    <?php if (empty($colis)): ?>
+        <?= etatVide('colis', 'Aucun colis', 'Vos derniers colis s\'afficheront ici.') ?>
+    <?php else: ?>
+        <div class="liste">
+            <?php foreach ($colis as $col): ?>
+                <div class="carte-ligne">
+                    <div class="cl-tete">
+                        <div class="cl-icone"><?= icone('colis', 19) ?></div>
+                        <div>
+                            <div class="cl-titre"><?= htmlspecialchars($col['numero_suivi'] ?? 'N/A') ?></div>
+                            <div class="cl-sous"><?= htmlspecialchars($col['numero_commande'] ?? '—') ?></div>
+                        </div>
+                    </div>
+                    <div class="cl-champs">
+                        <div class="cl-champ"><span class="cl-cle">Destinataire</span><span class="cl-val"><?= htmlspecialchars($col['destinataire_nom'] ?? 'Non assigné') ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Date réception</span><span class="cl-val"><?= isset($col['date_reception']) ? date('d/m/Y', strtotime($col['date_reception'])) : 'N/A' ?></span></div>
+                    </div>
+                    <div class="cl-fin">
+                        <span class="<?= badgeStatut($col['statut_libelle']) ?>"><?= htmlspecialchars(libelleStatut($col['statut_libelle'])) ?></span>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 
-</body>
-</html>
+<?php require __DIR__ . '/../partials/footer.php'; ?>

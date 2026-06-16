@@ -1,39 +1,52 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Details du colis – Postal IUT</title>
-    <link rel="stylesheet" href="/assets/css/theme.css">
-</head>
+<?php
+$titre = 'Détails du colis – Postal IUT';
+require __DIR__ . '/../partials/header.php';
 
-<body class="tableau-bord">
+// Cycle de vie d'un colis
+$etapes = [
+    ['libelle' => "Reçu à l'université",  'icone' => 'reception'],
+    ['libelle' => "Transféré à l'IUT",    'icone' => 'colis'],
+    ['libelle' => "En attente de retrait", 'icone' => 'historique'],
+    ['libelle' => "Remis au destinataire", 'icone' => 'valide'],
+];
+$ordreStatut = [
+    'recu_universite' => 0, 'received' => 0,
+    'transfere_iut'   => 1, 'transferred' => 1,
+    'en_attente'      => 2, 'pending' => 2,
+    'livre' => 3, 'retire' => 3, 'delivered' => 3, 'retrieved' => 3,
+];
+$statutColis  = strtolower(trim($colis['statut'] ?? ''));
+$nonIdentifie = ($statutColis === 'non_identifie');
+$idxActuel    = $ordreStatut[$statutColis] ?? 0;
 
-<aside class="barre-laterale">
-    <div class="entete-barre">
-        <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Postal IUT</h2>
-        <p>Details colis</p>
-    </div>
+// Date de chaque étape, déduite de l'historique (repli sur les dates du colis)
+$datesEtape = [];
+foreach ($historique as $h) {
+    $a = strtolower($h['action'] ?? '');
+    $d = $h['date_action'] ?? '';
+    if ($d === '') continue;
+    if (preg_match('/recep|re[çc]u/u', $a))      { $datesEtape[0] = $datesEtape[0] ?? $d; }
+    elseif (preg_match('/transf/u', $a))          { $datesEtape[1] = $datesEtape[1] ?? $d; }
+    elseif (preg_match('/attente/u', $a))         { $datesEtape[2] = $datesEtape[2] ?? $d; }
+    elseif (preg_match('/remis|retir|livr/u', $a)){ $datesEtape[3] = $datesEtape[3] ?? $d; }
+}
+if (empty($datesEtape[0]) && !empty($colis['date_reception'])) $datesEtape[0] = $colis['date_reception'];
+if (empty($datesEtape[3]) && !empty($colis['date_retrait']))   $datesEtape[3] = $colis['date_retrait'];
 
-    <nav class="menu">
-        <a href="/postal/dashboard">Tableau de bord</a>
-        <a href="/postal/confirmation">Confirmation reception</a>
-        <a href="/postal/colis/recus">Colis recus</a>
-        <a href="/postal/colis/remis">Colis remis</a>
-        <a href="/postal/colis/recherche">Recherche colis</a>
-        <a href="/postal/colis/non-identifies">Non identifies</a>
-    </nav>
+$jolieDate = fn($d, $fmt = 'd/m/Y') => $d ? date($fmt, strtotime($d)) : '—';
+$libelleAction = function ($a) {
+    $m = [
+        'reception universite' => "Réception à l'université",
+        'transfert iut'        => "Transfert à l'IUT",
+        'remis au destinataire' => 'Remis au destinataire',
+        'en attente de retrait' => 'En attente de retrait',
+    ];
+    return $m[strtolower(trim($a))] ?? $a;
+};
+?>
 
-    <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
-    </div>
-</aside>
-
-<main class="contenu">
-
-    <div class="page-header-simple">
-        <a href="/postal/colis/recus" class="back-button-simple">
+<div class="page-header-simple">
+        <a href="/postal/colis/recus" class="lien-retour">
             <span class="back-arrow">&larr;</span>
             Retour
         </a>
@@ -41,83 +54,83 @@
 
     <div class="page-header">
         <div class="page-header-info">
-            <h1 class="page-title">Details du colis #<?= $colis["id_colis"] ?></h1>
+            <h1 class="page-title">Détails du colis #<?= $colis["id_colis"] ?></h1>
+        </div>
+        <span class="<?= badgeStatut($colis["statut"]) ?>"><?= htmlspecialchars(libelleStatut($colis["statut"])) ?></span>
+    </div>
+
+    <div class="chiffres" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+        <div class="chiffre">
+            <span class="chiffre-titre">N° suivi</span>
+            <div class="chiffre-valeur" style="font-size: 18px;"><?= htmlspecialchars($colis["numero_suivi"] ?: "—") ?></div>
+        </div>
+        <div class="chiffre">
+            <span class="chiffre-titre">Bon de commande</span>
+            <div class="chiffre-valeur" style="font-size: 18px;"><?= htmlspecialchars($colis["numero_commande"] ?: "—") ?></div>
+        </div>
+        <div class="chiffre">
+            <span class="chiffre-titre">Département</span>
+            <div class="chiffre-valeur" style="font-size: 18px;"><?= htmlspecialchars($colis["departement"] ?: "Non identifié") ?></div>
         </div>
     </div>
 
-    <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
-        <div class="stat-card">
-            <span class="stat-label">N° suivi</span>
-            <div class="stat-value" style="font-size: 18px;"><?= htmlspecialchars($colis["numero_suivi"] ?: "—") ?></div>
+    <div class="bloc">
+        <div class="bloc-entete">
+            <h2 class="bloc-titre">Suivi du colis</h2>
         </div>
-        <div class="stat-card">
-            <span class="stat-label">Bon de commande</span>
-            <div class="stat-value" style="font-size: 18px;"><?= htmlspecialchars($colis["numero_commande"] ?: "—") ?></div>
-        </div>
-        <div class="stat-card">
-            <span class="stat-label">Departement</span>
-            <div class="stat-value" style="font-size: 18px;"><?= htmlspecialchars($colis["departement"] ?: "Non identifie") ?></div>
-        </div>
-        <div class="stat-card">
-            <span class="stat-label">Statut</span>
-            <div style="margin-top: 8px;">
-
-            <span class="badge badge-<?= strtolower(str_replace(' ', '_', $c["statut"])) ?>"><?= ucfirst(str_replace('_', ' ', $c["statut"])) ?></span>
-          </div>
-        </div>
+        <?php if ($nonIdentifie): ?>
+            <div class="suivi-alerte"><?= icone('alerte', 17) ?> Colis non identifié — en attente d'association à un bon de commande.</div>
+        <?php else: ?>
+            <div class="suivi">
+                <?php foreach ($etapes as $i => $et): ?>
+                    <?php $cls = $i < $idxActuel ? 'faite' : ($i === $idxActuel ? 'active' : 'afaire'); ?>
+                    <div class="suivi-etape <?= $cls ?>">
+                        <div class="suivi-pastille"><?= icone($i < $idxActuel ? 'valide' : $et['icone'], 16) ?></div>
+                        <div class="suivi-libelle"><?= htmlspecialchars($et['libelle']) ?></div>
+                        <div class="suivi-date"><?= !empty($datesEtape[$i]) ? htmlspecialchars($jolieDate($datesEtape[$i])) : '—' ?></div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
     </div>
 
-    <div class="section">
-        <div class="section-header">
-            <h2 class="section-title">Informations</h2>
+    <div class="bloc">
+        <div class="bloc-entete">
+            <h2 class="bloc-titre">Informations</h2>
         </div>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
             <div>
-                <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 4px;">Date reception</p>
-                <p style="font-weight: 600;"><?= $colis["date_reception"] ?></p>
+                <p style="color: var(--texte-leger); font-size: 12px; margin-bottom: 4px;">Date de réception</p>
+                <p style="font-weight: 500; font-variant-numeric: tabular-nums;"><?= htmlspecialchars($jolieDate($colis["date_reception"])) ?></p>
             </div>
             <div>
-                <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 4px;">Date retrait</p>
-                <p style="font-weight: 600;"><?= $colis["date_retrait"] ?: "—" ?></p>
+                <p style="color: var(--texte-leger); font-size: 12px; margin-bottom: 4px;">Date de retrait</p>
+                <p style="font-weight: 500; font-variant-numeric: tabular-nums;"><?= htmlspecialchars($jolieDate($colis["date_retrait"])) ?></p>
             </div>
             <div style="grid-column: 1 / -1;">
-                <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 4px;">Commentaire</p>
+                <p style="color: var(--texte-leger); font-size: 12px; margin-bottom: 4px;">Commentaire</p>
                 <p style="font-weight: 500;"><?= htmlspecialchars($colis["commentaire"] ?: "Aucun commentaire") ?></p>
             </div>
         </div>
     </div>
 
-    <div class="section">
-        <div class="section-header">
-            <h2 class="section-title">Historique</h2>
+    <div class="bloc">
+        <div class="bloc-entete">
+            <h2 class="bloc-titre">Historique</h2>
         </div>
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($historique)): ?>
-                        <tr>
-                            <td colspan="2" class="empty-state">Aucun historique disponible</td>
-                        </tr>
-                    <?php else: ?>
-                        <?php foreach ($historique as $h): ?>
-                        <tr>
-                            <td><?= $h["date_action"] ?></td>
-                            <td><span class="badge"><?= htmlspecialchars($h["action"]) ?></span></td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
+        <?php if (empty($historique)): ?>
+            <?= etatVide('historique', 'Aucun historique', "Les événements liés à ce colis s'afficheront ici au fil de son parcours.") ?>
+        <?php else: ?>
+            <div class="fil">
+                <?php foreach ($historique as $h): ?>
+                    <div class="fil-evt">
+                        <span class="fil-point"></span>
+                        <div class="fil-action"><?= htmlspecialchars($libelleAction($h["action"])) ?></div>
+                        <div class="fil-date"><?= !empty($h["date_action"]) ? htmlspecialchars($jolieDate($h["date_action"], 'd/m/Y H:i')) : '' ?></div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
     </div>
 
-</main>
-
-</body>
-</html>
+<?php require __DIR__ . '/../partials/footer.php'; ?>

@@ -1,120 +1,57 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tous les colis – Admin</title>
-    <link rel="stylesheet" href="/assets/css/theme.css">
-</head>
+<?php
+$titre = 'Tous les colis – Admin';
+$actif = '/admin/colis';
+require __DIR__ . '/../partials/header.php';
+?>
 
-<body class="tableau-bord">
-
-<aside class="barre-laterale">
-    <div class="entete-barre">
-        <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Administrateur</h2>
-        <p>Gestion du systeme</p>
-    </div>
-
-    <nav class="menu">
-        <a href="/admin/dashboard">Tableau de bord</a>
-        <a href="/admin/utilisateurs">Utilisateurs</a>
-        <a href="/admin/departements">Departements</a>
-        <a href="/admin/fournisseurs">Fournisseurs</a>
-        <a href="/admin/devis">Tous les devis</a>
-        <a class="actif" href="/admin/colis">Tous les colis</a>
-    </nav>
-
-    <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
-    </div>
-</aside>
-
-<main class="contenu">
-
-    <div class="page-header">
+<div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Tous les colis</h1>
-            <p class="page-subtitle">Vision globale et tracabilite complete des colis</p>
+            <p class="page-subtitle">Vision globale et traçabilité complète des colis</p>
         </div>
     </div>
 
     <?php if (!empty($stats)): ?>
-    <div class="stats-grid">
+    <div class="chiffres">
         <?php foreach ($stats as $s): ?>
-        <div class="stat-card">
-            <div class="stat-value"><?= $s['total'] ?></div>
-            <div class="stat-label">
-            <?php
-            $statuts = [
-                'en_attente' => 'En attente',
-                'recu_universite' => 'Reçu universite',
-                'transfere_iut' => 'Transfere IUT',
-                'livre' => 'Livre',
-                'non_identifie' => 'Non identifie'
-            ];
-
-            echo $statuts[$s['statut']]
-                ?? ucfirst(str_replace('_', ' ', $s['statut']));
-            ?>
-            </div>        </div>
+        <div class="chiffre">
+            <div class="chiffre-valeur"><?= $s['total'] ?></div>
+            <div class="chiffre-titre"><?= htmlspecialchars(libelleStatut($s['statut'])) ?></div>
+        </div>
         <?php endforeach; ?>
     </div>
     <?php endif; ?>
 
-    <div class="section">
-        <div class="search-card">
-            <form method="get" class="search-form">
-                <input type="text" name="q" class="form-input" placeholder="Recherche : n° suivi, BC, departement, statut" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
-                <button type="submit" class="btn btn-primary">Rechercher</button>
-            </form>
+    <form method="get" class="recherche">
+        <input type="text" name="q" class="recherche-saisie" placeholder="N° suivi, BC, département, statut…" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
+        <button type="submit" class="btn-loupe" title="Rechercher"><?= icone('recherche', 15) ?></button>
+    </form>
+
+    <?php if (empty($colis)): ?>
+        <?= etatVide('colis', 'Aucun colis', 'Aucun colis ne correspond à votre recherche.') ?>
+    <?php else: ?>
+        <div class="liste">
+            <?php foreach ($colis as $c): ?>
+                <div class="carte-ligne">
+                    <div class="cl-tete">
+                        <div class="cl-icone"><?= icone('colis', 19) ?></div>
+                        <div>
+                            <div class="cl-titre"><?= htmlspecialchars($c['numero_suivi'] ?: '—') ?></div>
+                            <div class="cl-sous">Colis #<?= $c['id_colis'] ?></div>
+                        </div>
+                    </div>
+                    <div class="cl-champs">
+                        <div class="cl-champ"><span class="cl-cle">Bon de commande</span><span class="cl-val"><?= htmlspecialchars($c['numero_commande'] ?: '—') ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Département</span><span class="cl-val"><?= htmlspecialchars($c['departement'] ?: '—') ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Réception</span><span class="cl-val"><?= $c['date_reception'] ?: '—' ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Retrait</span><span class="cl-val"><?= $c['date_retrait'] ?: '—' ?></span></div>
+                    </div>
+                    <div class="cl-fin">
+                        <span class="<?= badgeStatut($c['statut']) ?>"><?= htmlspecialchars(libelleStatut($c['statut'])) ?></span>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
-    </div>
+    <?php endif; ?>
 
-    <div class="section">
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>N° suivi</th>
-                        <th>Bon de commande</th>
-                        <th>Departement</th>
-                        <th>Statut</th>
-                        <th>Date reception</th>
-                        <th>Date retrait</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($colis)): ?>
-                        <tr><td colspan="7" class="empty-state">Aucun colis trouve</td></tr>
-                    <?php else: ?>
-                        <?php foreach ($colis as $c): ?>
-                        <tr>
-                            <td>#<?= $c['id_colis'] ?></td>
-                            <td><strong><?= htmlspecialchars($c['numero_suivi'] ?: '—') ?></strong></td>
-                            <td><?= htmlspecialchars($c['numero_commande'] ?: '—') ?></td>
-                            <td><?= htmlspecialchars($c['departement'] ?: '—') ?></td>
-                            <td>
-                            <?php
-                            $statutLabel = str_replace('_', ' ', $c['statut']);
-                            $statutLabel = ucfirst($statutLabel);
-                            ?>
-
-                            <span class="badge badge-<?= strtolower(str_replace(' ', '_', $c['statut'])) ?>">
-                                <?= htmlspecialchars($statutLabel) ?>
-                            </span>
-                            </td>                            <td><?= $c['date_reception'] ?: '—' ?></td>
-                            <td><?= $c['date_retrait'] ?: '—' ?></td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-</main>
-
-</body>
-</html>
+<?php require __DIR__ . '/../partials/footer.php'; ?>

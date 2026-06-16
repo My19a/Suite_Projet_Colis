@@ -1,91 +1,71 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Utilisateurs – Admin</title>
-    <link rel="stylesheet" href="/assets/css/theme.css">
-</head>
+<?php
+$titre = 'Utilisateurs – Admin';
+$actif = '/admin/utilisateurs';
+require __DIR__ . '/../partials/header.php';
+?>
 
-<body class="tableau-bord">
-
-<aside class="barre-laterale">
-    <div class="entete-barre">
-        <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Administrateur</h2>
-        <p>Gestion du systeme</p>
-    </div>
-
-    <nav class="menu">
-        <a href="/admin/dashboard">Tableau de bord</a>
-        <a class="actif" href="/admin/utilisateurs">Utilisateurs</a>
-        <a href="/admin/departements">Departements</a>
-        <a href="/admin/fournisseurs">Fournisseurs</a>
-        <a href="/admin/devis">Tous les devis</a>
-        <a href="/admin/colis">Tous les colis</a>
-    </nav>
-
-    <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
-    </div>
-</aside>
-
-<main class="contenu">
-
-    <div class="page-header">
+<div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Gestion des utilisateurs</h1>
-            <p class="page-subtitle">Modifier les roles et departements des utilisateurs</p>
+            <p class="page-subtitle">Consulter, modifier et supprimer les utilisateurs</p>
         </div>
+        <a href="/admin/ajouter-utilisateur" class="bouton bouton-principal"><?= icone('plus', 14) ?>Ajouter un utilisateur</a>
     </div>
 
-    <div class="section">
-        <div class="table-container">
-            <table class="data-table">
+    <?php if (isset($_GET['ok'])): ?>
+        <div class="message message-ok">
+            Utilisateur enregistré avec succès.
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['deleted'])): ?>
+        <div class="message message-ok">
+            Utilisateur supprimé avec succès.
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['error']) && $_GET['error'] === 'fk'): ?>
+        <div class="message message-err">
+            Suppression impossible : cet utilisateur est encore lié à des données (devis, bons de commande, colis…). Réaffectez ou supprimez d'abord ces éléments.
+        </div>
+    <?php endif; ?>
+
+    <div class="bloc">
+        <div class="tableau-cadre">
+            <table class="tableau tableau-aere">
                 <thead>
                     <tr>
                         <th>Nom</th>
                         <th>Email</th>
                         <th>UID CAS</th>
-                        <th>Role</th>
-                        <th>Departement</th>
-                        <th>Action</th>
+                        <th>Rôle</th>
+                        <th>Département</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php if (empty($utilisateurs)): ?>
-                        <tr><td colspan="6" class="empty-state">Aucun utilisateur</td></tr>
+                        <tr><td colspan="6" class="vide">Aucun utilisateur</td></tr>
                     <?php else: ?>
                         <?php foreach ($utilisateurs as $u): ?>
-                        <tr>
-                            <form method="post" action="/admin/update-utilisateur">
-                                <td><strong><?= htmlspecialchars($u["fullName"]) ?></strong></td>
-                                <td><?= htmlspecialchars($u["email"]) ?></td>
-                                <td><?= htmlspecialchars($u["uid_cas"]) ?></td>
-                                <td>
-                                    <select name="role_id" class="form-select" style="min-width: 150px;">
-                                        <?php foreach ($roles as $r): ?>
-                                            <option value="<?= $r["id_role"] ?>" <?= $r["id_role"] == $u["role_id"] ? "selected" : "" ?>>
-                                                <?= htmlspecialchars($r["libelle"]) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select name="departement_id" class="form-select" style="min-width: 150px;">
-                                        <option value="">—</option>
-                                        <?php foreach ($departements as $d): ?>
-                                            <option value="<?= $d["id_departement"] ?>" <?= $d["id_departement"] == $u["departement_id"] ? "selected" : "" ?>>
-                                                <?= htmlspecialchars($d["nom"]) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </td>
-                                <td>
+                        <tr onclick="location.href='/admin/modifier-utilisateur?id=<?= $u["id_utilisateur"] ?>'" style="cursor:pointer;">
+                            <td>
+                                <div class="cellule-utilisateur">
+                                    <span class="cellule-avatar"><?= icone('utilisateur', 16) ?></span>
+                                    <strong><?= htmlspecialchars($u["fullName"]) ?></strong>
+                                </div>
+                            </td>
+                            <td><?= htmlspecialchars($u["email"]) ?></td>
+                            <td><?= htmlspecialchars($u["uid_cas"]) ?></td>
+                            <td><span class="badge"><?= htmlspecialchars(libelleRole($u["role"])) ?></span></td>
+                            <td><?= htmlspecialchars($u["departement"] ?? "—") ?></td>
+                            <td class="cellule-suppr" onclick="event.stopPropagation()">
+                                <form method="post" action="/admin/supprimer-utilisateur"
+                                      onsubmit="return confirm('Supprimer définitivement <?= htmlspecialchars($u["fullName"], ENT_QUOTES) ?> ?');">
                                     <input type="hidden" name="id_utilisateur" value="<?= $u["id_utilisateur"] ?>">
-                                    <button type="submit" class="btn btn-sm btn-primary">Enregistrer</button>
-                                </td>
-                            </form>
+                                    <button type="submit" class="btn-croix" title="Supprimer"><?= icone('croix', 16) ?></button>
+                                </form>
+                            </td>
                         </tr>
                         <?php endforeach; ?>
                     <?php endif; ?>
@@ -94,7 +74,4 @@
         </div>
     </div>
 
-</main>
-
-</body>
-</html>
+<?php require __DIR__ . '/../partials/footer.php'; ?>

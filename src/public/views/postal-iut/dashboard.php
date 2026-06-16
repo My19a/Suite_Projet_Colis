@@ -1,109 +1,71 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard – Service Postal IUT</title>
-    <link rel="stylesheet" href="/assets/css/theme.css">
-</head>
+<?php
+$titre = 'Dashboard – Service Postal IUT';
+$actif = '/postal/dashboard';
+$avecTutoriel = true;
+require __DIR__ . '/../partials/header.php';
+?>
 
-<body class="tableau-bord">
-
-<aside class="barre-laterale">
-    <div class="entete-barre">
-        <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Postal IUT</h2>
-        <p>Gestion des colis</p>
-    </div>
-
-    <nav class="menu">
-        <a class="actif" href="/postal/dashboard">Tableau de bord</a>
-        <a href="/postal/confirmation">Confirmation reception</a>
-        <a href="/postal/colis/recus">Colis recus</a>
-        <a href="/postal/colis/remis">Colis remis</a>
-        <a href="/postal/colis/recherche">Recherche colis</a>
-        <a href="/postal/colis/non-identifies">Non identifies</a>
-        <a href="/postal/colis/ajouter">Ajouter un colis</a>
-    </nav>
-
-    <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
-    </div>
-</aside>
-
-<main class="contenu">
-
-    <div class="page-header">
+<div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Tableau de bord</h1>
             <p class="page-subtitle">Vue d'ensemble des colis du service postal IUT</p>
         </div>
     </div>
 
-    <div class="stats-grid">
-        <div class="stat-card stat-blue">
-            <span class="stat-label">Recus a l'IUT</span>
-            <div class="stat-value"><?= $stats["recus"] ?></div>
-            <div class="stat-description">Colis recus</div>
+    <div class="chiffres">
+        <div class="chiffre chiffre-info-c">
+            <span class="chiffre-titre">Reçus à l'IUT</span>
+            <div class="chiffre-valeur"><?= $stats["recus"] ?></div>
+            <div class="chiffre-info">Colis reçus</div>
         </div>
 
-        <div class="stat-card stat-warning">
-            <span class="stat-label">En attente</span>
-            <div class="stat-value"><?= $stats["en_attente"] ?></div>
-            <div class="stat-description">A retirer</div>
+        <div class="chiffre chiffre-attn">
+            <span class="chiffre-titre">En attente</span>
+            <div class="chiffre-valeur"><?= $stats["en_attente"] ?></div>
+            <div class="chiffre-info">À retirer</div>
         </div>
 
-        <div class="stat-card stat-success">
-            <span class="stat-label">Retires</span>
-            <div class="stat-value"><?= $stats["retires"] ?></div>
-            <div class="stat-description">Colis livres</div>
+        <div class="chiffre chiffre-ok">
+            <span class="chiffre-titre">Retirés</span>
+            <div class="chiffre-valeur"><?= $stats["retires"] ?></div>
+            <div class="chiffre-info">Colis livrés</div>
         </div>
 
-        <div class="stat-card stat-danger">
-            <span class="stat-label">Non identifies</span>
-            <div class="stat-value"><?= $stats["non_identifies"] ?></div>
-            <div class="stat-description">A traiter</div>
-        </div>
-    </div>
-
-    <div class="section">
-        <div class="section-header">
-            <h2 class="section-title">Derniers colis recus</h2>
-            <a href="/postal/colis/recus" class="btn-link">Voir tout</a>
-        </div>
-
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>N° suivi</th>
-                        <th>Departement</th>
-                        <th>Date reception</th>
-                        <th>Statut</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($colis)): ?>
-                        <tr>
-                            <td colspan="5" class="empty-state">Aucun colis trouve</td>
-                        </tr>
-                    <?php else: ?>
-                        <?php foreach ($colis as $c): ?>
-                        <tr>
-                            <td><a href="/postal/colis/details?id=<?= $c["id_colis"] ?>" class="btn-link">#<?= $c["id_colis"] ?></a></td>
-                            <td><?= htmlspecialchars($c["numero_suivi"]) ?></td>
-                            <td><?= htmlspecialchars($c["departement"] ?: "—") ?></td>
-                            <td><?= $c["date_reception"] ?></td>
-                            <td><span class="badge badge-<?= strtolower(str_replace(' ', '_', $c["statut"])) ?>"><?= ucfirst(str_replace('_', ' ', $c["statut"])) ?></span></td>                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+        <div class="chiffre chiffre-err">
+            <span class="chiffre-titre">Non identifiés</span>
+            <div class="chiffre-valeur"><?= $stats["non_identifies"] ?></div>
+            <div class="chiffre-info">À traiter</div>
         </div>
     </div>
 
-</main>
+    <div class="bloc-entete">
+        <h2 class="bloc-titre">Derniers colis reçus</h2>
+        <a href="/postal/colis/recus" class="lien-action">Voir tout</a>
+    </div>
 
-</body>
-</html>
+    <?php if (empty($colis)): ?>
+        <?= etatVide('colis', 'Aucun colis', 'Les colis reçus s\'afficheront ici.') ?>
+    <?php else: ?>
+        <div class="liste">
+            <?php foreach ($colis as $c): ?>
+                <a class="carte-ligne" href="/postal/colis/details?id=<?= $c["id_colis"] ?>">
+                    <div class="cl-tete">
+                        <div class="cl-icone"><?= icone('colis', 19) ?></div>
+                        <div>
+                            <div class="cl-titre"><?= htmlspecialchars($c["numero_suivi"]) ?></div>
+                            <div class="cl-sous">Colis #<?= $c["id_colis"] ?></div>
+                        </div>
+                    </div>
+                    <div class="cl-champs">
+                        <div class="cl-champ"><span class="cl-cle">Département</span><span class="cl-val"><?= htmlspecialchars($c["departement"] ?: "—") ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Date réception</span><span class="cl-val"><?= $c["date_reception"] ?></span></div>
+                    </div>
+                    <div class="cl-fin">
+                        <span class="<?= badgeStatut($c["statut"]) ?>"><?= htmlspecialchars(libelleStatut($c["statut"])) ?></span>
+                    </div>
+                </a>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+
+<?php require __DIR__ . '/../partials/footer.php'; ?>

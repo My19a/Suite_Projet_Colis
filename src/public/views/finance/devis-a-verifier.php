@@ -1,82 +1,41 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Devis a verifier – Service Financier</title>
-    <link rel="stylesheet" href="/assets/css/theme.css">
-</head>
+<?php
+$titre = 'Devis à vérifier – Service Financier';
+$actif = '/finance/devis';
+require __DIR__ . '/../partials/header.php';
+?>
 
-<body class="tableau-bord">
-
-<aside class="barre-laterale">
-    <div class="entete-barre">
-        <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Service Financier</h2>
-        <p>Gestion budgetaire</p>
-    </div>
-
-    <nav class="menu">
-        <a href="/finance/dashboard">Tableau de bord</a>
-        <a class="actif" href="/finance/devis">Devis a verifier</a>
-        <a href="/finance/bons-commande">Bons de commande</a>
-        <a href="/finance/budgets">Budgets</a>
-    </nav>
-
-    <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
-    </div>
-</aside>
-
-<main class="contenu">
-
-    <div class="page-header">
+<div class="page-header">
         <div class="page-header-info">
-            <h1 class="page-title">Devis a verifier</h1>
-            <p class="page-subtitle">Devis soumis par les departements</p>
+            <h1 class="page-title">Devis à vérifier</h1>
+            <p class="page-subtitle">Devis soumis par les départements</p>
         </div>
     </div>
 
-    <div class="section">
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Objet</th>
-                        <th>Departement</th>
-                        <th>Montant</th>
-                        <th>Date</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($devis)): ?>
-                        <tr><td colspan="6" class="empty-state">Aucun devis a verifier</td></tr>
-                    <?php else: ?>
-                        <?php foreach ($devis as $d): ?>
-                        <tr>
-                            <td>#<?= $d["id_devis"] ?></td>
-                            <td><strong><?= htmlspecialchars($d["objet"]) ?></strong></td>
-                            <td><?= htmlspecialchars($d["departement"] ?? "—") ?></td>
-                            <td><span class="montant"><?= number_format($d["montant_estime"], 2, ',', ' ') ?> EUR</span></td>
-                            <td><?= $d["date_demande"] ?></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <a class="btn btn-sm btn-success" href="/finance/valider-devis?id=<?= $d["id_devis"] ?>">Valider</a>
-                                    <a class="btn btn-sm btn-danger" href="/finance/rejeter-devis?id=<?= $d["id_devis"] ?>">Rejeter</a>
-                                    <a class="btn btn-sm btn-secondary" href="/finance/voir-devis?id=<?= $d["id_devis"] ?>" target="_blank">Voir</a>
-                                </div>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+    <?php if (empty($devis)): ?>
+        <?= etatVide('devis', 'Aucun devis à vérifier', 'Aucun devis en attente de vérification.') ?>
+    <?php else: ?>
+        <div class="liste">
+            <?php foreach ($devis as $d): ?>
+                <div class="carte-ligne cliquable" onclick="window.open('/finance/voir-devis?id=<?= $d["id_devis"] ?>', '_blank')">
+                    <div class="cl-tete">
+                        <div class="cl-icone"><?= icone('devis', 19) ?></div>
+                        <div>
+                            <div class="cl-titre"><?= htmlspecialchars($d["objet"]) ?></div>
+                            <div class="cl-sous">Devis #<?= $d["id_devis"] ?></div>
+                        </div>
+                    </div>
+                    <div class="cl-champs">
+                        <div class="cl-champ"><span class="cl-cle">Département</span><span class="cl-val"><?= htmlspecialchars($d["departement"] ?? "—") ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Montant</span><span class="cl-val montant"><?= number_format($d["montant_estime"], 2, ',', ' ') ?> EUR</span></div>
+                        <div class="cl-champ"><span class="cl-cle">Date</span><span class="cl-val"><?= $d["date_demande"] ?></span></div>
+                    </div>
+                    <div class="cl-fin" onclick="event.stopPropagation()">
+                        <a class="bouton bouton-petit bouton-valider" href="/finance/valider-devis?id=<?= $d["id_devis"] ?>">Valider</a>
+                        <a class="bouton bouton-petit bouton-danger" href="/finance/rejeter-devis?id=<?= $d["id_devis"] ?>">Rejeter</a>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
-    </div>
+    <?php endif; ?>
 
-</main>
-
-</body>
-</html>
+<?php require __DIR__ . '/../partials/footer.php'; ?>

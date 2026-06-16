@@ -27,7 +27,7 @@ require __DIR__ . '/../partials/header.php';
                     <div class="cl-champs">
                         <div class="cl-champ"><span class="cl-cle">Budget total</span><span class="cl-val"><?= number_format($b["budget_total"], 2, ',', ' ') ?> EUR</span></div>
                         <div class="cl-champ"><span class="cl-cle">Utilisé</span><span class="cl-val"><?= number_format($b["budget_utilise"], 2, ',', ' ') ?> EUR</span></div>
-                        <div class="cl-champ"><span class="cl-cle">Restant</span><span class="cl-val montant"><?= number_format($b["budget_restant"], 2, ',', ' ') ?> EUR</span></div>
+                        <div class="cl-champ"><span class="cl-cle">Restant</span><span class="cl-val <?= classeBudget($b["budget_restant"], $b["budget_total"]) ?>"><?= number_format($b["budget_restant"], 2, ',', ' ') ?> EUR</span></div>
                     </div>
                     <div class="cl-fin">
                         <?php if ($b["budget_restant"] < 0): ?>

@@ -57,11 +57,11 @@ require __DIR__ . '/../partials/header.php';
 
     <div class="bloc-entete">
         <h2 class="bloc-titre">Liste des colis</h2>
-        <span class="bloc-sous-titre"><?= $totalColis ?> colis trouve(s)</span>
+        <span class="bloc-sous-titre"><?= $totalColis ?> colis trouvé(s)</span>
     </div>
 
     <?php if (empty($colis)): ?>
-        <div class="vide-cadre">Aucun colis trouve</div>
+        <div class="vide-cadre">Aucun colis trouvé</div>
     <?php else: ?>
         <div class="liste" id="grilleColis">
             <?php foreach ($colis as $c): ?>
@@ -79,7 +79,7 @@ require __DIR__ . '/../partials/header.php';
                         <div class="cl-champ"><span class="cl-cle">Date réception</span><span class="cl-val"><?= $c['date_reception'] ? date('d/m/Y', strtotime($c['date_reception'])) : '—' ?></span></div>
                     </div>
                     <div class="cl-fin">
-                        <span class="<?= badgeStatut($statutAffichage) ?>"><?= htmlspecialchars(joli($statutAffichage)) ?></span>
+                        <span class="<?= badgeStatut($statutAffichage) ?>"><?= htmlspecialchars(libelleStatut($statutAffichage)) ?></span>
                     </div>
                 </div>
             <?php endforeach; ?>

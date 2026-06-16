@@ -61,7 +61,7 @@ require __DIR__ . '/../partials/header.php';
 
     <div class="bloc-entete">
         <h2 class="bloc-titre">Liste des devis</h2>
-        <span class="bloc-sous-titre"><?= $totalDevis ?> devis trouve(s)</span>
+        <span class="bloc-sous-titre"><?= $totalDevis ?> devis trouvé(s)</span>
     </div>
 
     <?php
@@ -80,7 +80,7 @@ require __DIR__ . '/../partials/header.php';
     ?>
 
     <?php if (empty($devis)): ?>
-        <div class="vide-cadre">Aucun devis trouve</div>
+        <div class="vide-cadre">Aucun devis trouvé</div>
     <?php else: ?>
         <div class="liste" id="devisTable">
             <?php foreach ($devis as $d): ?>
@@ -97,7 +97,7 @@ require __DIR__ . '/../partials/header.php';
                         <div class="cl-champ"><span class="cl-cle">Montant estimé</span><span class="cl-val montant"><?= number_format($d['montant_estime'], 2, ',', ' ') ?> EUR</span></div>
                     </div>
                     <div class="cl-fin">
-                        <span class="badge badge-<?= $statutClass[$d['statut']] ?? 'default' ?>"><?= $statutLabels[$d['statut']] ?? joli($d['statut']) ?></span>
+                        <span class="<?= badgeStatut($d['statut']) ?>"><?= htmlspecialchars(libelleStatut($d['statut'])) ?></span>
                     </div>
                 </div>
             <?php endforeach; ?>

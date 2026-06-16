@@ -32,11 +32,11 @@ require __DIR__ . '/../partials/header.php';
                 </div>
 
                 <div class="champ">
-                    <label class="etiquette">Role</label>
+                    <label class="etiquette">Rôle</label>
                     <select name="role_id" class="liste-deroulante" required>
                         <?php foreach ($roles as $r): ?>
                             <option value="<?= $r['id_role'] ?>" <?= $r['id_role'] == $utilisateur['role_id'] ? 'selected' : '' ?>>
-                                <?= htmlspecialchars($r['libelle']) ?>
+                                <?= htmlspecialchars(libelleRole($r['libelle'])) ?>
                             </option>
                         <?php endforeach; ?>
                     </select>

@@ -8,10 +8,10 @@ require __DIR__ . '/../partials/header.php';
 <div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Tableau de bord</h1>
-            <p class="page-subtitle">Gerez vos devis, commandes et colis</p>
+            <p class="page-subtitle">Gérez vos devis, commandes et colis</p>
         </div>
         <button class="bouton bouton-principal" onclick="window.location.href='/departement/creer-devis'">
-            <?= icone('plus', 14) ?>Creer un devis
+            <?= icone('plus', 14) ?>Créer un devis
         </button>
     </div>
 
@@ -25,13 +25,13 @@ require __DIR__ . '/../partials/header.php';
         <div class="chiffre chiffre-attn">
             <span class="chiffre-titre">Colis en attente</span>
             <div class="chiffre-valeur"><?php echo $stats['en_attente']; ?></div>
-            <div class="chiffre-info">A recuperer</div>
+            <div class="chiffre-info">À récupérer</div>
         </div>
 
         <div class="chiffre chiffre-ok">
             <span class="chiffre-titre">Colis retirés</span>
             <div class="chiffre-valeur"><?php echo $stats['retire']; ?></div>
-            <div class="chiffre-info">Receptions confirmees</div>
+            <div class="chiffre-info">Réceptions confirmées</div>
         </div>
     </div>
 
@@ -42,7 +42,11 @@ require __DIR__ . '/../partials/header.php';
             <span class="bloc-sous-titre">Situation budgétaire</span>
         </div>
 
-        <div class="chiffres" style="margin-bottom: 0;">
+        <?php
+            $pct = $budget['budget_total'] > 0 ? round(($budget['budget_utilise'] / $budget['budget_total']) * 100) : 0;
+            $cb  = classeBudget($budget['budget_restant'], $budget['budget_total']);
+        ?>
+        <div class="chiffres" style="margin-bottom: 14px;">
             <div class="chiffre">
                 <span class="chiffre-titre">Budget total</span>
                 <div class="chiffre-valeur" style="font-size: 24px;"><?php echo number_format($budget['budget_total'], 2, ',', ' '); ?> EUR</div>
@@ -53,15 +57,21 @@ require __DIR__ . '/../partials/header.php';
             </div>
             <div class="chiffre">
                 <span class="chiffre-titre">Budget restant</span>
-                <div class="chiffre-valeur" style="font-size: 24px;"><?php echo number_format($budget['budget_restant'], 2, ',', ' '); ?> EUR</div>
+                <div class="chiffre-valeur <?= $cb ?>" style="font-size: 24px;"><?php echo number_format($budget['budget_restant'], 2, ',', ' '); ?> EUR</div>
             </div>
+        </div>
+        <div class="progression">
+            <div class="progression-piste">
+                <div class="progression-jauge <?= $cb ?>" style="width: <?= $pct ?>%;"></div>
+            </div>
+            <span class="progression-pourcent"><?= $pct ?>%</span>
         </div>
     </div>
     <?php endif; ?>
 
     <div class="bloc-entete">
         <h2 class="bloc-titre">Derniers colis</h2>
-        <span class="bloc-sous-titre">Suivez vos livraisons recentes</span>
+        <span class="bloc-sous-titre">Suivez vos livraisons récentes</span>
         <a href="/departement/mes-colis" class="lien-action">Voir tout</a>
     </div>
 
@@ -83,7 +93,7 @@ require __DIR__ . '/../partials/header.php';
                         <div class="cl-champ"><span class="cl-cle">Date réception</span><span class="cl-val"><?= isset($col['date_reception']) ? date('d/m/Y', strtotime($col['date_reception'])) : 'N/A' ?></span></div>
                     </div>
                     <div class="cl-fin">
-                        <span class="<?= badgeStatut($col['statut_libelle']) ?>"><?= htmlspecialchars(joli($col['statut_libelle'])) ?></span>
+                        <span class="<?= badgeStatut($col['statut_libelle']) ?>"><?= htmlspecialchars(libelleStatut($col['statut_libelle'])) ?></span>
                     </div>
                 </div>
             <?php endforeach; ?>

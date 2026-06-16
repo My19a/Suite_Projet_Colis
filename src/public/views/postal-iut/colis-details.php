@@ -1,5 +1,5 @@
 <?php
-$titre = 'Details du colis – Postal IUT';
+$titre = 'Détails du colis – Postal IUT';
 require __DIR__ . '/../partials/header.php';
 ?>
 
@@ -12,7 +12,7 @@ require __DIR__ . '/../partials/header.php';
 
     <div class="page-header">
         <div class="page-header-info">
-            <h1 class="page-title">Details du colis #<?= $colis["id_colis"] ?></h1>
+            <h1 class="page-title">Détails du colis #<?= $colis["id_colis"] ?></h1>
         </div>
     </div>
 
@@ -27,12 +27,12 @@ require __DIR__ . '/../partials/header.php';
         </div>
         <div class="chiffre">
             <span class="chiffre-titre">Département</span>
-            <div class="chiffre-valeur" style="font-size: 18px;"><?= htmlspecialchars($colis["departement"] ?: "Non identifie") ?></div>
+            <div class="chiffre-valeur" style="font-size: 18px;"><?= htmlspecialchars($colis["departement"] ?: "Non identifié") ?></div>
         </div>
         <div class="chiffre">
             <span class="chiffre-titre">Statut</span>
             <div style="margin-top: 8px;">
-                <span class="<?= badgeStatut($colis["statut"]) ?>"><?= htmlspecialchars(joli($colis["statut"])) ?></span>
+                <span class="<?= badgeStatut($colis["statut"]) ?>"><?= htmlspecialchars(libelleStatut($colis["statut"])) ?></span>
             </div>
         </div>
     </div>

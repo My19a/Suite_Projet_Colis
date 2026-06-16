@@ -1,5 +1,5 @@
 <?php
-$titre = 'Creer un devis – Département';
+$titre = 'Créer un devis – Département';
 $actif = '/departement/creer-devis';
 require __DIR__ . '/../partials/header.php';
 ?>
@@ -14,8 +14,8 @@ require __DIR__ . '/../partials/header.php';
 
         <div class="formulaire-page">
             <div class="formulaire-entete">
-                <h1 class="formulaire-titre">Creer un Devis</h1>
-                <p class="formulaire-sous-titre">Saisissez les informations du devis pour creer une demande d'achat</p>
+                <h1 class="formulaire-titre">Créer un Devis</h1>
+                <p class="formulaire-sous-titre">Saisissez les informations du devis pour créer une demande d'achat</p>
             </div>
 
             <form method="POST" action="/departement/envoyer-devis" class="formulaire" id="devisForm">
@@ -44,7 +44,7 @@ require __DIR__ . '/../partials/header.php';
                     </div>
 
                     <div class="champ">
-                        <label for="montant_estime" class="etiquette requis">Montant estime (EUR)</label>
+                        <label for="montant_estime" class="etiquette requis">Montant estimé (EUR)</label>
                         <input type="number" id="montant_estime" name="montant_estime" class="saisie" placeholder="0.00" step="0.01" min="0" value="<?= htmlspecialchars($ancien['montant'] ?? '') ?>" required>
                         <small class="aide-champ">Montant estimé de la commande en euros</small>
                         <?php if (isset($erreurs['montant'])): ?><div style="color:#dc2626;font-size:13px;margin-top:4px;"><?= htmlspecialchars($erreurs['montant']) ?></div><?php endif; ?>
@@ -53,20 +53,20 @@ require __DIR__ . '/../partials/header.php';
 
                 <div class="formulaire-boutons">
                     <button type="button" class="bouton bouton-secondaire" onclick="window.location.href='/departement/dashboard'">Annuler</button>
-                    <button type="submit" class="bouton bouton-principal">Creer et envoyer le devis</button>
+                    <button type="submit" class="bouton bouton-principal">Créer et envoyer le devis</button>
                 </div>
             </form>
 
             <div class="etapes">
-                <h3 class="etapes-titre">Detail de la validation</h3>
+                <h3 class="etapes-titre">Détail de la validation</h3>
                 <ol class="etapes-liste">
                     <li class="etape">
                         <span class="etape-numero">1</span>
-                        <span class="etape-texte">Vous creez le devis</span>
+                        <span class="etape-texte">Vous créez le devis</span>
                     </li>
                     <li class="etape">
                         <span class="etape-numero">2</span>
-                        <span class="etape-texte">Le service financier vérifié le budget</span>
+                        <span class="etape-texte">Le service financier vérifie le budget</span>
                     </li>
                     <li class="etape">
                         <span class="etape-numero">3</span>
@@ -74,11 +74,11 @@ require __DIR__ . '/../partials/header.php';
                     </li>
                     <li class="etape">
                         <span class="etape-numero">4</span>
-                        <span class="etape-texte">Le directeur signé le bon de commande</span>
+                        <span class="etape-texte">Le directeur signe le bon de commande</span>
                     </li>
                     <li class="etape">
                         <span class="etape-numero">5</span>
-                        <span class="etape-texte">La commande est envoyee au fournisseur</span>
+                        <span class="etape-texte">La commande est envoyée au fournisseur</span>
                     </li>
                 </ol>
             </div>

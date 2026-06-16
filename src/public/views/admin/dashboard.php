@@ -110,7 +110,7 @@ require __DIR__ . '/../partials/header.php';
                                 <div class="apercu-primaire"><?= htmlspecialchars($d['nom']) ?></div>
                                 <div class="apercu-secondaire">Budget total <?= number_format($d['budget_total'], 0, ',', ' ') ?> EUR</div>
                             </div>
-                            <span class="apercu-fin apercu-valeur"><?= number_format($restant, 0, ',', ' ') ?> EUR</span>
+                            <span class="apercu-fin apercu-valeur <?= classeBudget($restant, $d['budget_total']) ?>"><?= number_format($restant, 0, ',', ' ') ?> EUR</span>
                         </li>
                     <?php endforeach; ?>
                 </ul>

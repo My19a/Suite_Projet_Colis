@@ -40,7 +40,7 @@ require __DIR__ . '/../partials/header.php';
                     <div class="cl-champs">
                         <div class="cl-champ"><span class="cl-cle">Budget total</span><span class="cl-val"><?= number_format($d['budget_total'], 2, ',', ' ') ?> EUR</span></div>
                         <div class="cl-champ"><span class="cl-cle">Budget utilisé</span><span class="cl-val"><?= number_format($d['budget_utilise'], 2, ',', ' ') ?> EUR</span></div>
-                        <div class="cl-champ"><span class="cl-cle">Budget restant</span><span class="cl-val montant"><?= number_format($d['budget_total'] - $d['budget_utilise'], 2, ',', ' ') ?> EUR</span></div>
+                        <div class="cl-champ"><span class="cl-cle">Budget restant</span><span class="cl-val <?= classeBudget($d['budget_total'] - $d['budget_utilise'], $d['budget_total']) ?>"><?= number_format($d['budget_total'] - $d['budget_utilise'], 2, ',', ' ') ?> EUR</span></div>
                     </div>
                     <div class="cl-fin" onclick="event.stopPropagation()">
                         <form method="post" action="/admin/supprimer-departement"

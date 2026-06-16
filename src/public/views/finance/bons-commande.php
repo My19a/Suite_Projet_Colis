@@ -29,7 +29,7 @@ require __DIR__ . '/../partials/header.php';
                         <div class="cl-champ"><span class="cl-cle">Montant</span><span class="cl-val montant"><?= number_format($b["montant_estime"], 2, ',', ' ') ?> EUR</span></div>
                     </div>
                     <div class="cl-fin">
-                        <span class="<?= badgeStatut($b["statut"]) ?>"><?= htmlspecialchars(joli($b["statut"])) ?></span>
+                        <span class="<?= badgeStatut($b["statut"]) ?>"><?= htmlspecialchars(libelleStatut($b["statut"])) ?></span>
                     </div>
                 </div>
             <?php endforeach; ?>

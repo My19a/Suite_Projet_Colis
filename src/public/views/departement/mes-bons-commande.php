@@ -58,11 +58,11 @@ require __DIR__ . '/../partials/header.php';
 
     <div class="bloc-entete">
         <h2 class="bloc-titre">Liste des bons de commande</h2>
-        <span class="bloc-sous-titre"><?= $totalCommandes ?> bon(s) de commande trouve(s)</span>
+        <span class="bloc-sous-titre"><?= $totalCommandes ?> bon(s) de commande trouvé(s)</span>
     </div>
 
     <?php if (empty($bons)): ?>
-        <div class="vide-cadre">Aucun bon de commande trouve</div>
+        <div class="vide-cadre">Aucun bon de commande trouvé</div>
     <?php else: ?>
         <div class="liste" id="commandesTable">
             <?php foreach ($bons as $cmd): ?>
@@ -79,7 +79,7 @@ require __DIR__ . '/../partials/header.php';
                         <div class="cl-champ"><span class="cl-cle">Montant</span><span class="cl-val montant"><?= number_format($cmd['montant_estime'], 2, ',', ' ') ?> EUR</span></div>
                     </div>
                     <div class="cl-fin">
-                        <span class="<?= badgeStatut($cmd['statut']) ?>"><?= htmlspecialchars(joli($cmd['statut'])) ?></span>
+                        <span class="<?= badgeStatut($cmd['statut']) ?>"><?= htmlspecialchars(libelleStatut($cmd['statut'])) ?></span>
                     </div>
                 </div>
             <?php endforeach; ?>

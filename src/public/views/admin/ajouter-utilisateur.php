@@ -31,11 +31,11 @@ require __DIR__ . '/../partials/header.php';
                 </div>
 
                 <div class="champ">
-                    <label class="etiquette">Role</label>
+                    <label class="etiquette">Rôle</label>
                     <select name="role_id" class="liste-deroulante" required>
-                        <option value="">-- Choisir un role --</option>
+                        <option value="">-- Choisir un rôle --</option>
                         <?php foreach ($roles as $r): ?>
-                            <option value="<?= $r['id_role'] ?>"><?= htmlspecialchars($r['libelle']) ?></option>
+                            <option value="<?= $r['id_role'] ?>"><?= htmlspecialchars(libelleRole($r['libelle'])) ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>

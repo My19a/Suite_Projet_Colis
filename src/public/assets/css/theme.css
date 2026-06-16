@@ -488,6 +488,36 @@ a.carte-ligne:hover::after, .carte-ligne.cliquable:hover::after { border-color: 
     .form-mail-test .bouton-secondaire { width: 100%; }
 }
 
+/* ===== Budget : couleurs selon le reste + barre de progression ===== */
+.budget-large  { color: var(--ok); }
+.budget-moyen  { color: var(--attn); }
+.budget-faible { color: var(--err); }
+.budget-neutre { color: var(--texte); }
+.cl-val.budget-large, .cl-val.budget-moyen,
+.cl-val.budget-faible, .cl-val.budget-neutre { font-weight: 600; }
+
+.progression { display: flex; align-items: center; gap: 12px; }
+.progression-piste {
+    flex: 1 1 auto; height: 8px;
+    background: var(--bord-doux); border-radius: var(--rond);
+    overflow: hidden;
+}
+.progression-jauge {
+    height: 100%; border-radius: var(--rond);
+    background: var(--princ); transition: width .4s ease;
+}
+.progression-jauge.budget-large  { background: var(--ok); }
+.progression-jauge.budget-moyen  { background: var(--attn); }
+.progression-jauge.budget-faible { background: var(--err); }
+.progression-pourcent {
+    flex: 0 0 auto; min-width: 42px; text-align: right;
+    font-size: 13px; font-weight: 650; color: var(--texte);
+}
+.budget-bornes {
+    display: flex; justify-content: space-between;
+    margin-top: 8px; font-size: 11.5px; color: var(--texte-leger);
+}
+
 .largeur-moyenne { max-width: 760px; }
 
 @media (max-width: 1024px) {

@@ -13,13 +13,13 @@ require __DIR__ . '/../partials/header.php';
             </p>
         </div>
         <button class="bouton bouton-principal" onclick="window.location.href='/tickets/nouveau'">
-            <?= icone('plus', 14) ?>Signaler un probleme
+            <?= icone('plus', 14) ?>Signaler un problème
         </button>
     </div>
 
     <?php if (!empty($notifications)): ?>
     <div class="ticket-notifs">
-        <span class="ticket-notifs-titre"><?= count($notifications) ?> nouvelle(s) reponse(s)</span>
+        <span class="ticket-notifs-titre"><?= count($notifications) ?> nouvelle(s) réponse(s)</span>
         <ul>
             <?php foreach ($notifications as $n): ?>
                 <li><?= e($n['message_notification']) ?>
@@ -43,9 +43,9 @@ require __DIR__ . '/../partials/header.php';
             <div class="chiffre-info">Pris en charge</div>
         </div>
         <div class="chiffre chiffre-ok">
-            <span class="chiffre-titre">Resolus</span>
+            <span class="chiffre-titre">Résolus</span>
             <div class="chiffre-valeur"><?= $stats['resolu'] ?></div>
-            <div class="chiffre-info">Cloture</div>
+            <div class="chiffre-info">Clôturé</div>
         </div>
     </div>
 
@@ -53,7 +53,7 @@ require __DIR__ . '/../partials/header.php';
         <a class="ticket-filtre <?= !$filtre ? 'actif' : '' ?>" href="/tickets">Tous</a>
         <a class="ticket-filtre <?= $filtre === 'ouvert' ? 'actif' : '' ?>" href="/tickets?statut=ouvert">Ouverts</a>
         <a class="ticket-filtre <?= $filtre === 'en_cours' ? 'actif' : '' ?>" href="/tickets?statut=en_cours">En cours</a>
-        <a class="ticket-filtre <?= $filtre === 'resolu' ? 'actif' : '' ?>" href="/tickets?statut=resolu">Resolus</a>
+        <a class="ticket-filtre <?= $filtre === 'resolu' ? 'actif' : '' ?>" href="/tickets?statut=resolu">Résolus</a>
     </div>
     <?php endif; ?>
 
@@ -78,8 +78,8 @@ require __DIR__ . '/../partials/header.php';
                         <div class="cl-champ"><span class="cl-cle">Mise à jour</span><span class="cl-val"><?= date('d/m/Y H:i', strtotime($t['date_maj'])) ?></span></div>
                     </div>
                     <div class="cl-fin">
-                        <span class="badge badge-priorite-<?= e($t['priorite']) ?>"><?= e(joli($t['priorite'])) ?></span>
-                        <span class="badge badge-<?= e($t['statut']) ?>"><?= e(joli($t['statut'])) ?></span>
+                        <span class="badge badge-priorite-<?= e($t['priorite']) ?>"><?= e(libellePriorite($t['priorite'])) ?></span>
+                        <span class="badge badge-<?= e($t['statut']) ?>"><?= e(libelleStatut($t['statut'])) ?></span>
                     </div>
                 </a>
             <?php endforeach; ?>

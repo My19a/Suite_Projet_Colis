@@ -6,7 +6,7 @@ require __DIR__ . '/../partials/header.php';
 
 <div class="page-header">
         <div class="page-header-info">
-            <h1 class="page-title">Colis reçus a l'IUT</h1>
+            <h1 class="page-title">Colis reçus à l'IUT</h1>
             <p class="page-subtitle">Colis transférés depuis l'université</p>
         </div>
     </div>
@@ -29,7 +29,7 @@ require __DIR__ . '/../partials/header.php';
                         <div class="cl-champ"><span class="cl-cle">Date réception</span><span class="cl-val"><?= $c["date_reception"] ?></span></div>
                     </div>
                     <div class="cl-fin">
-                        <span class="<?= badgeStatut($c["statut"]) ?>"><?= htmlspecialchars(joli($c["statut"])) ?></span>
+                        <span class="<?= badgeStatut($c["statut"]) ?>"><?= htmlspecialchars(libelleStatut($c["statut"])) ?></span>
                         <a class="bouton bouton-petit bouton-valider" href="/postal/colis/retirer?id=<?= $c["id_colis"] ?>" onclick="event.stopPropagation()">Retiré</a>
                     </div>
                 </div>

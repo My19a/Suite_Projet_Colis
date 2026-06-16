@@ -13,7 +13,7 @@ require __DIR__ . '/../partials/header.php';
 
     <div class="page-header">
         <div class="page-header-info">
-            <h1 class="page-title">Fournisseurs Autorises</h1>
+            <h1 class="page-title">Fournisseurs Autorisés</h1>
             <p class="page-subtitle">Liste des fournisseurs validés par l'administration pour passer commande</p>
         </div>
     </div>
@@ -22,7 +22,7 @@ require __DIR__ . '/../partials/header.php';
         <span class="message-icone"><?= icone('info', 17) ?></span>
         <div class="message-corps">
             <strong>Fournisseurs validés uniquement</strong><br>
-            Vous ne pouvez passer commande qu'auprès des fournisseurs listés ci-dessous. Ces partenaires ont ete validés par l'administration de l'IUT.
+            Vous ne pouvez passer commande qu'auprès des fournisseurs listés ci-dessous. Ces partenaires ont été validés par l'administration de l'IUT.
         </div>
     </div>
 

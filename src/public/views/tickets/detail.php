@@ -10,7 +10,7 @@ require __DIR__ . '/../partials/header.php';
             <h1 class="page-title">Ticket #<?= (int) $ticket['id_ticket'] ?></h1>
             <p class="page-subtitle"><?= e($ticket['sujet']) ?></p>
         </div>
-        <a class="bouton bouton-secondaire" href="/tickets">&larr; Retour a la liste</a>
+        <a class="bouton bouton-secondaire" href="/tickets">&larr; Retour à la liste</a>
     </div>
 
     <div class="ticket-meta">
@@ -18,18 +18,18 @@ require __DIR__ . '/../partials/header.php';
             <span class="ticket-meta-label">Statut</span>
             <span class="ticket-meta-valeur">
                 <span class="badge badge-<?= e($ticket['statut']) ?>">
-                    <?= e(joli($ticket['statut'])) ?>
+                    <?= e(libelleStatut($ticket['statut'])) ?>
                 </span>
             </span>
         </div>
         <div class="ticket-meta-item">
-            <span class="ticket-meta-label">Priorite</span>
+            <span class="ticket-meta-label">Priorité</span>
             <span class="ticket-meta-valeur">
-                <span class="badge badge-priorite-<?= e($ticket['priorite']) ?>"><?= e(joli($ticket['priorite'])) ?></span>
+                <span class="badge badge-priorite-<?= e($ticket['priorite']) ?>"><?= e(libellePriorite($ticket['priorite'])) ?></span>
             </span>
         </div>
         <div class="ticket-meta-item">
-            <span class="ticket-meta-label">Categorie</span>
+            <span class="ticket-meta-label">Catégorie</span>
             <span class="ticket-meta-valeur"><?= ucfirst(e($ticket['categorie'])) ?></span>
         </div>
         <div class="ticket-meta-item">
@@ -48,11 +48,11 @@ require __DIR__ . '/../partials/header.php';
         <select name="statut" class="liste-deroulante" style="max-width:200px;">
             <?php foreach ($statuts as $s): ?>
                 <option value="<?= e($s) ?>" <?= $ticket['statut'] === $s ? 'selected' : '' ?>>
-                    <?= ucfirst(str_replace('_', ' ', e($s))) ?>
+                    <?= e(libelleStatut($s)) ?>
                 </option>
             <?php endforeach; ?>
         </select>
-        <button type="submit" class="bouton bouton-principal bouton-petit">Mettre a jour</button>
+        <button type="submit" class="bouton bouton-principal bouton-petit">Mettre à jour</button>
     </form>
     <?php endif; ?>
 
@@ -79,12 +79,12 @@ require __DIR__ . '/../partials/header.php';
         </div>
 
         <?php if ($ticket['statut'] === 'resolu' && !$estSupport): ?>
-            <p class="vide">Ce ticket est resolu. Reouvrez-en un nouveau si le probleme persiste.</p>
+            <p class="vide">Ce ticket est résolu. Réouvrez-en un nouveau si le problème persiste.</p>
         <?php else: ?>
             <form class="ticket-reponse" method="POST" action="/tickets/<?= (int) $ticket['id_ticket'] ?>/message">
                 <div class="champ">
-                    <label for="message" class="etiquette">Votre reponse</label>
-                    <textarea id="message" name="message" placeholder="Ecrire un message..." required></textarea>
+                    <label for="message" class="etiquette">Votre réponse</label>
+                    <textarea id="message" name="message" placeholder="Écrire un message..." required></textarea>
                 </div>
                 <div class="formulaire-boutons">
                     <button type="submit" class="bouton bouton-principal">Envoyer</button>

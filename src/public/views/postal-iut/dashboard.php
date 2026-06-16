@@ -14,7 +14,7 @@ require __DIR__ . '/../partials/header.php';
 
     <div class="chiffres">
         <div class="chiffre chiffre-info-c">
-            <span class="chiffre-titre">Reçus a l'IUT</span>
+            <span class="chiffre-titre">Reçus à l'IUT</span>
             <div class="chiffre-valeur"><?= $stats["recus"] ?></div>
             <div class="chiffre-info">Colis reçus</div>
         </div>
@@ -61,7 +61,7 @@ require __DIR__ . '/../partials/header.php';
                         <div class="cl-champ"><span class="cl-cle">Date réception</span><span class="cl-val"><?= $c["date_reception"] ?></span></div>
                     </div>
                     <div class="cl-fin">
-                        <span class="<?= badgeStatut($c["statut"]) ?>"><?= htmlspecialchars(joli($c["statut"])) ?></span>
+                        <span class="<?= badgeStatut($c["statut"]) ?>"><?= htmlspecialchars(libelleStatut($c["statut"])) ?></span>
                     </div>
                 </a>
             <?php endforeach; ?>

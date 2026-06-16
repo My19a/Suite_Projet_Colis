@@ -7,7 +7,7 @@ require __DIR__ . '/../partials/header.php';
 <div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Confirmation des colis</h1>
-            <p class="page-subtitle">Colis transférés par le service postal universitaire et en attente de confirmation a l'IUT</p>
+            <p class="page-subtitle">Colis transférés par le service postal universitaire et en attente de confirmation à l'IUT</p>
         </div>
     </div>
 

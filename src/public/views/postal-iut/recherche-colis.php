@@ -12,12 +12,12 @@ require __DIR__ . '/../partials/header.php';
     </div>
 
     <form method="get" class="recherche">
-        <input type="text" name="q" class="recherche-saisie" placeholder="N° suivi, BC, departement, ID colis..." value="<?= htmlspecialchars($_GET["q"] ?? "") ?>">
+        <input type="text" name="q" class="recherche-saisie" placeholder="N° suivi, BC, département, ID colis..." value="<?= htmlspecialchars($_GET["q"] ?? "") ?>">
         <button type="submit" class="btn-loupe" title="Rechercher"><?= icone('recherche', 15) ?></button>
     </form>
 
     <div class="bloc-entete">
-        <h2 class="bloc-titre">Resultats</h2>
+        <h2 class="bloc-titre">Résultats</h2>
     </div>
     <?php if (empty($resultats)): ?>
         <div class="vide-cadre">Aucun résultat</div>
@@ -38,7 +38,7 @@ require __DIR__ . '/../partials/header.php';
                         <div class="cl-champ"><span class="cl-cle">Date réception</span><span class="cl-val"><?= $c["date_reception"] ?></span></div>
                     </div>
                     <div class="cl-fin">
-                        <span class="<?= badgeStatut($c["statut"]) ?>"><?= htmlspecialchars(joli($c["statut"])) ?></span>
+                        <span class="<?= badgeStatut($c["statut"]) ?>"><?= htmlspecialchars(libelleStatut($c["statut"])) ?></span>
                     </div>
                 </a>
             <?php endforeach; ?>

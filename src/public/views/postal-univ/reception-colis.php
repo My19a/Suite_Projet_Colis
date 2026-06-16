@@ -7,7 +7,7 @@ require __DIR__ . '/../partials/header.php';
 <div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Réception d'un colis</h1>
-            <p class="page-subtitle">Enregistrer un colis reçu a l'université avant transfert vers l'IUT</p>
+            <p class="page-subtitle">Enregistrer un colis reçu à l'université avant transfert vers l'IUT</p>
         </div>
     </div>
 
@@ -32,7 +32,7 @@ require __DIR__ . '/../partials/header.php';
 
                 <div class="formulaire-info">
                     <p>Le campus / IUT sera identifié automatiquement via le bon de commande.</p>
-                    <p>Si l'identification echoue, le colis sera marque <strong>Non identifié</strong>.</p>
+                    <p>Si l'identification échoue, le colis sera marqué <strong>Non identifié</strong>.</p>
                 </div>
 
                 <button type="submit" class="bouton bouton-principal">Enregistrer le colis</button>

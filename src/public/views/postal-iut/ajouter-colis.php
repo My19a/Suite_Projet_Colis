@@ -78,7 +78,7 @@ require __DIR__ . '/../partials/header.php';
 
             <div class="message message-attn">
                 <span class="message-icone"><?= icone('alerte', 16) ?></span>
-                <div class="message-corps">La photo de l'étiquette aide a identifier automatiquement le bon de commande associe.</div>
+                <div class="message-corps">La photo de l'étiquette aide à identifier automatiquement le bon de commande associé.</div>
             </div>
         </div>
 
@@ -108,7 +108,7 @@ require __DIR__ . '/../partials/header.php';
             btnStartCamera.style.display = 'none';
             btnCapture.style.display = 'inline-flex';
         } catch (err) {
-            alert('Impossible d\'accéder a la caméra : ' + err.message);
+            alert('Impossible d\'accéder à la caméra : ' + err.message);
         }
     });
 

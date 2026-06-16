@@ -128,6 +128,10 @@ function libelleStatut(?string $statut): string
         'en_attente'      => 'En attente',
         'en_cours'        => 'En cours',
         'en_preparation'  => 'En préparation',
+        'ouvert'          => 'Ouvert',
+        'resolu'          => 'Résolu',
+        'ferme'           => 'Fermé',
+        'clos'            => 'Clos',
         'brouillon'       => 'Brouillon',
         'envoye'          => 'Envoyé',
         'sent'            => 'Envoyé',
@@ -136,12 +140,12 @@ function libelleStatut(?string $statut): string
         'refuse'          => 'Refusé',
         'rejected'        => 'Refusé',
         'rejete'          => 'Rejeté',
-        'rejete_finance'  => 'Rejeté (finance)',
+        'rejete_finance'  => 'Rejeté (Finance)',
         'valide'          => 'Validé',
         'validated'       => 'Validé',
-        'valide_finance'  => 'Validé (finance)',
+        'valide_finance'  => 'Validé (Finance)',
         'signe'           => 'Signé',
-        'signe_directeur' => 'Signé (directeur)',
+        'signe_directeur' => 'Signé (Directeur)',
         'signed'          => 'Signé',
         'annule'          => 'Annulé',
         'annulee'         => 'Annulée',
@@ -161,11 +165,50 @@ function libelleStatut(?string $statut): string
 }
 
 /**
+ * Libellé lisible et accentué d'une priorité (tickets).
+ */
+function libellePriorite(?string $priorite): string
+{
+    $s = strtolower(trim($priorite ?? ''));
+    $map = [
+        'basse'    => 'Basse',
+        'normale'  => 'Normale',
+        'moyenne'  => 'Moyenne',
+        'haute'    => 'Haute',
+        'elevee'   => 'Élevée',
+        'urgente'  => 'Urgente',
+        'critique' => 'Critique',
+    ];
+    return $map[$s] ?? joli($priorite);
+}
+
+/**
  * Classe CSS de badge correspondant à un statut (slug normalisé).
  */
 function badgeStatut(?string $statut): string
 {
     return 'badge badge-' . strtolower(str_replace(' ', '_', trim($statut ?? '')));
+}
+
+/**
+ * État du budget selon le reste disponible rapporté au budget total.
+ * Renvoie une classe : budget-large (vert), budget-moyen (orange),
+ * budget-faible (rouge), budget-neutre (pas de total défini).
+ */
+function classeBudget($restant, $total): string
+{
+    $total = (float) $total;
+    if ($total <= 0) {
+        return 'budget-neutre';
+    }
+    $ratio = (float) $restant / $total;
+    if ($ratio < 0.20) {
+        return 'budget-faible';
+    }
+    if ($ratio < 0.50) {
+        return 'budget-moyen';
+    }
+    return 'budget-large';
 }
 
 /**

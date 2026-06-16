@@ -31,16 +31,21 @@ require __DIR__ . '/../partials/header.php';
             <div class="chiffre-info">EUR dépensé</div>
         </div>
 
-        <div class="chiffre chiffre-ok">
+        <?php
+            $restantB = $budget["budget_total"] - $budget["budget_utilise"];
+            $cbB = classeBudget($restantB, $budget["budget_total"]);
+            $chiffreB = ['budget-large' => 'chiffre-ok', 'budget-moyen' => 'chiffre-attn', 'budget-faible' => 'chiffre-err', 'budget-neutre' => ''][$cbB];
+        ?>
+        <div class="chiffre <?= $chiffreB ?>">
             <span class="chiffre-titre">Budget restant</span>
-            <div class="chiffre-valeur"><?= number_format($budget["budget_total"] - $budget["budget_utilise"], 2, ',', ' ') ?></div>
+            <div class="chiffre-valeur"><?= number_format($restantB, 2, ',', ' ') ?></div>
             <div class="chiffre-info">EUR disponible</div>
         </div>
     </div>
 
     <div class="bloc">
         <div class="bloc-entete">
-            <h2 class="bloc-titre">Repartition du budget</h2>
+            <h2 class="bloc-titre">Répartition du budget</h2>
         </div>
 
         <?php
@@ -49,18 +54,15 @@ require __DIR__ . '/../partials/header.php';
         $pourcentage = $total > 0 ? round(($utilise / $total) * 100) : 0;
         ?>
 
-        <div style="background: var(--bg); border-radius: var(--radius); padding: 24px;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                <span style="font-weight: 600; color: var(--text);">Utilisation</span>
-                <span style="font-weight: 600; color: var(--blue);"><?= $pourcentage ?>%</span>
+        <div class="progression">
+            <div class="progression-piste">
+                <div class="progression-jauge <?= $cbB ?>" style="width: <?= $pourcentage ?>%;"></div>
             </div>
-            <div style="background: var(--border); border-radius: 10px; height: 12px; overflow: hidden;">
-                <div style="background: linear-gradient(90deg, var(--blue) 0%, var(--blue-light) 100%); height: 100%; width: <?= $pourcentage ?>%; border-radius: 10px; transition: width 0.5s ease;"></div>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-top: 12px; font-size: 13px; color: var(--text-muted);">
-                <span>0 EUR</span>
-                <span><?= number_format($total, 2, ',', ' ') ?> EUR</span>
-            </div>
+            <span class="progression-pourcent"><?= $pourcentage ?>%</span>
+        </div>
+        <div class="budget-bornes">
+            <span><?= number_format($utilise, 2, ',', ' ') ?> EUR utilisés</span>
+            <span><?= number_format($total, 2, ',', ' ') ?> EUR alloués</span>
         </div>
     </div>
 

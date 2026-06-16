@@ -7,7 +7,7 @@ require __DIR__ . '/../partials/header.php';
 <div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Modifier le fournisseur</h1>
-            <p class="page-subtitle">Mettre a jour les informations du fournisseur</p>
+            <p class="page-subtitle">Mettre à jour les informations du fournisseur</p>
         </div>
     </div>
 

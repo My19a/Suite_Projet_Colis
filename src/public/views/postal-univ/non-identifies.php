@@ -28,7 +28,7 @@ require __DIR__ . '/../partials/header.php';
                         <div class="cl-champ"><span class="cl-cle">Date réception</span><span class="cl-val"><?= $c["date_reception"] ?></span></div>
                     </div>
                     <div class="cl-fin">
-                        <span class="badge badge-non_identifie"><?= htmlspecialchars(joli($c["statut"])) ?></span>
+                        <span class="badge badge-non_identifie"><?= htmlspecialchars(libelleStatut($c["statut"])) ?></span>
                     </div>
                 </div>
             <?php endforeach; ?>

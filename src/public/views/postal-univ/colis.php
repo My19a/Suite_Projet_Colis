@@ -30,7 +30,7 @@ require __DIR__ . '/../partials/header.php';
                         <div class="cl-champ"><span class="cl-cle">Date réception</span><span class="cl-val"><?= $c["date_reception"] ?></span></div>
                     </div>
                     <div class="cl-fin">
-                        <span class="<?= badgeStatut($c["statut"]) ?>"><?= htmlspecialchars(joli($c["statut"])) ?></span>
+                        <span class="<?= badgeStatut($c["statut"]) ?>"><?= htmlspecialchars(libelleStatut($c["statut"])) ?></span>
                         <?php if ($c["statut_id"] == 1): ?>
                             <a class="bouton bouton-petit bouton-principal" href="/postal-univ/transferer?id=<?= $c["id_colis"] ?>">Transférer vers IUT</a>
                         <?php endif; ?>

@@ -7,7 +7,7 @@ require __DIR__ . '/../partials/header.php';
 <div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Historique global</h1>
-            <p class="page-subtitle">Dernieres actions effectuées sur tous les colis</p>
+            <p class="page-subtitle">Dernières actions effectuées sur tous les colis</p>
         </div>
     </div>
 

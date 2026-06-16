@@ -29,6 +29,7 @@ $menusParRole = [
         ['/postal/colis/remis', 'Colis remis', 'valide'],
         ['/postal/colis/recherche', 'Recherche', 'recherche'],
         ['/postal/colis/non-identifies', 'Non identifiés', 'alerte'],
+        ['/postal/colis/ajouter', 'Ajouter un colis', 'colis'],
         ['/tickets', 'Assistance', 'assistance'],
     ],
     'postal_univ' => [

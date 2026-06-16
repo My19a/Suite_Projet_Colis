@@ -38,9 +38,18 @@ require __DIR__ . '/../partials/header.php';
 
             <div class="champ">
                 <label class="etiquette">Destinataire identifié</label>
-                <input type="text" id="nom_destinataire" name="nom_destinataire" class="saisie" placeholder="Nom détecté par OCR ou saisie manuelle">
-                <button type="button" id="btnRechercheDest" class="bouton bouton-secondaire" style="margin-top:10px;">Rechercher</button>
-                <div id="resultatDestinataire" style="margin-top:10px;"></div>
+                <div style="display:flex; gap:8px;">
+                    <input type="text" id="nom_destinataire" class="saisie" placeholder="Ex: Valerie Touzet" style="flex:1;" name="nom_destinataire">
+                    <button type="button" id="btnRechercheDest" class="bouton bouton-secondaire">Rechercher</button>
+                </div>
+                <p class="aide-champ">Rempli automatiquement par l'OCR ou saisissez manuellement</p>
+            </div>
+
+            <div class="champ" style="margin-bottom:0;">
+                <label class="etiquette">Résultat</label>
+                <div id="resultatDestinataire" style="padding:7px 10px; background:var(--princ-doux); border-radius:var(--r); border:1px solid var(--bord); font-weight:500; color:var(--princ);">
+                    —
+                </div>
             </div>
 
             <div class="champ">
@@ -115,6 +124,24 @@ require __DIR__ . '/../partials/header.php';
 
     let stream = null;
 
+    function afficherResultatOCR(resultat) {
+        if (resultat.numeroBC) {
+            document.getElementById('numero_bc').value = resultat.numeroBC;
+            document.getElementById('numero_bc').style.backgroundColor = '#d4edda';
+        }
+        if (resultat.numeroSuivi) {
+            document.getElementById('numero_suivi').value = resultat.numeroSuivi;
+            document.getElementById('numero_suivi').style.backgroundColor = '#d4edda';
+        }
+
+        const champNom = document.getElementById('nom_destinataire');
+        champNom.value = resultat.nomDestinataire || '';
+        champNom.style.backgroundColor = resultat.nomDestinataire ? '#d4edda' : '';
+
+        document.getElementById('ocr_texte_brut').value = resultat.texteBrut;
+        document.getElementById('ocr_confiance').value = resultat.confiance;
+    }
+
     btnStartCamera.addEventListener('click', async () => {
         try {
             stream = await navigator.mediaDevices.getUserMedia({
@@ -136,21 +163,7 @@ require __DIR__ . '/../partials/header.php';
         canvas.getContext('2d').drawImage(video, 0, 0);
         const imageData = canvas.toDataURL('image/jpeg', 0.7);
         photoInput.value = imageData;
-        lancerOCR(imageData, function(resultat) {
-            if (resultat.numeroBC) {
-                document.getElementById('numero_bc').value = resultat.numeroBC;
-                document.getElementById('numero_bc').style.backgroundColor = '#d4edda';
-            }
-            if (resultat.numeroSuivi) {
-                document.getElementById('numero_suivi').value = resultat.numeroSuivi;
-                document.getElementById('numero_suivi').style.backgroundColor = '#d4edda';
-            }
-            const champNom = document.getElementById('nom_destinataire');
-            champNom.value = resultat.nomDestinataire || '';
-            champNom.style.backgroundColor = resultat.nomDestinataire ? '#d4edda' : '';
-            document.getElementById('ocr_texte_brut').value = resultat.texteBrut;
-            document.getElementById('ocr_confiance').value = resultat.confiance;
-        });
+        lancerOCR(imageData, afficherResultatOCR);
         preview.src = imageData;
         preview.style.display = 'block';
         video.style.display = 'none';
@@ -166,12 +179,15 @@ require __DIR__ . '/../partials/header.php';
         btnRetake.style.display = 'none';
         photoInput.value = '';
         fileUpload.value = '';
+
+        // permet reinitialisation des données pour chaque nouvelle étiquette
         document.getElementById('numero_suivi').value = '';
         document.getElementById('nom_destinataire').value = '';
         document.getElementById('ocr_texte_brut').value = '';
         document.getElementById('ocr_confiance').value = '';
         document.getElementById('numero_suivi').style.backgroundColor = '';
         document.getElementById('nom_destinataire').style.backgroundColor = '';
+        document.getElementById('resultatDestinataire').textContent = '—';
     });
 
     fileUpload.addEventListener('change', (e) => {
@@ -189,21 +205,7 @@ require __DIR__ . '/../partials/header.php';
                     canvas.getContext('2d').drawImage(img, 0, 0, width, height);
                     const imageData = canvas.toDataURL('image/jpeg', 0.7);
                     photoInput.value = imageData;
-                    lancerOCR(imageData, function(resultat) {
-                        if (resultat.numeroBC) {
-                            document.getElementById('numero_bc').value = resultat.numeroBC;
-                            document.getElementById('numero_bc').style.backgroundColor = '#d4edda';
-                        }
-                        if (resultat.numeroSuivi) {
-                            document.getElementById('numero_suivi').value = resultat.numeroSuivi;
-                            document.getElementById('numero_suivi').style.backgroundColor = '#d4edda';
-                        }
-                        const champNom = document.getElementById('nom_destinataire');
-                        champNom.value = resultat.nomDestinataire || '';
-                        champNom.style.backgroundColor = resultat.nomDestinataire ? '#d4edda' : '';
-                        document.getElementById('ocr_texte_brut').value = resultat.texteBrut;
-                        document.getElementById('ocr_confiance').value = resultat.confiance;
-                    });
+                    lancerOCR(imageData, afficherResultatOCR);
                     preview.src = imageData;
                     preview.style.display = 'block';
                     placeholder.style.display = 'none';
@@ -232,9 +234,9 @@ require __DIR__ . '/../partials/header.php';
         const zone = document.getElementById('resultatDestinataire');
 
         if (data.length > 0) {
-            zone.innerHTML = "✔ Destinataire trouvé : " + data[0].fullName;
+            zone.textContent = "✔ " + data[0].fullName;
         } else {
-            zone.innerHTML = "❌ Aucun destinataire trouvé";
+            zone.textContent = "Aucun destinataire trouvé";
         }
     });
 </script>

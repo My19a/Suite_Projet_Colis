@@ -1,46 +1,16 @@
-<?php /** @var array $ticket ; @var array $messages ; @var bool $estSupport ; @var array $statuts ; @var string $dashboardUrl */ ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ticket #<?= (int) $ticket['id_ticket'] ?> - <?= e($ticket['sujet']) ?></title>
-    <link rel="stylesheet" href="/assets/css/theme.css">
-    <link rel="stylesheet" href="/assets/css/style-tickets.css">
-</head>
+<?php
+$titre = 'Ticket #' . (int) $ticket['id_ticket'] . ' - ' . $ticket['sujet'];
+$actif = '/tickets';
+$feuillesDeStyle = ['/assets/css/style-tickets.css'];
+require __DIR__ . '/../partials/header.php';
+?>
 
-<body class="tableau-bord">
-
-<aside class="barre-laterale">
-    <div class="entete-barre">
-        <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Assistance</h2>
-        <p><?= e($_SESSION['user']->getFullName()) ?></p>
-    </div>
-
-    <nav class="menu">
-        <a href="/tickets"><?= $estSupport ? 'Tous les tickets' : 'Mes tickets' ?></a>
-        <a href="/tickets/nouveau">Signaler un probleme</a>
-        <a href="<?= e($dashboardUrl) ?>">&larr; Tableau de bord</a>
-    </nav>
-
-    <div class="utilisateur-connecte">
-        <div class="utilisateur-nom"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getFullName()) : "" ?></div>
-        <div class="utilisateur-role"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getRole()) : "" ?></div>
-    </div>
-    <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
-    </div>
-</aside>
-
-<main class="contenu">
-
-    <div class="page-header">
+<div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Ticket #<?= (int) $ticket['id_ticket'] ?></h1>
             <p class="page-subtitle"><?= e($ticket['sujet']) ?></p>
         </div>
-        <a class="btn btn-secondary" href="/tickets">&larr; Retour a la liste</a>
+        <a class="bouton bouton-secondaire" href="/tickets">&larr; Retour à la liste</a>
     </div>
 
     <div class="ticket-meta">
@@ -48,18 +18,18 @@
             <span class="ticket-meta-label">Statut</span>
             <span class="ticket-meta-valeur">
                 <span class="badge badge-<?= e($ticket['statut']) ?>">
-                    <?= ucfirst(str_replace('_', ' ', e($ticket['statut']))) ?>
+                    <?= e(libelleStatut($ticket['statut'])) ?>
                 </span>
             </span>
         </div>
         <div class="ticket-meta-item">
-            <span class="ticket-meta-label">Priorite</span>
+            <span class="ticket-meta-label">Priorité</span>
             <span class="ticket-meta-valeur">
-                <span class="badge badge-priorite-<?= e($ticket['priorite']) ?>"><?= ucfirst(e($ticket['priorite'])) ?></span>
+                <span class="badge badge-priorite-<?= e($ticket['priorite']) ?>"><?= e(libellePriorite($ticket['priorite'])) ?></span>
             </span>
         </div>
         <div class="ticket-meta-item">
-            <span class="ticket-meta-label">Categorie</span>
+            <span class="ticket-meta-label">Catégorie</span>
             <span class="ticket-meta-valeur"><?= ucfirst(e($ticket['categorie'])) ?></span>
         </div>
         <div class="ticket-meta-item">
@@ -75,21 +45,21 @@
     <?php if ($estSupport): ?>
     <form class="ticket-actions-support" method="POST" action="/tickets/<?= (int) $ticket['id_ticket'] ?>/statut">
         <span class="ticket-meta-label">Changer le statut :</span>
-        <select name="statut" class="form-select" style="max-width:200px;">
+        <select name="statut" class="liste-deroulante" style="max-width:200px;">
             <?php foreach ($statuts as $s): ?>
                 <option value="<?= e($s) ?>" <?= $ticket['statut'] === $s ? 'selected' : '' ?>>
-                    <?= ucfirst(str_replace('_', ' ', e($s))) ?>
+                    <?= e(libelleStatut($s)) ?>
                 </option>
             <?php endforeach; ?>
         </select>
-        <button type="submit" class="btn btn-primary btn-sm">Mettre a jour</button>
+        <button type="submit" class="bouton bouton-principal bouton-petit">Mettre à jour</button>
     </form>
     <?php endif; ?>
 
-    <div class="section">
-        <div class="section-header">
-            <h2 class="section-title">Discussion</h2>
-            <span class="section-subtitle"><?= count($messages) ?> message(s)</span>
+    <div class="bloc">
+        <div class="bloc-entete">
+            <h2 class="bloc-titre">Discussion</h2>
+            <span class="bloc-sous-titre"><?= count($messages) ?> message(s)</span>
         </div>
 
         <div class="ticket-fil">
@@ -109,21 +79,18 @@
         </div>
 
         <?php if ($ticket['statut'] === 'resolu' && !$estSupport): ?>
-            <p class="empty-state">Ce ticket est resolu. Reouvrez-en un nouveau si le probleme persiste.</p>
+            <p class="vide">Ce ticket est résolu. Réouvrez-en un nouveau si le problème persiste.</p>
         <?php else: ?>
             <form class="ticket-reponse" method="POST" action="/tickets/<?= (int) $ticket['id_ticket'] ?>/message">
-                <div class="form-group">
-                    <label for="message" class="form-label">Votre reponse</label>
-                    <textarea id="message" name="message" placeholder="Ecrire un message..." required></textarea>
+                <div class="champ">
+                    <label for="message" class="etiquette">Votre réponse</label>
+                    <textarea id="message" name="message" placeholder="Écrire un message..." required></textarea>
                 </div>
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Envoyer</button>
+                <div class="formulaire-boutons">
+                    <button type="submit" class="bouton bouton-principal">Envoyer</button>
                 </div>
             </form>
         <?php endif; ?>
     </div>
 
-</main>
-
-</body>
-</html>
+<?php require __DIR__ . '/../partials/footer.php'; ?>

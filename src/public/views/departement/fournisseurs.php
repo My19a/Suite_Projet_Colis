@@ -1,45 +1,11 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fournisseurs – Département</title>
-    <link rel="stylesheet" href="/assets/css/theme.css">
-</head>
+<?php
+$titre = 'Fournisseurs – Département';
+$actif = '/departement/fournisseurs';
+require __DIR__ . '/../partials/header.php';
+?>
 
-<body class="tableau-bord">
-
-<aside class="barre-laterale">
-    <div class="entete-barre">
-        <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Département</h2>
-        <p>Gestion des colis</p>
-    </div>
-
-    <nav class="menu">
-        <a href="/departement/dashboard">Tableau de bord</a>
-        <a href="/departement/creer-devis">Creer un devis</a>
-        <a href="/departement/mes-devis">Mes devis</a>
-        <a href="/departement/bons-commande">Mes bons de commande</a>
-        <a href="/departement/mes-colis">Mes colis</a>
-        <a href="/departement/budget">Budget</a>
-        <a class="actif" href="/departement/fournisseurs">Fournisseurs</a>
-        <a href="/tickets">Assistance<?php if (function_exists('ticketNotifsCount') && ($__n=ticketNotifsCount())>0): ?> <span style="display:inline-block;min-width:18px;height:18px;line-height:18px;text-align:center;background:#ef4444;color:#fff;border-radius:999px;padding:0 5px;font-size:11px;font-weight:700;margin-left:6px;"><?= $__n ?></span><?php endif; ?></a>
-    </nav>
-
-    <div class="utilisateur-connecte">
-        <div class="utilisateur-nom"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getFullName()) : "" ?></div>
-        <div class="utilisateur-role"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getRole()) : "" ?></div>
-    </div>
-    <div class="deconnexion">
-        <a href="/logout">Déconnexion</a>
-    </div>
-</aside>
-
-<main class="contenu">
-
-    <div class="page-header-simple">
-        <a href="/departement/dashboard" class="back-button-simple">
+<div class="page-header-simple">
+        <a href="/departement/dashboard" class="lien-retour">
             <span class="back-arrow">&larr;</span>
             Retour
         </a>
@@ -47,87 +13,48 @@
 
     <div class="page-header">
         <div class="page-header-info">
-            <h1 class="page-title">Fournisseurs Autorises</h1>
+            <h1 class="page-title">Fournisseurs Autorisés</h1>
             <p class="page-subtitle">Liste des fournisseurs validés par l'administration pour passer commande</p>
         </div>
     </div>
 
-    <div class="alert alert-info">
-        <span class="alert-icon-text">&#9432;</span>
-        <div class="alert-content">
+    <div class="message message-info">
+        <span class="message-icone"><?= icone('info', 17) ?></span>
+        <div class="message-corps">
             <strong>Fournisseurs validés uniquement</strong><br>
-            Vous ne pouvez passer commande qu'auprès des fournisseurs listés ci-dessous. Ces partenaires ont ete validés par l'administration de l'IUT.
+            Vous ne pouvez passer commande qu'auprès des fournisseurs listés ci-dessous. Ces partenaires ont été validés par l'administration de l'IUT.
         </div>
     </div>
 
-    <div class="section">
-        <div class="section-header">
-            <h2 class="section-title">Liste des Fournisseurs (<?= isset($fournisseurs) ? count($fournisseurs) : 0 ?>)</h2>
-            <span class="section-subtitle">Fournisseurs autorisés pour vos commandes</span>
-        </div>
+    <div class="bloc-entete">
+        <h2 class="bloc-titre">Liste des fournisseurs (<?= isset($fournisseurs) ? count($fournisseurs) : 0 ?>)</h2>
+        <span class="bloc-sous-titre">Fournisseurs autorisés pour vos commandes</span>
+    </div>
 
-        <div class="fournisseurs-grid">
-            <?php if (empty($fournisseurs)): ?>
-                <div class="empty-state-card-simple">
-                    <span class="empty-icon">&#128230;</span>
-                    <p>Aucun fournisseur disponible</p>
-                </div>
-            <?php else: ?>
-                <?php foreach ($fournisseurs as $f): ?>
-                    <div class="fournisseur-card-simple">
-                        <div class="fournisseur-card-header-simple">
-                            <div class="fournisseur-icon-simple">
-                                <span class="icon-text">&#127970;</span>
-                            </div>
-                            <div class="fournisseur-info">
-                                <h3 class="fournisseur-name"><?= htmlspecialchars($f['nom']) ?></h3>
-                                <span class="badge badge-valide">Autorise</span>
-                            </div>
+    <?php if (empty($fournisseurs)): ?>
+        <?= etatVide('fournisseurs', 'Aucun fournisseur', 'Aucun fournisseur n\'est disponible pour le moment.') ?>
+    <?php else: ?>
+        <div class="liste">
+            <?php foreach ($fournisseurs as $f): ?>
+                <div class="carte-ligne">
+                    <div class="cl-tete">
+                        <div class="cl-icone"><?= icone('fournisseurs', 19) ?></div>
+                        <div>
+                            <div class="cl-titre"><?= htmlspecialchars($f['nom']) ?></div>
+                            <div class="cl-sous">Fournisseur</div>
                         </div>
                     </div>
-                <?php endforeach; ?>
-            <?php endif; ?>
+                    <div class="cl-champs">
+                        <div class="cl-champ"><span class="cl-cle">Contact</span><span class="cl-val"><?= $f['contact_nom'] ? htmlspecialchars($f['contact_nom']) : '—' ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Email</span><span class="cl-val"><?= $f['contact_email'] ? htmlspecialchars($f['contact_email']) : '—' ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Téléphone</span><span class="cl-val"><?= $f['contact_telephone'] ? htmlspecialchars($f['contact_telephone']) : '—' ?></span></div>
+                    </div>
+                    <div class="cl-fin">
+                        <span class="badge badge-valide">Autorisé</span>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
-    </div>
+    <?php endif; ?>
 
-    <div class="section">
-        <div class="section-header">
-            <h2 class="section-title">Vue detaillee</h2>
-        </div>
-
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Nom du fournisseur</th>
-                        <th>Contact</th>
-                        <th>Email</th>
-                        <th>Téléphone</th>
-                        <th>Statut</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($fournisseurs)): ?>
-                        <tr>
-                            <td colspan="5" class="empty-state">Aucun fournisseur trouve</td>
-                        </tr>
-                    <?php else: ?>
-                        <?php foreach ($fournisseurs as $f): ?>
-                            <tr>
-                                <td><strong><?= htmlspecialchars($f['nom']) ?></strong></td>
-                                <td><?= $f['contact_nom'] ? htmlspecialchars($f['contact_nom']) : '—' ?></td>
-                                <td><?= $f['contact_email'] ? htmlspecialchars($f['contact_email']) : '—' ?></td>
-                                <td><?= $f['contact_telephone'] ? htmlspecialchars($f['contact_telephone']) : '—' ?></td>
-                                <td><span class="badge badge-valide">Autorise</span></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-</main>
-
-</body>
-</html>
+<?php require __DIR__ . '/../partials/footer.php'; ?>

@@ -1,82 +1,50 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modifier un utilisateur – Admin</title>
-    <link rel="stylesheet" href="/assets/css/theme.css">
-</head>
+<?php
+$titre = 'Modifier un utilisateur – Admin';
+$actif = '/admin/utilisateurs';
+require __DIR__ . '/../partials/header.php';
+?>
 
-<body class="tableau-bord">
-
-<aside class="barre-laterale">
-    <div class="entete-barre">
-        <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Administrateur</h2>
-        <p>Gestion du système</p>
-    </div>
-
-    <nav class="menu">
-        <a href="/admin/dashboard">Tableau de bord</a>
-        <a class="actif" href="/admin/utilisateurs">Utilisateurs</a>
-        <a href="/admin/departements">Départements</a>
-        <a href="/admin/fournisseurs">Fournisseurs</a>
-        <a href="/admin/devis">Tous les devis</a>
-        <a href="/admin/colis">Tous les colis</a>
-    </nav>
-
-    <div class="utilisateur-connecte">
-        <div class="utilisateur-nom"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getFullName()) : "" ?></div>
-        <div class="utilisateur-role"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getRole()) : "" ?></div>
-    </div>
-    <div class="deconnexion">
-        <a href="/logout">Déconnexion</a>
-    </div>
-</aside>
-
-<main class="contenu">
-
-    <div class="page-header">
+<div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Modifier l'utilisateur</h1>
             <p class="page-subtitle">Mettre à jour les informations de l'utilisateur</p>
         </div>
     </div>
 
-    <div class="section">
-        <div class="form-card">
+    <div class="bloc">
+        <div class="formulaire">
             <form method="post" action="/admin/update-utilisateur">
                 <input type="hidden" name="id_utilisateur" value="<?= $utilisateur['id_utilisateur'] ?>">
 
-                <div class="form-group">
-                    <label class="form-label">Nom complet</label>
-                    <input type="text" name="fullName" class="form-input" value="<?= htmlspecialchars($utilisateur['fullName']) ?>" required>
+                <div class="champ">
+                    <label class="etiquette">Nom complet</label>
+                    <input type="text" name="fullName" class="saisie" value="<?= htmlspecialchars($utilisateur['fullName']) ?>" required>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input type="email" name="email" class="form-input" value="<?= htmlspecialchars($utilisateur['email']) ?>" required>
+                <div class="champ">
+                    <label class="etiquette">Email</label>
+                    <input type="email" name="email" class="saisie" value="<?= htmlspecialchars($utilisateur['email']) ?>" required>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">UID CAS</label>
-                    <input type="text" name="uid_cas" class="form-input" value="<?= htmlspecialchars($utilisateur['uid_cas']) ?>" required>
+                <div class="champ">
+                    <label class="etiquette">UID CAS</label>
+                    <input type="text" name="uid_cas" class="saisie" value="<?= htmlspecialchars($utilisateur['uid_cas']) ?>" required>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Role</label>
-                    <select name="role_id" class="form-select" required>
+                <div class="champ">
+                    <label class="etiquette">Rôle</label>
+                    <select name="role_id" class="liste-deroulante" required>
                         <?php foreach ($roles as $r): ?>
                             <option value="<?= $r['id_role'] ?>" <?= $r['id_role'] == $utilisateur['role_id'] ? 'selected' : '' ?>>
-                                <?= htmlspecialchars($r['libelle']) ?>
+                                <?= htmlspecialchars(libelleRole($r['libelle'])) ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Département</label>
-                    <select name="departement_id" class="form-select">
+                <div class="champ">
+                    <label class="etiquette">Département</label>
+                    <select name="departement_id" class="liste-deroulante">
                         <option value="">— Aucun —</option>
                         <?php foreach ($departements as $d): ?>
                             <option value="<?= $d['id_departement'] ?>" <?= $d['id_departement'] == $utilisateur['departement_id'] ? 'selected' : '' ?>>
@@ -86,9 +54,9 @@
                     </select>
                 </div>
 
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
-                    <a href="/admin/utilisateurs" class="btn btn-secondary">Annuler</a>
+                <div class="formulaire-boutons">
+                    <button type="submit" class="bouton bouton-principal">Enregistrer</button>
+                    <a href="/admin/utilisateurs" class="bouton bouton-secondaire">Annuler</a>
                 </div>
             </form>
 
@@ -96,12 +64,9 @@
                   onsubmit="return confirm('Supprimer définitivement cet utilisateur ?');"
                   style="margin-top:1.5rem; padding-top:1.5rem; border-top:1px solid #e5e7eb;">
                 <input type="hidden" name="id_utilisateur" value="<?= $utilisateur['id_utilisateur'] ?>">
-                <button type="submit" class="btn btn-danger">Supprimer cet utilisateur</button>
+                <button type="submit" class="bouton bouton-danger">Supprimer cet utilisateur</button>
             </form>
         </div>
     </div>
 
-</main>
-
-</body>
-</html>
+<?php require __DIR__ . '/../partials/footer.php'; ?>

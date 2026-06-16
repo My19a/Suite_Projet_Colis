@@ -1,17 +1,17 @@
 /* =====================================================================
    Styles du systeme de tickets / assistance
-   Complete theme.css (a charger apres).
+   Complete theme.css (a charger apres) — utilise ses variables.
    ===================================================================== */
 
 /* --- Badges de statut --- */
-.badge-ouvert   { background: #fee2e2; color: #b91c1c; }
-.badge-en_cours { background: #fef3c7; color: #92400e; }
-.badge-resolu   { background: #dcfce7; color: #166534; }
+.badge-ouvert   { background: var(--err-fond); color: var(--err); }
+.badge-en_cours { background: var(--attn-fond); color: var(--attn); }
+.badge-resolu   { background: var(--ok-fond); color: var(--ok); }
 
 /* --- Badges de priorite --- */
-.badge-priorite-basse   { background: #e2e8f0; color: #475569; }
-.badge-priorite-normale { background: #dbeafe; color: #1e40af; }
-.badge-priorite-haute   { background: #fee2e2; color: #b91c1c; }
+.badge-priorite-basse   { background: var(--bord-doux); color: var(--texte-doux); }
+.badge-priorite-normale { background: var(--info-fond); color: var(--info); }
+.badge-priorite-haute   { background: var(--err-fond); color: var(--err); }
 
 /* --- Filtres (chips) --- */
 .ticket-filtres {
@@ -22,16 +22,16 @@
 }
 .ticket-filtre {
     padding: 6px 14px;
-    border-radius: 999px;
-    border: 1px solid var(--border, #e2e8f0);
-    background: #fff;
-    color: #475569;
+    border-radius: var(--r);
+    border: 1px solid var(--bord);
+    background: var(--surface);
+    color: var(--texte-doux);
     font-size: 13px;
     text-decoration: none;
-    transition: all .15s ease;
+    transition: background-color .15s ease, color .15s ease, border-color .15s ease;
 }
-.ticket-filtre:hover  { background: #f1f5f9; }
-.ticket-filtre.actif  { background: #2563eb; border-color: #2563eb; color: #fff; }
+.ticket-filtre:hover  { background: var(--princ-doux); color: var(--princ); }
+.ticket-filtre.actif  { background: var(--princ); border-color: var(--princ); color: #fff; }
 
 /* --- Fil de discussion --- */
 .ticket-fil {
@@ -43,14 +43,14 @@
 .ticket-message {
     max-width: 78%;
     padding: 12px 16px;
-    border-radius: 14px;
-    border: 1px solid var(--border, #e2e8f0);
-    background: #fff;
+    border-radius: var(--r);
+    border: 1px solid var(--bord);
+    background: var(--surface);
 }
 .ticket-message.is-support {
     align-self: flex-end;
-    background: #eff6ff;
-    border-color: #bfdbfe;
+    background: var(--princ-doux);
+    border-color: #D5D1E8;
 }
 .ticket-message-entete {
     display: flex;
@@ -59,15 +59,15 @@
     align-items: baseline;
     margin-bottom: 6px;
 }
-.ticket-message-auteur { font-weight: 600; font-size: 13px; color: #0f172a; }
-.ticket-message-date   { font-size: 12px; color: #94a3b8; }
-.ticket-message-corps  { font-size: 14px; line-height: 1.5; color: #1e293b; white-space: pre-wrap; }
+.ticket-message-auteur { font-weight: 600; font-size: 13px; color: var(--texte); }
+.ticket-message-date   { font-size: 12px; color: var(--texte-leger); }
+.ticket-message-corps  { font-size: 14px; line-height: 1.5; color: var(--texte); white-space: pre-wrap; }
 .ticket-message-role {
     font-size: 11px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: .03em;
-    color: #2563eb;
+    color: var(--princ);
     margin-left: 6px;
 }
 
@@ -77,14 +77,14 @@
     flex-wrap: wrap;
     gap: 18px;
     padding: 14px 18px;
-    background: #f8fafc;
-    border: 1px solid var(--border, #e2e8f0);
-    border-radius: 12px;
+    background: var(--surface);
+    border: 1px solid var(--bord);
+    border-radius: var(--r);
     margin-bottom: 20px;
 }
 .ticket-meta-item { display: flex; flex-direction: column; gap: 2px; }
-.ticket-meta-label { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: #94a3b8; }
-.ticket-meta-valeur { font-size: 14px; font-weight: 600; color: #0f172a; }
+.ticket-meta-label { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--texte-leger); }
+.ticket-meta-valeur { font-size: 14px; font-weight: 600; color: var(--texte); }
 
 /* --- Barre d'action support (changement de statut) --- */
 .ticket-actions-support {
@@ -93,9 +93,9 @@
     align-items: center;
     flex-wrap: wrap;
     padding: 14px 18px;
-    background: #fff;
-    border: 1px dashed #cbd5e1;
-    border-radius: 12px;
+    background: var(--surface);
+    border: 1px dashed var(--bord);
+    border-radius: var(--r);
     margin-bottom: 20px;
 }
 
@@ -104,43 +104,43 @@
     width: 100%;
     min-height: 96px;
     padding: 12px 14px;
-    border: 1px solid var(--border, #e2e8f0);
-    border-radius: 10px;
+    border: 1px solid var(--bord);
+    border-radius: var(--r);
     font-family: inherit;
     font-size: 14px;
     resize: vertical;
 }
 .ticket-reponse textarea:focus {
     outline: none;
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, .1);
+    border-color: var(--princ);
+    box-shadow: 0 0 0 3px rgba(68, 62, 131, .12);
 }
 
 textarea.form-input { min-height: 120px; resize: vertical; font-family: inherit; }
 
 .form-error {
-    background: #fef2f2;
-    border: 1px solid #fecaca;
-    color: #dc2626;
+    background: var(--err-fond);
+    border: 1px solid var(--err-bord);
+    color: var(--err);
     padding: 8px 12px;
-    border-radius: 8px;
+    border-radius: var(--r);
     font-size: 13px;
     margin-top: 6px;
 }
 
 /* --- Bandeau des nouvelles reponses (notifications) --- */
 .ticket-notifs {
-    background: #eff6ff;
-    border: 1px solid #bfdbfe;
-    border-radius: 12px;
+    background: var(--accent-doux);
+    border: 1px solid var(--info-bord);
+    border-radius: var(--r);
     padding: 14px 18px;
     margin-bottom: 20px;
 }
 .ticket-notifs-titre {
     font-weight: 700;
-    color: #1e40af;
+    color: var(--info);
     font-size: 14px;
 }
 .ticket-notifs ul { margin: 8px 0 0; padding-left: 18px; }
-.ticket-notifs li { font-size: 14px; color: #1e293b; margin: 3px 0; }
-.ticket-notifs-date { color: #94a3b8; font-size: 12px; margin-left: 6px; }
+.ticket-notifs li { font-size: 13.5px; color: var(--texte-doux); margin: 3px 0; }
+.ticket-notifs-date { color: var(--texte-leger); font-size: 12px; margin-left: 6px; }

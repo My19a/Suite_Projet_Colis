@@ -1,44 +1,10 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modifier le colis #<?= htmlspecialchars($colis['id_colis']) ?> – Postal IUT</title>
-    <link rel="stylesheet" href="/assets/css/theme.css">
-</head>
+<?php
+$titre = 'Modifier le colis #<?= htmlspecialchars($colis[\'id_colis\']) ?> – Postal IUT';
+require __DIR__ . '/../partials/header.php';
+?>
 
-<body class="tableau-bord">
-
-<aside class="barre-laterale">
-    <div class="entete-barre">
-        <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Postal IUT</h2>
-        <p>Service Postal</p>
-    </div>
-
-    <nav class="menu">
-        <a href="/postal/dashboard">Tableau de bord</a>
-        <a href="/postal/colis/recus">Colis reçus</a>
-        <a href="/postal/colis/remis">Colis remis</a>
-        <a href="/postal/colis/recherche">Recherche colis</a>
-        <a href="/postal/colis/non-identifies">Colis non identifiés</a>
-        <a href="/postal/historique">Historique global</a>
-        <a href="/tickets">Assistance<?php if (function_exists('ticketNotifsCount') && ($__n=ticketNotifsCount())>0): ?> <span style="display:inline-block;min-width:18px;height:18px;line-height:18px;text-align:center;background:#ef4444;color:#fff;border-radius:999px;padding:0 5px;font-size:11px;font-weight:700;margin-left:6px;"><?= $__n ?></span><?php endif; ?></a>
-    </nav>
-
-    <div class="utilisateur-connecte">
-        <div class="utilisateur-nom"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getFullName()) : "" ?></div>
-        <div class="utilisateur-role"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getRole()) : "" ?></div>
-    </div>
-    <div class="deconnexion">
-        <a href="/logout">Déconnexion</a>
-    </div>
-</aside>
-
-<main class="contenu">
-
-    <div class="page-header-simple">
-        <a href="/postal/colis/details?id=<?= $colis['id_colis'] ?>" class="back-button-simple">
+<div class="page-header-simple">
+        <a href="/postal/colis/details?id=<?= $colis['id_colis'] ?>" class="lien-retour">
             <span class="back-arrow">&larr;</span>
             Retour
         </a>
@@ -50,18 +16,18 @@
         </div>
     </div>
 
-    <div class="section" style="max-width: 600px;">
+    <div class="bloc" style="max-width: 600px;">
         <form method="post" action="/postal/colis/update">
             <input type="hidden" name="id_colis" value="<?= htmlspecialchars($colis['id_colis']) ?>">
 
-            <div class="form-group">
-                <label class="form-label">Numéro suivi</label>
-                <input type="text" name="numero_suivi" class="form-input" value="<?= htmlspecialchars($colis['numero_suivi'] ?? '') ?>">
+            <div class="champ">
+                <label class="etiquette">Numéro suivi</label>
+                <input type="text" name="numero_suivi" class="saisie" value="<?= htmlspecialchars($colis['numero_suivi'] ?? '') ?>">
             </div>
 
-            <div class="form-group">
-                <label class="form-label">Bon de commande</label>
-                <select name="bon_commande_id" class="form-select">
+            <div class="champ">
+                <label class="etiquette">Bon de commande</label>
+                <select name="bon_commande_id" class="liste-deroulante">
                     <option value="">— Aucun —</option>
                     <?php foreach ($bonCommandes as $b): ?>
                         <option value="<?= $b['id_bon_commande'] ?>" <?= (isset($colis['bon_commande_id']) && $colis['bon_commande_id'] == $b['id_bon_commande']) ? 'selected' : '' ?>>
@@ -71,9 +37,9 @@
                 </select>
             </div>
 
-            <div class="form-group">
-                <label class="form-label">Département</label>
-                <select name="destinataire_id" class="form-select">
+            <div class="champ">
+                <label class="etiquette">Département</label>
+                <select name="destinataire_id" class="liste-deroulante">
                     <option value="">— Aucun —</option>
                     <?php foreach ($departements as $d): ?>
                         <option value="<?= $d['id_departement'] ?>" <?= (isset($colis['destinataire_id']) && $colis['destinataire_id'] == $d['id_departement']) ? 'selected' : '' ?>>
@@ -83,9 +49,9 @@
                 </select>
             </div>
 
-            <div class="form-group">
-                <label class="form-label">Statut</label>
-                <select name="statut_id" class="form-select">
+            <div class="champ">
+                <label class="etiquette">Statut</label>
+                <select name="statut_id" class="liste-deroulante">
                     <?php foreach ($statuts as $s): ?>
                         <option value="<?= $s['id_statut'] ?>" <?= (isset($colis['statut_id']) && $colis['statut_id'] == $s['id_statut']) ? 'selected' : '' ?>>
                             <?= htmlspecialchars($s['libelle']) ?>
@@ -94,19 +60,16 @@
                 </select>
             </div>
 
-            <div class="form-group">
-                <label class="form-label">Commentaire</label>
-                <textarea name="commentaire" class="form-input" rows="4"><?= htmlspecialchars($colis['commentaire'] ?? '') ?></textarea>
+            <div class="champ">
+                <label class="etiquette">Commentaire</label>
+                <textarea name="commentaire" class="saisie" rows="4"><?= htmlspecialchars($colis['commentaire'] ?? '') ?></textarea>
             </div>
 
-            <div class="form-actions">
-                <a href="/postal/colis/details?id=<?= $colis['id_colis'] ?>" class="btn btn-secondary">Annuler</a>
-                <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <div class="formulaire-boutons">
+                <a href="/postal/colis/details?id=<?= $colis['id_colis'] ?>" class="bouton bouton-secondaire">Annuler</a>
+                <button type="submit" class="bouton bouton-principal">Enregistrer</button>
             </div>
         </form>
     </div>
 
-</main>
-
-</body>
-</html>
+<?php require __DIR__ . '/../partials/footer.php'; ?>

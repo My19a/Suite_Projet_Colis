@@ -30,11 +30,11 @@
     height: 64px;
     margin: 0 auto 16px;
     border-radius: 16px;
-    background: #eff6ff;
+    background: #EFEDF7;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #2563eb;
+    color: #443E83;
 }
 .tuto-icone svg {
     width: 32px;
@@ -66,7 +66,7 @@
     width: 8px; height: 8px; border-radius: 50%;
     background: #e2e8f0; transition: all .2s ease;
 }
-.tuto-point.actif { background: #2563eb; width: 22px; border-radius: 5px; }
+.tuto-point.actif { background: #443E83; width: 22px; border-radius: 5px; }
 
 .tuto-actions {
     display: flex;
@@ -85,8 +85,8 @@
     font-family: inherit;
     transition: all .15s ease;
 }
-.tuto-btn-primaire { background: #2563eb; color: #fff; }
-.tuto-btn-primaire:hover { background: #1d4ed8; }
+.tuto-btn-primaire { background: #443E83; color: #fff; }
+.tuto-btn-primaire:hover { background: #37326B; }
 .tuto-btn-secondaire { background: #f1f5f9; color: #475569; }
 .tuto-btn-secondaire:hover { background: #e2e8f0; }
 .tuto-passer {

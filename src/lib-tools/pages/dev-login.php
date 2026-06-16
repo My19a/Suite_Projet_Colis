@@ -490,7 +490,7 @@ try {
             <?php endif; ?>
 
             <form method="POST">
-                <div class="form-group">
+                <div class="champ">
                     <label for="uid">Identifiant CAS fictive</label>
                     <div class="input-wrapper">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
@@ -500,7 +500,7 @@ try {
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="champ">
                     <label>Rôle</label>
                     <div class="role-grid">
                         <div class="role-option">

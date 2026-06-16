@@ -1,43 +1,10 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tous les colis – Admin</title>
-    <link rel="stylesheet" href="/assets/css/theme.css">
-</head>
+<?php
+$titre = 'Tous les colis – Admin';
+$actif = '/admin/colis';
+require __DIR__ . '/../partials/header.php';
+?>
 
-<body class="tableau-bord">
-
-<aside class="barre-laterale">
-    <div class="entete-barre">
-        <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Administrateur</h2>
-        <p>Gestion du système</p>
-    </div>
-
-    <nav class="menu">
-        <a href="/admin/dashboard">Tableau de bord</a>
-        <a href="/admin/utilisateurs">Utilisateurs</a>
-        <a href="/admin/departements">Départements</a>
-        <a href="/admin/fournisseurs">Fournisseurs</a>
-        <a href="/admin/devis">Tous les devis</a>
-        <a class="actif" href="/admin/colis">Tous les colis</a>
-        <a href="/tickets">Assistance<?php if (function_exists('ticketNotifsCount') && ($__n=ticketNotifsCount())>0): ?> <span style="display:inline-block;min-width:18px;height:18px;line-height:18px;text-align:center;background:#ef4444;color:#fff;border-radius:999px;padding:0 5px;font-size:11px;font-weight:700;margin-left:6px;"><?= $__n ?></span><?php endif; ?></a>
-    </nav>
-
-    <div class="utilisateur-connecte">
-        <div class="utilisateur-nom"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getFullName()) : "" ?></div>
-        <div class="utilisateur-role"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getRole()) : "" ?></div>
-    </div>
-    <div class="deconnexion">
-        <a href="/logout">Déconnexion</a>
-    </div>
-</aside>
-
-<main class="contenu">
-
-    <div class="page-header">
+<div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Tous les colis</h1>
             <p class="page-subtitle">Vision globale et traçabilité complète des colis</p>
@@ -45,61 +12,46 @@
     </div>
 
     <?php if (!empty($stats)): ?>
-    <div class="stats-grid">
+    <div class="chiffres">
         <?php foreach ($stats as $s): ?>
-        <div class="stat-card">
-            <div class="stat-value"><?= $s['total'] ?></div>
-            <div class="stat-label"><?= $s['statut'] ?></div>
+        <div class="chiffre">
+            <div class="chiffre-valeur"><?= $s['total'] ?></div>
+            <div class="chiffre-titre"><?= htmlspecialchars(libelleStatut($s['statut'])) ?></div>
         </div>
         <?php endforeach; ?>
     </div>
     <?php endif; ?>
 
-    <div class="section">
-        <div class="search-card">
-            <form method="get" class="search-form">
-                <input type="text" name="q" class="form-input" placeholder="placeholder="placeholder=""Recherche : n° suivi, BC, departement, statut"" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
-                <button type="submit" class="btn btn-primary">Rechercher</button>
-            </form>
+    <form method="get" class="recherche">
+        <input type="text" name="q" class="recherche-saisie" placeholder="N° suivi, BC, département, statut…" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
+        <button type="submit" class="btn-loupe" title="Rechercher"><?= icone('recherche', 15) ?></button>
+    </form>
+
+    <?php if (empty($colis)): ?>
+        <?= etatVide('colis', 'Aucun colis', 'Aucun colis ne correspond à votre recherche.') ?>
+    <?php else: ?>
+        <div class="liste">
+            <?php foreach ($colis as $c): ?>
+                <div class="carte-ligne">
+                    <div class="cl-tete">
+                        <div class="cl-icone"><?= icone('colis', 19) ?></div>
+                        <div>
+                            <div class="cl-titre"><?= htmlspecialchars($c['numero_suivi'] ?: '—') ?></div>
+                            <div class="cl-sous">Colis #<?= $c['id_colis'] ?></div>
+                        </div>
+                    </div>
+                    <div class="cl-champs">
+                        <div class="cl-champ"><span class="cl-cle">Bon de commande</span><span class="cl-val"><?= htmlspecialchars($c['numero_commande'] ?: '—') ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Département</span><span class="cl-val"><?= htmlspecialchars($c['departement'] ?: '—') ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Réception</span><span class="cl-val"><?= $c['date_reception'] ?: '—' ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Retrait</span><span class="cl-val"><?= $c['date_retrait'] ?: '—' ?></span></div>
+                    </div>
+                    <div class="cl-fin">
+                        <span class="<?= badgeStatut($c['statut']) ?>"><?= htmlspecialchars(libelleStatut($c['statut'])) ?></span>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
-    </div>
+    <?php endif; ?>
 
-    <div class="section">
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>N° suivi</th>
-                        <th>Bon de commande</th>
-                        <th>Département</th>
-                        <th>Statut</th>
-                        <th>Date réception</th>
-                        <th>Date retrait</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($colis)): ?>
-                        <tr><td colspan="7" class="empty-state">Aucun colis trouve</td></tr>
-                    <?php else: ?>
-                        <?php foreach ($colis as $c): ?>
-                        <tr>
-                            <td>#<?= $c['id_colis'] ?></td>
-                            <td><strong><?= htmlspecialchars($c['numero_suivi'] ?: '—') ?></strong></td>
-                            <td><?= htmlspecialchars($c['numero_commande'] ?: '—') ?></td>
-                            <td><?= htmlspecialchars($c['departement'] ?: '—') ?></td>
-                            <td><span class="badge badge-<?= strtolower(str_replace(' ', '_', $c['statut'])) ?>"><?= $c['statut'] ?></span></td>
-                            <td><?= $c['date_reception'] ?: '—' ?></td>
-                            <td><?= $c['date_retrait'] ?: '—' ?></td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-</main>
-
-</body>
-</html>
+<?php require __DIR__ . '/../partials/footer.php'; ?>

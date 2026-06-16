@@ -1,62 +1,32 @@
-<?php /** @var array $categories ; @var array $priorites ; @var array $erreurs ; @var array $ancien ; @var string $dashboardUrl */ ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signaler un probleme</title>
-    <link rel="stylesheet" href="/assets/css/theme.css">
-    <link rel="stylesheet" href="/assets/css/style-tickets.css">
-</head>
+<?php
+$titre = 'Signaler un problème';
+$actif = '/tickets';
+$feuillesDeStyle = ['/assets/css/style-tickets.css'];
+require __DIR__ . '/../partials/header.php';
+?>
 
-<body class="tableau-bord">
-
-<aside class="barre-laterale">
-    <div class="entete-barre">
-        <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Assistance</h2>
-        <p><?= e($_SESSION['user']->getFullName()) ?></p>
-    </div>
-
-    <nav class="menu">
-        <a href="/tickets">Mes tickets</a>
-        <a class="actif" href="/tickets/nouveau">Signaler un probleme</a>
-        <a href="<?= e($dashboardUrl) ?>">&larr; Tableau de bord</a>
-    </nav>
-
-    <div class="utilisateur-connecte">
-        <div class="utilisateur-nom"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getFullName()) : "" ?></div>
-        <div class="utilisateur-role"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getRole()) : "" ?></div>
-    </div>
-    <div class="deconnexion">
-        <a href="/logout">Deconnexion</a>
-    </div>
-</aside>
-
-<main class="contenu">
-
-    <div class="form-container">
-        <div class="form-header">
-            <h1 class="form-title">Signaler un probleme</h1>
-            <p class="form-subtitle">Decrivez votre probleme, l'equipe support vous repondra ici meme.</p>
+<div class="formulaire-page">
+        <div class="formulaire-entete">
+            <h1 class="formulaire-titre">Signaler un problème</h1>
+            <p class="formulaire-sous-titre">Décrivez votre problème, l'équipe support vous répondra ici même.</p>
         </div>
 
-        <form method="POST" action="/tickets/creer" class="devis-form">
-            <div class="form-section">
-                <div class="form-group">
-                    <label for="sujet" class="form-label required">Sujet</label>
-                    <input type="text" id="sujet" name="sujet" class="form-input" maxlength="150"
-                           placeholder="Ex: Le bouton de validation du devis ne repond pas"
+        <form method="POST" action="/tickets/creer" class="formulaire">
+            <div class="formulaire-partie">
+                <div class="champ">
+                    <label for="sujet" class="etiquette requis">Sujet</label>
+                    <input type="text" id="sujet" name="sujet" class="saisie" maxlength="150"
+                           placeholder="Ex: Le bouton de validation du devis ne répond pas"
                            value="<?= e($ancien['sujet'] ?? '') ?>" required>
                     <?php if (isset($erreurs['sujet'])): ?>
-                        <div class="form-error"><?= e($erreurs['sujet']) ?></div>
+                        <div class="erreur-champ"><?= e($erreurs['sujet']) ?></div>
                     <?php endif; ?>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="categorie" class="form-label">Categorie</label>
-                        <select id="categorie" name="categorie" class="form-select">
+                <div class="champs-en-ligne">
+                    <div class="champ">
+                        <label for="categorie" class="etiquette">Catégorie</label>
+                        <select id="categorie" name="categorie" class="liste-deroulante">
                             <?php foreach ($categories as $cat): ?>
                                 <option value="<?= e($cat) ?>" <?= ($ancien['categorie'] ?? '') === $cat ? 'selected' : '' ?>>
                                     <?= ucfirst(e($cat)) ?>
@@ -65,38 +35,35 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label for="priorite" class="form-label">Priorite</label>
-                        <select id="priorite" name="priorite" class="form-select">
+                    <div class="champ">
+                        <label for="priorite" class="etiquette">Priorité</label>
+                        <select id="priorite" name="priorite" class="liste-deroulante">
                             <?php foreach ($priorites as $p): ?>
                                 <option value="<?= e($p) ?>" <?= ($ancien['priorite'] ?? 'normale') === $p ? 'selected' : '' ?>>
-                                    <?= ucfirst(e($p)) ?>
+                                    <?= e(libellePriorite($p)) ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="description" class="form-label required">Description</label>
-                    <textarea id="description" name="description" class="form-input"
-                              placeholder="Expliquez ce qui ne fonctionne pas, les etapes pour reproduire le probleme, etc."
+                <div class="champ">
+                    <label for="description" class="etiquette requis">Description</label>
+                    <textarea id="description" name="description" class="saisie"
+                              placeholder="Expliquez ce qui ne fonctionne pas, les étapes pour reproduire le problème, etc."
                               required><?= e($ancien['description'] ?? '') ?></textarea>
-                    <small class="form-help">10 caracteres minimum.</small>
+                    <small class="aide-champ">10 caractères minimum.</small>
                     <?php if (isset($erreurs['description'])): ?>
-                        <div class="form-error"><?= e($erreurs['description']) ?></div>
+                        <div class="erreur-champ"><?= e($erreurs['description']) ?></div>
                     <?php endif; ?>
                 </div>
             </div>
 
-            <div class="form-actions">
-                <button type="button" class="btn btn-secondary" onclick="window.location.href='/tickets'">Annuler</button>
-                <button type="submit" class="btn btn-primary">Envoyer le ticket</button>
+            <div class="formulaire-boutons">
+                <button type="button" class="bouton bouton-secondaire" onclick="window.location.href='/tickets'">Annuler</button>
+                <button type="submit" class="bouton bouton-principal">Envoyer le ticket</button>
             </div>
         </form>
     </div>
 
-</main>
-
-</body>
-</html>
+<?php require __DIR__ . '/../partials/footer.php'; ?>

@@ -1,96 +1,57 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Départements – Admin</title>
-    <link rel="stylesheet" href="/assets/css/theme.css">
-</head>
+<?php
+$titre = 'Départements – Admin';
+$actif = '/admin/departements';
+require __DIR__ . '/../partials/header.php';
+?>
 
-<body class="tableau-bord">
-
-<aside class="barre-laterale">
-    <div class="entete-barre">
-        <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Administrateur</h2>
-        <p>Gestion du système</p>
-    </div>
-
-    <nav class="menu">
-        <a href="/admin/dashboard">Tableau de bord</a>
-        <a href="/admin/utilisateurs">Utilisateurs</a>
-        <a class="actif" href="/admin/departements">Départements</a>
-        <a href="/admin/fournisseurs">Fournisseurs</a>
-        <a href="/admin/devis">Tous les devis</a>
-        <a href="/admin/colis">Tous les colis</a>
-        <a href="/tickets">Assistance<?php if (function_exists('ticketNotifsCount') && ($__n=ticketNotifsCount())>0): ?> <span style="display:inline-block;min-width:18px;height:18px;line-height:18px;text-align:center;background:#ef4444;color:#fff;border-radius:999px;padding:0 5px;font-size:11px;font-weight:700;margin-left:6px;"><?= $__n ?></span><?php endif; ?></a>
-    </nav>
-
-    <div class="utilisateur-connecte">
-        <div class="utilisateur-nom"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getFullName()) : "" ?></div>
-        <div class="utilisateur-role"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getRole()) : "" ?></div>
-    </div>
-    <div class="deconnexion">
-        <a href="/logout">Déconnexion</a>
-    </div>
-</aside>
-
-<main class="contenu">
-
-    <div class="page-header">
+<div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Gestion des départements</h1>
             <p class="page-subtitle">Consulter, modifier et supprimer les départements</p>
         </div>
-        <a href="/admin/ajouter-departement" class="btn btn-primary">Ajouter un département</a>
+        <a href="/admin/ajouter-departement" class="bouton bouton-principal"><?= icone('plus', 14) ?>Ajouter un département</a>
     </div>
 
     <?php if (isset($_GET['deleted'])): ?>
-        <div class="alert alert-success" style="margin-bottom:1rem; padding:0.75rem 1rem; background:#d1fae5; border:1px solid #6ee7b7; border-radius:6px; color:#065f46;">
+        <div class="message message-ok">
             Département supprimé avec succès.
         </div>
     <?php endif; ?>
 
     <?php if (isset($_GET['error']) && $_GET['error'] === 'fk'): ?>
-        <div class="alert alert-error" style="margin-bottom:1rem; padding:0.75rem 1rem; background:#fee2e2; border:1px solid #fca5a5; border-radius:6px; color:#991b1b;">
+        <div class="message message-err">
             Suppression impossible : ce département est encore lié à des données (utilisateurs, devis, bons de commande…). Réaffectez ou supprimez d'abord ces éléments.
         </div>
     <?php endif; ?>
 
-    <div class="section">
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Nom</th>
-                        <th>Budget total</th>
-                        <th>Budget utilisé</th>
-                        <th>Budget restant</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($departements)): ?>
-                        <tr><td colspan="5" class="empty-state">Aucun département</td></tr>
-                    <?php else: ?>
-                        <?php foreach ($departements as $d): ?>
-                        <tr>
-                            <td><strong><?= htmlspecialchars($d['nom']) ?></strong></td>
-                            <td><?= number_format($d['budget_total'], 2, ',', ' ') ?> EUR</td>
-                            <td><?= number_format($d['budget_utilise'], 2, ',', ' ') ?> EUR</td>
-                            <td><span class="montant"><?= number_format($d['budget_total'] - $d['budget_utilise'], 2, ',', ' ') ?> EUR</span></td>
-                            <td>
-                                <a class="btn btn-sm btn-primary" href="/admin/modifier-departement?id=<?= $d['id_departement'] ?>">Modifier</a>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+    <?php if (empty($departements)): ?>
+        <?= etatVide('departements', 'Aucun département', 'Ajoutez un département pour commencer.', '/admin/ajouter-departement', 'Ajouter un département') ?>
+    <?php else: ?>
+        <div class="liste">
+            <?php foreach ($departements as $d): ?>
+                <div class="carte-ligne cliquable" onclick="location.href='/admin/modifier-departement?id=<?= $d['id_departement'] ?>'">
+                    <div class="cl-tete">
+                        <div class="cl-icone"><?= icone('departements', 19) ?></div>
+                        <div>
+                            <div class="cl-titre"><?= htmlspecialchars($d['nom']) ?></div>
+                            <div class="cl-sous">Département</div>
+                        </div>
+                    </div>
+                    <div class="cl-champs">
+                        <div class="cl-champ"><span class="cl-cle">Budget total</span><span class="cl-val"><?= number_format($d['budget_total'], 2, ',', ' ') ?> EUR</span></div>
+                        <div class="cl-champ"><span class="cl-cle">Budget utilisé</span><span class="cl-val"><?= number_format($d['budget_utilise'], 2, ',', ' ') ?> EUR</span></div>
+                        <div class="cl-champ"><span class="cl-cle">Budget restant</span><span class="cl-val <?= classeBudget($d['budget_total'] - $d['budget_utilise'], $d['budget_total']) ?>"><?= number_format($d['budget_total'] - $d['budget_utilise'], 2, ',', ' ') ?> EUR</span></div>
+                    </div>
+                    <div class="cl-fin" onclick="event.stopPropagation()">
+                        <form method="post" action="/admin/supprimer-departement"
+                              onsubmit="return confirm('Supprimer définitivement le département <?= htmlspecialchars($d['nom'], ENT_QUOTES) ?> ?');">
+                            <input type="hidden" name="id_departement" value="<?= $d['id_departement'] ?>">
+                            <button type="submit" class="btn-croix" title="Supprimer"><?= icone('croix', 16) ?></button>
+                        </form>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
-    </div>
+    <?php endif; ?>
 
-</main>
-
-</body>
-</html>
+<?php require __DIR__ . '/../partials/footer.php'; ?>

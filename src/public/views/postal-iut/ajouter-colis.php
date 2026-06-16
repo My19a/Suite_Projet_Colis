@@ -1,44 +1,10 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajouter un colis – Service Postal IUT</title>
-    <link rel="stylesheet" href="/assets/css/theme.css">
-</head>
+<?php
+$titre = 'Ajouter un colis – Service Postal IUT';
+$actif = '/postal/colis/ajouter';
+require __DIR__ . '/../partials/header.php';
+?>
 
-<body class="tableau-bord">
-
-<aside class="barre-laterale">
-    <div class="entete-barre">
-        <img src="/assets/img/logo-iutv.png" class="logo" alt="Logo IUT">
-        <h2>Postal IUT</h2>
-        <p>Service Postal</p>
-    </div>
-
-    <nav class="menu">
-        <a href="/postal/dashboard">Tableau de bord</a>
-        <a href="/postal/colis/recus">Colis reçus</a>
-        <a href="/postal/colis/remis">Colis remis</a>
-        <a href="/postal/colis/recherche">Recherche colis</a>
-        <a href="/postal/colis/non-identifies">Colis non identifiés</a>
-        <a class="actif" href="/postal/colis/ajouter">Ajouter un colis</a>
-        <a href="/postal/historique">Historique global</a>
-        <a href="/tickets">Assistance<?php if (function_exists('ticketNotifsCount') && ($__n=ticketNotifsCount())>0): ?> <span style="display:inline-block;min-width:18px;height:18px;line-height:18px;text-align:center;background:#ef4444;color:#fff;border-radius:999px;padding:0 5px;font-size:11px;font-weight:700;margin-left:6px;"><?= $__n ?></span><?php endif; ?></a>
-    </nav>
-
-    <div class="utilisateur-connecte">
-        <div class="utilisateur-nom"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getFullName()) : "" ?></div>
-        <div class="utilisateur-role"><?= isset($_SESSION["user"]) ? htmlspecialchars($_SESSION["user"]->getRole()) : "" ?></div>
-    </div>
-    <div class="deconnexion">
-        <a href="/logout">Déconnexion</a>
-    </div>
-</aside>
-
-<main class="contenu">
-
-    <div class="page-header">
+<div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Ajouter un colis</h1>
             <p class="page-subtitle">Enregistrer l'arrivée d'un nouveau colis avec scan/photo de l'étiquette</p>
@@ -46,46 +12,46 @@
     </div>
 
     <?php if (!empty($message)): ?>
-        <div class="alert <?= strpos($message, 'succes') !== false ? 'alert-success' : 'alert-danger' ?>">
-            <span class="alert-icon-text"><?= strpos($message, 'succes') !== false ? '&#10003;' : '&#10007;' ?></span>
-            <div class="alert-content"><?= htmlspecialchars($message) ?></div>
+        <div class="message <?= strpos($message, 'succes') !== false ? 'alert-success' : 'alert-danger' ?>">
+            <span class="message-icone"><?= strpos($message, 'succes') !== false ? icone('valide', 16) : icone('croix', 16) ?></span>
+            <div class="message-corps"><?= htmlspecialchars($message) ?></div>
         </div>
     <?php endif; ?>
 
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 24px;">
 
-        <div class="section">
-            <div class="section-header">
-                <h2 class="section-title">Informations du colis</h2>
+        <div class="bloc">
+            <div class="bloc-entete">
+                <h2 class="bloc-titre">Informations du colis</h2>
             </div>
 
             <form method="POST" enctype="multipart/form-data" id="colisForm">
-                <div class="form-group">
-                    <label class="form-label required">Numéro du bon de commande (BC)</label>
-                    <input type="text" name="numero_bc" class="form-input" placeholder="placeholder="placeholder=""Ex: BC2024-001"" required>
+                <div class="champ">
+                    <label class="etiquette requis">Numéro du bon de commande (BC)</label>
+                    <input type="text" name="numero_bc" class="saisie" placeholder="Ex: BC2024-001" required>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Numéro de suivi</label>
-                    <input type="text" name="numero_suivi" class="form-input" placeholder="placeholder="placeholder=""Ex: FR123456789"">
+                <div class="champ">
+                    <label class="etiquette">Numéro de suivi</label>
+                    <input type="text" name="numero_suivi" class="saisie" placeholder="Ex: FR123456789">
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Commentaire</label>
-                    <textarea name="commentaire" class="form-input" rows="3" placeholder="placeholder="placeholder=""Notes additionnelles...""></textarea>
+                <div class="champ">
+                    <label class="etiquette">Commentaire</label>
+                    <textarea name="commentaire" class="saisie" rows="3" placeholder="Notes additionnelles..."></textarea>
                 </div>
 
                 <input type="hidden" id="photo_etiquette" name="photo_etiquette">
 
-                <div class="form-actions" style="border-top: none; padding-top: 0;">
-                    <button type="submit" class="btn btn-primary">Ajouter le colis</button>
+                <div class="formulaire-boutons" style="border-top: none; padding-top: 0;">
+                    <button type="submit" class="bouton bouton-principal">Ajouter le colis</button>
                 </div>
             </form>
         </div>
 
-        <div class="section">
-            <div class="section-header">
-                <h2 class="section-title">Scanner / Photographier l'Étiquette</h2>
+        <div class="bloc">
+            <div class="bloc-entete">
+                <h2 class="bloc-titre">Scanner / Photographier l'Étiquette</h2>
             </div>
 
             <div id="cameraContainer" style="position: relative; background: var(--bg); border: 2px dashed var(--blue); border-radius: var(--radius); padding: 20px; text-align: center; margin-bottom: 16px; min-height: 280px; display: flex; align-items: center; justify-content: center;">
@@ -100,25 +66,23 @@
             </div>
 
             <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px;">
-                <button type="button" id="btnStartCamera" class="btn btn-primary">Activer la caméra</button>
-                <button type="button" id="btnCapture" class="btn btn-success" style="display: none;">Prendre la photo</button>
-                <button type="button" id="btnRetake" class="btn btn-danger" style="display: none;">Reprendre</button>
+                <button type="button" id="btnStartCamera" class="bouton bouton-principal">Activer la caméra</button>
+                <button type="button" id="btnCapture" class="bouton bouton-valider" style="display: none;">Prendre la photo</button>
+                <button type="button" id="btnRetake" class="bouton bouton-danger" style="display: none;">Reprendre</button>
             </div>
 
             <div style="padding: 16px; background: var(--blue-bg); border-radius: var(--radius); border: 1px solid var(--blue-border);">
-                <label class="form-label" style="color: var(--blue-dark);">Ou importer une photo</label>
-                <input type="file" id="fileUpload" accept="image/*" capture="environment" class="form-input" style="background: white;">
+                <label class="etiquette" style="color: var(--blue-dark);">Ou importer une photo</label>
+                <input type="file" id="fileUpload" accept="image/*" capture="environment" class="saisie" style="background: white;">
             </div>
 
-            <div class="alert alert-warning" style="margin-top: 16px; margin-bottom: 0;">
-                <span class="alert-icon-text">&#9888;</span>
-                <div class="alert-content" style="color: var(--warning-text);">La photo de l'étiquette aide a identifier automatiquement le bon de commande associe.</div>
+            <div class="message message-attn">
+                <span class="message-icone"><?= icone('alerte', 16) ?></span>
+                <div class="message-corps">La photo de l'étiquette aide à identifier automatiquement le bon de commande associé.</div>
             </div>
         </div>
 
     </div>
-
-</main>
 
 <script>
     const video = document.getElementById('video');
@@ -144,7 +108,7 @@
             btnStartCamera.style.display = 'none';
             btnCapture.style.display = 'inline-flex';
         } catch (err) {
-            alert('Impossible d\'accéder a la caméra : ' + err.message);
+            alert('Impossible d\'accéder à la caméra : ' + err.message);
         }
     });
 
@@ -206,5 +170,4 @@
     });
 </script>
 
-</body>
-</html>
+<?php require __DIR__ . '/../partials/footer.php'; ?>

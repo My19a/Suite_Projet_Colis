@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "suivi-colis",
+      "runtimeExecutable": "php",
+      "runtimeArgs": ["-S", "localhost:8001", "router.php"],
+      "cwd": "src/public",
+      "port": 8001
+    }
+  ]
+}

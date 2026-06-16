@@ -75,6 +75,7 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion Dev - SAE Suivi Colis</title>
+    <link rel="icon" type="image/png" href="/assets/img/logo-iutv.png">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 

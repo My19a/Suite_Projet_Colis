@@ -22,7 +22,7 @@ class DirecteurController {
 
         require __DIR__ . "/../views/directeur-iut/dashboard.php";
     }
-
+//
 
     public function signerDevis() {
 

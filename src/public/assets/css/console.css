@@ -106,11 +106,6 @@
     padding: 9px 13px;
     background: var(--princ-fonce);
 }
-.editeur-barre .pastilles { display: flex; gap: 6px; }
-.editeur-barre .pastilles span { width: 10px; height: 10px; border-radius: 50%; opacity: .9; }
-.pastille-r { background: #ff5f56; }
-.pastille-j { background: #ffbd2e; }
-.pastille-v { background: #27c93f; }
 .editeur-barre .titre {
     color: #fff;
     font-size: 12px;

@@ -53,7 +53,6 @@ require __DIR__ . '/../partials/header.php';
 
         <div class="editeur">
             <div class="editeur-barre">
-                <span class="pastilles"><span class="pastille-r"></span><span class="pastille-j"></span><span class="pastille-v"></span></span>
                 <span class="titre"><?= icone('console', 14) ?> Requête SQL</span>
             </div>
             <textarea id="sql-input" class="editeur-zone" spellcheck="false"

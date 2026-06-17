@@ -203,6 +203,8 @@ $router->post('/admin/supprimer-departement', 'AdminController', 'supprimerDepar
 $router->get('/admin/devis', 'AdminController', 'devis');
 $router->get('/admin/commandes', 'AdminController', 'commandes');
 $router->get('/admin/colis', 'AdminController', 'colis');
+$router->get('/admin/console', 'AdminController', 'console');
+$router->post('/admin/console/executer', 'AdminController', 'executerSql');
 
 // ===== TICKETS / ASSISTANCE =====
 $router->get('/tickets', 'TicketController', 'index');

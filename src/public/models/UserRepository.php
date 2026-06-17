@@ -70,14 +70,12 @@ class UserRepository
 
         $roleMap = [
             'admin' => 1,
-            'postal_iut' => 2,
-            'postal_univ' => 3,
-            'finance' => 4,
-            'directeur' => 5,
-            'departement' => 6,
+            'responsable_colis' => 2,
+            'demandeur' => 3,
+            'editeur_bc' => 4,
         ];
 
-        $roleId = $roleMap[$role] ?? 6;
+        $roleId = $roleMap[$role] ?? 3;
         $fullName = $casAttributes['displayName'] ?? $casAttributes['cn'] ?? $uid;
         $email = $casAttributes['mail'] ?? "{$uid}@univ-paris13.fr";
         $accessToken = $casAttributes['access_token'] ?? 'token_' . bin2hex(random_bytes(16));

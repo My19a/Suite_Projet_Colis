@@ -107,12 +107,10 @@ function joli(?string $texte): string
 function libelleRole(?string $role): string
 {
     $map = [
-        'admin'       => 'Administrateur',
-        'postal_iut'  => 'Postal IUT',
-        'postal_univ' => 'Postal Université',
-        'departement' => 'Département',
-        'finance'     => 'Service Financier',
-        'directeur'   => 'Directeur IUT',
+        'admin'             => 'Administrateur BD',
+        'responsable_colis' => 'Responsable colis',
+        'demandeur'         => 'Demandeur',
+        'editeur_bc'        => 'Éditeur de bons de commande',
     ];
     return $map[$role] ?? joli($role);
 }

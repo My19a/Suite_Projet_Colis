@@ -42,7 +42,7 @@ class AuthMiddleware
 
     private function createUserFromCas(CasUser $casUser): User
     {
-        $role = 'departement';
+        $role = 'demandeur';
         if (in_array($casUser->getLogin(), $this->config['admin_uids'] ?? [])) {
             $role = 'admin';
         }

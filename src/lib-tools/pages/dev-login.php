@@ -9,11 +9,9 @@ if (isset($_SESSION['user']) && $_SESSION['user'] instanceof User) {
     $role = $_SESSION['user']->getRole();
     $redirects = [
         'admin' => '/admin/dashboard',
-        'postal_iut' => '/postal/dashboard',
-        'postal_univ' => '/postal-univ/dashboard',
-        'finance' => '/finance/dashboard',
-        'directeur' => '/directeur/dashboard',
-        'departement' => '/departement/dashboard',
+        'responsable_colis' => '/postal/dashboard',
+        'demandeur' => '/departement/dashboard',
+        'editeur_bc' => '/finance/dashboard',
     ];
     header('Location: ' . ($redirects[$role] ?? '/postal/dashboard'));
     exit;
@@ -23,7 +21,7 @@ $error = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $uid = $_POST['uid'] ?? '';
-    $role = $_POST['role'] ?? 'departement';
+    $role = $_POST['role'] ?? 'demandeur';
 
     if (!empty($uid)) {
         $user = UserRepository::findByUidCas($uid);
@@ -41,11 +39,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $redirects = [
             'admin' => '/admin/dashboard',
-            'postal_iut' => '/postal/dashboard',
-            'postal_univ' => '/postal-univ/dashboard',
-            'finance' => '/finance/dashboard',
-            'directeur' => '/directeur/dashboard',
-            'departement' => '/departement/dashboard',
+            'responsable_colis' => '/postal/dashboard',
+            'demandeur' => '/departement/dashboard',
+            'editeur_bc' => '/finance/dashboard',
         ];
 
         header('Location: ' . ($redirects[$role] ?? '/'));
@@ -511,62 +507,40 @@ try {
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
                                     </svg>
                                 </div>
-                                <span class="role-name">Admin</span>
+                                <span class="role-name">Administrateur BD</span>
                             </label>
                         </div>
                         <div class="role-option">
-                            <input type="radio" name="role" value="postal_iut" id="role-postal">
-                            <label for="role-postal">
+                            <input type="radio" name="role" value="responsable_colis" id="role-responsable">
+                            <label for="role-responsable">
                                 <div class="role-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0-3-3m3 3 3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
                                     </svg>
                                 </div>
-                                <span class="role-name">Postal IUT</span>
+                                <span class="role-name">Responsable colis</span>
                             </label>
                         </div>
                         <div class="role-option">
-                            <input type="radio" name="role" value="postal_univ" id="role-postal-univ">
-                            <label for="role-postal-univ">
-                                <div class="role-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
-                                    </svg>
-                                </div>
-                                <span class="role-name">Postal Univ</span>
-                            </label>
-                        </div>
-                        <div class="role-option">
-                            <input type="radio" name="role" value="finance" id="role-finance">
-                            <label for="role-finance">
-                                <div class="role-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />
-                                    </svg>
-                                </div>
-                                <span class="role-name">Finance</span>
-                            </label>
-                        </div>
-                        <div class="role-option">
-                            <input type="radio" name="role" value="directeur" id="role-directeur">
-                            <label for="role-directeur">
-                                <div class="role-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
-                                    </svg>
-                                </div>
-                                <span class="role-name">Directeur</span>
-                            </label>
-                        </div>
-                        <div class="role-option">
-                            <input type="radio" name="role" value="departement" id="role-departement" checked>
-                            <label for="role-departement">
+                            <input type="radio" name="role" value="demandeur" id="role-demandeur" checked>
+                            <label for="role-demandeur">
                                 <div class="role-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z" />
                                     </svg>
                                 </div>
-                                <span class="role-name">Département</span>
+                                <span class="role-name">Demandeur</span>
+                            </label>
+                        </div>
+                        <div class="role-option">
+                            <input type="radio" name="role" value="editeur_bc" id="role-editeur">
+                            <label for="role-editeur">
+                                <div class="role-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />
+                                    </svg>
+                                </div>
+                                <span class="role-name">Éditeur de BC</span>
                             </label>
                         </div>
                     </div>

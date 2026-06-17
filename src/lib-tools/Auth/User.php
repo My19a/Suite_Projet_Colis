@@ -38,9 +38,7 @@ class User
 
     public function hasRole(string $role): bool { return $this->role === $role; }
     public function isAdmin(): bool { return $this->role === 'admin'; }
-    public function isPostalIut(): bool { return $this->role === 'postal_iut'; }
-    public function isPostalUniv(): bool { return $this->role === 'postal_univ'; }
-    public function isFinance(): bool { return $this->role === 'finance'; }
-    public function isDirecteur(): bool { return $this->role === 'directeur'; }
-    public function isDepartement(): bool { return $this->role === 'departement'; }
+    public function isResponsableColis(): bool { return $this->role === 'responsable_colis'; }
+    public function isDemandeur(): bool { return $this->role === 'demandeur'; }
+    public function isEditeurBc(): bool { return $this->role === 'editeur_bc'; }
 }

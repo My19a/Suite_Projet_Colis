@@ -22,25 +22,22 @@ $menusParRole = [
         ['/admin/colis', 'Colis', 'colis'],
         ['/tickets', 'Assistance', 'assistance'],
     ],
-    'postal_iut' => [
+    // Responsable colis = fusion Postal IUT + Postal Université
+    'responsable_colis' => [
         ['/postal/dashboard', 'Tableau de bord', 'tableau-bord'],
-        ['/postal/confirmation', 'Confirmation', 'confirmation'],
         ['/postal/colis/recus', 'Colis reçus', 'reception'],
         ['/postal/colis/remis', 'Colis remis', 'valide'],
+        ['/postal/colis/ajouter', 'Ajouter un colis', 'colis'],
         ['/postal/colis/recherche', 'Recherche', 'recherche'],
         ['/postal/colis/non-identifies', 'Non identifiés', 'alerte'],
-        ['/postal/colis/ajouter', 'Ajouter un colis', 'colis'],
-        ['/tickets', 'Assistance', 'assistance'],
-    ],
-    'postal_univ' => [
-        ['/postal-univ/dashboard', 'Tableau de bord', 'tableau-bord'],
-        ['/postal-univ/reception', 'Réception colis', 'reception'],
-        ['/postal-univ/colis', 'Liste colis', 'colis'],
-        ['/postal-univ/non-identifies', 'Non identifiés', 'alerte'],
+        ['/postal/confirmation', 'Confirmation', 'confirmation'],
+        ['/postal-univ/reception', 'Réception (université)', 'reception'],
+        ['/postal-univ/colis', 'Colis (université)', 'colis'],
         ['/postal-univ/historique', 'Historique', 'historique'],
         ['/tickets', 'Assistance', 'assistance'],
     ],
-    'departement' => [
+    // Demandeur = ancien Département
+    'demandeur' => [
         ['/departement/dashboard', 'Tableau de bord', 'tableau-bord'],
         ['/departement/creer-devis', 'Créer un devis', 'devis-plus'],
         ['/departement/mes-devis', 'Mes devis', 'devis'],
@@ -50,17 +47,13 @@ $menusParRole = [
         ['/departement/fournisseurs', 'Fournisseurs', 'fournisseurs'],
         ['/tickets', 'Assistance', 'assistance'],
     ],
-    'finance' => [
+    // Éditeur de bons de commande = fusion Finance + Directeur
+    'editeur_bc' => [
         ['/finance/dashboard', 'Tableau de bord', 'tableau-bord'],
         ['/finance/devis', 'Devis à vérifier', 'devis'],
+        ['/directeur/devis', 'Devis à signer', 'signature'],
         ['/finance/bons-commande', 'Bons de commande', 'commandes'],
         ['/finance/budgets', 'Budgets', 'budget'],
-        ['/tickets', 'Assistance', 'assistance'],
-    ],
-    'directeur' => [
-        ['/directeur/dashboard', 'Tableau de bord', 'tableau-bord'],
-        ['/directeur/devis', 'Devis à signer', 'signature'],
-        ['/directeur/bons-commande', 'Bons de commande', 'commandes'],
         ['/tickets', 'Assistance', 'assistance'],
     ],
 ];

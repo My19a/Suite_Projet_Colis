@@ -14,11 +14,9 @@ if (isset($_SESSION['user']) && $_SESSION['user'] instanceof User) {
     $role = $_SESSION['user']->getRole();
     $redirects = [
         'admin' => '/admin/dashboard',
-        'postal_iut' => '/postal/dashboard',
-        'postal_univ' => '/postal-univ/dashboard',
-        'finance' => '/finance/dashboard',
-        'directeur' => '/directeur/dashboard',
-        'departement' => '/departement/dashboard',
+        'responsable_colis' => '/postal/dashboard',
+        'demandeur' => '/departement/dashboard',
+        'editeur_bc' => '/finance/dashboard',
     ];
     header('Location: ' . ($redirects[$role] ?? '/'));
     exit;
@@ -38,7 +36,7 @@ if (isset($_GET['auth']) && $_GET['auth'] === 'cas') {
 
     $user = UserRepository::findByUidCas($casUser->getLogin());
     if (!$user) {
-        $role = in_array($casUser->getLogin(), $config['admin_uids'] ?? []) ? 'admin' : 'departement';
+        $role = in_array($casUser->getLogin(), $config['admin_uids'] ?? []) ? 'admin' : 'demandeur';
         $user = UserRepository::create($casUser->getLogin(), $casUser->getAttributes(), $role);
     }
 
@@ -47,11 +45,9 @@ if (isset($_GET['auth']) && $_GET['auth'] === 'cas') {
 
     $redirects = [
         'admin' => '/admin/dashboard',
-        'postal_iut' => '/postal/dashboard',
-        'postal_univ' => '/postal-univ/dashboard',
-        'finance' => '/finance/dashboard',
-        'directeur' => '/directeur/dashboard',
-        'departement' => '/departement/dashboard',
+        'responsable_colis' => '/postal/dashboard',
+        'demandeur' => '/departement/dashboard',
+        'editeur_bc' => '/finance/dashboard',
     ];
     header('Location: ' . ($redirects[$user->getRole()] ?? '/'));
     exit;

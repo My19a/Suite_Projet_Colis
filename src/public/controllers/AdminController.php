@@ -280,5 +280,40 @@ class AdminController {
         require __DIR__ . '/../views/admin/colis.php';
     }
 
-    
+    /* ===== CONSOLE SQL ===== */
+
+    // Affiche la console SQL (interface)
+    public function console() {
+        $tables = $this->model->getTablesBd();
+        require __DIR__ . '/../views/admin/console.php';
+    }
+
+    // Execute une requete SQL envoyee en AJAX et renvoie le resultat en JSON.
+    public function executerSql() {
+        header('Content-Type: application/json; charset=utf-8');
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            echo json_encode(['ok' => false, 'erreur' => 'Methode non autorisee']);
+            return;
+        }
+
+        $sql = trim($_POST['sql'] ?? '');
+
+        if ($sql === '') {
+            echo json_encode(['ok' => false, 'erreur' => 'Requête vide']);
+            return;
+        }
+
+        try {
+            $resultat = $this->model->executerSqlBrut($sql);
+            echo json_encode(array_merge(['ok' => true], $resultat));
+        } catch (\PDOException $e) {
+            echo json_encode([
+                'ok'     => false,
+                'erreur' => $e->getMessage(),
+                'code'   => $e->getCode(),
+            ]);
+        }
+    }
 }

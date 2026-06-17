@@ -44,7 +44,7 @@ require_once __DIR__ . '/controllers/DirecteurController.php';
 require_once __DIR__ . '/controllers/AdminController.php';
 require_once __DIR__ . '/controllers/TicketController.php';
 
-$publicRoutes = ['/', '/dev-login', '/login', '/logout'];
+$publicRoutes = ['/', '/dev-login', '/login', '/logout', '/accessibilite', '/mentions-legales'];
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 $currentUser = null;
@@ -62,6 +62,16 @@ if ($uri === '/logout' || $uri === '/logout.php') {
 
 if ($uri === '/login' || $uri === '/login.php') {
     require_once __DIR__ . '/../lib-tools/pages/login.php';
+    exit;
+}
+
+if ($uri === '/accessibilite') {
+    require __DIR__ . '/views/public/accessibilite.php';
+    exit;
+}
+
+if ($uri === '/mentions-legales') {
+    require __DIR__ . '/views/public/mentions-legales.php';
     exit;
 }
 

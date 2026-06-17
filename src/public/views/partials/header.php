@@ -84,7 +84,9 @@ $notifs = function_exists('ticketNotifsCount') ? ticketNotifsCount() : 0;
 
 <body class="app">
 
-<header class="navbar" id="navbar">
+<a class="lien-evitement" href="#contenu-principal">Aller au contenu principal</a>
+
+<header class="navbar" id="navbar" role="banner">
     <a class="navbar-marque" href="/">
         <span class="navbar-titre">Suivi Colis</span>
     </a>
@@ -101,7 +103,7 @@ $notifs = function_exists('ticketNotifsCount') ? ticketNotifsCount() : 0;
         <?= icone('menu', 20) ?>
     </button>
 
-    <nav class="navbar-menu">
+    <nav class="navbar-menu" aria-label="Navigation principale">
         <?php foreach ($menu as [$href, $libelle, $icn]): ?>
             <a href="<?= $href ?>"<?= $href === $lienActif ? ' class="actif"' : '' ?>>
                 <?= icone($icn, 15) ?><?= $libelle ?><?php if ($href === '/tickets' && $notifs > 0): ?><span class="notif-pastille"><?= $notifs ?></span><?php endif; ?>
@@ -110,4 +112,4 @@ $notifs = function_exists('ticketNotifsCount') ? ticketNotifsCount() : 0;
     </nav>
 </header>
 
-<main class="contenu">
+<main class="contenu" id="contenu-principal" role="main" tabindex="-1">

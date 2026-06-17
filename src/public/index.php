@@ -148,7 +148,14 @@ $router->get('/postal-univ/colis', 'PostalUnivController', 'listeColis');
 $router->get('/postal-univ/transferer', 'PostalUnivController', 'transfererColis');
 $router->get('/postal-univ/non-identifies', 'PostalUnivController', 'nonIdentifies');
 $router->get('/postal-univ/historique', 'PostalUnivController', 'historique');
+// Ajout route pour rechercher destinataire (OCR)
+$router->get('/postal-univ/rechercher-destinataire', 'PostalUnivController', 'rechercherDestinataire');
 
+
+$router->get('/postal/rechercher-destinataire',function () {(new PostalIutController())
+            ->rechercherDestinataire();
+    }
+);
 // ===== DEPARTEMENT =====
 $router->get('/departement', 'DepartementController', 'dashboard');
 $router->get('/departement/dashboard', 'DepartementController', 'dashboard');

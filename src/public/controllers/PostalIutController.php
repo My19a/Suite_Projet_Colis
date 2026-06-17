@@ -109,39 +109,58 @@ class PostalIutController {
         exit;
     }
 
-    public function ajouterColis() {
-        $message = null;
+    public function ajouterColis()
+{
+    $message = null;
 
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $num_bc      = trim($_POST["numero_bc"]);
-            $num_suivi   = trim($_POST["numero_suivi"] ?? "");
-            $commentaire = trim($_POST["commentaire"] ?? "");
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-            $bcInfo = $this->model->getBCInfo($num_bc);
+        $numeroBC = trim($_POST["numero_bc"] ?? "");
+        $numeroSuivi = trim($_POST["numero_suivi"] ?? "");
+        $commentaire = trim($_POST["commentaire"] ?? "");
 
-            if (!$bcInfo) {
-                $message = "Numéro de bon de commande introuvable.";
-            } else {
-                $data = [
-                    "bon_commande_id" => $bcInfo["id_bon_commande"],
-                    "numero_suivi"    => $num_suivi,
-                    "destinataire_id" => $bcInfo["destinataire_id"],
-                    "statut_id"       => 1,
-                    "commentaire"     => $commentaire
-                ];
+        $nomDestinataire = trim($_POST["nom_destinataire"] ?? "");
 
-                $ok = $this->model->insertColis($data);
+        $bcInfo = null;
 
-                if ($ok) {
-                    $message = "Colis ajouté avec succès.";
-                } else {
-                    $message = "Erreur lors de l'enregistrement du colis.";
-                }
+        if (!empty($numeroBC)) {
+            $bcInfo = $this->model->getBCInfo($numeroBC);
+        }
+
+        $destinataireId = null;
+
+        if (!empty($nomDestinataire)) {
+
+            $resultats =
+                $this->model->rechercherDestinataireParNom(
+                    $nomDestinataire
+                );
+
+            if (!empty($resultats)) {
+                $destinataireId =
+                    $resultats[0]['id_utilisateur'];
             }
         }
 
-        require __DIR__ . '/../views/postal-iut/ajouter-colis.php';
+        $data = [
+            "bon_commande_id" => $bcInfo["id_bon_commande"] ?? null,
+            "numero_suivi"    => $numeroSuivi,
+            "destinataire_id" => $destinataireId,
+            "commentaire"     => $commentaire,
+            "statut_id"       => $bcInfo ? 2 : 1
+        ];
+
+        $ok = $this->model->insertColis($data);
+
+        if ($ok) {
+            $message = "Colis enregistré avec succès.";
+        } else {
+            $message = "Erreur lors de l'enregistrement.";
+        }
     }
+
+    require __DIR__ . '/../views/postal-iut/ajouter-colis.php';
+}
 
     public function modifierColis() {
         $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
@@ -194,4 +213,16 @@ class PostalIutController {
         require __DIR__ . '/../views/postal-iut/historique.php';
     }
 
+    public function rechercherDestinataire()
+{
+    header('Content-Type: application/json');
+
+    $nom = $_GET['nom'] ?? '';
+
+    echo json_encode(
+        $this->model->rechercherDestinataireParNom($nom)
+    );
+
+    exit;
+}
 }

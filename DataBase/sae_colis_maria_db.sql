@@ -84,7 +84,7 @@ CREATE TABLE statut_colis (
 -- Table Colis
 CREATE TABLE colis (
     id_colis INT AUTO_INCREMENT PRIMARY KEY,
-    bon_commande_id INT NOT NULL,
+    bon_commande_id INT NULL,
     statut_id INT NOT NULL,
     numero_suivi VARCHAR(128),
     code_barres VARCHAR(128),

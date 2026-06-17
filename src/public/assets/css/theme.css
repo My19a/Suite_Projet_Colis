@@ -42,6 +42,7 @@ body.app { min-height: 100vh; display: flex; flex-direction: column; }
     position: sticky; top: 0; z-index: 100;
 }
 .navbar-marque { order: 1; display: flex; align-items: center; gap: 8px; text-decoration: none; flex-shrink: 0; }
+.navbar-logo { width: 24px; height: 24px; object-fit: contain; flex-shrink: 0; }
 .navbar-titre { font-size: 14px; font-weight: 700; color: var(--princ); letter-spacing: -0.2px; white-space: nowrap; }
 .navbar-menu { order: 2; display: flex; align-items: stretch; flex: 1; overflow-x: auto; }
 .navbar-menu a {

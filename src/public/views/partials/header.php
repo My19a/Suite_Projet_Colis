@@ -88,6 +88,7 @@ $notifs = function_exists('ticketNotifsCount') ? ticketNotifsCount() : 0;
 
 <header class="navbar" id="navbar" role="banner">
     <a class="navbar-marque" href="/">
+        <img class="navbar-logo" src="/assets/img/logo-colis.png" alt="">
         <span class="navbar-titre">Suivi Colis</span>
     </a>
 

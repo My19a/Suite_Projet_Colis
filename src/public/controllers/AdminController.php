@@ -7,8 +7,10 @@ class AdminController {
     private $model;
 
     public function __construct() {
+
         $this->model = new AdminModels();
-    }
+    
+        }
 
     public function dashboard() {
 
@@ -23,7 +25,7 @@ class AdminController {
         ];
 
         $roles = $this->model->countUtilisateursParRole();
-
+//
         // Aperçus pour les cartes du tableau de bord
         $apercuUtilisateurs = $this->model->getDerniersUtilisateurs(5);
         $apercuDepartements = $this->model->getApercuDepartements(5);
@@ -55,8 +57,10 @@ class AdminController {
             exit;
         }
 
+
         $roles        = $this->model->getRoles();
         $departements = $this->model->getDepartements();
+
 
         require __DIR__ . '/../views/admin/ajouter-utilisateur.php';
     }
@@ -94,6 +98,7 @@ class AdminController {
             die("Accès invalide");
         }
 
+
         try {
             $this->model->supprimerUtilisateur($_POST["id_utilisateur"]);
             header("Location: /admin/utilisateurs?deleted=1");
@@ -107,7 +112,8 @@ class AdminController {
     public function fournisseurs() {
         $fournisseurs = $this->model->getFournisseurs();
         require __DIR__ . '/../views/admin/fournisseurs.php';
-    }
+  //
+        }
 
     // Ajouter
     public function ajouterFournisseur() {

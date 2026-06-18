@@ -16,6 +16,7 @@ $menusParRole = [
     'admin' => [
         ['/admin/dashboard', 'Tableau de bord', 'tableau-bord'],
         ['/admin/utilisateurs', 'Utilisateurs', 'utilisateurs'],
+        ['/presence', 'Connectés', 'utilisateurs'],
         ['/admin/departements', 'Départements', 'departements'],
         ['/admin/fournisseurs', 'Fournisseurs', 'fournisseurs'],
         ['/admin/devis', 'Devis', 'devis'],

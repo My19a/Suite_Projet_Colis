@@ -40,6 +40,7 @@ services:
       - sae_db_data:/var/lib/mysql
       - ./DataBase/sae_colis_maria_db.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
       - ./DataBase/migrations/2026_06_tickets.sql:/docker-entrypoint-initdb.d/02-tickets.sql:ro
+      - ./DataBase/migrations/2026_06_presence.sql:/docker-entrypoint-initdb.d/03-presence.sql:ro
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 5s

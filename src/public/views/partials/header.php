@@ -10,7 +10,7 @@
 
 $utilisateurConnecte = $_SESSION['user'] ?? null;
 $role = $utilisateurConnecte ? $utilisateurConnecte->getRole() : '';
-
+//fix
 // [href, libellé, icône]
 $menusParRole = [
     'admin' => [

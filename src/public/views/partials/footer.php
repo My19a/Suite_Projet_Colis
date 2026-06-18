@@ -3,7 +3,7 @@
  * Pied de page commun à toutes les vues.
  *
  * Variables optionnelles (à définir avant le require) :
- *   $avecTutoriel (bool) : inclut le pop-up tutoriel (pages dashboard)
+ * $avecTutoriel (bool) : inclut le pop-up tutoriel (pages dashboard)
  */
 ?>
 </main>
@@ -17,3 +17,13 @@
 <?php if (!empty($avecTutoriel)) require __DIR__ . '/tutoriel.php'; ?>
 </body>
 </html>
+
+<?php 
+// Sécurité pour cibler le dossier partials qui est dans views/
+if (file_exists(__DIR__ . '/partials/chatbot.php')) {
+    include __DIR__ . '/partials/chatbot.php';
+} else {
+    // Si votre footer est dans un sous-dossier (ex: views/admin/footer.php), on remonte d'un cran
+    include __DIR__ . '/../partials/chatbot.php';
+}
+?>

@@ -6,7 +6,13 @@ require_once __DIR__ . '/../lib-tools/Auth/User.php';
 // Charger le .env avec phpdotenv (createUnsafeImmutable pour que getenv() fonctionne)
 $dotenv = Dotenv\Dotenv::createUnsafeImmutable(__DIR__ . '/..');
 $dotenv->safeLoad();
-
+// Interception par paramètre URL (Infaillible avec Apache/Docker)
+if (isset($_GET['action']) && $_GET['action'] === 'gemini_chatbot') {
+    require_once __DIR__ . '/controllers/ChatbotController.php';
+    $chatbot = new ChatbotController();
+    $chatbot->handle();
+    exit;
+}
 $config = require __DIR__ . '/../config/app.php';
 
 if ($config['env'] === 'development') {
@@ -44,7 +50,7 @@ require_once __DIR__ . '/controllers/DirecteurController.php';
 require_once __DIR__ . '/controllers/AdminController.php';
 require_once __DIR__ . '/controllers/TicketController.php';
 
-$publicRoutes = ['/', '/dev-login', '/login', '/logout'];
+$publicRoutes = ['/', '/dev-login', '/login', '/logout', '/api/chatbot'];
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 $currentUser = null;
@@ -211,18 +217,20 @@ $router->post('/tickets/creer', 'TicketController', 'creer');
 $router->get('/tickets/:id', 'TicketController', 'detail');
 $router->post('/tickets/:id/message', 'TicketController', 'repondre');
 $router->post('/tickets/:id/statut', 'TicketController', 'changerStatut');
+$router->post('/api/chatbot', 'ChatbotController', 'handle');
 
 try {
     $method = $_SERVER['REQUEST_METHOD'];
     $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-    if ($currentUser && !in_array($uri, $publicRoutes)) {
-        if (!AuthorizationMiddleware::check($uri, $currentUser)) {
-            http_response_code(403);
-            require_once __DIR__ . '/../lib-tools/pages/errors/403.php';
-            exit;
-        }
+   // NOUVEAU CODE
+if ($currentUser && !in_array($uri, $publicRoutes) && $uri !== '/api/chatbot') {
+    if (!AuthorizationMiddleware::check($uri, $currentUser)) {
+        http_response_code(403);
+        require_once __DIR__ . '/../lib-tools/pages/errors/403.php';
+        exit;
     }
+}
 
     [$controllerClass, $methodName, $params] = $router->dispatch($method, $uri);
 

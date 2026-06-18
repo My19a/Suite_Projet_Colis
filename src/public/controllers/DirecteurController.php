@@ -9,7 +9,7 @@ class DirecteurController {
     public function __construct() {
         $this->model = new DirecteurModels();
     }
-
+//
     public function dashboard() {
 
         $stats = [

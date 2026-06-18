@@ -46,54 +46,56 @@ class PostalUnivModels {
 
     public function ajouterColisUniversite($data) {
 
-        // 1️⃣ Trouver le bon de commande
-        $req = $this->db->prepare("
-            SELECT id_bon_commande
-            FROM bon_commande
-            WHERE numero_commande = ?
-        ");
-        $req->execute([$data["numero_commande"]]);
-        $bc = $req->fetch(PDO::FETCH_ASSOC);
+    $req = $this->db->prepare("
+        SELECT id_bon_commande
+        FROM bon_commande
+        WHERE numero_commande = ?
+    ");
+    $req->execute([$data["numero_commande"]]);
+    $bc = $req->fetch(PDO::FETCH_ASSOC);
 
-        // 2️⃣ Si BC introuvable → NON IDENTIFIÉ
-        if (!$bc) {
-            $sql = "
-                INSERT INTO colis (
-                    bon_commande_id,
-                    numero_suivi,
-                    date_reception,
-                    statut_id,
-                    commentaire
-                )
-                VALUES (NULL, ?, NOW(), 3, ?)
-            ";
-
-            $req = $this->db->prepare($sql);
-            return $req->execute([
-                $data["numero_suivi"],
-                $data["commentaire"]
-            ]);
-        }
-
-        // 3️⃣ Sinon → reçu à l’université
+    if (!$bc) {
         $sql = "
             INSERT INTO colis (
                 bon_commande_id,
                 numero_suivi,
                 date_reception,
                 statut_id,
-                commentaire
+                commentaire,
+                destinataire_id
             )
-            VALUES (?, ?, NOW(), 1, ?)
+            VALUES (NULL, ?, NOW(), 3, ?, ?)
         ";
-
         $req = $this->db->prepare($sql);
-        return $req->execute([
-            $bc["id_bon_commande"],
+        $req->execute([
             $data["numero_suivi"],
-            $data["commentaire"]
+            $data["commentaire"],
+            $data["destinataire_id"]
         ]);
+        return $this->db->lastInsertId();
     }
+
+    $sql = "
+        INSERT INTO colis (
+            bon_commande_id,
+            numero_suivi,
+            date_reception,
+            statut_id,
+            commentaire,
+            destinataire_id
+        )
+        VALUES (?, ?, NOW(), 1, ?, ?)
+    ";
+    $req = $this->db->prepare($sql);
+    $req->execute([
+        $bc["id_bon_commande"],
+        $data["numero_suivi"],
+        $data["commentaire"],
+        $data["destinataire_id"]
+    ]);
+    return $this->db->lastInsertId();
+
+}
 
 
     public function getTousLesColis() {
@@ -167,5 +169,50 @@ class PostalUnivModels {
 
         return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
+
+
+    public function rechercherDestinataireParNom($texte_ocr) {
+    $texte_normalise = strtoupper(preg_replace('/\s+/', '', $texte_ocr));
+    
+    $utilisateurs = $this->db->query("
+        SELECT id_utilisateur, fullName, departement_id
+        FROM utilisateur
+    ")->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($utilisateurs as $u) {
+        $nom_normalise = strtoupper(preg_replace('/\s+/', '', $u["fullName"]));
+        $parties = explode(' ', strtoupper($u["fullName"]));
+        $nom_inverse = strtoupper(implode('', array_reverse($parties)));
+
+        if (str_contains($texte_normalise, $nom_normalise) || 
+            str_contains($texte_normalise, $nom_inverse)) {
+            return $u;
+        }
+    }
+    return null;
+}
+
+public function ajouterHistorique($data) {
+    $sql = "
+        INSERT INTO historique_colis (
+            id_colis,
+            action,
+            utilisateur
+        )
+        VALUES (?, ?, ?)
+    ";
+    $req = $this->db->prepare($sql);
+    return $req->execute([
+        $data["colis_id"],
+        $data["action"],
+        $data["utilisateur"]
+    ]);
+}
+
+public function getDepartementNom($id) {
+    $req = $this->db->prepare("SELECT nom FROM departement WHERE id_departement = ?");
+    $req->execute([$id]);
+    return $req->fetchColumn() ?? "Inconnu";
+}
 
 }

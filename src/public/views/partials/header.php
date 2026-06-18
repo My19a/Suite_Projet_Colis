@@ -16,6 +16,7 @@ $menusParRole = [
     'admin' => [
         ['/admin/dashboard', 'Tableau de bord', 'tableau-bord'],
         ['/admin/utilisateurs', 'Utilisateurs', 'utilisateurs'],
+        ['/presence', 'Connectés', 'utilisateurs'],
         ['/admin/departements', 'Départements', 'departements'],
         ['/admin/fournisseurs', 'Fournisseurs', 'fournisseurs'],
         ['/admin/devis', 'Devis', 'devis'],
@@ -30,6 +31,7 @@ $menusParRole = [
         ['/postal/colis/remis', 'Colis remis', 'valide'],
         ['/postal/colis/recherche', 'Recherche', 'recherche'],
         ['/postal/colis/non-identifies', 'Non identifiés', 'alerte'],
+        ['/postal/colis/ajouter', 'Ajouter un colis', 'colis'],
         ['/tickets', 'Assistance', 'assistance'],
     ],
     'postal_univ' => [
@@ -84,8 +86,11 @@ $notifs = function_exists('ticketNotifsCount') ? ticketNotifsCount() : 0;
 
 <body class="app">
 
-<header class="navbar" id="navbar">
+<a class="lien-evitement" href="#contenu-principal">Aller au contenu principal</a>
+
+<header class="navbar" id="navbar" role="banner">
     <a class="navbar-marque" href="/">
+        <img class="navbar-logo" src="/assets/img/logo-colis.png" alt="">
         <span class="navbar-titre">Suivi Colis</span>
     </a>
 
@@ -101,7 +106,7 @@ $notifs = function_exists('ticketNotifsCount') ? ticketNotifsCount() : 0;
         <?= icone('menu', 20) ?>
     </button>
 
-    <nav class="navbar-menu">
+    <nav class="navbar-menu" aria-label="Navigation principale">
         <?php foreach ($menu as [$href, $libelle, $icn]): ?>
             <a href="<?= $href ?>"<?= $href === $lienActif ? ' class="actif"' : '' ?>>
                 <?= icone($icn, 15) ?><?= $libelle ?><?php if ($href === '/tickets' && $notifs > 0): ?><span class="notif-pastille"><?= $notifs ?></span><?php endif; ?>
@@ -110,4 +115,4 @@ $notifs = function_exists('ticketNotifsCount') ? ticketNotifsCount() : 0;
     </nav>
 </header>
 
-<main class="contenu">
+<main class="contenu" id="contenu-principal" role="main" tabindex="-1">

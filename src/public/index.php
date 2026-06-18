@@ -43,8 +43,10 @@ require_once __DIR__ . '/controllers/FinanceController.php';
 require_once __DIR__ . '/controllers/DirecteurController.php';
 require_once __DIR__ . '/controllers/AdminController.php';
 require_once __DIR__ . '/controllers/TicketController.php';
+require_once __DIR__ . '/controllers/PresenceController.php';
+require_once __DIR__ . '/models/PresenceModel.php';
 
-$publicRoutes = ['/', '/dev-login', '/login', '/logout'];
+$publicRoutes = ['/', '/dev-login', '/login', '/logout', '/accessibilite', '/mentions-legales'];
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 $currentUser = null;
@@ -62,6 +64,16 @@ if ($uri === '/logout' || $uri === '/logout.php') {
 
 if ($uri === '/login' || $uri === '/login.php') {
     require_once __DIR__ . '/../lib-tools/pages/login.php';
+    exit;
+}
+
+if ($uri === '/accessibilite') {
+    require __DIR__ . '/views/public/accessibilite.php';
+    exit;
+}
+
+if ($uri === '/mentions-legales') {
+    require __DIR__ . '/views/public/mentions-legales.php';
     exit;
 }
 
@@ -87,6 +99,15 @@ if (!in_array($uri, $publicRoutes)) {
         }
     } else {
         $currentUser = $_SESSION['user'];
+    }
+}
+
+// Suivi de presence de l'utilisateur connecte (page "Utilisateurs connectes")
+if ($currentUser) {
+    try {
+        (new PresenceModel())->marquerActivite($currentUser->getId());
+    } catch (\Throwable $e) {
+        // La presence ne doit jamais casser la page
     }
 }
 
@@ -148,7 +169,14 @@ $router->get('/postal-univ/colis', 'PostalUnivController', 'listeColis');
 $router->get('/postal-univ/transferer', 'PostalUnivController', 'transfererColis');
 $router->get('/postal-univ/non-identifies', 'PostalUnivController', 'nonIdentifies');
 $router->get('/postal-univ/historique', 'PostalUnivController', 'historique');
+// Ajout route pour rechercher destinataire (OCR)
+$router->get('/postal-univ/rechercher-destinataire', 'PostalUnivController', 'rechercherDestinataire');
 
+
+$router->get('/postal/rechercher-destinataire',function () {(new PostalIutController())
+            ->rechercherDestinataire();
+    }
+);
 // ===== DEPARTEMENT =====
 $router->get('/departement', 'DepartementController', 'dashboard');
 $router->get('/departement/dashboard', 'DepartementController', 'dashboard');
@@ -213,6 +241,9 @@ $router->post('/tickets/creer', 'TicketController', 'creer');
 $router->get('/tickets/:id', 'TicketController', 'detail');
 $router->post('/tickets/:id/message', 'TicketController', 'repondre');
 $router->post('/tickets/:id/statut', 'TicketController', 'changerStatut');
+
+// ===== PRESENCE / UTILISATEURS CONNECTES =====
+$router->get('/presence', 'PresenceController', 'index');
 
 try {
     $method = $_SERVER['REQUEST_METHOD'];

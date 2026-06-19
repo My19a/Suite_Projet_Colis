@@ -16,10 +16,12 @@ $menusParRole = [
     'admin' => [
         ['/admin/dashboard', 'Tableau de bord', 'tableau-bord'],
         ['/admin/utilisateurs', 'Utilisateurs', 'utilisateurs'],
+        ['/presence', 'Connectés', 'utilisateurs'],
         ['/admin/departements', 'Départements', 'departements'],
         ['/admin/fournisseurs', 'Fournisseurs', 'fournisseurs'],
         ['/admin/devis', 'Devis', 'devis'],
         ['/admin/colis', 'Colis', 'colis'],
+        ['/admin/console', 'Console SQL', 'console'],
         ['/tickets', 'Assistance', 'assistance'],
     ],
     // Responsable colis = fusion Postal IUT + Postal Université
@@ -81,6 +83,7 @@ $notifs = function_exists('ticketNotifsCount') ? ticketNotifsCount() : 0;
 
 <header class="navbar" id="navbar" role="banner">
     <a class="navbar-marque" href="/">
+        <img class="navbar-logo" src="/assets/img/logo-colis.png" alt="">
         <span class="navbar-titre">Suivi Colis</span>
     </a>
 

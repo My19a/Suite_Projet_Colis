@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../Auth/User.php';
 require_once __DIR__ . '/../bootstrap.php';
+require_once __DIR__ . '/../Helpers/helpers.php';
 require_once __DIR__ . '/../../public/models/Model.php';
 require_once __DIR__ . '/../../public/models/UserRepository.php';
 
@@ -64,517 +65,140 @@ try {
 } catch (Exception $e) {
     // Silently fail if DB not available
 }
+
+// Rôles proposés : [valeur, libellé, icône du site]
+$rolesDispo = [
+    ['admin',             'Administrateur BD', 'utilisateurs'],
+    ['responsable_colis', 'Responsable colis', 'reception'],
+    ['demandeur',         'Demandeur',         'departements'],
+    ['editeur_bc',        'Éditeur de BC',     'budget'],
+];
 ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion Dev - SAE Suivi Colis</title>
+    <title>Connexion (dev) – Suivi Colis</title>
+    <link rel="stylesheet" href="/assets/css/theme.css">
     <style>
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        .page-auth { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+        .auth-box { width: 100%; max-width: 420px; }
+        .auth-marque { text-align: center; margin-bottom: 18px; }
+        .auth-logo { margin: 0 auto 8px; display: flex; justify-content: center; }
+        .auth-logo img { width: 72px; height: 72px; object-fit: contain; }
+        .auth-titre { font-size: 21px; font-weight: 650; color: var(--princ); letter-spacing: -0.3px; }
+        .auth-sous { font-size: 12.5px; color: var(--texte-doux); margin-top: 2px; }
+        .auth-carte { background: var(--surface); border: 1px solid var(--bord); border-radius: var(--r); padding: 22px; }
 
-        :root {
-            --bg: #f8fafc;
-            --bg-card: #ffffff;
-            --text: #0f172a;
-            --text-secondary: #64748b;
-            --text-muted: #94a3b8;
-            --border: #e2e8f0;
-            --border-light: #cbd5e1;
-            --blue: #2563eb;
-            --blue-light: #3b82f6;
-            --blue-dark: #1d4ed8;
-            --blue-bg: #eff6ff;
-            --warning-bg: #fef3c7;
-            --warning-border: #fbbf24;
-            --warning-text: #92400e;
+        .auth-roles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .auth-role input { position: absolute; opacity: 0; pointer-events: none; }
+        .auth-role label {
+            display: flex; flex-direction: column; align-items: center; gap: 7px;
+            padding: 12px 6px; background: var(--surface); border: 1px solid var(--bord);
+            border-radius: var(--r); cursor: pointer; text-align: center;
+            transition: border-color .1s ease, background-color .1s ease;
         }
-
-        body {
-            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-            -webkit-font-smoothing: antialiased;
-            position: relative;
+        .auth-role label:hover { border-color: var(--accent); }
+        .auth-role input:checked + label { border-color: var(--princ); background: var(--princ-doux); }
+        .auth-role input:focus-visible + label { outline: 2px solid var(--princ); outline-offset: 2px; }
+        .auth-role-icone {
+            width: 30px; height: 30px; border-radius: var(--r);
+            background: var(--accent-doux); color: var(--princ);
+            display: flex; align-items: center; justify-content: center;
         }
+        .auth-role input:checked + label .auth-role-icone { background: var(--princ); color: #fff; }
+        .auth-role-nom { font-size: 11.5px; font-weight: 500; color: var(--texte-doux); }
+        .auth-role input:checked + label .auth-role-nom { color: var(--princ); font-weight: 600; }
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: url('/assets/img/campus-iut.jpg');
-            background-size: cover;
-            background-position: center;
-            pointer-events: none;
+        .auth-sep { display: flex; align-items: center; gap: 12px; margin: 20px 0 12px; color: var(--texte-leger); font-size: 12px; }
+        .auth-sep::before, .auth-sep::after { content: ""; flex: 1; height: 1px; background: var(--bord-doux); }
+        .auth-users { max-height: 220px; overflow-y: auto; border: 1px solid var(--bord); border-radius: var(--r); }
+        .auth-user-form { display: block; }
+        .auth-user {
+            display: flex; align-items: center; gap: 11px; width: 100%;
+            padding: 10px 12px; background: transparent; border: none;
+            border-bottom: 1px solid var(--bord-doux); cursor: pointer; text-align: left;
+            transition: background-color .1s ease;
         }
-
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(135deg, rgba(37, 99, 235, 0.85) 0%, rgba(147, 197, 253, 0.75) 50%, rgba(219, 234, 254, 0.9) 100%);
-            pointer-events: none;
+        .auth-user-form:last-child .auth-user { border-bottom: none; }
+        .auth-user:hover { background: var(--princ-doux); }
+        .auth-user-avatar {
+            width: 32px; height: 32px; border-radius: var(--rond);
+            background: var(--accent-doux); color: var(--princ);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; font-weight: 600; flex-shrink: 0;
         }
-
-        .login-wrapper {
-            width: 100%;
-            max-width: 420px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .logo {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-
-        .logo-icon {
-            width: 72px;
-            height: 72px;
-            margin: 0 auto 20px;
-            position: relative;
-        }
-
-        .logo-icon::before {
-            content: '';
-            position: absolute;
-            inset: -4px;
-            background: linear-gradient(135deg, var(--blue), var(--blue-light));
-            border-radius: 22px;
-            opacity: 0.2;
-            filter: blur(12px);
-        }
-
-        .logo-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            background: var(--bg-card);
-            border-radius: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid var(--border);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            overflow: hidden;
-        }
-
-        .logo-inner img {
-            width: 56px;
-            height: 56px;
-            object-fit: contain;
-        }
-
-        .logo h1 {
-            font-size: 28px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            margin-bottom: 4px;
-        }
-
-        .logo p {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 28px;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
-        }
-
-        .warning-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--warning-bg);
-            border: 1px solid var(--warning-border);
-            color: var(--warning-text);
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 24px;
-        }
-
-        .warning-badge svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--text);
-        }
-
-        .input-wrapper {
-            position: relative;
-        }
-
-        .input-wrapper svg {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 18px;
-            height: 18px;
-            stroke: var(--text-muted);
-            pointer-events: none;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 14px 14px 14px 44px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            color: var(--text);
-            font-size: 14px;
-            transition: all 0.2s ease;
-        }
-
-        input[type="text"]:focus {
-            outline: none;
-            border-color: var(--blue);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        input[type="text"]::placeholder {
-            color: var(--text-muted);
-        }
-
-        .role-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        .role-option {
-            position: relative;
-        }
-
-        .role-option input {
-            position: absolute;
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .role-option label {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            padding: 14px 10px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: center;
-        }
-
-        .role-option label:hover {
-            border-color: var(--border-light);
-            background: var(--blue-bg);
-        }
-
-        .role-option input:checked + label {
-            border-color: var(--blue);
-            background: var(--blue-bg);
-        }
-
-        .role-option .role-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .role-option input:checked + label .role-icon {
-            background: var(--blue);
-            border-color: var(--blue);
-        }
-
-        .role-option .role-icon svg {
-            width: 18px;
-            height: 18px;
-            stroke: var(--text-secondary);
-        }
-
-        .role-option input:checked + label .role-icon svg {
-            stroke: white;
-        }
-
-        .role-option .role-name {
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--text-secondary);
-        }
-
-        .role-option input:checked + label .role-name {
-            color: var(--blue);
-            font-weight: 600;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 14px;
-            background: var(--blue);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            margin-top: 8px;
-        }
-
-        .submit-btn:hover {
-            background: var(--blue-dark);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
-        }
-
-        .divider {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin: 24px 0;
-            color: var(--text-muted);
-            font-size: 12px;
-        }
-
-        .divider::before, .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border);
-        }
-
-        .existing-users {
-            max-height: 200px;
-            overflow-y: auto;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            background: var(--bg);
-        }
-
-        .user-item {
-            display: block;
-            width: 100%;
-            padding: 0;
-            margin: 0;
-            border: none;
-            background: transparent;
-        }
-
-        .user-btn {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            width: 100%;
-            padding: 12px 14px;
-            background: transparent;
-            border: none;
-            border-bottom: 1px solid var(--border);
-            cursor: pointer;
-            text-align: left;
-            transition: all 0.15s ease;
-        }
-
-        .user-btn:last-child { border-bottom: none; }
-        .user-btn:hover { background: var(--blue-bg); }
-
-        .user-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, var(--blue) 0%, var(--blue-light) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-            font-weight: 600;
-            color: white;
-            flex-shrink: 0;
-        }
-
-        .user-info { flex: 1; min-width: 0; }
-
-        .user-name {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .user-role {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-
-        .user-arrow {
-            width: 16px;
-            height: 16px;
-            stroke: var(--text-muted);
-            flex-shrink: 0;
-        }
-
-        .error-message {
-            background: #fef2f2;
-            border: 1px solid #fecaca;
-            color: #dc2626;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 24px;
-            color: black;
-            font-size: 12px;
-        }
+        .auth-user-info { flex: 1; min-width: 0; }
+        .auth-user-nom { font-size: 13px; font-weight: 500; color: var(--texte); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .auth-user-role { font-size: 11.5px; color: var(--texte-leger); }
+        .auth-pied { text-align: center; margin-top: 16px; font-size: 11.5px; color: var(--texte-leger); }
     </style>
 </head>
-<body>
-    <div class="login-wrapper">
-        <div class="logo">
-            <div class="logo-icon">
-                <div class="logo-inner">
-                    <img src="/assets/img/logo-iutv.png" alt="IUT Villetaneuse">
-                </div>
-            </div>
-            <h1>SAE Suivi Colis</h1>
+<body class="page-auth">
+    <main class="auth-box">
+        <div class="auth-marque">
+            <div class="auth-logo"><img src="/assets/img/logo-colis.png" alt="Suivi Colis"></div>
+            <h1 class="auth-titre">Suivi Colis</h1>
+            <p class="auth-sous">Connexion de développement</p>
         </div>
 
-        <div class="card">
-            <div class="warning-badge">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
-                </svg>
-                Environnement de développement
+        <div class="auth-carte">
+            <div class="message message-attn" style="margin-bottom: 18px;">
+                <span class="message-corps">Environnement de développement — authentification simulée.</span>
             </div>
 
             <?php if ($error): ?>
-            <div class="error-message"><?= htmlspecialchars($error) ?></div>
+                <div class="message message-err" style="margin-bottom: 18px;">
+                    <span class="message-corps"><?= htmlspecialchars($error) ?></span>
+                </div>
             <?php endif; ?>
 
             <form method="POST">
                 <div class="champ">
-                    <label for="uid">Identifiant CAS fictive</label>
-                    <div class="input-wrapper">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                        </svg>
-                        <input type="text" id="uid" name="uid" placeholder="ex: jdupont" required autocomplete="off" autofocus>
-                    </div>
+                    <label class="etiquette" for="uid">Identifiant CAS (fictif)</label>
+                    <input type="text" id="uid" name="uid" class="saisie" placeholder="ex : jdupont" required autocomplete="off" autofocus>
                 </div>
 
                 <div class="champ">
-                    <label>Rôle</label>
-                    <div class="role-grid">
-                        <div class="role-option">
-                            <input type="radio" name="role" value="admin" id="role-admin">
-                            <label for="role-admin">
-                                <div class="role-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
-                                    </svg>
-                                </div>
-                                <span class="role-name">Administrateur BD</span>
-                            </label>
-                        </div>
-                        <div class="role-option">
-                            <input type="radio" name="role" value="responsable_colis" id="role-responsable">
-                            <label for="role-responsable">
-                                <div class="role-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0-3-3m3 3 3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
-                                    </svg>
-                                </div>
-                                <span class="role-name">Responsable colis</span>
-                            </label>
-                        </div>
-                        <div class="role-option">
-                            <input type="radio" name="role" value="demandeur" id="role-demandeur" checked>
-                            <label for="role-demandeur">
-                                <div class="role-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z" />
-                                    </svg>
-                                </div>
-                                <span class="role-name">Demandeur</span>
-                            </label>
-                        </div>
-                        <div class="role-option">
-                            <input type="radio" name="role" value="editeur_bc" id="role-editeur">
-                            <label for="role-editeur">
-                                <div class="role-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />
-                                    </svg>
-                                </div>
-                                <span class="role-name">Éditeur de BC</span>
-                            </label>
-                        </div>
+                    <label class="etiquette">Rôle</label>
+                    <div class="auth-roles">
+                        <?php foreach ($rolesDispo as [$valeur, $libelle, $icn]): ?>
+                            <div class="auth-role">
+                                <input type="radio" name="role" value="<?= $valeur ?>" id="role-<?= $valeur ?>" <?= $valeur === 'demandeur' ? 'checked' : '' ?>>
+                                <label for="role-<?= $valeur ?>">
+                                    <span class="auth-role-icone"><?= icone($icn, 17) ?></span>
+                                    <span class="auth-role-nom"><?= htmlspecialchars($libelle) ?></span>
+                                </label>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
 
-                <button type="submit" class="submit-btn">Se connecter</button>
+                <button type="submit" class="bouton bouton-principal" style="width: 100%; margin-top: 4px;">Se connecter</button>
             </form>
 
             <?php if (!empty($existingUsers)): ?>
-            <div class="divider">Utilisateurs existants</div>
-            <div class="existing-users">
-                <?php foreach ($existingUsers as $u): ?>
-                <form method="POST" class="user-item">
-                    <input type="hidden" name="uid" value="<?= htmlspecialchars($u['uid_cas']) ?>">
-                    <input type="hidden" name="role" value="<?= htmlspecialchars(strtolower(str_replace(' ', '_', $u['role']))) ?>">
-                    <button type="submit" class="user-btn">
-                        <div class="user-avatar"><?= strtoupper(substr($u['fullName'] ?? $u['uid_cas'], 0, 2)) ?></div>
-                        <div class="user-info">
-                            <div class="user-name"><?= htmlspecialchars($u['fullName'] ?? $u['uid_cas']) ?></div>
-                            <div class="user-role"><?= htmlspecialchars($u['role']) ?></div>
-                        </div>
-                        <svg class="user-arrow" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                        </svg>
-                    </button>
-                </form>
-                <?php endforeach; ?>
-            </div>
+                <div class="auth-sep">Utilisateurs existants</div>
+                <div class="auth-users">
+                    <?php foreach ($existingUsers as $u): ?>
+                        <form method="POST" class="auth-user-form">
+                            <input type="hidden" name="uid" value="<?= htmlspecialchars($u['uid_cas']) ?>">
+                            <input type="hidden" name="role" value="<?= htmlspecialchars(strtolower(str_replace(' ', '_', $u['role']))) ?>">
+                            <button type="submit" class="auth-user">
+                                <span class="auth-user-avatar"><?= strtoupper(substr($u['fullName'] ?? $u['uid_cas'], 0, 2)) ?></span>
+                                <span class="auth-user-info">
+                                    <span class="auth-user-nom"><?= htmlspecialchars($u['fullName'] ?? $u['uid_cas']) ?></span>
+                                    <span class="auth-user-role"><?= htmlspecialchars(libelleRole($u['role'])) ?></span>
+                                </span>
+                            </button>
+                        </form>
+                    <?php endforeach; ?>
+                </div>
             <?php endif; ?>
         </div>
 
-        <div class="footer">
-            <p>SAE Suivi Colis &middot; Sorbonne Universit&eacute;</p>
-        </div>
-    </div>
+        <p class="auth-pied">© <?= date('Y') ?> IUT de Villetaneuse — Suivi Colis</p>
+    </main>
 </body>
 </html>

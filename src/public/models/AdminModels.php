@@ -512,4 +512,62 @@ class AdminModels {
         ";
         return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    /* ===== CONSOLE SQL ===== */
+
+    // Liste de toutes les tables de la base, avec leur nombre de lignes.
+    public function getTablesBd() {
+        $tables = $this->db->query("SHOW TABLES")->fetchAll(PDO::FETCH_COLUMN);
+
+        $resultat = [];
+        foreach ($tables as $table) {
+            $nb = null;
+            try {
+                $nb = (int) $this->db
+                    ->query("SELECT COUNT(*) FROM `" . str_replace("`", "``", $table) . "`")
+                    ->fetchColumn();
+            } catch (\PDOException $e) {
+                // Vue ou table inaccessible : on garde null
+            }
+            $resultat[] = ["nom" => $table, "lignes" => $nb];
+        }
+        return $resultat;
+    }
+
+    // Execute une requete SQL brute (sans filtre) et renvoie un descriptif du resultat.
+    // Reservee a l'administrateur : aucune validation n'est appliquee.
+    public function executerSqlBrut($sql) {
+        $debut = microtime(true);
+        $stmt  = $this->db->query($sql);
+        $duree = round((microtime(true) - $debut) * 1000, 2);
+
+        // Une requete qui renvoie des colonnes (SELECT / SHOW / DESCRIBE / EXPLAIN...)
+        if ($stmt->columnCount() > 0) {
+            $lignes   = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $colonnes = !empty($lignes) ? array_keys($lignes[0]) : [];
+
+            // Cas d'une table vide : on recupere quand meme l'entete des colonnes
+            if (empty($colonnes)) {
+                for ($i = 0; $i < $stmt->columnCount(); $i++) {
+                    $meta = $stmt->getColumnMeta($i);
+                    $colonnes[] = $meta["name"] ?? ("col" . $i);
+                }
+            }
+
+            return [
+                "type"     => "resultset",
+                "colonnes" => $colonnes,
+                "lignes"   => $lignes,
+                "nbLignes" => count($lignes),
+                "duree"    => $duree,
+            ];
+        }
+
+        // Requete d'ecriture (INSERT / UPDATE / DELETE / DDL...)
+        return [
+            "type"       => "execution",
+            "nbAffectes" => $stmt->rowCount(),
+            "duree"      => $duree,
+        ];
+    }
 }

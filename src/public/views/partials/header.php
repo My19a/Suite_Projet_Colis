@@ -10,36 +10,36 @@
 
 $utilisateurConnecte = $_SESSION['user'] ?? null;
 $role = $utilisateurConnecte ? $utilisateurConnecte->getRole() : '';
-//fix
+
 // [href, libellé, icône]
 $menusParRole = [
     'admin' => [
         ['/admin/dashboard', 'Tableau de bord', 'tableau-bord'],
         ['/admin/utilisateurs', 'Utilisateurs', 'utilisateurs'],
+        ['/presence', 'Connectés', 'utilisateurs'],
         ['/admin/departements', 'Départements', 'departements'],
         ['/admin/fournisseurs', 'Fournisseurs', 'fournisseurs'],
         ['/admin/devis', 'Devis', 'devis'],
         ['/admin/colis', 'Colis', 'colis'],
+        ['/admin/console', 'Console SQL', 'console'],
         ['/tickets', 'Assistance', 'assistance'],
     ],
-    'postal_iut' => [
+    // Responsable colis = fusion Postal IUT + Postal Université
+    'responsable_colis' => [
         ['/postal/dashboard', 'Tableau de bord', 'tableau-bord'],
-        ['/postal/confirmation', 'Confirmation', 'confirmation'],
         ['/postal/colis/recus', 'Colis reçus', 'reception'],
         ['/postal/colis/remis', 'Colis remis', 'valide'],
+        ['/postal/colis/ajouter', 'Ajouter un colis', 'colis'],
         ['/postal/colis/recherche', 'Recherche', 'recherche'],
         ['/postal/colis/non-identifies', 'Non identifiés', 'alerte'],
-        ['/tickets', 'Assistance', 'assistance'],
-    ],
-    'postal_univ' => [
-        ['/postal-univ/dashboard', 'Tableau de bord', 'tableau-bord'],
-        ['/postal-univ/reception', 'Réception colis', 'reception'],
-        ['/postal-univ/colis', 'Liste colis', 'colis'],
-        ['/postal-univ/non-identifies', 'Non identifiés', 'alerte'],
+        ['/postal/confirmation', 'Confirmation', 'confirmation'],
+        ['/postal-univ/reception', 'Réception (université)', 'reception'],
+        ['/postal-univ/colis', 'Colis (université)', 'colis'],
         ['/postal-univ/historique', 'Historique', 'historique'],
         ['/tickets', 'Assistance', 'assistance'],
     ],
-    'departement' => [
+    // Demandeur = ancien Département
+    'demandeur' => [
         ['/departement/dashboard', 'Tableau de bord', 'tableau-bord'],
         ['/departement/creer-devis', 'Créer un devis', 'devis-plus'],
         ['/departement/mes-devis', 'Mes devis', 'devis'],
@@ -49,17 +49,13 @@ $menusParRole = [
         ['/departement/fournisseurs', 'Fournisseurs', 'fournisseurs'],
         ['/tickets', 'Assistance', 'assistance'],
     ],
-    'finance' => [
+    // Éditeur de bons de commande = fusion Finance + Directeur
+    'editeur_bc' => [
         ['/finance/dashboard', 'Tableau de bord', 'tableau-bord'],
         ['/finance/devis', 'Devis à vérifier', 'devis'],
+        ['/directeur/devis', 'Devis à signer', 'signature'],
         ['/finance/bons-commande', 'Bons de commande', 'commandes'],
         ['/finance/budgets', 'Budgets', 'budget'],
-        ['/tickets', 'Assistance', 'assistance'],
-    ],
-    'directeur' => [
-        ['/directeur/dashboard', 'Tableau de bord', 'tableau-bord'],
-        ['/directeur/devis', 'Devis à signer', 'signature'],
-        ['/directeur/bons-commande', 'Bons de commande', 'commandes'],
         ['/tickets', 'Assistance', 'assistance'],
     ],
 ];
@@ -75,7 +71,6 @@ $notifs = function_exists('ticketNotifsCount') ? ticketNotifsCount() : 0;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($titre ?? 'Suivi Colis') ?></title>
-    <link rel="icon" type="image/png" href="/assets/img/logo-iutv.png">
     <link rel="stylesheet" href="<?= asset('/assets/css/theme.css') ?>">
     <?php foreach ($feuillesDeStyle ?? [] as $feuille): ?>
     <link rel="stylesheet" href="<?= htmlspecialchars(asset($feuille)) ?>">
@@ -84,8 +79,11 @@ $notifs = function_exists('ticketNotifsCount') ? ticketNotifsCount() : 0;
 
 <body class="app">
 
-<header class="navbar" id="navbar">
+<a class="lien-evitement" href="#contenu-principal">Aller au contenu principal</a>
+
+<header class="navbar" id="navbar" role="banner">
     <a class="navbar-marque" href="/">
+        <img class="navbar-logo" src="/assets/img/logo-colis.png" alt="">
         <span class="navbar-titre">Suivi Colis</span>
     </a>
 
@@ -101,7 +99,7 @@ $notifs = function_exists('ticketNotifsCount') ? ticketNotifsCount() : 0;
         <?= icone('menu', 20) ?>
     </button>
 
-    <nav class="navbar-menu">
+    <nav class="navbar-menu" aria-label="Navigation principale">
         <?php foreach ($menu as [$href, $libelle, $icn]): ?>
             <a href="<?= $href ?>"<?= $href === $lienActif ? ' class="actif"' : '' ?>>
                 <?= icone($icn, 15) ?><?= $libelle ?><?php if ($href === '/tickets' && $notifs > 0): ?><span class="notif-pastille"><?= $notifs ?></span><?php endif; ?>
@@ -110,4 +108,4 @@ $notifs = function_exists('ticketNotifsCount') ? ticketNotifsCount() : 0;
     </nav>
 </header>
 
-<main class="contenu">
+<main class="contenu" id="contenu-principal" role="main" tabindex="-1">

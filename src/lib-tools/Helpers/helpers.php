@@ -107,12 +107,10 @@ function joli(?string $texte): string
 function libelleRole(?string $role): string
 {
     $map = [
-        'admin'       => 'Administrateur',
-        'postal_iut'  => 'Postal IUT',
-        'postal_univ' => 'Postal Université',
-        'departement' => 'Département',
-        'finance'     => 'Service Financier',
-        'directeur'   => 'Directeur IUT',
+        'admin'             => 'Administrateur BD',
+        'responsable_colis' => 'Responsable colis',
+        'demandeur'         => 'Demandeur',
+        'editeur_bc'        => 'Éditeur de bons de commande',
     ];
     return $map[$role] ?? joli($role);
 }
@@ -261,6 +259,8 @@ function icone(string $nom, int $taille = 16): string
         'liste'         => '<line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>',
         'batiment'      => '<rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>',
         'menu'          => '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>',
+        'console'       => '<polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>',
+        'base-donnees'  => '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>',
     ];
 
     if (!isset($traits[$nom])) return '';

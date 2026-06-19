@@ -8,9 +8,13 @@
 ?>
 </main>
 
-<footer class="pied-page">
+<footer class="pied-page" role="contentinfo" aria-label="Informations légales et accessibilité">
     <div class="pied-page-contenu">
-        <span>© <?= date('Y') ?> IUT de Villetaneuse — Suivi Colis</span>
+        <span class="pied-copyright">© <?= date('Y') ?> IUT de Villetaneuse — Suivi Colis</span>
+        <nav class="pied-liens" aria-label="Liens de bas de page">
+            <a href="/accessibilite">Accessibilité&nbsp;: partiellement conforme</a>
+            <a href="/mentions-legales">Mentions légales</a>
+        </nav>
     </div>
 </footer>
 

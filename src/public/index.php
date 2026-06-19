@@ -6,13 +6,7 @@ require_once __DIR__ . '/../lib-tools/Auth/User.php';
 // Charger le .env avec phpdotenv (createUnsafeImmutable pour que getenv() fonctionne)
 $dotenv = Dotenv\Dotenv::createUnsafeImmutable(__DIR__ . '/..');
 $dotenv->safeLoad();
-// Interception par paramètre URL (Infaillible avec Apache/Docker)
-if (isset($_GET['action']) && $_GET['action'] === 'gemini_chatbot') {
-    require_once __DIR__ . '/controllers/ChatbotController.php';
-    $chatbot = new ChatbotController();
-    $chatbot->handle();
-    exit;
-}
+
 $config = require __DIR__ . '/../config/app.php';
 
 if ($config['env'] === 'development') {
@@ -49,8 +43,10 @@ require_once __DIR__ . '/controllers/FinanceController.php';
 require_once __DIR__ . '/controllers/DirecteurController.php';
 require_once __DIR__ . '/controllers/AdminController.php';
 require_once __DIR__ . '/controllers/TicketController.php';
+require_once __DIR__ . '/controllers/PresenceController.php';
+require_once __DIR__ . '/models/PresenceModel.php';
 
-$publicRoutes = ['/', '/dev-login', '/login', '/logout', '/api/chatbot'];
+$publicRoutes = ['/', '/dev-login', '/login', '/logout', '/accessibilite', '/mentions-legales'];
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 $currentUser = null;
@@ -71,6 +67,16 @@ if ($uri === '/login' || $uri === '/login.php') {
     exit;
 }
 
+if ($uri === '/accessibilite') {
+    require __DIR__ . '/views/public/accessibilite.php';
+    exit;
+}
+
+if ($uri === '/mentions-legales') {
+    require __DIR__ . '/views/public/mentions-legales.php';
+    exit;
+}
+
 if (!in_array($uri, $publicRoutes)) {
     if (!isset($_SESSION['user']) || !($_SESSION['user'] instanceof User)) {
         if ($config['env'] === 'development') {
@@ -83,7 +89,7 @@ if (!in_array($uri, $publicRoutes)) {
 
             $user = UserRepository::findByUidCas($casUser->getLogin());
             if (!$user) {
-                $role = in_array($casUser->getLogin(), $config['admin_uids'] ?? []) ? 'admin' : 'departement';
+                $role = in_array($casUser->getLogin(), $config['admin_uids'] ?? []) ? 'admin' : 'demandeur';
                 $user = UserRepository::create($casUser->getLogin(), $casUser->getAttributes(), $role);
             }
 
@@ -93,6 +99,15 @@ if (!in_array($uri, $publicRoutes)) {
         }
     } else {
         $currentUser = $_SESSION['user'];
+    }
+}
+
+// Suivi de presence de l'utilisateur connecte (page "Utilisateurs connectes")
+if ($currentUser) {
+    try {
+        (new PresenceModel())->marquerActivite($currentUser->getId());
+    } catch (\Throwable $e) {
+        // La presence ne doit jamais casser la page
     }
 }
 
@@ -107,11 +122,9 @@ $router->get('/', function() use ($currentUser, $config) {
     }
     $redirects = [
         'admin' => '/admin/dashboard',
-        'postal_iut' => '/postal/dashboard',
-        'postal_univ' => '/postal-univ/dashboard',
-        'finance' => '/finance/dashboard',
-        'directeur' => '/directeur/dashboard',
-        'departement' => '/departement/dashboard',
+        'responsable_colis' => '/postal/dashboard',
+        'demandeur' => '/departement/dashboard',
+        'editeur_bc' => '/finance/dashboard',
     ];
     $url = $redirects[$currentUser->getRole()] ?? '/postal/dashboard';
     header('Location: ' . $url);
@@ -154,7 +167,14 @@ $router->get('/postal-univ/colis', 'PostalUnivController', 'listeColis');
 $router->get('/postal-univ/transferer', 'PostalUnivController', 'transfererColis');
 $router->get('/postal-univ/non-identifies', 'PostalUnivController', 'nonIdentifies');
 $router->get('/postal-univ/historique', 'PostalUnivController', 'historique');
+// Ajout route pour rechercher destinataire (OCR)
+$router->get('/postal-univ/rechercher-destinataire', 'PostalUnivController', 'rechercherDestinataire');
 
+
+$router->get('/postal/rechercher-destinataire',function () {(new PostalIutController())
+            ->rechercherDestinataire();
+    }
+);
 // ===== DEPARTEMENT =====
 $router->get('/departement', 'DepartementController', 'dashboard');
 $router->get('/departement/dashboard', 'DepartementController', 'dashboard');
@@ -209,6 +229,8 @@ $router->post('/admin/supprimer-departement', 'AdminController', 'supprimerDepar
 $router->get('/admin/devis', 'AdminController', 'devis');
 $router->get('/admin/commandes', 'AdminController', 'commandes');
 $router->get('/admin/colis', 'AdminController', 'colis');
+$router->get('/admin/console', 'AdminController', 'console');
+$router->post('/admin/console/executer', 'AdminController', 'executerSql');
 
 // ===== TICKETS / ASSISTANCE =====
 $router->get('/tickets', 'TicketController', 'index');
@@ -217,20 +239,21 @@ $router->post('/tickets/creer', 'TicketController', 'creer');
 $router->get('/tickets/:id', 'TicketController', 'detail');
 $router->post('/tickets/:id/message', 'TicketController', 'repondre');
 $router->post('/tickets/:id/statut', 'TicketController', 'changerStatut');
-$router->post('/api/chatbot', 'ChatbotController', 'handle');
+
+// ===== PRESENCE / UTILISATEURS CONNECTES =====
+$router->get('/presence', 'PresenceController', 'index');
 
 try {
     $method = $_SERVER['REQUEST_METHOD'];
     $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-   // NOUVEAU CODE
-if ($currentUser && !in_array($uri, $publicRoutes) && $uri !== '/api/chatbot') {
-    if (!AuthorizationMiddleware::check($uri, $currentUser)) {
-        http_response_code(403);
-        require_once __DIR__ . '/../lib-tools/pages/errors/403.php';
-        exit;
+    if ($currentUser && !in_array($uri, $publicRoutes)) {
+        if (!AuthorizationMiddleware::check($uri, $currentUser)) {
+            http_response_code(403);
+            require_once __DIR__ . '/../lib-tools/pages/errors/403.php';
+            exit;
+        }
     }
-}
 
     [$controllerClass, $methodName, $params] = $router->dispatch($method, $uri);
 

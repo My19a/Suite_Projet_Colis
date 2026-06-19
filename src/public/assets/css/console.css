@@ -1,0 +1,225 @@
+/* ==========================================================================
+   Console SQL — page d'administration
+   S'appuie sur les variables de theme.css (--princ, --bord, --surface…).
+   ========================================================================== */
+
+.console-grille {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 16px;
+    align-items: start;
+}
+
+@media (max-width: 900px) {
+    .console-grille { grid-template-columns: 1fr; }
+}
+
+/* --- Bandeau d'avertissement --- */
+.console-avert {
+    display: flex;
+    gap: 9px;
+    align-items: flex-start;
+    margin-bottom: 14px;
+}
+.console-avert code {
+    background: var(--attn-fond);
+    border: 1px solid var(--attn-bord);
+    border-radius: var(--r);
+    padding: 0 5px;
+    font-size: 12px;
+}
+
+/* --- Panneau liste des tables --- */
+.tables-panel {
+    background: var(--surface);
+    border: 1px solid var(--bord);
+    border-radius: var(--r);
+    overflow: hidden;
+    position: sticky;
+    top: 16px;
+}
+.tables-panel-entete {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--bord-doux);
+}
+.tables-panel-entete .icone-pastille {
+    width: 30px; height: 30px; flex-shrink: 0;
+    background: var(--accent-doux); color: var(--princ);
+    border-radius: var(--r);
+    display: flex; align-items: center; justify-content: center;
+}
+.tables-panel-entete .titre { font-size: 14px; font-weight: 600; color: var(--texte); }
+.tables-panel-entete .compte { font-size: 12px; color: var(--texte-leger); }
+
+.tables-liste { max-height: 60vh; overflow-y: auto; }
+
+.table-item {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    border-bottom: 1px solid var(--bord-doux);
+    padding: 9px 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-family: inherit;
+    font-size: 12.5px;
+    color: var(--texte);
+    transition: background-color .1s ease;
+}
+.table-item:last-child { border-bottom: none; }
+.table-item:hover { background: var(--princ-doux); }
+.table-item .nom {
+    font-family: ui-monospace, 'SF Mono', 'Cascadia Code', Consolas, monospace;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.table-item .nb {
+    flex-shrink: 0;
+    background: #EEF1F6;
+    color: var(--texte-doux);
+    border-radius: var(--rond);
+    padding: 1px 8px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* --- Colonne principale --- */
+.console-principale { display: flex; flex-direction: column; gap: 14px; }
+
+/* Éditeur */
+.editeur {
+    background: var(--surface);
+    border: 1px solid var(--bord);
+    border-radius: var(--r);
+    overflow: hidden;
+}
+.editeur-barre {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 13px;
+    background: var(--princ-fonce);
+}
+.editeur-barre .titre {
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    opacity: .9;
+    display: flex; align-items: center; gap: 7px;
+}
+
+.editeur-zone {
+    width: 100%;
+    min-height: 170px;
+    resize: vertical;
+    border: none;
+    outline: none;
+    background: var(--texte);
+    color: #E7EEF8;
+    font-family: ui-monospace, 'SF Mono', 'Cascadia Code', Consolas, 'Courier New', monospace;
+    font-size: 13.5px;
+    line-height: 1.6;
+    padding: 14px 16px;
+    tab-size: 4;
+    box-sizing: border-box;
+    display: block;
+}
+.editeur-zone::placeholder { color: #6B7494; }
+.editeur-zone:focus { box-shadow: none; }
+
+.editeur-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 11px 13px;
+    border-top: 1px solid var(--bord);
+    background: var(--surface);
+}
+.editeur-actions .gauche { display: flex; gap: 8px; flex-wrap: wrap; }
+.editeur-raccourci { font-size: 12px; color: var(--texte-leger); }
+.editeur-raccourci kbd {
+    background: var(--princ-doux);
+    border: 1px solid var(--bord);
+    border-radius: var(--r);
+    padding: 1px 6px;
+    font-family: inherit;
+    font-size: 11px;
+    color: var(--texte-doux);
+}
+
+/* Résultats */
+.resultats {
+    background: var(--surface);
+    border: 1px solid var(--bord);
+    border-radius: var(--r);
+    overflow: hidden;
+}
+.resultats-statut {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    font-size: 12.5px;
+    font-weight: 500;
+    border-bottom: 1px solid var(--bord);
+}
+.resultats-statut.ok  { background: var(--ok-fond);  color: var(--ok);  border-bottom-color: var(--ok-bord); }
+.resultats-statut.err { background: var(--err-fond); color: var(--err); border-bottom-color: var(--err-bord); }
+.resultats-statut .duree { margin-left: auto; font-weight: 400; opacity: .85; }
+
+.resultats-corps { overflow-x: auto; }
+
+/* Tableau de résultats (colonnes arbitraires) */
+.console-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+}
+.console-table th {
+    position: sticky; top: 0;
+    background: var(--princ-doux);
+    color: var(--princ-fonce);
+    text-align: left;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--bord);
+    white-space: nowrap;
+}
+.console-table td {
+    padding: 7px 12px;
+    border-bottom: 1px solid var(--bord-doux);
+    color: var(--texte);
+    font-family: ui-monospace, 'SF Mono', 'Cascadia Code', Consolas, monospace;
+    white-space: nowrap;
+    max-width: 420px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.console-table tbody tr:hover td { background: var(--accent-doux); }
+.console-table tbody tr:last-child td { border-bottom: none; }
+.cell-null { color: var(--texte-leger); font-style: italic; }
+
+.resultats-erreur {
+    padding: 14px 16px;
+    font-family: ui-monospace, 'SF Mono', Consolas, monospace;
+    font-size: 12.5px;
+    color: var(--err);
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+.resultats-vide {
+    padding: 34px 16px;
+    text-align: center;
+    color: var(--texte-leger);
+    font-size: 13px;
+}

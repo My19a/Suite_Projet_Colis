@@ -21,6 +21,7 @@ $menusParRole = [
         ['/admin/fournisseurs', 'Fournisseurs', 'fournisseurs'],
         ['/admin/devis', 'Devis', 'devis'],
         ['/admin/colis', 'Colis', 'colis'],
+        ['/admin/console', 'Console SQL', 'console'],
         ['/tickets', 'Assistance', 'assistance'],
     ],
     'postal_iut' => [

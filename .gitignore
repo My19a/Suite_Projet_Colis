@@ -1,2 +1,5 @@
 vendor/
 .env
+
+# Config locale outils (hors dépôt)
+.claude/

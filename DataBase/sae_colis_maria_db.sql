@@ -151,24 +151,22 @@ INSERT INTO departement (nom, telephone, budget_total, budget_utilise) VALUES
 -- Roles
 INSERT INTO role (libelle) VALUES
 ('admin'),
-('postal_iut'),
-('postal_univ'),
-('finance'),
-('directeur'),
-('departement');
+('responsable_colis'),
+('demandeur'),
+('editeur_bc');
 
 -- Utilisateurs
 INSERT INTO utilisateur (uid_cas, access_token_api_cas, fullName, email, role_id, departement_id) VALUES
 ('admin1', 'token_admin_001', 'Jean Admin', 'jean.admin@univ-paris13.fr', 1, NULL),
 ('postal_iut1', 'token_postal_iut_001', 'Marie Postal', 'marie.postal@univ-paris13.fr', 2, NULL),
-('postal_univ1', 'token_postal_univ_001', 'Pierre Courrier', 'pierre.courrier@univ-paris13.fr', 3, NULL),
+('postal_univ1', 'token_postal_univ_001', 'Pierre Courrier', 'pierre.courrier@univ-paris13.fr', 2, NULL),
 ('finance1', 'token_finance_001', 'Sophie Finance', 'sophie.finance@univ-paris13.fr', 4, NULL),
-('directeur1', 'token_directeur_001', 'Paul Directeur', 'paul.directeur@univ-paris13.fr', 5, NULL),
-('jdupont', 'token_jdupont_001', 'Jacques Dupont', 'jacques.dupont@univ-paris13.fr', 6, 1),
-('mmartin', 'token_mmartin_001', 'Michel Martin', 'michel.martin@univ-paris13.fr', 6, 1),
-('adurand', 'token_adurand_001', 'Alice Durand', 'alice.durand@univ-paris13.fr', 6, 2),
-('lbernard', 'token_lbernard_001', 'Lucie Bernard', 'lucie.bernard@univ-paris13.fr', 6, 3),
-('tmoreau', 'token_tmoreau_001', 'Thomas Moreau', 'thomas.moreau@univ-paris13.fr', 6, 5);
+('directeur1', 'token_directeur_001', 'Paul Directeur', 'paul.directeur@univ-paris13.fr', 4, NULL),
+('jdupont', 'token_jdupont_001', 'Jacques Dupont', 'jacques.dupont@univ-paris13.fr', 3, 1),
+('mmartin', 'token_mmartin_001', 'Michel Martin', 'michel.martin@univ-paris13.fr', 3, 1),
+('adurand', 'token_adurand_001', 'Alice Durand', 'alice.durand@univ-paris13.fr', 3, 2),
+('lbernard', 'token_lbernard_001', 'Lucie Bernard', 'lucie.bernard@univ-paris13.fr', 3, 3),
+('tmoreau', 'token_tmoreau_001', 'Thomas Moreau', 'thomas.moreau@univ-paris13.fr', 3, 5);
 
 -- Fournisseurs
 INSERT INTO fournisseur (nom, contact_nom, contact_email, contact_telephone) VALUES

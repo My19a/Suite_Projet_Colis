@@ -36,12 +36,10 @@ class TicketController {
     /** URL du tableau de bord selon le role, pour les liens de retour. */
     private function dashboardUrl(): string {
         $map = [
-            'admin'        => '/admin/dashboard',
-            'postal_iut'   => '/postal/dashboard',
-            'postal_univ'  => '/postal-univ/dashboard',
-            'finance'      => '/finance/dashboard',
-            'directeur'    => '/directeur/dashboard',
-            'departement'  => '/departement/dashboard',
+            'admin'             => '/admin/dashboard',
+            'responsable_colis' => '/postal/dashboard',
+            'demandeur'         => '/departement/dashboard',
+            'editeur_bc'        => '/finance/dashboard',
         ];
         return $map[$this->user()->getRole()] ?? '/';
     }

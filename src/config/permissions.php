@@ -4,6 +4,11 @@
 // est ouvert a tout utilisateur connecte (l'admin joue le role de support).
 $tickets = ['tickets', 'tickets/*'];
 
+// Modele a 4 roles (consigne SAE) :
+//   admin             -> Administrateur BD
+//   responsable_colis -> fusion postal IUT + postal universite
+//   demandeur          -> ancien "departement"
+//   editeur_bc         -> fusion finance + directeur (edition/validation des bons de commande)
 return [
     'admin' => array_merge([
         'admin/*',
@@ -15,23 +20,17 @@ return [
         'presence',
     ], $tickets),
 
-    'finance' => array_merge([
-        'finance/*',
-    ], $tickets),
-
-    'directeur' => array_merge([
-        'directeur/*',
-    ], $tickets),
-
-    'postal_univ' => array_merge([
+    'responsable_colis' => array_merge([
+        'postal/*',
         'postal-univ/*',
     ], $tickets),
 
-    'postal_iut' => array_merge([
-        'postal/*',
+    'demandeur' => array_merge([
+        'departement/*',
     ], $tickets),
 
-    'departement' => array_merge([
-        'departement/*',
+    'editeur_bc' => array_merge([
+        'finance/*',
+        'directeur/*',
     ], $tickets),
 ];

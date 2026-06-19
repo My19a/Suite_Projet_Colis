@@ -10,11 +10,9 @@ if (isset($_SESSION['user']) && $_SESSION['user'] instanceof User) {
     $role = $_SESSION['user']->getRole();
     $redirects = [
         'admin' => '/admin/dashboard',
-        'postal_iut' => '/postal/dashboard',
-        'postal_univ' => '/postal-univ/dashboard',
-        'finance' => '/finance/dashboard',
-        'directeur' => '/directeur/dashboard',
-        'departement' => '/departement/dashboard',
+        'responsable_colis' => '/postal/dashboard',
+        'demandeur' => '/departement/dashboard',
+        'editeur_bc' => '/finance/dashboard',
     ];
     header('Location: ' . ($redirects[$role] ?? '/postal/dashboard'));
     exit;
@@ -24,7 +22,7 @@ $error = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $uid = $_POST['uid'] ?? '';
-    $role = $_POST['role'] ?? 'departement';
+    $role = $_POST['role'] ?? 'demandeur';
 
     if (!empty($uid)) {
         $user = UserRepository::findByUidCas($uid);
@@ -42,11 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $redirects = [
             'admin' => '/admin/dashboard',
-            'postal_iut' => '/postal/dashboard',
-            'postal_univ' => '/postal-univ/dashboard',
-            'finance' => '/finance/dashboard',
-            'directeur' => '/directeur/dashboard',
-            'departement' => '/departement/dashboard',
+            'responsable_colis' => '/postal/dashboard',
+            'demandeur' => '/departement/dashboard',
+            'editeur_bc' => '/finance/dashboard',
         ];
 
         header('Location: ' . ($redirects[$role] ?? '/'));
@@ -72,12 +68,10 @@ try {
 
 // Rôles proposés : [valeur, libellé, icône du site]
 $rolesDispo = [
-    ['admin',       'Admin',       'utilisateurs'],
-    ['postal_iut',  'Postal IUT',  'reception'],
-    ['postal_univ', 'Postal Univ', 'colis'],
-    ['finance',     'Finance',     'budget'],
-    ['directeur',   'Directeur',   'signature'],
-    ['departement', 'Département',  'departements'],
+    ['admin',             'Administrateur BD', 'utilisateurs'],
+    ['responsable_colis', 'Responsable colis', 'reception'],
+    ['demandeur',         'Demandeur',         'departements'],
+    ['editeur_bc',        'Éditeur de BC',     'budget'],
 ];
 ?>
 <!DOCTYPE html>
@@ -171,7 +165,7 @@ $rolesDispo = [
                     <div class="auth-roles">
                         <?php foreach ($rolesDispo as [$valeur, $libelle, $icn]): ?>
                             <div class="auth-role">
-                                <input type="radio" name="role" value="<?= $valeur ?>" id="role-<?= $valeur ?>" <?= $valeur === 'departement' ? 'checked' : '' ?>>
+                                <input type="radio" name="role" value="<?= $valeur ?>" id="role-<?= $valeur ?>" <?= $valeur === 'demandeur' ? 'checked' : '' ?>>
                                 <label for="role-<?= $valeur ?>">
                                     <span class="auth-role-icone"><?= icone($icn, 17) ?></span>
                                     <span class="auth-role-nom"><?= htmlspecialchars($libelle) ?></span>

@@ -119,6 +119,28 @@ class PostalUnivModels {
     }
 
 
+    /**
+     * Infos nécessaires pour notifier le demandeur par mail :
+     * email + nom du demandeur (créateur du bon de commande), n° commande et n° suivi.
+     * Renvoie null si le colis n'est lié à aucune commande/demandeur.
+     */
+    public function getColisInfosPourMail($id_colis) {
+        $sql = "
+            SELECT
+                c.numero_suivi,
+                b.numero_commande,
+                u.email    AS demandeur_email,
+                u.fullName AS demandeur_nom
+            FROM colis c
+            JOIN bon_commande b ON c.bon_commande_id = b.id_bon_commande
+            JOIN utilisateur u  ON b.createur_id = u.id_utilisateur
+            WHERE c.id_colis = ?
+        ";
+        $req = $this->db->prepare($sql);
+        $req->execute([$id_colis]);
+        return $req->fetch(PDO::FETCH_ASSOC) ?: null;
+    }
+
     public function transfererVersIUT($id_colis) {
         $sql = "
             UPDATE colis

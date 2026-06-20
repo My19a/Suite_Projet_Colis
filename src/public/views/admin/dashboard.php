@@ -53,84 +53,36 @@ require __DIR__ . '/../partials/header.php';
 </div>
 
 <?php
-$totalColisStatut = array_sum(array_map(fn($s) => (int) $s['total'], $colisParStatut));
 $maxDept = 0;
 foreach ($colisParDepartement as $cd) { $maxDept = max($maxDept, (int) $cd['total']); }
-$couleurStatut = function ($s) {
-    $map = [
-        'recu_universite' => 'var(--princ)', 'received' => 'var(--princ)',
-        'transfere_iut'   => 'var(--info)',  'transferred' => 'var(--info)',
-        'en_attente'      => 'var(--attn)',  'pending' => 'var(--attn)',
-        'livre' => 'var(--ok)', 'retire' => 'var(--ok)', 'delivered' => 'var(--ok)',
-        'non_identifie' => 'var(--err)',
-    ];
-    return $map[strtolower(trim($s))] ?? 'var(--accent)';
-};
 ?>
 
-<!-- Mini-graphiques d'activité -->
-<div class="grille-2">
-
-    <!-- Colis par département -->
-    <section class="carte-tb">
-        <header class="carte-tb-entete">
-            <span class="carte-tb-icone"><?= icone('colis', 18) ?></span>
-            <div class="carte-tb-titres">
-                <div class="carte-tb-titre">Colis par département</div>
-                <div class="carte-tb-compte"><?= $stats['colis'] ?> colis au total</div>
-            </div>
-        </header>
-        <div class="carte-tb-corps carte-tb-corps-aere">
-            <?php if (empty($colisParDepartement)): ?>
-                <div class="apercu-vide">Aucun colis</div>
-            <?php else: ?>
-                <div class="mini-graph">
-                    <?php foreach ($colisParDepartement as $cd): ?>
-                        <?php $pct = $maxDept > 0 ? round((int) $cd['total'] / $maxDept * 100) : 0; ?>
-                        <div class="mini-ligne">
-                            <span class="mini-cle"><?= htmlspecialchars($cd['departement']) ?></span>
-                            <span class="mini-piste"><span class="mini-jauge" style="width: <?= $pct ?>%;"></span></span>
-                            <span class="mini-val"><?= $cd['total'] ?></span>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-            <?php endif; ?>
+<!-- Colis par département -->
+<section class="carte-tb carte-tb-pleine">
+    <header class="carte-tb-entete">
+        <span class="carte-tb-icone"><?= icone('colis', 18) ?></span>
+        <div class="carte-tb-titres">
+            <div class="carte-tb-titre">Colis par département</div>
+            <div class="carte-tb-compte"><?= $stats['colis'] ?> colis au total</div>
         </div>
-    </section>
-
-    <!-- Répartition par statut -->
-    <section class="carte-tb">
-        <header class="carte-tb-entete">
-            <span class="carte-tb-icone"><?= icone('historique', 18) ?></span>
-            <div class="carte-tb-titres">
-                <div class="carte-tb-titre">Colis par statut</div>
-                <div class="carte-tb-compte">Répartition du cycle de vie</div>
+    </header>
+    <div class="carte-tb-corps carte-tb-corps-aere">
+        <?php if (empty($colisParDepartement)): ?>
+            <div class="apercu-vide">Aucun colis</div>
+        <?php else: ?>
+            <div class="mini-graph">
+                <?php foreach ($colisParDepartement as $cd): ?>
+                    <?php $pct = $maxDept > 0 ? round((int) $cd['total'] / $maxDept * 100) : 0; ?>
+                    <div class="mini-ligne">
+                        <span class="mini-cle"><?= htmlspecialchars($cd['departement']) ?></span>
+                        <span class="mini-piste"><span class="mini-jauge" style="width: <?= $pct ?>%;"></span></span>
+                        <span class="mini-val"><?= $cd['total'] ?></span>
+                    </div>
+                <?php endforeach; ?>
             </div>
-        </header>
-        <div class="carte-tb-corps carte-tb-corps-aere">
-            <?php if ($totalColisStatut === 0): ?>
-                <div class="apercu-vide">Aucun colis</div>
-            <?php else: ?>
-                <div class="barre-empilee">
-                    <?php foreach ($colisParStatut as $cs): ?>
-                        <?php $w = round((int) $cs['total'] / $totalColisStatut * 100, 1); ?>
-                        <span class="barre-seg" style="width: <?= $w ?>%; background: <?= $couleurStatut($cs['statut']) ?>;"
-                              title="<?= htmlspecialchars(libelleStatut($cs['statut'])) ?> : <?= $cs['total'] ?>"></span>
-                    <?php endforeach; ?>
-                </div>
-                <div class="legende">
-                    <?php foreach ($colisParStatut as $cs): ?>
-                        <span class="legende-item">
-                            <span class="legende-pastille" style="background: <?= $couleurStatut($cs['statut']) ?>;"></span>
-                            <?= htmlspecialchars(libelleStatut($cs['statut'])) ?> <b><?= $cs['total'] ?></b>
-                        </span>
-                    <?php endforeach; ?>
-                </div>
-            <?php endif; ?>
-        </div>
-    </section>
-
-</div>
+        <?php endif; ?>
+    </div>
+</section>
 
 <!-- Cartes : une par domaine, deux par ligne -->
 <div class="grille-tb">

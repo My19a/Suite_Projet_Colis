@@ -6,7 +6,7 @@ $tickets = ['tickets', 'tickets/*'];
 
 // Modele a 4 roles (consigne SAE) :
 //   admin             -> Administrateur BD
-//   responsable_colis -> fusion postal IUT + postal universite
+//   responsable_colis -> réception université et transfert IUT des colis liés aux bons de commande
 //   demandeur          -> ancien "departement"
 //   editeur_bc         -> fusion finance + directeur (edition/validation des bons de commande)
 return [
@@ -21,8 +21,15 @@ return [
     ], $tickets),
 
     'responsable_colis' => array_merge([
-        'postal/*',
-        'postal-univ/*',
+        'postal',
+        'postal/dashboard',
+        'postal/commandes',
+        'postal/commande',
+        'postal/reception',
+        'postal/colis',
+        'postal/transferer',
+        'postal/historique',
+        'postal/rechercher-destinataire',
     ], $tickets),
 
     'demandeur' => array_merge([

@@ -3,3 +3,5 @@ vendor/
 
 # Config locale outils (hors dépôt)
 .claude/
+
+.DS_Store

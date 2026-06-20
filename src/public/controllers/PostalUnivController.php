@@ -28,7 +28,7 @@ class PostalUnivController {
         if ($etape === "reception") {
             $body = "Bonjour,<br><br>"
                   . "Nous vous informons que votre colis n°" . $numColis . " est bel et bien arrivé à l'Université.<br>"
-                  . "Une fois transféré à l'IUT, vous serez notifié afin de pouvoir venir le retirer.<br><br>"
+                  . "Une fois transféré à l'IUT par le responsable, vous serez notifié afin de pouvoir venir le retirer.<br><br>"
                   . "Cordialement.";
         } else {
             $body = "Bonjour,<br><br>"
@@ -46,13 +46,14 @@ class PostalUnivController {
     public function dashboard() {
 
         $stats = [
-            "recus"          => $this->model->getColisRecus(),
-            "a_transferer"   => $this->model->getColisATransferer(),
-            "transferes"    => $this->model->getColisTransferes(),
-            "non_identifies" => $this->model->getColisNonIdentifies()
+            "bons_total"       => $this->model->getBonsCommandeTotal(),
+            "a_receptionner"   => $this->model->getBonsCommandeSansColis(),
+            "a_transferer"     => $this->model->getColisATransferer(),
+            "transferes"      => $this->model->getColisTransferes()
         ];
 
         $colis_recents = $this->model->getDerniersColis();
+        $commandes_a_receptionner = $this->model->getBonsCommandeAReceptionner();
 
         require __DIR__ . '/../views/postal-univ/dashboard.php';
     }
@@ -62,14 +63,27 @@ class PostalUnivController {
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-            $numero_commande = $_POST["numero_commande"] ?? null;
-            $numero_suivi    = $_POST["numero_suivi"] ?? null;
+            $numero_commande = trim($_POST["numero_commande"] ?? "");
+            $numero_suivi    = trim($_POST["numero_suivi"] ?? "");
             $commentaire     = $_POST["commentaire"] ?? null;
             $ocr_texte_brut      = $_POST["ocr_texte_brut"] ?? null;
             $ocr_nom_destinataire = $_POST["ocr_nom_destinataire"] ?? null;
             // Recherche du destinataire via le texte OCR
             $destinataire_id = null;
             $departement = null;
+            $destinataire = null;
+
+            if ($numero_commande === "") {
+                $_SESSION["flash_message"] = "Erreur : le numero de bon de commande est obligatoire.";
+                header("Location: /postal-univ/reception");
+                exit;
+            }
+
+            if (!$this->model->getBonCommandeParNumero($numero_commande)) {
+                $_SESSION["flash_message"] = "Erreur : aucun bon de commande ne correspond a ce numero.";
+                header("Location: /postal-univ/reception");
+                exit;
+            }
 
             if ($ocr_texte_brut) {
                 $destinataire = $this->model->rechercherDestinataireParNom($ocr_nom_destinataire);
@@ -84,8 +98,15 @@ class PostalUnivController {
                 "numero_commande" => $numero_commande,
                 "numero_suivi"    => $numero_suivi,
                 "commentaire"     => $commentaire,
-                "destinataire_id" => $destinataire_id
+                "destinataire_id" => $destinataire_id,
+                "receptionne_par" => $_SESSION["user"]->getId() ?? null
             ]);
+
+            if (!$colis_id) {
+                $_SESSION["flash_message"] = "Erreur : impossible d'enregistrer ce colis.";
+                header("Location: /postal-univ/reception");
+                exit;
+            }
 
             // Enregistrement dans historique_colis
             $this->model->ajouterHistorique([
@@ -116,6 +137,49 @@ class PostalUnivController {
         require __DIR__ . '/../views/postal-univ/reception-colis.php';
     }
 
+    public function commandesAReceptionner() {
+        $commandes = $this->model->getBonsCommandeAReceptionner();
+        require __DIR__ . '/../views/postal-univ/commandes-reception.php';
+    }
+
+    public function detailCommande() {
+        $id = isset($_GET["id"]) ? (int) $_GET["id"] : 0;
+        if ($id <= 0) {
+            die("ID bon de commande manquant");
+        }
+
+        $commande = $this->model->getCommandeReceptionDetails($id);
+        if (!$commande) {
+            die("Bon de commande introuvable");
+        }
+
+        require __DIR__ . '/../views/postal-univ/commande-details.php';
+    }
+
+    public function receptionnerCommande() {
+        $ids = $_POST["colis_ids"] ?? [];
+        $idCommande = isset($_POST["id_bon_commande"]) ? (int) $_POST["id_bon_commande"] : 0;
+
+        if (empty($ids) || $idCommande <= 0) {
+            header("Location: /postal/commande?id=" . $idCommande);
+            exit;
+        }
+
+        $this->model->receptionnerColis($ids, $_SESSION["user"]->getId() ?? null);
+
+        foreach ($ids as $idColis) {
+            $this->model->ajouterHistorique([
+                "colis_id" => (int) $idColis,
+                "action" => "Recu a l universite",
+                "utilisateur" => $_SESSION["user"]->getFullName() ?? "responsable_colis"
+            ]);
+            $this->notifierDemandeur((int) $idColis, "reception");
+        }
+
+        header("Location: /postal/commande?id=" . $idCommande . "&ok=1");
+        exit;
+    }
+
 
     public function listeColis() {
 
@@ -138,7 +202,13 @@ class PostalUnivController {
         // Mail au demandeur : colis transféré à l'IUT
         $this->notifierDemandeur($id_colis, "transfert");
 
-        header("Location: /postal-univ/colis?transfer=ok");
+        $this->model->ajouterHistorique([
+            "colis_id"   => $id_colis,
+            "action" => "Transfere a l IUT",
+            "utilisateur" => $_SESSION["user"]->getFullName() ?? "responsable_colis"
+        ]);
+
+        header("Location: /postal/colis?transfer=ok");
         exit;
     }
 

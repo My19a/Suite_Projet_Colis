@@ -66,10 +66,10 @@ require __DIR__ . '/../partials/header.php';
 
     <?php
     $statutLabels = [
-        'en_attente'      => 'En attente',
-        'valide_finance'  => 'Validé (Finance)',
-        'rejete_finance'  => 'Rejeté (Finance)',
-        'signe_directeur' => 'Signé (Directeur)',
+        'en_attente'      => 'En attente de validation',
+        'valide_finance'  => 'Validé, commande en cours de création',
+        'rejete_finance'  => 'Rejeté',
+        'signe_directeur' => 'Confirmé, commande créée',
     ];
     $statutClass = [
         'en_attente'      => 'en_attente',

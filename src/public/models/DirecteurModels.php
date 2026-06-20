@@ -18,8 +18,12 @@ class DirecteurModels {
                 d.id_devis,
                 d.objet,
                 d.montant_estime,
-                d.date_demande
+                d.date_demande,
+                dep.nom AS departement,
+                u.fullName AS demandeur
             FROM devis d
+            JOIN utilisateur u ON d.createur_id = u.id_utilisateur
+            JOIN departement dep ON u.departement_id = dep.id_departement
             WHERE d.statut = 'valide_finance'
             ORDER BY d.date_demande DESC
         ";
@@ -56,48 +60,100 @@ class DirecteurModels {
 /* ===================== */
 
     public function getDevisById($id) {
-        $sql = "SELECT * FROM devis WHERE id_devis = ?";
+        $sql = "
+            SELECT
+                d.*,
+                f.nom AS fournisseur_nom,
+                u.fullName AS demandeur_nom,
+                u.departement_id,
+                dep.nom AS departement_nom
+            FROM devis d
+            LEFT JOIN fournisseur f ON d.fournisseur_id = f.id_fournisseur
+            LEFT JOIN utilisateur u ON d.createur_id = u.id_utilisateur
+            LEFT JOIN departement dep ON u.departement_id = dep.id_departement
+            WHERE d.id_devis = ?
+        ";
         $req = $this->db->prepare($sql);
         $req->execute([$id]);
         return $req->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function signerDevis($id_devis) {
+    public function signerDevis($id_devis, array $commande = [], array $colis = []) {
+        $this->db->beginTransaction();
 
-        // 1️⃣ Mettre à jour le statut du devis
-        $sql = "UPDATE devis SET statut = 'signe_directeur' WHERE id_devis = ?";
-        $req = $this->db->prepare($sql);
-        $req->execute([$id_devis]);
+        try {
+            $devis = $this->getDevisById($id_devis);
+            if (!$devis) {
+                throw new RuntimeException("Devis introuvable");
+            }
 
-        // 2️⃣ Générer numéro de BC
-        $numeroBC = "BC-" . date("Y") . "-" . str_pad($id_devis, 3, "0", STR_PAD_LEFT);
+            $objet = trim($commande['objet'] ?? $devis['objet']);
+            $montant = (float) ($commande['montant_estime'] ?? $devis['montant_estime']);
+            $numeroBC = trim($commande['numero_commande'] ?? '');
+            if ($numeroBC === '') {
+                $numeroBC = "BC-" . date("Y") . "-" . str_pad($id_devis, 3, "0", STR_PAD_LEFT);
+            }
 
-        // 3️⃣ Créer le bon de commande AVEC le montant
-        $sqlBC = "
-            INSERT INTO bon_commande (
-                numero_commande,
-                date_commande,
-                montant_estime,
-                fournisseur_id,
-                createur_id,
-                departement_id,
-                devis_id
-            )
-            SELECT
-                ?,
-                CURDATE(),
-                d.montant_estime,
-                d.fournisseur_id,
-                d.createur_id,
-                u.departement_id,
-                d.id_devis
-            FROM devis d
-            JOIN utilisateur u ON d.createur_id = u.id_utilisateur
-            WHERE d.id_devis = ?
-        ";
+            $sql = "UPDATE devis SET statut = 'signe_directeur', objet = ?, montant_estime = ? WHERE id_devis = ?";
+            $req = $this->db->prepare($sql);
+            $req->execute([$objet, $montant, $id_devis]);
 
-        $reqBC = $this->db->prepare($sqlBC);
-        $reqBC->execute([$numeroBC, $id_devis]);
+            $sqlBC = "
+                INSERT INTO bon_commande (
+                    numero_commande,
+                    date_commande,
+                    date_estimee_livraison,
+                    montant_estime,
+                    statut,
+                    fournisseur_id,
+                    createur_id,
+                    departement_id,
+                    devis_id,
+                    commentaire
+                )
+                VALUES (?, CURDATE(), ?, ?, 'en_cours', ?, ?, ?, ?, ?)
+            ";
+            $reqBC = $this->db->prepare($sqlBC);
+            $reqBC->execute([
+                $numeroBC,
+                $commande['date_estimee_livraison'] ?: null,
+                $montant,
+                $devis['fournisseur_id'],
+                $devis['createur_id'],
+                $devis['departement_id'],
+                $id_devis,
+                $objet
+            ]);
+
+            $idBC = (int) $this->db->lastInsertId();
+            $reqColis = $this->db->prepare("
+                INSERT INTO colis (
+                    bon_commande_id,
+                    statut_id,
+                    numero_suivi,
+                    destinataire_id,
+                    commentaire
+                )
+                VALUES (?, 3, ?, ?, ?)
+            ");
+
+            foreach ($colis as $ligne) {
+                $numeroSuivi = trim($ligne['numero_suivi'] ?? '');
+                if ($numeroSuivi === '') {
+                    continue;
+                }
+                $description = trim($ligne['description'] ?? '');
+                $quantite = max(1, (int) ($ligne['quantite'] ?? 1));
+                $commentaire = trim($description . "\nQuantite : " . $quantite);
+                $reqColis->execute([$idBC, $numeroSuivi, $devis['createur_id'], $commentaire]);
+            }
+
+            $this->db->commit();
+            return $idBC;
+        } catch (Throwable $e) {
+            $this->db->rollBack();
+            throw $e;
+        }
     }
 
 

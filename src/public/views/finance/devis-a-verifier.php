@@ -28,6 +28,7 @@ require __DIR__ . '/../partials/header.php';
                         <div class="cl-champ"><span class="cl-cle">Département</span><span class="cl-val"><?= htmlspecialchars($d["departement"] ?? "—") ?></span></div>
                         <div class="cl-champ"><span class="cl-cle">Montant</span><span class="cl-val montant"><?= number_format($d["montant_estime"], 2, ',', ' ') ?> EUR</span></div>
                         <div class="cl-champ"><span class="cl-cle">Date</span><span class="cl-val"><?= $d["date_demande"] ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Demandeur</span><span class="cl-val"><?= htmlspecialchars($d["demandeur"] ?? "—") ?></span></div>
                     </div>
                     <div class="cl-fin" onclick="event.stopPropagation()">
                         <a class="bouton bouton-petit bouton-valider" href="/finance/valider-devis?id=<?= $d["id_devis"] ?>">Valider</a>

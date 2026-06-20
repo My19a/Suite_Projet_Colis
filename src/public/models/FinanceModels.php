@@ -32,7 +32,7 @@ class FinanceModels {
 
     public function getDevisEnAttente() {
         return $this->db->query("
-            SELECT d.id_devis, d.objet, d.montant_estime, dep.nom AS departement
+            SELECT d.id_devis, d.objet, d.montant_estime, dep.nom AS departement, u.fullName AS demandeur
             FROM devis d
             JOIN utilisateur u ON d.createur_id = u.id_utilisateur
             JOIN departement dep ON u.departement_id = dep.id_departement
@@ -99,7 +99,8 @@ class FinanceModels {
                 d.objet,
                 d.montant_estime,
                 d.date_demande,
-                dep.nom AS departement
+                dep.nom AS departement,
+                u.fullName AS demandeur
             FROM devis d
             LEFT JOIN utilisateur u ON d.createur_id = u.id_utilisateur
             LEFT JOIN departement dep ON u.departement_id = dep.id_departement

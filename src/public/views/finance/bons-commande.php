@@ -6,8 +6,8 @@ require __DIR__ . '/../partials/header.php';
 
 <div class="page-header">
         <div class="page-header-info">
-            <h1 class="page-title">Bons de commande</h1>
-            <p class="page-subtitle">Historique des bons de commande validés</p>
+            <h1 class="page-title">Commandes</h1>
+            <p class="page-subtitle">Historiques complets des commandes</p>
         </div>
     </div>
 

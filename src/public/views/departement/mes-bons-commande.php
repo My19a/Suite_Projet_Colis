@@ -13,7 +13,7 @@ require __DIR__ . '/../partials/header.php';
 
     <div class="page-header">
         <div class="page-header-info">
-            <h1 class="page-title">Mes Bons de Commande</h1>
+            <h1 class="page-title">Mes commandes </h1>
             <p class="page-subtitle">Historique complet de vos commandes</p>
         </div>
     </div>

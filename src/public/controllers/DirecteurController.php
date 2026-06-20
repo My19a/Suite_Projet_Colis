@@ -47,13 +47,41 @@ class DirecteurController {
             die("Ce devis a déjà été signé.");
         }
 
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $lignes = [];
+            $numeros = $_POST["numero_suivi"] ?? [];
+            $descriptions = $_POST["description"] ?? [];
+            $quantites = $_POST["quantite"] ?? [];
 
+            foreach ($numeros as $index => $numero) {
+                if (trim($numero) === "") {
+                    continue;
+                }
+                $lignes[] = [
+                    "numero_suivi" => $numero,
+                    "description" => $descriptions[$index] ?? "",
+                    "quantite" => $quantites[$index] ?? 1,
+                ];
+            }
 
-        $this->model->signerDevis($id);
+            if (empty($lignes)) {
+                $erreur = "Ajoutez au moins un colis à la commande.";
+                require __DIR__ . "/../views/directeur-iut/signer-devis-form.php";
+                return;
+            }
 
-        // Retour au dashboard
-        header("Location: /directeur/dashboard");
-        exit;
+            $this->model->signerDevis($id, [
+                "numero_commande" => $_POST["numero_commande"] ?? "",
+                "objet" => $_POST["objet"] ?? "",
+                "montant_estime" => $_POST["montant_estime"] ?? "",
+                "date_estimee_livraison" => $_POST["date_estimee_livraison"] ?? null,
+            ], $lignes);
+
+            header("Location: /directeur/bons-commande");
+            exit;
+        }
+
+        require __DIR__ . "/../views/directeur-iut/signer-devis-form.php";
     }
 
 

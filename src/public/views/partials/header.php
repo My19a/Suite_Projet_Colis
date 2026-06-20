@@ -24,18 +24,12 @@ $menusParRole = [
         ['/admin/console', 'Console SQL', 'console'],
         ['/tickets', 'Assistance', 'assistance'],
     ],
-    // Responsable colis = fusion Postal IUT + Postal Université
+    // Responsable colis : réception université puis transfert IUT des colis liés aux bons de commande
     'responsable_colis' => [
         ['/postal/dashboard', 'Tableau de bord', 'tableau-bord'],
-        ['/postal/colis/recus', 'Colis reçus', 'reception'],
-        ['/postal/colis/remis', 'Colis remis', 'valide'],
-        ['/postal/colis/ajouter', 'Ajouter un colis', 'colis'],
-        ['/postal/colis/recherche', 'Recherche', 'recherche'],
-        ['/postal/colis/non-identifies', 'Non identifiés', 'alerte'],
-        ['/postal/confirmation', 'Confirmation', 'confirmation'],
-        ['/postal-univ/reception', 'Réception (université)', 'reception'],
-        ['/postal-univ/colis', 'Colis (université)', 'colis'],
-        ['/postal-univ/historique', 'Historique', 'historique'],
+        ['/postal/reception', 'Commandes à recevoir', 'reception'],
+        ['/postal/colis', 'Colis à transférer', 'colis'],
+        ['/postal/historique', 'Historique', 'historique'],
         ['/tickets', 'Assistance', 'assistance'],
     ],
     // Demandeur = ancien Département

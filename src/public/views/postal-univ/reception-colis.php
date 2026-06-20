@@ -7,7 +7,7 @@ require __DIR__ . '/../partials/header.php';
 <div class="page-header">
     <div class="page-header-info">
         <h1 class="page-title">Réception d'un colis</h1>
-        <p class="page-subtitle">Enregistrer un colis reçu à l'université avant transfert vers l'IUT</p>
+        <p class="page-subtitle">Déclarer l'arrivée à l'université d'un colis lié à un bon de commande existant</p>
     </div>
 </div>
 
@@ -27,8 +27,8 @@ require __DIR__ . '/../partials/header.php';
                 <form method="post" action="/postal-univ/reception" enctype="multipart/form-data" id="colisForm" onsubmit="return confirm('Confirmer la réception à l\'université de ce colis ?\nUn e-mail de notification sera envoyé au demandeur.');">
 
                     <div class="champ">
-                        <label class="etiquette">Numéro du bon de commande (BC)</label>
-                        <input type="text" id="numero_bc" name="numero_commande" class="saisie" placeholder="Ex: BC-2026-001">
+                        <label class="etiquette requis">Numéro du bon de commande (BC)</label>
+                        <input type="text" id="numero_bc" name="numero_commande" class="saisie" placeholder="Ex: BC-2026-001" value="<?= htmlspecialchars($_GET['bc'] ?? '') ?>" required>
                     </div>
 
                     <div class="champ">
@@ -47,8 +47,8 @@ require __DIR__ . '/../partials/header.php';
                     <input type="hidden" id="ocr_nom_destinataire" name="ocr_nom_destinataire">
 
                     <div class="formulaire-info">
-                        <p>Si un bon de commande est renseigné, le colis y sera automatiquement rattaché.</p>
-                        <p>Sinon, le colis sera marqué <strong>Non identifié</strong> et pourra être traité ultérieurement.</p>
+                        <p>Le colis doit correspondre à un bon de commande créé par l'éditeur de bons de commande.</p>
+                        <p>Après réception, il apparaîtra dans la liste des colis à transférer vers l'IUT.</p>
                     </div>
 
                     <button type="submit" class="bouton bouton-principal">Enregistrer le colis</button>

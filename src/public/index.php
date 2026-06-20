@@ -145,8 +145,15 @@ $router->get('/', function() use ($currentUser, $config) {
     exit;
 }, null);
 
-$router->get('/postal/dashboard', 'PostalIutController', 'dashboard');
-$router->get('/postal', 'PostalIutController', 'dashboard');
+$router->get('/postal/dashboard', 'PostalUnivController', 'dashboard');
+$router->get('/postal', 'PostalUnivController', 'dashboard');
+$router->get('/postal/reception', 'PostalUnivController', 'commandesAReceptionner');
+$router->get('/postal/commande', 'PostalUnivController', 'detailCommande');
+$router->post('/postal/commande/receptionner', 'PostalUnivController', 'receptionnerCommande');
+$router->get('/postal/colis', 'PostalUnivController', 'listeColis');
+$router->get('/postal/transferer', 'PostalUnivController', 'transfererColis');
+$router->get('/postal/historique', 'PostalUnivController', 'historique');
+$router->get('/postal/rechercher-destinataire', 'PostalUnivController', 'rechercherDestinataire');
 
 $router->get('/postal/colis/recus', 'PostalIutController', 'colisRecus');
 $router->get('/postal/colis/remis', 'PostalIutController', 'colisRemis');
@@ -214,6 +221,7 @@ $router->get('/finance/budgets', 'FinanceController', 'budgets');
 $router->get('/directeur', 'DirecteurController', 'dashboard');
 $router->get('/directeur/dashboard', 'DirecteurController', 'dashboard');
 $router->get('/directeur/signer-devis', 'DirecteurController', 'signerDevis');
+$router->post('/directeur/signer-devis', 'DirecteurController', 'signerDevis');
 $router->get('/directeur/devis', 'DirecteurController', 'devisASigner');
 $router->get('/directeur/bons-commande', 'DirecteurController', 'bonCommande');
 $router->get('/directeur/voir-devis', 'DirecteurController', 'voirDevis');

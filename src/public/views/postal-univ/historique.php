@@ -1,13 +1,13 @@
 <?php
-$titre = 'Historique – Postal Université';
-$actif = '/postal-univ/historique';
+$titre = 'Historique colis – Responsable colis';
+$actif = '/postal/historique';
 require __DIR__ . '/../partials/header.php';
 ?>
 
 <div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Historique des actions</h1>
-            <p class="page-subtitle">Traçabilité complète des colis</p>
+            <p class="page-subtitle">Traçabilité des réceptions université et des transferts IUT</p>
         </div>
     </div>
 

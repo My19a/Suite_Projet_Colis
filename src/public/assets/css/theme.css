@@ -668,3 +668,35 @@ a.carte-ligne:hover::after, .carte-ligne.cliquable:hover::after { border-color: 
 .gap-3 { gap: 24px; }
 
 
+
+/* ===== Chatbot (aligné sur la DA du site) ===== */
+#chatbot-wrapper { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
+#chatbot-toggle {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: var(--princ); color: #fff;
+    border: 1px solid var(--princ); border-radius: var(--r);
+    padding: 10px 15px; font-size: 13px; font-weight: 600; font-family: inherit;
+    cursor: pointer; transition: background-color .1s ease, border-color .1s ease;
+}
+#chatbot-toggle:hover { background: var(--princ-fonce); border-color: var(--princ-fonce); }
+#chatbot-box {
+    width: 340px; height: 460px; max-width: calc(100vw - 40px);
+    background: var(--surface); border: 1px solid var(--bord); border-radius: var(--r);
+    display: flex; flex-direction: column; overflow: hidden;
+}
+#chatbot-header {
+    background: var(--princ); color: #fff;
+    padding: 12px 14px; display: flex; align-items: center; justify-content: space-between;
+    font-size: 14px; font-weight: 600;
+}
+#chatbot-messages {
+    flex: 1; padding: 14px; overflow-y: auto;
+    display: flex; flex-direction: column; gap: 9px; background: var(--fond);
+}
+#chatbot-messages .message { padding: 9px 12px; border-radius: var(--r); max-width: 80%; font-size: 13px; line-height: 1.45; }
+#chatbot-messages .message.bot { background: var(--surface); border: 1px solid var(--bord); color: var(--texte); align-self: flex-start; }
+#chatbot-messages .message.user { background: var(--princ); color: #fff; align-self: flex-end; }
+#chatbot-input-area { display: flex; border-top: 1px solid var(--bord); background: var(--surface); }
+#chatbot-input { flex: 1; border: none; padding: 12px; outline: none; font-size: 13px; color: var(--texte); background: transparent; font-family: inherit; }
+#chatbot-input-area button { background: var(--princ); color: #fff; border: none; padding: 0 16px; cursor: pointer; font-weight: 600; font-size: 13px; font-family: inherit; transition: background-color .1s ease; }
+#chatbot-input-area button:hover { background: var(--princ-fonce); }

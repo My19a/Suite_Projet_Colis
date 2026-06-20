@@ -23,7 +23,7 @@ class PostalUnivController {
         require __DIR__ . '/../views/postal-univ/dashboard.php';
     }
 
-
+//
     public function receptionColis() {
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {

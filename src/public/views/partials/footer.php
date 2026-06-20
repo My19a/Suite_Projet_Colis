@@ -3,7 +3,7 @@
  * Pied de page commun à toutes les vues.
  *
  * Variables optionnelles (à définir avant le require) :
- *   $avecTutoriel (bool) : inclut le pop-up tutoriel (pages dashboard)
+ * $avecTutoriel (bool) : inclut le pop-up tutoriel (pages dashboard)
  */
 ?>
 </main>
@@ -19,5 +19,8 @@
 </footer>
 
 <?php if (!empty($avecTutoriel)) require __DIR__ . '/tutoriel.php'; ?>
+
+<?php require __DIR__ . '/chatbot.php'; ?>
+
 </body>
 </html>

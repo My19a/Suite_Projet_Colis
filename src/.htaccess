@@ -7,3 +7,11 @@
 <FilesMatch "^$">
     Require all granted
 </FilesMatch>
+RewriteEngine On
+
+# Si le fichier ou le dossier demandé existe réellement (comme vos images, CSS, JS), Apache le sert directement
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Sinon, on redirige tout proprement vers index.php
+RewriteRule ^(.*)$ index.php [QSA,L]

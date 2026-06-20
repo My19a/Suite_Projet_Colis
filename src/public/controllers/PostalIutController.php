@@ -8,7 +8,7 @@ class PostalIutController {
     public function __construct() {
         $this->model = new PostalIutModels();
     }
-
+//
     public function dashboard() {
 
         $stats = [
@@ -22,7 +22,7 @@ class PostalIutController {
 
         require __DIR__ . '/../views/postal-iut/dashboard.php';
     }
-
+//
 
     public function colisRecus() {
 

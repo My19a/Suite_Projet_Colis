@@ -9,7 +9,7 @@ class DirecteurController {
     public function __construct() {
         $this->model = new DirecteurModels();
     }
-
+//
     public function dashboard() {
 
         $stats = [
@@ -22,7 +22,7 @@ class DirecteurController {
 
         require __DIR__ . "/../views/directeur-iut/dashboard.php";
     }
-
+//
 
     public function signerDevis() {
 

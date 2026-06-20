@@ -138,12 +138,12 @@ function libelleStatut(?string $statut): string
         'refuse'          => 'Refusé',
         'rejected'        => 'Refusé',
         'rejete'          => 'Rejeté',
-        'rejete_finance'  => 'Rejeté (Finance)',
+        'rejete_finance'  => 'Rejeté',
         'valide'          => 'Validé',
         'validated'       => 'Validé',
-        'valide_finance'  => 'Validé (Finance)',
+        'valide_finance'  => 'Validé',
         'signe'           => 'Signé',
-        'signe_directeur' => 'Signé (Directeur)',
+        'signe_directeur' => 'Signé',
         'signed'          => 'Signé',
         'annule'          => 'Annulé',
         'annulee'         => 'Annulée',
@@ -158,6 +158,7 @@ function libelleStatut(?string $statut): string
         'transfere_iut'   => "Transféré à l'IUT",
         'transferred'     => 'Transféré',
         'non_identifie'   => 'Non identifié',
+        
     ];
     return $map[$s] ?? joli($statut);
 }

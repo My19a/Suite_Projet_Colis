@@ -111,6 +111,20 @@ if ($currentUser) {
     }
 }
 
+// Memorise (par compte) que le tutoriel a ete vu. Appel AJAX du tuto a la fin.
+if ($uri === '/tuto/vu' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($currentUser) {
+        try {
+            $req = Model::getModel()->bd->prepare("UPDATE utilisateur SET tuto_vu = 1 WHERE id_utilisateur = ?");
+            $req->execute([$currentUser->getId()]);
+        } catch (\Throwable $e) {
+            // ne doit jamais casser la navigation
+        }
+    }
+    http_response_code(204);
+    exit;
+}
+
 $router = new Router();
 
 // Route racine : redirige vers le dashboard approprié selon le rôle

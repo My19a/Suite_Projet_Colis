@@ -1,15 +1,16 @@
 /* =====================================================================
    Tutoriel de prise en main : tour guide qui surligne chaque section
    et place une bulle d'explication a cote.
-   - Memorise dans localStorage (par utilisateur) -> ne revient plus.
+   - Memorise par compte cote serveur (colonne utilisateur.tuto_vu).
    - Force pour une demo en ajoutant ?tuto=1 a l'URL.
    ===================================================================== */
 (function () {
     "use strict";
 
-    var CLE = "tuto_iut_vu_" + (window.TUTO_USER || "anon");
+    // Le tuto est memorise par compte cote serveur (window.TUTO_VU).
+    // ?tuto=1 force l'affichage (pour une demo).
     var forcer = window.location.search.indexOf("tuto=1") !== -1;
-    if (!forcer && localStorage.getItem(CLE)) return;
+    if (!forcer && window.TUTO_VU) return;
 
     var svg = function (p) {
         return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" ' +
@@ -197,7 +198,10 @@
     }
 
     function terminer() {
-        localStorage.setItem(CLE, "1");
+        // Memorise cote serveur (par compte) que le tuto a ete vu.
+        if (window.fetch) {
+            fetch("/tuto/vu", { method: "POST", headers: { "X-Requested-With": "fetch" } });
+        }
         fond.remove(); spot.remove(); bulle.remove();
         window.removeEventListener("resize", positionner);
     }

@@ -32,7 +32,7 @@ require __DIR__ . '/../partials/header.php';
                     <div class="cl-fin">
                         <span class="<?= badgeStatut($c["statut"]) ?>"><?= htmlspecialchars(libelleStatut($c["statut"])) ?></span>
                         <?php if ($c["statut_id"] == 1): ?>
-                            <a class="bouton bouton-petit bouton-principal" href="/postal-univ/transferer?id=<?= $c["id_colis"] ?>">Transférer vers IUT</a>
+                            <a class="bouton bouton-petit bouton-principal" href="/postal-univ/transferer?id=<?= $c["id_colis"] ?>" onclick="return confirm('Confirmer le transfert à l\'IUT de ce colis ?\nUn e-mail de notification sera envoyé au demandeur.');">Transférer vers IUT</a>
                         <?php endif; ?>
                     </div>
                 </div>

@@ -84,8 +84,8 @@ $rolesDispo = [
     <style>
         body.page-auth { font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Inter', sans-serif; }
         .page-auth { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; position: relative; }
-        .page-auth::before { content: ''; position: fixed; inset: 0; background: url('/assets/img/violet.jpg') center/cover; pointer-events: none; }
-        .page-auth::after { content: ''; position: fixed; inset: 0; background: linear-gradient(135deg, rgba(37,99,235,0.85) 0%, rgba(147,197,253,0.75) 50%, rgba(219,234,254,0.9) 100%); pointer-events: none; }
+        .page-auth::before { content: ''; position: fixed; inset: 0; background: url('/assets/img/campus-iut.jpg') center/cover; pointer-events: none; }
+        .page-auth::after { content: ''; position: fixed; inset: 0; background: linear-gradient(135deg, #E7EEF8 , #E7EEF8 50%, #E7EEF8 100%); pointer-events: none; }
         .auth-box { width: 100%; max-width: 420px; position: relative; z-index: 1; }
         .auth-marque { text-align: center; margin-bottom: 18px; }
         .auth-logo { margin: 0 auto 8px; display: flex; justify-content: center; }

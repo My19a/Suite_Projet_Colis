@@ -24,7 +24,7 @@ require __DIR__ . '/../partials/header.php';
 
         <div class="bloc">
             <div class="formulaire">
-                <form method="post" action="/postal-univ/reception" enctype="multipart/form-data" id="colisForm">
+                <form method="post" action="/postal-univ/reception" enctype="multipart/form-data" id="colisForm" onsubmit="return confirm('Confirmer la réception à l\'université de ce colis ?\nUn e-mail de notification sera envoyé au demandeur.');">
 
                     <div class="champ">
                         <label class="etiquette">Numéro du bon de commande (BC)</label>

@@ -29,6 +29,7 @@ class DepartementController {
     public function dashboard() {
         $departement_id = $this->getDepartementId();
         $userInfo = $this->getUserInfo();
+        $departementNom = $this->model->getDepartementNom($departement_id);
 
         $stats = [
             "colis_total"   => $this->model->countColisTotal($departement_id),

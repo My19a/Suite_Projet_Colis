@@ -8,7 +8,11 @@ require __DIR__ . '/../partials/header.php';
 <div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Tableau de bord</h1>
-            <p class="page-subtitle">Gérez vos devis, commandes et colis</p>
+            <?php if (!empty($departementNom)): ?>
+                <p class="page-subtitle">Département : <strong><?= htmlspecialchars($departementNom) ?></strong></p>
+            <?php else: ?>
+                <p class="page-subtitle">Gérez vos devis, commandes et colis</p>
+            <?php endif; ?>
         </div>
         <button class="bouton bouton-principal" onclick="window.location.href='/departement/creer-devis'">
             <?= icone('plus', 14) ?>Créer un devis

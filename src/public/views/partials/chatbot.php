@@ -1,5 +1,5 @@
 <div id="chatbot-wrapper">
-    <button id="chatbot-toggle" onclick="toggleChat()">💬 Suivi Colis & Aide</button>
+    <button id="chatbot-toggle" onclick="toggleChat()">Suivi Colis & Aide</button>
 
     <div id="chatbot-box" style="display: none;">
         <div id="chatbot-header">

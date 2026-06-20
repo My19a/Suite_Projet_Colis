@@ -20,8 +20,10 @@
     // Etape "Votre espace" : nom du role + chaque onglet du menu explique.
     var role = window.TUTO_ROLE || "";
     var roleNom = {
-        admin: "administrateur", departement: "demandeur (département)", finance: "service financier",
-        directeur: "directeur", postal_iut: "service courrier de l'IUT", postal_univ: "service courrier de l'université"
+        admin: "administrateur",
+        demandeur: "demandeur",
+        responsable_colis: "responsable colis",
+        editeur_bc: "éditeur de bons de commande"
     };
     // A quoi sert chaque onglet (par URL) : sert a expliquer le menu du role.
     var descOnglet = {
@@ -33,16 +35,10 @@
         "/admin/colis": "consulter tous les colis",
         "/presence": "voir les utilisateurs connectés en ce moment",
         "/postal/dashboard": "vue d'ensemble de l'activité",
-        "/postal/confirmation": "confirmer la réception des colis",
-        "/postal/colis/recus": "la liste des colis reçus",
-        "/postal/colis/remis": "les colis déjà remis à leur destinataire",
-        "/postal/colis/recherche": "rechercher un colis précis",
-        "/postal/colis/non-identifies": "les colis sans destinataire identifié",
-        "/postal-univ/dashboard": "vue d'ensemble de l'activité",
-        "/postal-univ/reception": "réceptionner les colis qui arrivent",
-        "/postal-univ/colis": "la liste de tous les colis",
-        "/postal-univ/non-identifies": "les colis sans destinataire identifié",
-        "/postal-univ/historique": "l'historique des colis traités",
+        "/postal/commandes": "les commandes en attente de réception",
+        "/postal/reception": "déclarer la réception d'un colis (n° de suivi + demandeur)",
+        "/postal/colis": "les colis à transférer vers l'IUT",
+        "/postal/historique": "l'historique des colis traités",
         "/departement/dashboard": "vue d'ensemble de votre activité",
         "/departement/creer-devis": "faire une nouvelle demande de devis",
         "/departement/mes-devis": "suivre vos devis et leur statut",
@@ -52,11 +48,9 @@
         "/departement/fournisseurs": "consulter les fournisseurs disponibles",
         "/finance/dashboard": "vue d'ensemble de l'activité",
         "/finance/devis": "vérifier et valider les devis",
+        "/directeur/devis": "signer les devis validés et déclarer les colis",
         "/finance/bons-commande": "les bons de commande",
         "/finance/budgets": "suivre les budgets des départements",
-        "/directeur/dashboard": "vue d'ensemble de l'activité",
-        "/directeur/devis": "signer les devis validés",
-        "/directeur/bons-commande": "les bons de commande à signer",
         "/tickets": "contacter le support ; la pastille rouge signale de nouvelles réponses"
     };
     // Liste reelle des onglets du menu (lue dans la navbar) : [nom, explication, href].

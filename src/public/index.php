@@ -36,11 +36,9 @@ require_once __DIR__ . '/../lib-tools/Auth/AuthorizationMiddleware.php';
 require_once __DIR__ . '/models/Model.php';
 require_once __DIR__ . '/models/UserRepository.php';
 
-require_once __DIR__ . '/controllers/PostalIutController.php';
-require_once __DIR__ . '/controllers/PostalUnivController.php';
-require_once __DIR__ . '/controllers/DepartementController.php';
-require_once __DIR__ . '/controllers/FinanceController.php';
-require_once __DIR__ . '/controllers/DirecteurController.php';
+require_once __DIR__ . '/controllers/ResponsableColisController.php';
+require_once __DIR__ . '/controllers/DemandeurController.php';
+require_once __DIR__ . '/controllers/EditeurBcController.php';
 require_once __DIR__ . '/controllers/AdminController.php';
 require_once __DIR__ . '/controllers/TicketController.php';
 require_once __DIR__ . '/controllers/PresenceController.php';
@@ -145,86 +143,47 @@ $router->get('/', function() use ($currentUser, $config) {
     exit;
 }, null);
 
-$router->get('/postal/dashboard', 'PostalUnivController', 'dashboard');
-$router->get('/postal', 'PostalUnivController', 'dashboard');
-$router->get('/postal/reception', 'PostalUnivController', 'commandesAReceptionner');
-$router->get('/postal/commande', 'PostalUnivController', 'detailCommande');
-$router->post('/postal/commande/receptionner', 'PostalUnivController', 'receptionnerCommande');
-$router->get('/postal/colis', 'PostalUnivController', 'listeColis');
-$router->get('/postal/transferer', 'PostalUnivController', 'transfererColis');
-$router->get('/postal/historique', 'PostalUnivController', 'historique');
-$router->get('/postal/rechercher-destinataire', 'PostalUnivController', 'rechercherDestinataire');
+$router->get('/postal/dashboard', 'ResponsableColisController', 'dashboard');
+$router->get('/postal', 'ResponsableColisController', 'dashboard');
+$router->get('/postal/commandes', 'ResponsableColisController', 'commandesAReceptionner');
+$router->get('/postal/commande', 'ResponsableColisController', 'detailCommande');
+$router->get('/postal/reception', 'ResponsableColisController', 'receptionColis');
+$router->post('/postal/reception', 'ResponsableColisController', 'receptionColis');
+$router->get('/postal/colis', 'ResponsableColisController', 'listeColis');
+$router->get('/postal/transferer', 'ResponsableColisController', 'transfererColis');
+$router->get('/postal/historique', 'ResponsableColisController', 'historique');
+$router->get('/postal/rechercher-destinataire', 'ResponsableColisController', 'rechercherDestinataire');
 
-$router->get('/postal/colis/recus', 'PostalIutController', 'colisRecus');
-$router->get('/postal/colis/remis', 'PostalIutController', 'colisRemis');
-$router->get('/postal/colis/attente', 'PostalIutController', 'colisEnAttente');
-$router->get('/postal/colis/details', 'PostalIutController', 'detailsColis');
-$router->get('/postal/colis/details/:id', 'PostalIutController', 'detailsColis');
-
-$router->get('/postal/colis/ajouter', 'PostalIutController', 'ajouterColis');
-$router->post('/postal/colis/ajouter', 'PostalIutController', 'ajouterColis');
-
-$router->get('/postal/colis/modifier', 'PostalIutController', 'modifierColis');
-$router->get('/postal/colis/modifier/:id', 'PostalIutController', 'modifierColis');
-$router->post('/postal/colis/update', 'PostalIutController', 'updateColis');
-
-$router->get('/postal/colis/retirer', 'PostalIutController', 'retirerColis');
-$router->get('/postal/colis/retirer/:id', 'PostalIutController', 'retirerColis');
-
-$router->get('/postal/colis/recherche', 'PostalIutController', 'rechercheColis');
-$router->get('/postal/colis/non-identifies', 'PostalIutController', 'colisNonIdentifies');
-
-$router->get('/postal/confirmation', 'PostalIutController', 'confirmation');
-$router->get('/postal/confirmer', 'PostalIutController', 'confirmerColis');
-
-$router->get('/postal/historique', 'PostalIutController', 'historiqueGlobal');
-
-// ===== POSTAL UNIV =====
-$router->get('/postal-univ', 'PostalUnivController', 'dashboard');
-$router->get('/postal-univ/dashboard', 'PostalUnivController', 'dashboard');
-$router->get('/postal-univ/reception', 'PostalUnivController', 'receptionColis');
-$router->post('/postal-univ/reception', 'PostalUnivController', 'receptionColis');
-$router->get('/postal-univ/colis', 'PostalUnivController', 'listeColis');
-$router->get('/postal-univ/transferer', 'PostalUnivController', 'transfererColis');
-$router->get('/postal-univ/non-identifies', 'PostalUnivController', 'nonIdentifies');
-$router->get('/postal-univ/historique', 'PostalUnivController', 'historique');
-// Ajout route pour rechercher destinataire (OCR)
-$router->get('/postal-univ/rechercher-destinataire', 'PostalUnivController', 'rechercherDestinataire');
-
-
-$router->get('/postal/rechercher-destinataire',function () {(new PostalIutController())
-            ->rechercherDestinataire();
-    }
-);
 // ===== DEPARTEMENT =====
-$router->get('/departement', 'DepartementController', 'dashboard');
-$router->get('/departement/dashboard', 'DepartementController', 'dashboard');
-$router->get('/departement/creer-devis', 'DepartementController', 'creerDevis');
-$router->post('/departement/envoyer-devis', 'DepartementController', 'envoyerDevis');
-$router->get('/departement/mes-devis', 'DepartementController', 'mesDevis');
-$router->get('/departement/bons-commande', 'DepartementController', 'mesBonsCommande');
-$router->get('/departement/mes-colis', 'DepartementController', 'mesColis');
-$router->get('/departement/budget', 'DepartementController', 'budget');
-$router->get('/departement/fournisseurs', 'DepartementController', 'fournisseurs');
+$router->get('/departement', 'DemandeurController', 'dashboard');
+$router->get('/departement/dashboard', 'DemandeurController', 'dashboard');
+$router->get('/departement/creer-devis', 'DemandeurController', 'creerDevis');
+$router->post('/departement/envoyer-devis', 'DemandeurController', 'envoyerDevis');
+$router->get('/departement/mes-devis', 'DemandeurController', 'mesDevis');
+$router->get('/departement/bons-commande', 'DemandeurController', 'mesBonsCommande');
+$router->get('/departement/mes-colis', 'DemandeurController', 'mesColis');
+$router->get('/departement/colis/receptionner', 'DemandeurController', 'receptionnerColis');
+$router->get('/departement/budget', 'DemandeurController', 'budget');
+$router->get('/departement/fournisseurs', 'DemandeurController', 'fournisseurs');
 
 // ===== FINANCE =====
-$router->get('/finance', 'FinanceController', 'dashboard');
-$router->get('/finance/dashboard', 'FinanceController', 'dashboard');
-$router->get('/finance/valider-devis', 'FinanceController', 'validerDevis');
-$router->get('/finance/rejeter-devis', 'FinanceController', 'rejeterDevis');
-$router->get('/finance/devis', 'FinanceController', 'devisAVerifier');
-$router->get('/finance/voir-devis', 'FinanceController', 'voirDevis');
-$router->get('/finance/bons-commande', 'FinanceController', 'bonsCommande');
-$router->get('/finance/budgets', 'FinanceController', 'budgets');
+$router->get('/finance', 'EditeurBcController', 'dashboard');
+$router->get('/finance/dashboard', 'EditeurBcController', 'dashboard');
+$router->get('/finance/valider-devis', 'EditeurBcController', 'validerDevis');
+$router->get('/finance/rejeter-devis', 'EditeurBcController', 'rejeterDevis');
+$router->get('/finance/devis', 'EditeurBcController', 'devisAVerifier');
+$router->get('/finance/voir-devis', 'EditeurBcController', 'voirDevis');
+$router->get('/finance/bons-commande', 'EditeurBcController', 'bonsCommande');
+$router->get('/finance/budgets', 'EditeurBcController', 'budgets');
 
 // ===== DIRECTEUR IUT =====
-$router->get('/directeur', 'DirecteurController', 'dashboard');
-$router->get('/directeur/dashboard', 'DirecteurController', 'dashboard');
-$router->get('/directeur/signer-devis', 'DirecteurController', 'signerDevis');
-$router->post('/directeur/signer-devis', 'DirecteurController', 'signerDevis');
-$router->get('/directeur/devis', 'DirecteurController', 'devisASigner');
-$router->get('/directeur/bons-commande', 'DirecteurController', 'bonCommande');
-$router->get('/directeur/voir-devis', 'DirecteurController', 'voirDevis');
+$router->get('/directeur', 'EditeurBcController', 'dashboard');
+$router->get('/directeur/dashboard', 'EditeurBcController', 'dashboard');
+$router->get('/directeur/signer-devis', 'EditeurBcController', 'signerDevis');
+$router->post('/directeur/signer-devis', 'EditeurBcController', 'signerDevis');
+$router->get('/directeur/devis', 'EditeurBcController', 'devisASigner');
+$router->get('/directeur/bons-commande', 'EditeurBcController', 'bonsCommande');
+$router->get('/directeur/voir-devis', 'EditeurBcController', 'voirDevis');
 
 // ===== ADMIN =====
 $router->get('/admin', 'AdminController', 'dashboard');

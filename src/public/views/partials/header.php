@@ -27,7 +27,8 @@ $menusParRole = [
     // Responsable colis : réception université puis transfert IUT des colis liés aux bons de commande
     'responsable_colis' => [
         ['/postal/dashboard', 'Tableau de bord', 'tableau-bord'],
-        ['/postal/reception', 'Commandes à recevoir', 'reception'],
+        ['/postal/commandes', 'Commandes en attente', 'reception'],
+        ['/postal/reception', "Réception d'un colis", 'colis'],
         ['/postal/colis', 'Colis à transférer', 'colis'],
         ['/postal/historique', 'Historique', 'historique'],
         ['/tickets', 'Assistance', 'assistance'],
@@ -43,7 +44,7 @@ $menusParRole = [
         ['/departement/fournisseurs', 'Fournisseurs', 'fournisseurs'],
         ['/tickets', 'Assistance', 'assistance'],
     ],
-    // Éditeur de bons de commande = fusion Finance + Directeur
+    // Éditeur de bons de commande : vérification puis signature des devis
     'editeur_bc' => [
         ['/finance/dashboard', 'Tableau de bord', 'tableau-bord'],
         ['/finance/devis', 'Devis à vérifier', 'devis'],

@@ -21,7 +21,7 @@ $currentRoute = $_SERVER['REQUEST_URI'];
 $currentRoute = parse_url($currentRoute, PHP_URL_PATH);
 $currentRoute = ltrim($currentRoute, '/');
 
-// Extraire le module (admin, finance, postal_iut, etc.)
+// Extraire le module depuis l'URL (admin, postal, finance, departement, etc.)
 $parts = explode('/', $currentRoute);
 $module = $parts[0] ?? '';
 

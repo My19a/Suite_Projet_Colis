@@ -16,6 +16,10 @@ services:
         condition: service_healthy
     ports:
       - "8000:80"
+    # Charge les secrets non versionnés (MAIL_*, GEMINI_API_KEY, CAS_*) depuis src/.env.
+    # Les variables ci-dessous (environment:) priment et fixent la config propre à Docker.
+    env_file:
+      - ./src/.env
     environment:
       APP_ENV: development
       APP_BASE_URL: http://localhost:8000

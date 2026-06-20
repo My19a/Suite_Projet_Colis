@@ -23,9 +23,9 @@ return [
     'responsable_colis' => array_merge([
         'postal',
         'postal/dashboard',
-        'postal/reception',
+        'postal/commandes',
         'postal/commande',
-        'postal/commande/receptionner',
+        'postal/reception',
         'postal/colis',
         'postal/transferer',
         'postal/historique',

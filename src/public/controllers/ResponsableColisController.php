@@ -179,15 +179,25 @@ class ResponsableColisController {
     }
 
     public function rechercherDestinataire() {
-    $nom = $_GET["nom"] ?? "";
-    $destinataire = $this->model->rechercherDestinataireParNom($nom);
-    
-    if ($destinataire) {
-        $dept = $this->model->getDepartementNom($destinataire["departement_id"]);
-        echo json_encode(["departement" => $dept]);
-    } else {
-        echo json_encode(["departement" => null]);
-    }
-    exit;
+        header('Content-Type: application/json; charset=utf-8');
+
+        $nom = trim($_GET["nom"] ?? "");
+        $destinataire = $this->model->rechercherDestinataireParNom($nom);
+
+        if ($destinataire) {
+            $dept = $this->model->getDepartementNom($destinataire["departement_id"]);
+            echo json_encode([
+                "id" => (int) $destinataire["id_utilisateur"],
+                "fullName" => $destinataire["fullName"],
+                "departement" => $dept
+            ]);
+        } else {
+            echo json_encode([
+                "id" => null,
+                "fullName" => null,
+                "departement" => null
+            ]);
+        }
+        exit;
     }
 }

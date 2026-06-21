@@ -7,7 +7,7 @@ require __DIR__ . '/../partials/header.php';
 <div class="page-header">
         <div class="page-header-info">
             <h1 class="page-title">Historique des actions</h1>
-            <p class="page-subtitle">Traçabilité des réceptions université et des transferts IUT</p>
+            <p class="page-subtitle">Traçabilité des transferts vers l'IUT et des réceptions par le destinataire</p>
         </div>
     </div>
 
@@ -26,10 +26,11 @@ require __DIR__ . '/../partials/header.php';
                     </div>
                     <div class="cl-champs">
                         <div class="cl-champ"><span class="cl-cle">Date</span><span class="cl-val"><?= $h["date_action"] ?></span></div>
-                        <div class="cl-champ"><span class="cl-cle">Utilisateur</span><span class="cl-val"><?= htmlspecialchars($h["utilisateur"] ?? "—") ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Responsable colis</span><span class="cl-val"><?= htmlspecialchars($h["responsable"] ?? "—") ?></span></div>
+                        <div class="cl-champ"><span class="cl-cle">Demandeur</span><span class="cl-val"><?= htmlspecialchars($h["demandeur"] ?? "—") ?></span></div>
                     </div>
                     <div class="cl-fin">
-                        <span class="badge"><?= htmlspecialchars(joli($h["action"])) ?></span>
+                        <span class="badge"><?= htmlspecialchars($h["action"]) ?></span>
                     </div>
                 </div>
             <?php endforeach; ?>

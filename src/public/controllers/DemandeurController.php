@@ -114,7 +114,15 @@ class DemandeurController {
     public function receptionnerColis() {
         $id_colis = isset($_GET["id"]) ? (int) $_GET["id"] : 0;
         if ($id_colis > 0) {
-            $this->model->marquerRecu($id_colis, $this->getDepartementId());
+            $maj = $this->model->marquerRecu($id_colis, $this->getDepartementId());
+            if ($maj > 0) {
+                $this->model->recalculerStatutBonParColis($id_colis);
+                $this->model->ajouterHistorique(
+                    $id_colis,
+                    "Réceptionné par le destinataire",
+                    $_SESSION['user']->getFullName() ?? "demandeur"
+                );
+            }
         }
         header("Location: /departement/mes-colis?recu=1");
         exit;

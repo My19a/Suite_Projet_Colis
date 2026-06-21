@@ -23,17 +23,19 @@ class ResponsableColisController {
 
         $numCommande = $infos["numero_commande"];
         $numColis    = htmlspecialchars($infos["numero_suivi"] ?: "—");
-        $sujet = "Notification de changement de statut - Commande N°" . $numCommande;
+        $sujet = "Changement de statut - Commande " . $numCommande;
 
         if ($etape === "reception") {
             $body = "Bonjour,<br><br>"
-                  . "Nous vous informons que votre colis n°" . $numColis . " est bel et bien arrivé à l'Université.<br>"
-                  . "Une fois transféré à l'IUT par le responsable, vous serez notifié afin de pouvoir venir le retirer.<br><br>"
-                  . "Cordialement.";
+                  . "Nous vous informons que votre commande " . $numCommande . " est arrivée au centre postal de l'université.<br>"
+                  . "Une fois transféré que les colis seront transférés à l'IUT par le responsable, vous serez notifié afin de pouvoir venir le retirer.<br><br>"
+                  . "Cordialement,<br>"
+                  . "Le service de suivi des colis.";
         } else {
             $body = "Bonjour,<br><br>"
                   . "Votre colis n°" . $numColis . " a bien été transféré à l'IUT, vous pouvez désormais venir le retirer.<br><br>"
-                  . "Cordialement.";
+                  . "Cordialement,<br>"
+                  . "Le service de suivi des colis.";
         }
 
         try {
@@ -70,6 +72,7 @@ class ResponsableColisController {
 
             if ($numero_suivi === "" || $nom_demandeur === "") {
                 $_SESSION["flash_message"] = "Erreur : le numéro de suivi et le nom du demandeur sont obligatoires.";
+                $_SESSION["flash_type"] = "err";
                 header("Location: /postal/reception");
                 exit;
             }
@@ -79,6 +82,7 @@ class ResponsableColisController {
             $cible = $this->model->trouverColisEnAttente($numero_suivi, $nom_demandeur);
             if (!$cible) {
                 $_SESSION["flash_message"] = "Erreur : aucune commande en attente ne correspond à ce numéro de suivi et ce demandeur.";
+                $_SESSION["flash_type"] = "err";
                 header("Location: /postal/reception");
                 exit;
             }
@@ -98,16 +102,19 @@ class ResponsableColisController {
             // Un seul mail au demandeur pour la commande reconnue.
             $this->notifierDemandeur($cible["id_colis"], "reception");
 
-            $_SESSION["flash_message"] = "Réception enregistrée avec succès : commande " . $cible["numero_commande"]
-                . " déclarée livrée à l'université (" . count($ids) . " colis). Le demandeur a été notifié par mail.";
+            $_SESSION["flash_message"] = "Commande " . $cible["numero_commande"]
+                . " reconnue : " . count($ids) . " colis déclaré(s) livré(s) à l'université. Le demandeur a été notifié par mail.";
+            $_SESSION["flash_type"] = "ok";
             header("Location: /postal/reception?ok=1");
             exit;
         }
 
         $message = null;
+        $messageType = null;
         if (isset($_SESSION["flash_message"])) {
             $message = $_SESSION["flash_message"];
-            unset($_SESSION["flash_message"]);
+            $messageType = $_SESSION["flash_type"] ?? null;
+            unset($_SESSION["flash_message"], $_SESSION["flash_type"]);
         }
 
         require __DIR__ . '/../views/responsable-colis/reception-colis.php';

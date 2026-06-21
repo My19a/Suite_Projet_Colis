@@ -11,9 +11,9 @@ require __DIR__ . '/../partials/header.php';
     </div>
 </div>
 
-<?php if (!empty($message)): ?>
-    <div class="message <?= strpos($message, 'succes') !== false ? 'message-ok' : 'message-err' ?>">
-        <span class="message-icone"><?= strpos($message, 'succes') !== false ? '&#10003;' : '&#10007;' ?></span>
+<?php if (!empty($message)): $ok = (($messageType ?? '') === 'ok'); ?>
+    <div class="message <?= $ok ? 'message-ok' : 'message-err' ?>">
+        <span class="message-icone"><?= $ok ? '&#10003;' : '&#10007;' ?></span>
         <div class="message-corps"><?= htmlspecialchars($message) ?></div>
     </div>
 <?php endif; ?>
@@ -24,7 +24,7 @@ require __DIR__ . '/../partials/header.php';
 
         <div class="bloc">
             <div class="formulaire">
-                <form method="post" action="/postal/reception" enctype="multipart/form-data" id="colisForm" onsubmit="return confirm('Confirmer la réception à l\'université de ce colis ?\nUn e-mail de notification sera envoyé au demandeur.');">
+                <form method="post" action="/postal/reception" enctype="multipart/form-data" id="colisForm">
 
                     <div class="champ">
                         <label class="etiquette requis">Numéro de suivi</label>

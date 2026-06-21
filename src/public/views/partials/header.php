@@ -51,6 +51,7 @@ $menusParRole = [
         ['/directeur/devis', 'Devis à signer', 'signature'],
         ['/finance/bons-commande', 'Bons de commande', 'commandes'],
         ['/finance/budgets', 'Budgets', 'budget'],
+        ['/finance/historique', 'Historique devis', 'historique'],
         ['/tickets', 'Assistance', 'assistance'],
     ],
 ];

@@ -175,7 +175,7 @@ foreach ($colisParDepartement as $cd) { $maxDept = max($maxDept, (int) $cd['tota
                                 <div class="apercu-primaire"><?= htmlspecialchars($d['objet'] ?? '—') ?></div>
                                 <div class="apercu-secondaire"><?= htmlspecialchars($d['fournisseur'] ?? '—') ?> · <?= number_format($d['montant_estime'], 0, ',', ' ') ?> EUR</div>
                             </div>
-                            <span class="apercu-fin"><span class="<?= badgeStatut($d['statut']) ?>"><?= htmlspecialchars(libelleStatut($d['statut'])) ?></span></span>
+                            <span class="apercu-fin"><span class="<?= badgeStatut($d['statut']) ?>"><?= htmlspecialchars(libelleStatutDevis($d['statut'])) ?></span></span>
                         </li>
                     <?php endforeach; ?>
                 </ul>

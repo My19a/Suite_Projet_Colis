@@ -48,16 +48,16 @@ require __DIR__ . '/../partials/header.php';
             <span class="chiffre-titre">Total colis</span>
             <div class="chiffre-valeur"><?= $totalColis ?></div>
         </div>
-        <div class="chiffre chiffre-info-c">
-            <span class="chiffre-titre">En transit</span>
-            <div class="chiffre-valeur"><?= $enTransit ?></div>
-        </div>
         <div class="chiffre chiffre-attn">
             <span class="chiffre-titre">En attente</span>
             <div class="chiffre-valeur"><?= $enAttente ?></div>
         </div>
+        <div class="chiffre chiffre-info-c">
+            <span class="chiffre-titre">Transférés à l'IUT</span>
+            <div class="chiffre-valeur"><?= $enTransit ?></div>
+        </div>
         <div class="chiffre chiffre-ok">
-            <span class="chiffre-titre">Livrés</span>
+            <span class="chiffre-titre">Réceptionnés</span>
             <div class="chiffre-valeur"><?= $livres ?></div>
         </div>
     </div>

@@ -29,10 +29,10 @@ class DemandeurModels {
 
     public function countColisEnAttente($departement_id) {
         $req = $this->db->prepare("
-            SELECT COUNT(*) 
+            SELECT COUNT(*)
             FROM colis c
             JOIN bon_commande b ON c.bon_commande_id = b.id_bon_commande
-            WHERE b.departement_id = ? AND c.statut_id = 1
+            WHERE b.departement_id = ? AND c.statut_id = 3
         ");
         $req->execute([$departement_id]);
         return $req->fetchColumn();
@@ -40,10 +40,10 @@ class DemandeurModels {
 
     public function countColisRetires($departement_id) {
         $req = $this->db->prepare("
-            SELECT COUNT(*) 
+            SELECT COUNT(*)
             FROM colis c
             JOIN bon_commande b ON c.bon_commande_id = b.id_bon_commande
-            WHERE b.departement_id = ? AND c.statut_id = 3
+            WHERE b.departement_id = ? AND c.statut_id = 4
         ");
         $req->execute([$departement_id]);
         return $req->fetchColumn();
@@ -180,6 +180,34 @@ class DemandeurModels {
         $req = $this->db->prepare($sql);
         $req->execute([$id_colis, $departement_id]);
         return $req->rowCount();
+    }
+
+    /** Trace une action dans l'historique d'un colis. */
+    public function ajouterHistorique($id_colis, $action, $utilisateur) {
+        $req = $this->db->prepare("INSERT INTO historique_colis (id_colis, action, utilisateur) VALUES (?, ?, ?)");
+        $req->execute([$id_colis, $action, $utilisateur]);
+    }
+
+    /** Recalcule le statut du bon de commande auquel appartient un colis (suit le flux des colis). */
+    public function recalculerStatutBonParColis($id_colis) {
+        $req = $this->db->prepare("SELECT bon_commande_id FROM colis WHERE id_colis = ?");
+        $req->execute([$id_colis]);
+        $bc = $req->fetchColumn();
+        if (!$bc) {
+            return;
+        }
+        $req = $this->db->prepare("SELECT statut_id FROM colis WHERE bon_commande_id = ?");
+        $req->execute([$bc]);
+        $statuts = array_map('intval', array_column($req->fetchAll(PDO::FETCH_ASSOC), 'statut_id'));
+        if (!$statuts) {
+            return;
+        }
+        if (in_array(3, $statuts))      $slug = 'en_attente';
+        elseif (in_array(1, $statuts))  $slug = 'recu_universite';
+        elseif (in_array(2, $statuts))  $slug = 'transfere_iut';
+        else                            $slug = 'livre';
+        $u = $this->db->prepare("UPDATE bon_commande SET statut = ? WHERE id_bon_commande = ?");
+        $u->execute([$slug, $bc]);
     }
 
     public function getColisDepartement($departement_id) {

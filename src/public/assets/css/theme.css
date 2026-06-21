@@ -189,7 +189,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
 .chiffre-info { display: none; }
 .chiffre-attn .chiffre-valeur { color: var(--attn); }
 .chiffre-ok .chiffre-valeur { color: var(--ok); }
-.chiffre-info-c .chiffre-valeur { color: var(--info); }
+.chiffre-info-c .chiffre-valeur { color: var(--texte); }
 .chiffre-err .chiffre-valeur { color: var(--err); }
 .bloc .chiffres { border: none; margin-bottom: 0; }
 
@@ -242,7 +242,7 @@ h2 { margin: 0 0 12px; }
 .badge-en_attente, .badge-pending { background: var(--attn-fond); color: var(--attn); }
 .badge-en_preparation, .badge-processing, .badge-en_cours,
 .badge-transfere_iut, .badge-transferred,
-.badge-signe, .badge-signe_directeur, .badge-signed { background: var(--info-fond); color: var(--info); }
+.badge-signe, .badge-signe_directeur, .badge-signed { background: #EEF1F6; color: var(--texte); }
 .badge-valide, .badge-validated, .badge-valide_finance,
 .badge-accepte, .badge-accepted,
 .badge-livre, .badge-livree, .badge-delivered,

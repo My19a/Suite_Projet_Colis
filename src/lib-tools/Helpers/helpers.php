@@ -164,6 +164,26 @@ function libelleStatut(?string $statut): string
 }
 
 /**
+ * Libellé d'un statut de DEVIS (cycle propre au devis, distinct des colis).
+ * En attente de vérification -> Validé / Rejeté -> Signé - Commande créée.
+ */
+function libelleStatutDevis(?string $statut): string
+{
+    $s = strtolower(trim($statut ?? ''));
+    $map = [
+        'en_attente'      => 'En attente de vérification',
+        'valide_finance'  => 'Validé',
+        'valide'          => 'Validé',
+        'rejete_finance'  => 'Rejeté',
+        'rejete'          => 'Rejeté',
+        'refuse'          => 'Rejeté',
+        'signe_directeur' => 'Signé - Commande créée',
+        'signe'           => 'Signé - Commande créée',
+    ];
+    return $map[$s] ?? libelleStatut($statut);
+}
+
+/**
  * Libellé lisible et accentué d'une priorité (tickets).
  */
 function libellePriorite(?string $priorite): string

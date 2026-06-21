@@ -26,12 +26,12 @@ require __DIR__ . '/../partials/header.php';
     <?php
     $totalCommandes = isset($bons) ? count($bons) : 0;
     $enAttente = 0;
-    $signes = 0;
+    $receptionnees = 0;
     $montantTotal = 0;
     if (isset($bons)) {
         foreach ($bons as $c) {
-            if ($c['statut'] === 'en_preparation') $enAttente++;
-            if ($c['statut'] === 'signe') $signes++;
+            if ($c['statut'] === 'en_attente') $enAttente++;
+            if ($c['statut'] === 'livre') $receptionnees++;
             $montantTotal += $c['montant_estime'];
         }
     }
@@ -46,9 +46,9 @@ require __DIR__ . '/../partials/header.php';
             <span class="chiffre-titre">En attente</span>
             <div class="chiffre-valeur"><?= $enAttente ?></div>
         </div>
-        <div class="chiffre chiffre-info-c">
-            <span class="chiffre-titre">Signés</span>
-            <div class="chiffre-valeur"><?= $signes ?></div>
+        <div class="chiffre chiffre-ok">
+            <span class="chiffre-titre">Réceptionnées</span>
+            <div class="chiffre-valeur"><?= $receptionnees ?></div>
         </div>
         <div class="chiffre chiffre-ok">
             <span class="chiffre-titre">Montant total</span>

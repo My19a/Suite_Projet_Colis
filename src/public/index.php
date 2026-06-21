@@ -175,6 +175,7 @@ $router->get('/finance/devis', 'EditeurBcController', 'devisAVerifier');
 $router->get('/finance/voir-devis', 'EditeurBcController', 'voirDevis');
 $router->get('/finance/bons-commande', 'EditeurBcController', 'bonsCommande');
 $router->get('/finance/budgets', 'EditeurBcController', 'budgets');
+$router->get('/finance/historique', 'EditeurBcController', 'historiqueDevis');
 
 // ===== DIRECTEUR IUT =====
 $router->get('/directeur', 'EditeurBcController', 'dashboard');

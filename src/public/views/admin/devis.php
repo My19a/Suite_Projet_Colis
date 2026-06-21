@@ -16,7 +16,7 @@ require __DIR__ . '/../partials/header.php';
         <?php foreach ($stats as $s): ?>
         <div class="chiffre">
             <div class="chiffre-valeur"><?= $s['total'] ?></div>
-            <div class="chiffre-titre"><?= htmlspecialchars(libelleStatut($s['statut'])) ?></div>
+            <div class="chiffre-titre"><?= htmlspecialchars(libelleStatutDevis($s['statut'])) ?></div>
         </div>
         <?php endforeach; ?>
     </div>
@@ -47,7 +47,7 @@ require __DIR__ . '/../partials/header.php';
                         <div class="cl-champ"><span class="cl-cle">Date</span><span class="cl-val"><?= $d['date_demande'] ?></span></div>
                     </div>
                     <div class="cl-fin">
-                        <span class="<?= badgeStatut($d['statut']) ?>"><?= htmlspecialchars(libelleStatut($d['statut'])) ?></span>
+                        <span class="<?= badgeStatut($d['statut']) ?>"><?= htmlspecialchars(libelleStatutDevis($d['statut'])) ?></span>
                     </div>
                 </div>
             <?php endforeach; ?>

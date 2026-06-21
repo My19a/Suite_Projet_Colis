@@ -12,13 +12,14 @@
     <div class="pied-page-contenu">
         <span class="pied-copyright">© <?= date('Y') ?> IUT de Villetaneuse — Suivi Colis</span>
         <nav class="pied-liens" aria-label="Liens de bas de page">
+            <a href="?tuto=1">Tutoriel</a>
             <a href="/accessibilite">Accessibilité&nbsp;: partiellement conforme</a>
             <a href="/mentions-legales">Mentions légales</a>
         </nav>
     </div>
 </footer>
 
-<?php if (!empty($avecTutoriel)) require __DIR__ . '/tutoriel.php'; ?>
+<?php require __DIR__ . '/tutoriel.php'; ?>
 
 <?php require __DIR__ . '/chatbot.php'; ?>
 

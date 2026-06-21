@@ -64,21 +64,6 @@ require __DIR__ . '/../partials/header.php';
         <span class="bloc-sous-titre"><?= $totalDevis ?> devis trouvé(s)</span>
     </div>
 
-    <?php
-    $statutLabels = [
-        'en_attente'      => 'En attente de validation',
-        'valide_finance'  => 'Validé, commande en cours de création',
-        'rejete_finance'  => 'Rejeté',
-        'signe_directeur' => 'Confirmé, commande créée',
-    ];
-    $statutClass = [
-        'en_attente'      => 'en_attente',
-        'valide_finance'  => 'valide',
-        'rejete_finance'  => 'refuse',
-        'signe_directeur' => 'signe',
-    ];
-    ?>
-
     <?php if (empty($devis)): ?>
         <?= etatVide('devis', 'Aucun devis', 'Créez un devis pour démarrer une commande.', '/departement/creer-devis', 'Créer un devis') ?>
     <?php else: ?>
@@ -97,7 +82,7 @@ require __DIR__ . '/../partials/header.php';
                         <div class="cl-champ"><span class="cl-cle">Montant estimé</span><span class="cl-val montant"><?= number_format($d['montant_estime'], 2, ',', ' ') ?> EUR</span></div>
                     </div>
                     <div class="cl-fin">
-                        <span class="<?= badgeStatut($d['statut']) ?>"><?= htmlspecialchars(libelleStatut($d['statut'])) ?></span>
+                        <span class="<?= badgeStatut($d['statut']) ?>"><?= htmlspecialchars(libelleStatutDevis($d['statut'])) ?></span>
                     </div>
                 </div>
             <?php endforeach; ?>

@@ -33,7 +33,7 @@ require __DIR__ . '/../partials/header.php';
         </div>
 
         <div class="chiffre chiffre-ok">
-            <span class="chiffre-titre">Colis retirés</span>
+            <span class="chiffre-titre">Colis réceptionnés</span>
             <div class="chiffre-valeur"><?php echo $stats['retire']; ?></div>
             <div class="chiffre-info">Réceptions confirmées</div>
         </div>

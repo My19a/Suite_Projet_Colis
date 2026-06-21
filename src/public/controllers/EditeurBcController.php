@@ -78,6 +78,11 @@ class EditeurBcController {
         require __DIR__ . '/../views/editeur-bc/devis-a-signer.php';
     }
 
+    public function historiqueDevis() {
+        $devis = $this->model->getDevisHistorique();
+        require __DIR__ . '/../views/editeur-bc/historique-devis.php';
+    }
+
     public function signerDevis() {
         if (!isset($_GET["id"])) {
             die("ID devis manquant");

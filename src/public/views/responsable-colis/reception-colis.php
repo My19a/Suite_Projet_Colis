@@ -11,9 +11,9 @@ require __DIR__ . '/../partials/header.php';
     </div>
 </div>
 
-<?php if (!empty($message)): ?>
-    <div class="message <?= strpos($message, 'succes') !== false ? 'message-ok' : 'message-err' ?>">
-        <span class="message-icone"><?= strpos($message, 'succes') !== false ? '&#10003;' : '&#10007;' ?></span>
+<?php if (!empty($message)): $ok = (($messageType ?? '') === 'ok'); ?>
+    <div class="message <?= $ok ? 'message-ok' : 'message-err' ?>">
+        <span class="message-icone"><?= $ok ? '&#10003;' : '&#10007;' ?></span>
         <div class="message-corps"><?= htmlspecialchars($message) ?></div>
     </div>
 <?php endif; ?>
@@ -24,7 +24,7 @@ require __DIR__ . '/../partials/header.php';
 
         <div class="bloc">
             <div class="formulaire">
-                <form method="post" action="/postal/reception" enctype="multipart/form-data" id="colisForm" onsubmit="return confirm('Confirmer la réception à l\'université de ce colis ?\nUn e-mail de notification sera envoyé au demandeur.');">
+                <form method="post" action="/postal/reception" enctype="multipart/form-data" id="colisForm">
 
                     <div class="champ">
                         <label class="etiquette requis">Numéro de suivi</label>
@@ -77,9 +77,9 @@ require __DIR__ . '/../partials/header.php';
                 </div>
 
                 <div class="champ" style="margin-bottom: 0;">
-                    <label class="etiquette">Département</label>
+                    <label class="etiquette">Résultat</label>
                     <div style="padding: 7px 10px; background: var(--princ-doux); border-radius: var(--r); border: 1px solid var(--bord); font-weight: 500; color: var(--princ);">
-                        <span id="ocr-departement">—</span>
+                        <span id="resultatDestinataire">—</span>
                     </div>
                 </div>
 
@@ -142,6 +142,7 @@ require __DIR__ . '/../partials/header.php';
     const btnRetake = document.getElementById('btnRetake');
     const photoInput = document.getElementById('photo_etiquette');
     const fileUpload = document.getElementById('fileUpload');
+    const resultatDestinataire = document.getElementById('resultatDestinataire');
 
     let stream = null;
 
@@ -171,11 +172,22 @@ require __DIR__ . '/../partials/header.php';
             fetch('/postal/rechercher-destinataire?nom=' + encodeURIComponent(resultat.nomDestinataire))
                 .then(res => res.json())
                 .then(data => {
-                    document.getElementById('ocr-departement').textContent = data.departement ?? 'Non identifie en BDD';
+                    afficherDestinataire(data);
                 });
         } else {
             document.getElementById('ocr-nom-message').style.display = 'flex';
-            document.getElementById('ocr-departement').textContent = '—';
+            resultatDestinataire.textContent = '—';
+        }
+    }
+
+    function afficherDestinataire(data) {
+        if (data.fullName) {
+            document.getElementById('nom-manuel').value = data.fullName;
+            document.getElementById('demandeur_nom').value = data.fullName;
+            document.getElementById('ocr_nom_destinataire').value = data.fullName;
+            resultatDestinataire.textContent = data.fullName + (data.departement ? ' — ' + data.departement : '');
+        } else {
+            resultatDestinataire.textContent = 'Aucun utilisateur trouvé';
         }
     }
 
@@ -188,8 +200,8 @@ require __DIR__ . '/../partials/header.php';
             document.getElementById('numero_bc').style.backgroundColor = '';
             document.getElementById('numero_suivi').style.backgroundColor = '';
             document.getElementById('nom-manuel').value = '';
-        document.getElementById('demandeur_nom').value = '';
-            document.getElementById('ocr-departement').textContent = '—';
+            document.getElementById('demandeur_nom').value = '';
+            resultatDestinataire.textContent = '—';
             document.getElementById('ocr-message').textContent = '';
             document.getElementById('ocr-nom-message').style.display = 'none';
 
@@ -269,7 +281,7 @@ require __DIR__ . '/../partials/header.php';
         document.getElementById('numero_suivi').value = '';
         document.getElementById('nom-manuel').value = '';
         document.getElementById('demandeur_nom').value = '';
-        document.getElementById('ocr-departement').textContent = '—';
+        resultatDestinataire.textContent = '—';
         document.getElementById('ocr-message').textContent = '';
         document.getElementById('ocr-nom-message').style.display = 'none';
     });
@@ -280,12 +292,12 @@ require __DIR__ . '/../partials/header.php';
 
         document.getElementById('demandeur_nom').value = nom;
         document.getElementById('ocr_nom_destinataire').value = nom;
-        document.getElementById('ocr-departement').textContent = 'Recherche en cours...';
+        resultatDestinataire.textContent = 'Recherche en cours...';
 
         fetch('/postal/rechercher-destinataire?nom=' + encodeURIComponent(nom))
             .then(res => res.json())
             .then(data => {
-                document.getElementById('ocr-departement').textContent = data.departement ?? 'Non identifie en BDD';
+                afficherDestinataire(data);
             });
     });
 

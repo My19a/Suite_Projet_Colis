@@ -21,8 +21,11 @@ services:
     env_file:
       - ./src/.env
     environment:
+      # Bascule dev <-> prod sans editer ce fichier :
+      #   dev  (defaut) : docker compose up
+      #   prod          : APP_ENV=production docker compose up   (ou APP_ENV=production dans un .env a la racine)
       APP_ENV: development
-      APP_BASE_URL: http://localhost:8000
+      APP_BASE_URL: ${APP_BASE_URL:-http://localhost:8000}
       DB_HOST: db
       DB_PORT: 3306
       DB_NAME: sae_colis

@@ -138,12 +138,12 @@ function libelleStatut(?string $statut): string
         'refuse'          => 'Refusé',
         'rejected'        => 'Refusé',
         'rejete'          => 'Rejeté',
-        'rejete_finance'  => 'Rejeté (Finance)',
+        'rejete_finance'  => 'Rejeté',
         'valide'          => 'Validé',
         'validated'       => 'Validé',
-        'valide_finance'  => 'Validé (Finance)',
+        'valide_finance'  => 'Validé',
         'signe'           => 'Signé',
-        'signe_directeur' => 'Signé (Directeur)',
+        'signe_directeur' => 'Signé',
         'signed'          => 'Signé',
         'annule'          => 'Annulé',
         'annulee'         => 'Annulée',
@@ -158,8 +158,29 @@ function libelleStatut(?string $statut): string
         'transfere_iut'   => "Transféré à l'IUT",
         'transferred'     => 'Transféré',
         'non_identifie'   => 'Non identifié',
+        
     ];
     return $map[$s] ?? joli($statut);
+}
+
+/**
+ * Libellé d'un statut de DEVIS (cycle propre au devis, distinct des colis).
+ * En attente de vérification -> Validé / Rejeté -> Signé - Commande créée.
+ */
+function libelleStatutDevis(?string $statut): string
+{
+    $s = strtolower(trim($statut ?? ''));
+    $map = [
+        'en_attente'      => 'En attente de vérification',
+        'valide_finance'  => 'Validé',
+        'valide'          => 'Validé',
+        'rejete_finance'  => 'Rejeté',
+        'rejete'          => 'Rejeté',
+        'refuse'          => 'Rejeté',
+        'signe_directeur' => 'Signé - Commande créée',
+        'signe'           => 'Signé - Commande créée',
+    ];
+    return $map[$s] ?? libelleStatut($statut);
 }
 
 /**

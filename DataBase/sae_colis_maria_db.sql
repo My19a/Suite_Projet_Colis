@@ -176,56 +176,56 @@ INSERT INTO fournisseur (nom, contact_nom, contact_email, contact_telephone) VAL
 ('RS Components', 'Service Technique', 'technique@rs-components.fr', '03 44 10 15 00'),
 ('Farnell', 'Commercial France', 'ventes@farnell.fr', '03 44 10 14 00');
 
--- Devis
+-- Devis : cycle propre = En attente de verification -> Valide / Rejete -> Signe (commande creee)
+-- d1..d5 = signes (ont genere les BC 1..5) ; d6 a verifier ; d7 valide (a signer) ; d8 rejete.
 INSERT INTO devis (date_demande, objet, montant_estime, fichier_pdf, statut, fournisseur_id, createur_id) VALUES
-('2026-01-10', 'Ordinateurs portables x5', 4500.00, NULL, 'accepte', 2, 6),
-('2026-01-12', 'Ecrans 27 pouces x10', 2800.00, NULL, 'accepte', 2, 6),
-('2026-01-14', 'Serveur Dell PowerEdge', 8500.00, NULL, 'accepte', 3, 7),
-('2026-01-15', 'Composants electroniques', 1200.00, NULL, 'en_attente', 4, 8),
-('2026-01-18', 'Materiel de bureau', 650.00, NULL, 'accepte', 1, 9);
+('2026-01-10', 'Ordinateurs portables x5', 4500.00, NULL, 'signe_directeur', 2, 6),
+('2026-01-12', 'Ecrans 27 pouces x10', 2800.00, NULL, 'signe_directeur', 2, 6),
+('2026-01-14', 'Serveur Dell PowerEdge', 8500.00, NULL, 'signe_directeur', 3, 7),
+('2026-01-15', 'Mobilier de bureau', 1200.00, NULL, 'signe_directeur', 4, 8),
+('2026-01-18', 'Materiel de bureau', 650.00, NULL, 'signe_directeur', 1, 9),
+('2026-01-20', 'Casques audio x8', 720.00, NULL, 'en_attente', 4, 6),
+('2026-01-21', 'Disques SSD x12', 1560.00, NULL, 'valide_finance', 2, 7),
+('2026-01-22', 'Imprimante 3D', 2300.00, NULL, 'rejete_finance', 5, 8);
 
--- Bons de commande
+-- Bons de commande : un par devis signe. Le statut suit le flux des colis et est
+-- recalcule automatiquement par l'application (En attente -> Livre a l'universite -> Transfere a l'IUT -> Receptionne).
 INSERT INTO bon_commande (numero_commande, date_commande, date_estimee_livraison, montant_estime, statut, departement_id, fournisseur_id, createur_id, devis_id, commentaire) VALUES
-('BC-2026-001', '2026-01-11', '2026-01-20', 4500.00, 'livree', 1, 2, 6, 1, 'Commande urgente'),
-('BC-2026-002', '2026-01-13', '2026-01-22', 2800.00, 'en_cours', 1, 2, 6, 2, NULL),
-('BC-2026-003', '2026-01-15', '2026-01-25', 8500.00, 'livree', 1, 3, 7, 3, 'Serveur salle B204'),
-('BC-2026-004', '2026-01-16', '2026-01-28', 1200.00, 'en_preparation', 2, 4, 8, 4, NULL),
-('BC-2026-005', '2026-01-19', '2026-01-26', 650.00, 'en_cours', 3, 1, 9, 5, 'Fournitures diverses');
+('BC-2026-001', '2026-01-11', '2026-01-20', 4500.00, 'livre', 1, 2, 6, 1, 'Commande urgente'),
+('BC-2026-002', '2026-01-13', '2026-01-22', 2800.00, 'transfere_iut', 1, 2, 6, 2, NULL),
+('BC-2026-003', '2026-01-15', '2026-01-25', 8500.00, 'recu_universite', 1, 3, 7, 3, 'Serveur salle B204'),
+('BC-2026-004', '2026-01-16', '2026-01-28', 1200.00, 'en_attente', 2, 4, 8, 4, NULL),
+('BC-2026-005', '2026-01-19', '2026-01-26', 650.00, 'en_attente', 3, 1, 9, 5, 'Fournitures diverses');
 
--- Colis
+-- Colis : statut_id 3=En attente, 1=Livre a l'universite, 2=Transfere a l'IUT, 4=Receptionne.
+-- destinataire_id = le demandeur (createur du bon de commande).
 INSERT INTO colis (bon_commande_id, statut_id, numero_suivi, code_barres, destinataire_id, date_reception, date_retrait, commentaire, receptionne_par) VALUES
-(1, 4, 'LP123456789FR', 'BC001-COL001', 6, '2026-01-19', '2026-01-20 10:30:00', 'Livre en main propre', 2),
-(1, 4, 'LP123456790FR', 'BC001-COL002', 6, '2026-01-19', '2026-01-20 10:35:00', NULL, 2),
+(1, 4, 'LP123456789FR', 'BC001-COL001', 6, '2026-01-19', '2026-01-22 10:30:00', 'Livre en main propre', 2),
+(1, 4, 'LP123456790FR', 'BC001-COL002', 6, '2026-01-19', '2026-01-22 10:35:00', NULL, 2),
 (2, 2, 'LP234567891FR', 'BC002-COL001', 6, '2026-01-21', NULL, 'Colis volumineux', 2),
-(2, 3, 'LP234567892FR', 'BC002-COL002', 7, '2026-01-21', NULL, 'En attente retrait', 2),
-(3, 4, 'DHL987654321', 'BC003-COL001', 7, '2026-01-24', '2026-01-24 14:00:00', 'Serveur - manipuler avec soin', 2),
-(5, 1, 'AMZ111222333', 'BC005-COL001', 9, '2026-01-21', NULL, 'Petit colis', 3),
-(5, 2, 'AMZ111222334', 'BC005-COL002', 9, '2026-01-21', NULL, NULL, 2);
+(2, 2, 'LP234567892FR', 'BC002-COL002', 6, '2026-01-21', NULL, NULL, 2),
+(3, 1, 'DHL987654321',  'BC003-COL001', 7, '2026-01-24', NULL, 'Serveur - manipuler avec soin', 2),
+(4, 3, 'LP444555666FR', 'BC004-COL001', 8, NULL, NULL, 'En attente de reception', NULL),
+(4, 3, 'LP444555667FR', 'BC004-COL002', 8, NULL, NULL, NULL, NULL),
+(5, 3, 'AMZ111222333',  'BC005-COL001', 9, NULL, NULL, 'Petit colis', NULL);
 
--- Historique colis
+-- Historique colis : seules les vraies transitions du flux (la vue Historique
+-- du responsable n'affiche que les transferts IUT et les receptions destinataire).
 INSERT INTO historique_colis (id_colis, action, date_action, utilisateur) VALUES
-(1, 'Reception universite', '2026-01-19 08:00:00', 'postal_univ'),
-(1, 'Transfert IUT', '2026-01-19 09:30:00', 'postal_iut'),
-(1, 'Remis au destinataire', '2026-01-20 10:30:00', 'postal_iut'),
-(2, 'Reception universite', '2026-01-19 08:05:00', 'postal_univ'),
-(2, 'Transfert IUT', '2026-01-19 09:35:00', 'postal_iut'),
-(2, 'Remis au destinataire', '2026-01-20 10:35:00', 'postal_iut'),
-(3, 'Reception universite', '2026-01-21 08:00:00', 'postal_univ'),
-(3, 'Transfert IUT', '2026-01-21 09:00:00', 'postal_iut'),
-(4, 'Reception universite', '2026-01-21 08:05:00', 'postal_univ'),
-(4, 'Transfert IUT', '2026-01-21 09:05:00', 'postal_iut'),
-(4, 'En attente de retrait', '2026-01-21 09:10:00', 'postal_iut'),
-(5, 'Reception universite', '2026-01-24 08:00:00', 'postal_univ'),
-(5, 'Transfert IUT', '2026-01-24 10:00:00', 'postal_iut'),
-(5, 'Remis au destinataire', '2026-01-24 14:00:00', 'postal_iut'),
-(6, 'Reception universite', '2026-01-21 14:00:00', 'postal_univ'),
-(7, 'Reception universite', '2026-01-21 14:05:00', 'postal_univ'),
-(7, 'Transfert IUT', '2026-01-21 15:00:00', 'postal_iut');
+(1, 'Livré à l''université',              '2026-01-19 08:00:00', 'Marie Postal'),
+(1, 'Transféré à l''IUT',                 '2026-01-21 09:30:00', 'Marie Postal'),
+(1, 'Réceptionné par le destinataire',    '2026-01-22 10:30:00', 'Jacques Dupont'),
+(2, 'Livré à l''université',              '2026-01-19 08:05:00', 'Marie Postal'),
+(2, 'Transféré à l''IUT',                 '2026-01-21 09:35:00', 'Marie Postal'),
+(2, 'Réceptionné par le destinataire',    '2026-01-22 10:35:00', 'Jacques Dupont'),
+(3, 'Livré à l''université',              '2026-01-21 08:00:00', 'Marie Postal'),
+(3, 'Transféré à l''IUT',                 '2026-01-21 09:00:00', 'Marie Postal'),
+(4, 'Livré à l''université',              '2026-01-21 08:05:00', 'Marie Postal'),
+(4, 'Transféré à l''IUT',                 '2026-01-21 09:05:00', 'Marie Postal'),
+(5, 'Livré à l''université',              '2026-01-24 08:00:00', 'Marie Postal');
 
--- Notifications
+-- Notifications (coherentes avec l'etat des colis)
 INSERT INTO notification (id_utilisateur, message_notification, date_envoi, lu) VALUES
-(6, 'Votre colis LP123456789FR est arrive a l IUT', '2026-01-19 09:30:00', TRUE),
-(6, 'Votre colis LP234567891FR est disponible', '2026-01-21 09:00:00', FALSE),
-(7, 'Votre colis LP234567892FR est en attente de retrait', '2026-01-21 09:10:00', FALSE),
-(7, 'Votre serveur Dell est arrive', '2026-01-24 10:00:00', TRUE),
-(9, 'Colis Amazon disponible au service postal', '2026-01-21 15:00:00', FALSE);
+(6, 'Votre colis LP123456789FR a été réceptionné', '2026-01-22 10:30:00', TRUE),
+(6, 'Votre colis LP234567891FR a été transféré à l''IUT', '2026-01-21 09:35:00', FALSE),
+(7, 'Votre colis DHL987654321 est arrivé à l''université', '2026-01-24 08:00:00', FALSE);

@@ -365,7 +365,7 @@ class ResponsableColisModels {
 
 
     public function rechercherDestinataireParNom($texte_ocr) {
-    $texte_normalise = strtoupper(preg_replace('/\s+/', '', (string) $texte_ocr));
+    $texte_normalise = mb_strtoupper(preg_replace('/\s+/', '', (string) $texte_ocr), 'UTF-8');
     if ($texte_normalise === '') {
         return null;
     }
@@ -376,9 +376,10 @@ class ResponsableColisModels {
     ")->fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($utilisateurs as $u) {
-        $parties = explode(' ', strtoupper(trim($u["fullName"])));
-        $nom_normalise = strtoupper(preg_replace('/\s+/', '', $u["fullName"]));
-        $nom_inverse = strtoupper(implode('', array_reverse($parties)));
+        error_log("OCR : ".$texte_normalise." | BDD : ".$u["fullName"]);
+        $parties = explode(' ', mb_strtoupper(trim($u["fullName"]), 'UTF-8'));
+        $nom_normalise = mb_strtoupper(preg_replace('/\s+/', '', $u["fullName"]), 'UTF-8');
+        $nom_inverse = mb_strtoupper(implode('', array_reverse($parties)), 'UTF-8');
 
         // 1) OCR : le texte (long) contient le nom complet (ou inversé).
         if (str_contains($texte_normalise, $nom_normalise) ||

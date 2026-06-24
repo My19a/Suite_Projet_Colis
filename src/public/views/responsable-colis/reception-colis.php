@@ -76,10 +76,17 @@ require __DIR__ . '/../partials/header.php';
                     <div class="message-corps">L'OCR n'a pas détecté de nom sur l'étiquette. Veuillez saisir le nom manuellement.</div>
                 </div>
 
-                <div class="champ" style="margin-bottom: 0;">
-                    <label class="etiquette">Résultat</label>
+                <div class="champ" style="margin-bottom: 8px;">
+                    <label class="etiquette">Nom trouvé</label>
                     <div style="padding: 7px 10px; background: var(--princ-doux); border-radius: var(--r); border: 1px solid var(--bord); font-weight: 500; color: var(--princ);">
                         <span id="resultatDestinataire">—</span>
+                    </div>
+                </div>
+
+                <div class="champ" style="margin-bottom: 0;">
+                    <label class="etiquette">Département</label>
+                    <div style="padding: 7px 10px; background: var(--princ-doux); border-radius: var(--r); border: 1px solid var(--bord); font-weight: 500; color: var(--princ);">
+                        <span id="resultatDepartement">—</span>
                     </div>
                 </div>
 
@@ -185,9 +192,11 @@ require __DIR__ . '/../partials/header.php';
             document.getElementById('nom-manuel').value = data.fullName;
             document.getElementById('demandeur_nom').value = data.fullName;
             document.getElementById('ocr_nom_destinataire').value = data.fullName;
-            resultatDestinataire.textContent = data.fullName + (data.departement ? ' — ' + data.departement : '');
+            resultatDestinataire.textContent = data.fullName;
+            document.getElementById('resultatDepartement').textContent = data.departement || '—';
         } else {
             resultatDestinataire.textContent = 'Aucun utilisateur trouvé';
+            document.getElementById('resultatDepartement').textContent = '—';
         }
     }
 
@@ -202,6 +211,7 @@ require __DIR__ . '/../partials/header.php';
             document.getElementById('nom-manuel').value = '';
             document.getElementById('demandeur_nom').value = '';
             resultatDestinataire.textContent = '—';
+            document.getElementById('resultatDepartement').textContent = '—';
             document.getElementById('ocr-message').textContent = '';
             document.getElementById('ocr-nom-message').style.display = 'none';
 
@@ -282,6 +292,7 @@ require __DIR__ . '/../partials/header.php';
         document.getElementById('nom-manuel').value = '';
         document.getElementById('demandeur_nom').value = '';
         resultatDestinataire.textContent = '—';
+        document.getElementById('resultatDepartement').textContent = '—';
         document.getElementById('ocr-message').textContent = '';
         document.getElementById('ocr-nom-message').style.display = 'none';
     });
